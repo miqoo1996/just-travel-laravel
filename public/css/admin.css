@@ -1,0 +1,82 @@
+.custom-image-viewer{
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+li.custom-image-viewer-item{
+    margin-bottom: 15px;
+    width: inherit;
+    max-width: 300px
+}
+li.custom-image-viewer-item div{
+    display: inline-block;
+    position: relative;
+}
+.drop-image:hover span,
+.custom-image-viewer-item:hover span{
+    visibility: visible;
+}
+.drop-image img,
+.custom-image-viewer-item img{
+    max-width: 100%;
+    border-radius: 5px;
+}
+.custom-image-viewer-item span{
+    position: absolute;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    top: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    text-align: center;
+    border-radius: 0 0 0 4px;
+    visibility: hidden;
+}
+.custom-image-viewer-item span:before{
+    font-family: FontAwesome;
+    content: '\f014';
+    color: #000;
+    font-size: 25px;
+    line-height: 30px;
+    opacity: 0.4;
+    font-weight: bold
+}
+input.admin-image-upload{
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    display: inline-block;
+}
+label.admin-image-label{
+    display: block;
+    border: 2px dotted rgba(149, 168, 193, 0.7);
+    border-radius: 7px;
+    min-height: 200px;
+    position: relative;
+    padding: 20px 20px 40px;
+}
+label.admin-image-label:after{
+    content: 'Drop files here';
+    font-weight: normal;
+    position: absolute;
+    top: 50px;
+    left: calc(50% - 70px);
+    font-size: 22px;
+    opacity: 0.6;
+}
+.drop-image{
+    display: inline-block;
+    max-width: 200px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+#clear-images{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}

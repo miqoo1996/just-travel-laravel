@@ -1,0 +1,31 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.tile_count{ margin:0 0 10px !important;}
+.tile_count .tile_stats_count{ padding:10px 20px !important; margin:0px !important;}
+.tile_count .tile_stats_count:before{ height:70px !important; margin:0px !important;}
+
+.margin-b-10{ margin:0 0 10px;}
+.margin-r-20{ margin:0 20px 0 0;}
+.margin-t-20{margin:20px 0 0;}
+
+.checkbox-custom label{ margin:0 20px 0 0;}
+.checkbox-custom.region label{ margin:0 20px 0 0; width:120px !important;}
+.checkbox-custom label div{ float:left; margin:0 10px 0 0;}
+.checkbox-custom label span{ float:left; line-height:20px;}
+.panel_toolbox_custom{ min-width:24px !important;}
+.custom_day{ margin:0 0 10px !important;border-bottom:solid 1px #E6E9ED;}
+h2{ line-height:1.2 !important;}
+
+.loginbtn{ width:100%; display:block; margin:0px !important; background:#2A3F54 !important; color:#FFF !important; text-shadow:none; padding:10px !important;border:1px solid #2A3F54 !important;}
+.loginbtn:hover{border:1px solid #2A3F54 !important; background:#FFF !important;color:#2A3F54 !important; transition:all ease 0.5s;}
+
+.dropzone{ min-height:200px !important;}
+
+ul.bar_tabs{margin:21px 0 0 !important;}
+
+.no_border{border:0px !important; padding:0px !important; margin:0 !important;}
+.tab-pane h2{ margin:20px 0 10px !important; font-size:24px !important;}
+a.add_new, .add_new button{ margin:0 10px 0 0 !important;}
+
+input.calendar{ background:url(../images/calendar.svg) 7px 6px no-repeat; background-size:20px; padding:6px 6px 6px 36px !important;}
