@@ -22,6 +22,7 @@ class CreatePagesTable extends Migration
             $table->string('desc_ru');
             $table->string('image');
             $table->enum('visibility', ['off', 'on'])->default('off');
+            $table->enum('footer', ['off', 'on'])->default('off');
         });
     }
 

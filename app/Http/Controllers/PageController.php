@@ -65,8 +65,12 @@ class PageController extends Controller
         $locale = (Session::has('locale')) ? Session::get('locale') : 'en';
         $tourCatRelations = TourCatRel::all()->pluck('cat_id')->toArray();
         $tourCategories = TourCategory::whereIn('id', array_unique($tourCatRelations))->get()->toArray();
-        $currentCatId = (Session::has('cat_id')) ? Session::get('cat_id') : $tourCategories[0]['id'];
-        $indexTours = Tour::ToursByCategory($currentCatId);
+        if(count($tourCategories)){
+            $currentCatId = (Session::has('cat_id')) ? Session::get('cat_id') : $tourCategories[0]['id'];
+            $indexTours = Tour::ToursByCategory($currentCatId);
+        } else {
+            $indexTours = false;
+        }
         return view('index', compact('tourCategories', 'locale', 'indexTours'));
     }
 

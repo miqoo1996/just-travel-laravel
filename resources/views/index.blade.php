@@ -107,7 +107,7 @@
             <!-- /.container-fluid -->
         </div>
 
-
+        @if(count($tourCategories))
         <div class="mp-categories fixme">
             <div class="container">
                 <ul>
@@ -124,7 +124,8 @@
                 </ul>
             </div>
         </div>
-
+        @endif
+        @if($indexTours)
         <div class="popular-tours" id="tours_area">
             <div class="container">
                 <h2>{{$indexTours['tourCategory']['category_name_'.app()->getLocale()]}}</h2>
@@ -165,7 +166,7 @@
                 @endforeach
             </div>
         </div>
-
+        @endif
 
         <div class="popular-tours hotels">
             <div class="container">

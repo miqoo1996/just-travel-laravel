@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+
 class CurrencySeeder extends Seeder
 {
     /**
@@ -16,7 +17,6 @@ class CurrencySeeder extends Seeder
         //insert some dummy records
         DB::table('currencies')->insert(array(
                 array('amd'=>1, 'rur'=>7.9, 'eur' => 502, 'usd'=> 498)
-
             )
         );
     }
