@@ -24,7 +24,7 @@ class TourController extends Controller
 {
     public function adminGetToursList()
     {
-        $tours = Tour::select('id', 'tour_category', 'tour_name_en', 'hot', 'type', 'tour_url', 'basic_price_adult', 'tour_price')->get();
+        $tours = Tour::select('id', 'tour_category', 'tour_name_en', 'hot', 'tour_url','type' ,'basic_price_adult')->get();
 
 
         foreach ($tours as $key => $tour){
@@ -54,6 +54,7 @@ class TourController extends Controller
             $tour = Tour::find($request->tour_id);
         } else {
             $tour = new Tour();
+            $tour->code = substr(strtoupper(uniqid()), -7);
             $tour->save();
         }
 
@@ -246,6 +247,15 @@ class TourController extends Controller
     public function ajaxGetToursByCategory($category_id)
     {
         $data = Tour::ToursByCategory($category_id);
+        Session::set('cat_id', $category_id);
         return view('ajax_views.index_tours', $data);
+    }
+
+    public function getTourByUrl($tour_url)
+    {
+        $tour = Tour::where('tour_url', $tour_url)->first();
+        $tour->getCategories();
+        $tour = $tour->toArray();
+        return view('tour_details_1', compact('tour'));
     }
 }

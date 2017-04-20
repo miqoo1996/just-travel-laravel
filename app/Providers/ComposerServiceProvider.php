@@ -18,7 +18,10 @@ class ComposerServiceProvider extends ServiceProvider
         );
         view()->composer(
             '*', 'App\Http\ViewComposers\CurrencyComposer'
-            );
+        );
+        view()->composer(
+            'includes.footer_menu', 'App\Http\ViewComposers\FooterMenuComposer'
+        );
     }
 
     /**

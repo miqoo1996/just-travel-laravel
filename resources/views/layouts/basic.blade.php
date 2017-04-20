@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{app()->getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,10 +33,6 @@
                     <li><a href="{{url('set_cur/'.$cur)}}">{{strtoupper($cur)}}</a></li>
                 @endif
             @endforeach
-            {{--<li class="active"><a href="#">USD</a></li>--}}
-            {{--<li><a href="#">EUR</a></li>--}}
-            {{--<li><a href="#">RUR</a></li>--}}
-            {{--<li><a href="#">AMD</a></li>--}}
         </ul>
     </div>
     <div class="dropdown">
@@ -50,11 +46,11 @@
             <span class="caret"></span></button>
         <ul class="dropdown-menu">
             @if(app()->getLocale() == 'ru')
-                <li><a href="{{url('set_lang/en')}}">{{trans('messages.english')}}</a></li>
-                <li class="active"><a href="{{url('set_lang/ru')}}">{{trans('messages.russian')}}</a></li>
+                <li><a href="{{url('set_lang/en')}}">English</a></li>
+                <li class="active"><a href="{{url('set_lang/ru')}}">Русский</a></li>
             @else
-                <li class="active"><a href="{{url('set_lang/en')}}">{{trans('messages.english')}}</a></li>
-                <li><a href="{{url('set_lang/ru')}}">{{trans('messages.russian')}}</a></li>
+                <li class="active"><a href="{{url('set_lang/en')}}">English</a></li>
+                <li><a href="{{url('set_lang/ru')}}">Русский</a></li>
             @endif
         </ul>
     </div>
@@ -73,15 +69,7 @@
 
             <div class="footer-logo"></div>
 
-            <div class="footer-menu">
-                <ul>
-                    <li><a href="about-company.html">About Company</a></li>
-                    <li><a href="about-country.html">About Country</a></li>
-                    <li><a href="hotels.html">Terms and Conditions</a></li>
-                    <li><a href="cataloge.html">Cataloge</a></li>
-                    <li><a href="contacts.html">Contacts</a></li>
-                </ul>
-            </div>
+            @include('includes.footer_menu')
 
             <div class="row">
 

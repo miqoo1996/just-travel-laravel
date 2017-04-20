@@ -16,6 +16,7 @@ class TourCategoriesSeeder extends Seeder
         //insert some dummy records
         DB::table('tour_categories')->insert(array(
                 array('category_name_en'=>'Daily Tours', 'category_name_ru'=>'Ежедневние Туры', 'property' => 'basic')
+
             )
         );
     }

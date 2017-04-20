@@ -10,10 +10,11 @@
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-            <div class="item active" style="background:url({{asset('images/backgrounds/bg1.jpg')}}) top center no-repeat; ">
+            <div class="item active"
+                 style="background:url({{asset('images/backgrounds/bg1.jpg')}}) top center no-repeat; ">
                 <div class="hottour">
                     <h1>Celebrating Easter in Yerevan</h1>
-                    <h3>Ever wondered what it’s like to celebrate Easter in Armenia?<br />
+                    <h3>Ever wondered what it’s like to celebrate Easter in Armenia?<br/>
                         Here’s a peek into what it’s like to celebrate the holiday in Yerevan, Armenia’s capital.</h3>
                     <a class="more" href="#">I'm interested in</a>
                 </div>
@@ -23,7 +24,7 @@
             <div class="item" style="background:url({{asset('images/backgrounds/bg2.jpg')}}) top center no-repeat;">
                 <div class="hottour">
                     <h1>Celebrating Easter in Yerevan</h1>
-                    <h3>Ever wondered what it’s like to celebrate Easter in Armenia?<br />
+                    <h3>Ever wondered what it’s like to celebrate Easter in Armenia?<br/>
                         Here’s a peek into what it’s like to celebrate the holiday in Yerevan, Armenia’s capital.</h3>
                     <a class="more" href="#">I'm interested in</a>
                 </div>
@@ -33,7 +34,7 @@
             <div class="item" style="background:url({{asset('images/backgrounds/bg3.jpg')}}) top center no-repeat;">
                 <div class="hottour">
                     <h1>Celebrating Easter in Yerevan</h1>
-                    <h3>Ever wondered what it’s like to celebrate Easter in Armenia?<br />
+                    <h3>Ever wondered what it’s like to celebrate Easter in Armenia?<br/>
                         Here’s a peek into what it’s like to celebrate the holiday in Yerevan, Armenia’s capital.</h3>
                     <a class="more" href="#">I'm interested in</a>
                 </div>
@@ -55,7 +56,8 @@
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">English
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    English
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Excursion tours</a></li>
@@ -73,7 +75,8 @@
                                     <li><a href="#">Family tours</a></li>
                                     <li><a href="#">VIP tours</a></li>
                                 </ul>
-                            </div>            </div>
+                            </div>
+                        </div>
                         <div class="col-md-4 col-sm-6 col-xs-12 filteritem">
                             <input class="search-field" type="text" placeholder="Search by keywords">
                         </div>
@@ -109,146 +112,59 @@
             <div class="container">
                 <ul>
                     @foreach($tourCategories as $tc)
-                        <li><a id="{{'x_cat/' . $tc['id']}}" class="tc-viewer {{strtolower(str_replace(' ', '_', $tc['category_name_en']))}}">{{$tc['category_name_'.$locale]}}</a></li>
-                    @endforeach
+                        @if($indexTours['tourCategory']['id'] == $tc['id'])
+                            <li class="active" id="cat_list_{{$indexTours['tourCategory']['id']}}">
+                        @else
+                            <li id="cat_list_{{$indexTours['tourCategory']['id']}}">
+                                @endif
+                                <a id="{{'x_cat/' . $tc['id']}}"
+                                   class="tc-viewer {{strtolower(str_replace(' ', '_', $tc['category_name_en']))}}">{{$tc['category_name_'.$locale]}}</a>
+                            </li>
+                            @endforeach
                 </ul>
             </div>
         </div>
 
         <div class="popular-tours" id="tours_area">
             <div class="container">
-                <h2>Daily Tours</h2>
-
+                <h2>{{$indexTours['tourCategory']['category_name_'.app()->getLocale()]}}</h2>
                 <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/tour-test.jpg">
-                        <span class="tour-title">Garni Monastery</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="frequency">
-                            <span class="freq-day available">M</span>
-                            <span class="freq-day">T</span>
-                            <span class="freq-day available">W</span>
-                            <span class="freq-day available">T</span>
-                            <span class="freq-day">F</span>
-                            <span class="freq-day available">S</span>
-                            <span class="freq-day">S</span>
+                @foreach($indexTours['tours'] as $tour)
+                    @if($indexTours['tourCategory']['property'] == 'basic')
+                        <div class="item">
+                            <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
+                                <img src="{{asset($tour['main_image'])}}">
+                                <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
+                            </a>
+                            <div class="tour-data">
+                                <div class="frequency">
+                                    @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
+                                        @if(strpos($tour['basic_frequency'], $wd) !== false)
+                                            <span class="freq-day available">{{$short}}</span>
+                                        @else
+                                            <span class="freq-day">{{$short}}</span>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <div class="price {{$currency['currency']}}">{{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
+                            </div>
                         </div>
-                        <div class="price">$70.00</div>
-                    </div>
-                </div>
-
-                <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/sevan.jpg">
-                        <span class="tour-title">Sevan Lake</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="frequency">
-                            <span class="freq-day available">M</span>
-                            <span class="freq-day">T</span>
-                            <span class="freq-day available">W</span>
-                            <span class="freq-day available">T</span>
-                            <span class="freq-day">F</span>
-                            <span class="freq-day available">S</span>
-                            <span class="freq-day">S</span>
+                    @else
+                        <div class="item">
+                            <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
+                                <img src="{{asset($tour['main_image'])}}">
+                                <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
+                            </a>
+                            <div class="tour-data">
+                                <div class="tourdate">{{str_replace('/','.',$tour['date'])}}</div>
+                                <div class="price {{$currency['currency']}}">{{round($tour['single_adult'] / $currency[$currency['currency']], 2)}}</div>
+                                <div class="clear"></div>
+                            </div>
                         </div>
-                        <div class="price">$70.00</div>
-                    </div>
-                </div>
-
-                <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/tatev.jpg">
-                        <span class="tour-title">Tatev Monastery</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="frequency">
-                            <span class="freq-day available">M</span>
-                            <span class="freq-day">T</span>
-                            <span class="freq-day available">W</span>
-                            <span class="freq-day available">T</span>
-                            <span class="freq-day">F</span>
-                            <span class="freq-day available">S</span>
-                            <span class="freq-day">S</span>
-                        </div>
-                        <div class="price">$70.00</div>
-                    </div>
-                </div>
-
-                <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/history-museum.jpg">
-                        <span class="tour-title">Armenian Historical Museum</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="frequency">
-                            <span class="freq-day available">M</span>
-                            <span class="freq-day">T</span>
-                            <span class="freq-day available">W</span>
-                            <span class="freq-day available">T</span>
-                            <span class="freq-day">F</span>
-                            <span class="freq-day available">S</span>
-                            <span class="freq-day">S</span>
-                        </div>
-                        <div class="price">$70.00</div>
-                    </div>
-                </div>
-
-
-                <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/brandy.jpg">
-                        <span class="tour-title">Yerevan Brandy Company</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="frequency">
-                            <span class="freq-day available">M</span>
-                            <span class="freq-day">T</span>
-                            <span class="freq-day available">W</span>
-                            <span class="freq-day available">T</span>
-                            <span class="freq-day">F</span>
-                            <span class="freq-day available">S</span>
-                            <span class="freq-day">S</span>
-                        </div>
-                        <div class="price">$70.00</div>
-                    </div>
-                </div>
-
-
-                <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/zvartnots.jpg">
-                        <span class="tour-title">Zvartnots Temple</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="frequency">
-                            <span class="freq-day available">M</span>
-                            <span class="freq-day">T</span>
-                            <span class="freq-day available">W</span>
-                            <span class="freq-day available">T</span>
-                            <span class="freq-day">F</span>
-                            <span class="freq-day available">S</span>
-                            <span class="freq-day">S</span>
-                        </div>
-                        <div class="price">$70.00</div>
-                    </div>
-                </div>
-
-                <div class="more"><a href="tours.html">See More</a></div>
-
+                    @endif
+                @endforeach
             </div>
         </div>
-
-
-
-
 
 
         <div class="popular-tours hotels">

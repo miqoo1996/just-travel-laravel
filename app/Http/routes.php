@@ -16,6 +16,7 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('set_lang/{lang}', 'LanguageController@setLanguage');
     Route::get('/x_cat/{category_id}', 'TourController@ajaxGetToursByCategory');
     Route::get('/set_cur/{cur}', 'CurrencyController@setCurrency');
+    Route::get('/tours/{tour_url}', 'TourController@getTourByUrl');
 });
 Route::get('/admin', 'AdminController@getLogin');
 Route::get('/admin/register', 'AdminController@getRegister');

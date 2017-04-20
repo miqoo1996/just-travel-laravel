@@ -13,6 +13,7 @@ class Page extends Model
         'desc_en',
         'desc_ru',
         'visibility',
+        'footer',
         'image',
     ];
 }

@@ -19,11 +19,11 @@ class CreateTourHotelsTable extends Migration
             $table->foreign('hotel_id')->references('id')->on('hotels');
             $table->integer('tour_id')->unsigned();
             $table->foreign('tour_id')->references('id')->on('tours');
-            $table->float('single_adult');
-            $table->float('double_adult');
-            $table->float('triple_adult');
-            $table->float('child');
-            $table->float('infant');
+            $table->integer('single_adult');
+            $table->integer('double_adult');
+            $table->integer('triple_adult');
+            $table->integer('child');
+            $table->integer('infant');
         });
 
         }

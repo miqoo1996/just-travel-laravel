@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use App\Page;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class MenuComposer
@@ -13,28 +14,33 @@ class MenuComposer
      */
     public $menu = [
         [
-            'name' => 'Tours',
-            'url' => '/tours',
+            'page_name_en' => 'Tours',
+            'page_name_ru' => 'Туры',
+            'page_url' => '/tours',
             'prp' => 'fixed'
         ],
         [
-            'name' => 'Photo Gallery',
-            'url' => '/photo_gallery',
+            'page_name_en' => 'Photo Gallery',
+            'page_name_ru' => 'Фото Галерея',
+            'page_url' => '/photo_gallery',
             'prp' => 'fixed'
         ],
         [
-            'name' => 'Video Gallery',
-            'url' => '/video_gallery',
+            'page_name_en' => 'Video Gallery',
+            'page_name_ru' => 'Видео Галерея',
+            'page_url' => '/video_gallery',
             'prp' => 'fixed'
         ],
         [
-            'name' => 'Catalogue',
-            'url' => '/catalogue',
+            'page_name_en' => 'Catalogue',
+            'page_name_ru' => 'Каталог',
+            'page_url' => '/catalogue',
             'prp' => 'fixed'
         ],
         [
-            'name' => 'Contacts',
-            'url' => '/contacts',
+            'page_name_en' => 'Contacts',
+            'page_name_ru' => 'Контакты',
+            'page_url' => '/contacts',
             'prp' => 'fixed'
         ]
     ];
@@ -49,17 +55,11 @@ class MenuComposer
      */
     public function __construct()
     {
-//        $locale = (Session::has('locale'))? Session::get('locale'): 'en';
-        $pages = Page::all();
+        $pages = Page::where('visibility', 'on')->get()->toArray();
         $itemsCount = count($this->menu) + 1;
         foreach ($pages as $page){
-//            if($locale == 'ru'){
-                $this->menu[$itemsCount]['name'] = $page->page_name_ru;
-//            } else {
-//                $this->menu[]['name'] = $page->page_name_en;
-//            }
-            $this->menu[$itemsCount]['url'] = $page['url'];
-        $itemsCount++;
+            $this->menu[$itemsCount] = $page;
+            $itemsCount++;
         }
     }
 
