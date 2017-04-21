@@ -75,7 +75,7 @@ class Tour extends Model
      * @param $category_id
      * @return mixed
      */
-    public static function ToursByCategory($category_id)
+    public static function ToursByCategory($category_id, $limit = true)
     {
         $data['tourCategory'] = TourCategory::find($category_id)->toArray();
         if ($data['tourCategory']['property'] == 'basic') {
@@ -87,7 +87,11 @@ class Tour extends Model
             $tourCatRelations = TourCatRel::where('cat_id', $category_id)->get()->pluck('tour_id')->toArray();
             $tours = Tour::whereIn('id', $tourCatRelations)
                 ->where('visibility', 'on')
-                ->orderBy('tours.updated_at', 'DESC')->limit(6)->get();
+                ->orderBy('tours.updated_at', 'DESC');
+            if($limit){
+                $tours = $tours->limit(6);
+            }
+            $tours = $tours->get();
             foreach ($tours as $key => $value){
                 $tours[$key]['single_adult'] = $value->getFirstHotel()->single_adult;
                 if($tours[$key]->custom_day_prp == 'custom'){
@@ -103,5 +107,11 @@ class Tour extends Model
         return $data;
     }
 
+    public static function getToursByCat($cat_id)
+    {
+        $tourIds = TourCatRel::where('cat_id', $cat_id)->get()->pluck('tour_id')->toArray();
+        $tours = self::whereIn('id', $tourIds)->get()->toArray();
+//        if(count($tours)) return redirect('errors.404');
+    }
 
 }

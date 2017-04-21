@@ -65,4 +65,10 @@ class VideoGalleryController extends Controller
         return view('admin.edit_video', ['video' => $video]);
     }
 
+    public function getVideoGallery()
+    {
+        $videos = VideoGallery::all()->toArray();
+        return view('video_gallery', compact('videos'));
+    }
+
 }

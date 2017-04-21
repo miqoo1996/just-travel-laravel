@@ -15,8 +15,13 @@ class CreateGalleriesTable extends Migration
         Schema::create('galleries', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('gallery_name');
+            $table->string('gallery_name_en');
+            $table->string('gallery_name_ru');
+            $table->text('gallery_desc_en');
+            $table->text('gallery_desc_ru');
             $table->string('gallery_url');
+            $table->string('main_image')->nullable();
+            $table->enum('portfolio', array('on', 'off'))->default('off');
         });
     }
 

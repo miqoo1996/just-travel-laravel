@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="{{asset('css/default.css')}}">
 
 </head>
-<body class="page-inside">
-
+<body class="page-inside @yield('bodyStyle')">
 <span class="burger"></span>
 <span id="overley"></span>
 <div id="mobile-menu">
@@ -53,9 +52,9 @@
         </ul>
     </div>
 </div>
-
+@yield('search_block')
 <div class="navbar navbar-default">
-    <a href="index.html" class="logo-element"></a>
+    <a href="{{url('/')}}" class="logo-element"></a>
     <!-- /.container-fluid -->
 </div>
 
@@ -97,7 +96,7 @@
 <script src="{{asset('js/bootstrap.js')}}"></script>
 <script src="{{asset('js/custom.js')}}"></script>
 <script src="{{asset('js/script.js')}}"></script>
-
+@yield('script')
 <!--maincont-->
 
 

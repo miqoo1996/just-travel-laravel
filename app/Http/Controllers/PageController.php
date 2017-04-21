@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Hotel;
 use App\Tour;
 use App\TourCategory;
 use App\TourCatRel;
@@ -65,17 +66,34 @@ class PageController extends Controller
         $locale = (Session::has('locale')) ? Session::get('locale') : 'en';
         $tourCatRelations = TourCatRel::all()->pluck('cat_id')->toArray();
         $tourCategories = TourCategory::whereIn('id', array_unique($tourCatRelations))->get()->toArray();
-        if(count($tourCategories)){
+        $hotTours = Tour::where('hot', 'on')->inRandomOrder()->limit(3)->get()->toArray();
+        $topHotels = Hotel::whereIn('type', config('const.top_hotel_types'))
+            ->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
+        if (count($tourCategories)) {
             $currentCatId = (Session::has('cat_id')) ? Session::get('cat_id') : $tourCategories[0]['id'];
             $indexTours = Tour::ToursByCategory($currentCatId);
         } else {
             $indexTours = false;
         }
-        return view('index', compact('tourCategories', 'locale', 'indexTours'));
+        return view('index', compact('tourCategories', 'locale', 'indexTours', 'hotTours', 'topHotels'));
     }
 
     public function getPageByUrl($page_url)
     {
-        dd('this is page');
+        $tourCategory = TourCategory::where('url', $page_url)->first();
+        if(null == $tourCategory){
+            $page = Page::where('page_url', $page_url)->first();
+            if(null == $page){
+                return view('errors.404');
+            }
+            return view('page_detail', compact('page'));
+        } else {
+            $tourIds = TourCatRel::all()->pluck('tour_id')->toArray();
+            $data['tourCategory'] = $tourCategory;
+            $data['tours'] = Tour::ToursByCategory($tourCategory->id, false);
+//            dd($data['tours']);
+            $data['tourCategories'] = TourCategory::whereIn('id', array_unique($tourIds))->get()->toArray();
+            return view('tours', $data);
+        }
     }
 }

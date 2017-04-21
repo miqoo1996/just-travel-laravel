@@ -258,4 +258,9 @@ class TourController extends Controller
         $tour = $tour->toArray();
         return view('tour_details_1', compact('tour'));
     }
+
+    public function getTours()
+    {
+        dd('tours page works fine');
+    }
 }

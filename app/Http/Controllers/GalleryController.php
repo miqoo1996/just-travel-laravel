@@ -69,4 +69,44 @@ class GalleryController extends Controller
 //        $gallery->images();
         return view('admin.edit_gallery', ['gallery' => $gallery]);
     }
+
+    public function getGalleries()
+    {
+        $galleries = Gallery::where('portfolio', 'off')->get()->toArray();
+        $type = 'gallery';
+        return view('galleries', compact('galleries', 'type'));
+    }
+
+    public function getPortfolios()
+    {
+        $galleries = Gallery::where('portfolio', 'on')->get()->toArray();
+        $type = 'portfolio';
+        return view('galleries', compact('galleries', 'type'));
+    }
+
+    public function getGalleryByUrl($url)
+    {
+        $gallery = Gallery::where('portfolio', 'off')->where('gallery_url', $url)->first();
+        if(null !== $gallery){
+            $gallery = $gallery->toArray();
+            $images = GalleryPhotos::where('gallery_id', $gallery['id'])->get()->toArray();
+            $backUrl = '/galleries';
+            $backName= 'photo_gallery';
+            return view('gallery_details', compact('images', 'backUrl', 'backName', 'gallery'));
+        }
+        return view('errors.404');
+    }
+
+    public function getPortfolioByUrl($url)
+    {
+        $gallery = Gallery::where('portfolio', 'on')->where('gallery_url', $url)->first();
+        if(null !== $gallery){
+            $gallery = $gallery->toArray();
+            $images = GalleryPhotos::where('gallery_id', $gallery['id'])->get()->toArray();
+            $backUrl = '/portfolio';
+            $backName= 'portfolio';
+            return view('gallery_details', compact('images', 'backUrl', 'backName', 'gallery'));
+        }
+        return view('errors.404');
+    }
 }

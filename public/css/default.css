@@ -45,6 +45,42 @@ input, textarea{ box-shadow:none;}
 
 i.demo-icon{font-family:"Just"; font-style:normal; font-weight:normal;}
 
+
+/* Custom Checkbox */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {position: absolute; left: -9999px;}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {position: relative; padding:3px 0 0 36px; cursor: pointer;}
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+	content: '';
+	position: absolute;
+	left: 0; top: 0;
+	width:24px; height:24px;
+	border:1px solid #CCC;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+	font-family:"Just";
+	content:"\e80e";
+	position: absolute;
+	top:3px; left:4px;
+	font-size:16px;
+	line-height:1;
+	color: #FFA300;
+	transition: all .2s;
+}
+[type="checkbox"]:not(:checked) + label:after {opacity: 0;transform: scale(0);}
+[type="checkbox"]:checked + label:after {opacity:1; transform: scale(1);}
+[type="checkbox"]:checked:focus + label:before,
+[type="checkbox"]:not(:checked):focus + label:before {border:1px solid #FFA300;}
+label:hover:before {border:1px solid #FFA300 !important;}
+/* Custom Checkbox END*/
+
+
 /*Header*/
 .navbar-default{ background:none; border:none;}
 .logo-element{
@@ -123,17 +159,17 @@ i.demo-icon{font-family:"Just"; font-style:normal; font-weight:normal;}
 .mp-categories{ background:#FFF; height:80px;}
 .fixme{ width:100%; z-index:100;}
 .mp-categories li{float:left; width:180px; padding:0px; list-style-type:none;}
-.mp-categories li a{display:block; padding:4px 10px; line-height:1; text-decoration:none; border-radius:5px; cursor: pointer;}
+.mp-categories li a{display:block; padding:4px 10px; line-height:1; text-decoration:none; border-radius:5px;}
 .mp-categories li a:hover{background:#F1F1F1;}
 .mp-categories li.active a{background:#FFA300; color:#FFF;}
 .mp-categories ul{ padding:8px 0; margin:0px;}
 .mp-categories i.demo-icon{ margin:0 10px 0 0;}
 
 
+/*
 .mp-categories a.daily-tours:before{font-family:"Just"; content:"\e808";}
 .mp-categories a.jacuzee:before{font-family:"Just"; content:"\e810";}
-
-
+*/
 
 
 /*Popular Tours*/
@@ -484,12 +520,8 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 .collapse-item{padding:10px;line-height:2.4}
 .payment-method{ float:right;}
 
-/*Currencies*/
 
-.price.usd:before{content:'$'}
-.price.amd:after{content:' ֏'}
-.price.rur:after{content:' ₽'}
-.price.eur:after{content:' €'}
+
 
 
 

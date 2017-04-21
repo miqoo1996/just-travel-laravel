@@ -10,14 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::group(['middleware' => ['language']], function () {
 
-    Route::get('/', 'PageController@getIndexPage');
-    Route::get('set_lang/{lang}', 'LanguageController@setLanguage');
-    Route::get('/x_cat/{category_id}', 'TourController@ajaxGetToursByCategory');
-    Route::get('/set_cur/{cur}', 'CurrencyController@setCurrency');
-    Route::get('/tours/{tour_url}', 'TourController@getTourByUrl');
-});
 Route::get('/admin', 'AdminController@getLogin');
 Route::get('/admin/register', 'AdminController@getRegister');
 Route::post('/admin/panel', 'AdminController@postLogin')->name('login');
@@ -73,4 +66,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/logout', 'AdminController@adminLogout')->name('admin-logout');
 
 
+});
+
+Route::group(['middleware' => ['language']], function () {
+
+    Route::get('/', 'PageController@getIndexPage');
+    Route::get('set_lang/{lang}', 'LanguageController@setLanguage');
+    Route::get('/x_cat/{category_id}', 'TourController@ajaxGetToursByCategory');
+    Route::get('/set_cur/{cur}', 'CurrencyController@setCurrency');
+    Route::get('/tours/{tour_url}', 'TourController@getTourByUrl');
+    Route::get('/tours', 'TourController@getTours');
+    Route::get('/hotels', 'HotelController@getHotels');
+    Route::get('/hotels/{hotel_url}', 'HotelController@getHotelByUrl');
+    Route::get('/video_gallery', 'VideoGalleryController@getVideoGallery');
+    Route::get('/galleries', 'GalleryController@getGalleries');
+    Route::get('/portfolio', 'GalleryController@getPortfolios');
+    Route::get('/portfolio/{url}', 'GalleryController@getPortfolioByUrl');
+    Route::get('/gallery/{url}', 'GalleryController@getGalleryByUrl');
+    Route::get('/{page_url}', 'PageController@getPageByUrl');
 });

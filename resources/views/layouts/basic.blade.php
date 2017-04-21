@@ -57,7 +57,7 @@
 </div>
 @yield('carousel')
 <div class="navbar navbar-default">
-    <a href="index.html" class="logo-element"></a>
+    <a href="{{url('/')}}" class="logo-element"></a>
     <!-- /.container-fluid -->
 </div>
 {{--Content--}}

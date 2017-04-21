@@ -11,15 +11,14 @@
             <div class="clearfix"></div>
 
 
-
-
             <div class="x_panel">
                 <div class="row">
                     <div class="form-horizontal form-label-left">
                         <div class="form-group">
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <label>Tour URL</label>
-                                <input type="text" class="form-control" name="tour_url" id="tour_url" placeholder="Tour URL" value="{{$tour->tour_url}}">
+                                <input type="text" class="form-control" name="tour_url" id="tour_url"
+                                       placeholder="Tour URL" value="{{$tour->tour_url}}">
                             </div>
                             <div class="clearfix"></div>
 
@@ -29,12 +28,13 @@
                                     @foreach($tour_categories as $tour_category)
                                         <label>
                                             <input type="checkbox" class="{{$tour_category->property}}"
-                                                   name="tour_category_id[]" value="{{$tour_category->id . '/' . $tour_category->property . '/' . $tour_category->category_name_en}}"
+                                                   name="tour_category_id[]"
+                                                   value="{{$tour_category->id . '/' . $tour_category->property . '/' . $tour_category->category_name_en}}"
                                                    @foreach($tour->categories as $item)
-                                                        @if($tour_category->id == $item['id'])
-                                                            checked="checked"
-                                                        @endif
-                                                   @endforeach>
+                                                   @if($tour_category->id == $item['id'])
+                                                   checked="checked"
+                                                    @endif
+                                                    @endforeach>
                                             <span>{{$tour_category->category_name_en}}</span>
                                         </label>
                                     @endforeach
@@ -48,8 +48,10 @@
 
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">English</a></li>
-                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Russian</a></li>
+                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab"
+                                                              data-toggle="tab" aria-expanded="true">English</a></li>
+                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab"
+                                                        data-toggle="tab" aria-expanded="false">Russian</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
@@ -60,7 +62,8 @@
                                 <h2>Tour Name</h2>
                                 <div class="clearfix"></div>
                             </div>
-                            <input type="text" class="form-control input-lg" placeholder="Tour Name (English)" name="tour_name_en" value="{{$tour->tour_name_en}}">
+                            <input type="text" class="form-control input-lg" placeholder="Tour Name (English)"
+                                   name="tour_name_en" value="{{$tour->tour_name_en}}">
 
                             <div class="x_title no_border">
                                 <h2>Tour Description</h2>
@@ -70,7 +73,15 @@
                             <div class="x-content">
                                 <textarea class="tinymce" name="desc_en" id="desc_en">{{$tour->desc_en}}</textarea>
                             </div>
-
+                            <br>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Short Description</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <textarea class="resizable_textarea form-control"
+                                              placeholder="Short presentation of the tour"
+                                              name="short_desc_en">{{$tour->short_desc_en}}</textarea>
+                                </div>
+                            </div>
                             <div class="margin-b-10 custom-field">
                                 <div class="x_title">
                                     <h2>Program by days</h2>
@@ -81,18 +92,20 @@
                                         <div id="custom_day_container_en">
                                             @foreach($tour->custom_days as $key => $custom_day)
 
-                                            <div class="custom_day">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
-                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                                    <textarea class="resizable_textarea form-control" placeholder="" name=custom_day_desc_en[]">{{$custom_day->desc_en}}</textarea>
+                                                <div class="custom_day">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                                                        <textarea class="resizable_textarea form-control" placeholder=""
+                                                                  name=custom_day_desc_en[]">{{$custom_day->desc_en}}</textarea>
+                                                    </div>
+                                                    <div class="clearfix"></div>
                                                 </div>
-                                                <div class="clearfix"></div>
-                                            </div>
                                             @endforeach
                                         </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <a class="btn add_day"><span><i class="fa fa-plus"></i> Add Day</span></a>
-                                            <a class="btn remove_day" style="float:right;"><span><i class="fa fa-remove"></i> Remove Last Day</span></a>
+                                            <a class="btn remove_day" style="float:right;"><span><i
+                                                            class="fa fa-remove"></i> Remove Last Day</span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -106,10 +119,12 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 {{--<form>--}}
-                                    <div class="control-group">
-                                        <input id="tags_en" name="tags_en" type="text" class="tags form-control" value="{{$tour->tags_en}}" />
-                                        <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
-                                    </div>
+                                <div class="control-group">
+                                    <input id="tags_en" name="tags_en" type="text" class="tags form-control"
+                                           value="{{$tour->tags_en}}"/>
+                                    <div id="suggestions-container"
+                                         style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+                                </div>
                                 {{--</form>--}}
 
                             </div>
@@ -126,7 +141,8 @@
                                 <h2>Tour Name</h2>
                                 <div class="clearfix"></div>
                             </div>
-                            <input type="text" class="form-control input-lg" name="tour_name_ru" id="tour_name_ru" placeholder="Tour Name (Russian)" value="{{$tour->tour_name_ru}}">
+                            <input type="text" class="form-control input-lg" name="tour_name_ru" id="tour_name_ru"
+                                   placeholder="Tour Name (Russian)" value="{{$tour->tour_name_ru}}">
 
                             <div class="x_title no_border">
                                 <h2>Tour Description</h2>
@@ -138,7 +154,15 @@
                                     {{$tour->desc_ru}}
                                  </textarea>
                             </div>
-
+                            <br>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Short Description</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <textarea class="resizable_textarea form-control"
+                                              placeholder="Short presentation of the tour"
+                                              name="short_desc_ru">{{$tour->short_desc_ru}}</textarea>
+                                </div>
+                            </div>
                             <div class="margin-b-10 custom-field">
                                 <div class="x_title">
                                     <h2>Program by days</h2>
@@ -147,20 +171,22 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
                                     <div class="form-group">
                                         <div id="custom_day_container_ru">
-                                                @foreach($tour->custom_days as $key => $custom_day)
-                                            <div class="custom_day">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
-                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                                    <textarea class="resizable_textarea form-control" placeholder="" name="custom_day_desc_ru[]">{{$custom_day->desc_ru}}</textarea>
-                                                </div>
-                                                <div class="clearfix"></div>
+                                            @foreach($tour->custom_days as $key => $custom_day)
+                                                <div class="custom_day">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                                                        <textarea class="resizable_textarea form-control" placeholder=""
+                                                                  name="custom_day_desc_ru[]">{{$custom_day->desc_ru}}</textarea>
+                                                    </div>
+                                                    <div class="clearfix"></div>
 
-                                            </div>
-                                                @endforeach
+                                                </div>
+                                            @endforeach
                                         </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <a class="btn add_day"><span><i class="fa fa-plus"></i> Add Day</span></a>
-                                            <a style="float:right;" class="btn remove_day"><span><i class="fa fa-remove"></i> Remove Last Day</span></a>
+                                            <a style="float:right;" class="btn remove_day"><span><i
+                                                            class="fa fa-remove"></i> Remove Last Day</span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -174,10 +200,12 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 {{--<form>--}}
-                                    <div class="control-group">
-                                        <input id="tags_ru" name="tags_ru" type="text" class="tags form-control" value="{{$tour->tags_ru}}" />
-                                        <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
-                                    </div>
+                                <div class="control-group">
+                                    <input id="tags_ru" name="tags_ru" type="text" class="tags form-control"
+                                           value="{{$tour->tags_ru}}"/>
+                                    <div id="suggestions-container"
+                                         style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+                                </div>
                                 {{--</form>--}}
 
                             </div>
@@ -193,33 +221,108 @@
                 <div class="form-group" style="margin:10px 0 0;">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
                     <div class="col-md-3 col-sm-3 col-xs-3">
-                        <input type="text" class="form-control" placeholder="Price for Adult" name="basic_price_adult" value="{{$tour->basic_price_adult}}">
+                        <input type="text" class="form-control" placeholder="Price for Adult" name="basic_price_adult"
+                               value="{{$tour->basic_price_adult}}">
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-3">
-                        <input type="text" class="form-control" placeholder="Price for Child" name="basic_price_child" value="{{$tour->basic_price_child}}">
+                        <input type="text" class="form-control" placeholder="Price for Child" name="basic_price_child"
+                               value="{{$tour->basic_price_child}}">
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-3">
-                        <input type="text" class="form-control" placeholder="Price for Infant" name="basic_price_infant" value="{{$tour->basic_price_infant}}">
+                        <input type="text" class="form-control" placeholder="Price for Infant" name="basic_price_infant"
+                               value="{{$tour->basic_price_infant}}">
                     </div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group" style="margin:20px 0 0;">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Frequency</label>
                     <div class="col-md-9 col-sm-9 col-xs-12 checkbox-custom">
-                        <label><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" name="basic_frequency[]" value="mon" class="flat" style="position: absolute; opacity: 0;" @if(array_key_exists('mon', $tour->basic_frequency)) checked="checked" @endif><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> <span>M</span></label>
-                        <label><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" name="basic_frequency[]" value="tue" class="flat" style="position: absolute; opacity: 0;" @if(array_key_exists('tue', $tour->basic_frequency)) checked="checked" @endif><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> <span>T</span></label>
-                        <label><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" name="basic_frequency[]" value="wed" class="flat" style="position: absolute; opacity: 0;" @if(array_key_exists('wed', $tour->basic_frequency)) checked="checked" @endif><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> <span>W</span></label>
-                        <label><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" name="basic_frequency[]" value="thu" class="flat" style="position: absolute; opacity: 0;" @if(array_key_exists('thu', $tour->basic_frequency)) checked="checked" @endif><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> <span>T</span></label>
-                        <label><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" name="basic_frequency[]" value="fri" class="flat" style="position: absolute; opacity: 0;" @if(array_key_exists('fri', $tour->basic_frequency)) checked="checked" @endif><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> <span>F</span></label>
-                        <label><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" name="basic_frequency[]" value="sat" class="flat" style="position: absolute; opacity: 0;" @if(array_key_exists('sat', $tour->basic_frequency)) checked="checked" @endif><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> <span>S</span></label>
-                        <label><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" name="basic_frequency[]" value="sun" class="flat" style="position: absolute; opacity: 0;" @if(array_key_exists('sun', $tour->basic_frequency)) checked="checked" @endif><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> <span>S</span></label>
+                        <label>
+                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox"
+                                                                                                 name="basic_frequency[]"
+                                                                                                 value="mon"
+                                                                                                 class="flat"
+                                                                                                 style="position: absolute; opacity: 0;"
+                                                                                                 @if(array_key_exists('mon', $tour->basic_frequency)) checked="checked" @endif>
+                                <ins class="iCheck-helper"
+                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                            </div>
+                            <span>M</span></label>
+                        <label>
+                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox"
+                                                                                                 name="basic_frequency[]"
+                                                                                                 value="tue"
+                                                                                                 class="flat"
+                                                                                                 style="position: absolute; opacity: 0;"
+                                                                                                 @if(array_key_exists('tue', $tour->basic_frequency)) checked="checked" @endif>
+                                <ins class="iCheck-helper"
+                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                            </div>
+                            <span>T</span></label>
+                        <label>
+                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox"
+                                                                                                 name="basic_frequency[]"
+                                                                                                 value="wed"
+                                                                                                 class="flat"
+                                                                                                 style="position: absolute; opacity: 0;"
+                                                                                                 @if(array_key_exists('wed', $tour->basic_frequency)) checked="checked" @endif>
+                                <ins class="iCheck-helper"
+                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                            </div>
+                            <span>W</span></label>
+                        <label>
+                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox"
+                                                                                                 name="basic_frequency[]"
+                                                                                                 value="thu"
+                                                                                                 class="flat"
+                                                                                                 style="position: absolute; opacity: 0;"
+                                                                                                 @if(array_key_exists('thu', $tour->basic_frequency)) checked="checked" @endif>
+                                <ins class="iCheck-helper"
+                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                            </div>
+                            <span>T</span></label>
+                        <label>
+                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox"
+                                                                                                 name="basic_frequency[]"
+                                                                                                 value="fri"
+                                                                                                 class="flat"
+                                                                                                 style="position: absolute; opacity: 0;"
+                                                                                                 @if(array_key_exists('fri', $tour->basic_frequency)) checked="checked" @endif>
+                                <ins class="iCheck-helper"
+                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                            </div>
+                            <span>F</span></label>
+                        <label>
+                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox"
+                                                                                                 name="basic_frequency[]"
+                                                                                                 value="sat"
+                                                                                                 class="flat"
+                                                                                                 style="position: absolute; opacity: 0;"
+                                                                                                 @if(array_key_exists('sat', $tour->basic_frequency)) checked="checked" @endif>
+                                <ins class="iCheck-helper"
+                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                            </div>
+                            <span>S</span></label>
+                        <label>
+                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox"
+                                                                                                 name="basic_frequency[]"
+                                                                                                 value="sun"
+                                                                                                 class="flat"
+                                                                                                 style="position: absolute; opacity: 0;"
+                                                                                                 @if(array_key_exists('sun', $tour->basic_frequency)) checked="checked" @endif>
+                                <ins class="iCheck-helper"
+                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                            </div>
+                            <span>S</span></label>
                     </div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group" style="margin:15px 0 0;">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12" style="margin:8px 0 0;">Calendar (select specific days)</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" style="margin:8px 0 0;">Calendar (select
+                        specific days)</label>
                     <div class="col-md-3 col-sm-3 col-xs-3">
-                        <input type="text" name="specific_days" class="form-control calendar tour-datepicker" placeholder="DatePicker" value="{{$tour->specific_days}}">
+                        <input type="text" name="specific_days" class="form-control calendar tour-datepicker"
+                               placeholder="DatePicker" value="{{$tour->specific_days}}">
                     </div>
                 </div>
 
@@ -230,9 +333,12 @@
                 <div class="form-group" style="margin:10px 0 0;">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Date</label>
                     <div class="col-md-9 col-sm-9 col-xs-12 checkbox-custom">
-                        <label><input type="radio" name="custom_day_prp"  id="custom_day_radio" value="custom" onchange="toggleDatepicker()"
-                                    {{($tour->custom_day_prp == 'custom')? 'checked' : '' }}> <span>Custom Days</span></label>
-                        <label><input type="radio" name="custom_day_prp"  id="any_day_radio" value="any" onchange="toggleDatepicker()"
+                        <label><input type="radio" name="custom_day_prp" id="custom_day_radio" value="custom"
+                                      onchange="toggleDatepicker()"
+                                    {{($tour->custom_day_prp == 'custom')? 'checked' : '' }}>
+                            <span>Custom Days</span></label>
+                        <label><input type="radio" name="custom_day_prp" id="any_day_radio" value="any"
+                                      onchange="toggleDatepicker()"
                                     {{($tour->custom_day_prp == 'any')? 'checked' : '' }}
                             > <span>Any Day</span></label>
                     </div>
@@ -242,7 +348,8 @@
                     <div class="form-group" style="margin:20px 0 0;">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Calendar</label>
                         <div class="col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" class="form-control calendar tour-datepicker" placeholder="DatePicker" name="custom_dates" value="{{$tour->custom_dates}}">
+                            <input type="text" class="form-control calendar tour-datepicker" placeholder="DatePicker"
+                                   name="custom_dates" value="{{$tour->custom_dates}}">
                         </div>
                     </div>
                     <div class="form-group" style="margin:27px 0 0;">
@@ -279,7 +386,8 @@
                                                                 <select class="form-control" name="hotel[hotel_id][]">
                                                                     @foreach($hotels as $hotel)
                                                                         @if($tourHotel->id == $hotel->id)
-                                                                            <option value="{{$hotel->id}}" selected>{{$hotel->hotel_name_en}}</option>
+                                                                            <option value="{{$hotel->id}}"
+                                                                                    selected>{{$hotel->hotel_name_en}}</option>
                                                                         @else
                                                                             <option value="{{$hotel->id}}">{{$hotel->hotel_name_en}}</option>
                                                                         @endif
@@ -288,17 +396,22 @@
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                                 Single Adult (12-99)
-                                                                <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel->single_adult}}">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Price" name="hotel[single_adult][]"
+                                                                       value="{{$tourHotel->single_adult}}">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                                 Double Adult (12-99)
-                                                                <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel->double_adult}}">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Price" name="hotel[double_adult][]"
+                                                                       value="{{$tourHotel->double_adult}}">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                                 Tripple Adult (12-99)
-                                                                <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel->triple_adult}}">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Price" name="hotel[triple_adult][]"
+                                                                       value="{{$tourHotel->triple_adult}}">
                                                             </div>
-
 
 
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -306,13 +419,16 @@
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                                 Child (4-11)
-                                                                <input type="text" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel->child}}">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Price" name="hotel[child][]"
+                                                                       value="{{$tourHotel->child}}">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                                 Infant (0-4)
-                                                                <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel->infant}}">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Price" name="hotel[infant][]"
+                                                                       value="{{$tourHotel->infant}}">
                                                             </div>
-
 
 
                                                             <div class="clearfix margin-b-10"></div>
@@ -332,17 +448,19 @@
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Single Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]">
+                                                            <input type="text" class="form-control" placeholder="Price"
+                                                                   name="hotel[single_adult][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Double Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]">
+                                                            <input type="text" class="form-control" placeholder="Price"
+                                                                   name="hotel[double_adult][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Tripple Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
+                                                            <input type="text" class="form-control" placeholder="Price"
+                                                                   name="hotel[triple_adult][]">
                                                         </div>
-
 
 
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
@@ -350,13 +468,14 @@
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Child (4-11)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[child][]">
+                                                            <input type="text" class="form-control" placeholder="Price"
+                                                                   name="hotel[child][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Infant (0-4)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]">
+                                                            <input type="text" class="form-control" placeholder="Price"
+                                                                   name="hotel[infant][]">
                                                         </div>
-
 
 
                                                         <div class="clearfix margin-b-10"></div>
@@ -364,8 +483,11 @@
                                                 </div>
                                             @endif
                                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                                <a type="button" id="add_hotel" class="btn"><span><i class="fa fa-plus"></i> Add Hotel</span></a>
-                                                <a type="button" id="remove_hotel" class="btn" style="float:right"><span><i class="fa fa-remove"></i> Remove Hotel</span></a>
+                                                <a type="button" id="add_hotel" class="btn"><span><i
+                                                                class="fa fa-plus"></i> Add Hotel</span></a>
+                                                <a type="button" id="remove_hotel" class="btn"
+                                                   style="float:right"><span><i
+                                                                class="fa fa-remove"></i> Remove Hotel</span></a>
                                             </div>
                                             <div class="clearfix margin-b-10"></div>
                                         </div>
@@ -387,9 +509,10 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <p>Drag multiple images to the box below for multi upload or click to select files. Required maximum with for images should be 1000px.</p>
+                            <p>Drag multiple images to the box below for multi upload or click to select files. Required
+                                maximum with for images should be 1000px.</p>
                             <input type="file" name="tour_images[]" id="tour_images" multiple="multiple">
-                            <br />
+                            <br/>
                             <div>
                                 <h2>Uploaded images</h2>
                                 <div class="clearfix"></div>
@@ -401,7 +524,8 @@
                                             <div><p class="alert warning">No images</p></div>
                                         @else
                                             <li class="col-lg-2 custom-image-viewer-item">
-                                                <span class="-remove custom-image-remove-button" id="{{'tours?' .$tour->id . '?tour_images?' . $tour_image}}"></span>
+                                                <span class="-remove custom-image-remove-button"
+                                                      id="{{'tours?' .$tour->id . '?tour_images?' . $tour_image}}"></span>
                                                 <img src="{{URL::asset('/' . $tour_image)}}" alt="profile Pic">
                                             </li>
                                         @endif
@@ -416,7 +540,8 @@
                                 <div class="clearfix"></div>
                             </div>
                             @if(null !== $tour->main_image)
-                            <div><img src="{{URL::asset('/' . $tour->main_image)}}" alt="profile Pic" width="400"></div>
+                                <div><img src="{{URL::asset('/' . $tour->main_image)}}" alt="profile Pic" width="400">
+                                </div>
                             @else
                                 <div><p class="alert warning">No image</p></div>
                             @endif
@@ -427,12 +552,12 @@
                                 <div class="clearfix"></div>
                             </div>
                             @if(null !== $tour->hot_image)
-                                <div><img src="{{URL::asset('/' . $tour->hot_image)}}" alt="profile Pic" width="200"></div>
+                                <div><img src="{{URL::asset('/' . $tour->hot_image)}}" alt="profile Pic" width="200">
+                                </div>
                             @else
                                 <div><p class="alert warning">No image</p></div>
                             @endif
                         </div>
-
 
 
                     </div>
@@ -444,12 +569,15 @@
 
                     <div class="checkbox-custom">
                         <label>
-                            <input type="checkbox" class="flat" name="visibility" @if($tour->visibility == 'on') checked="checked" @endif> <span>Visible on the site</span>
+                            <input type="checkbox" class="flat" name="visibility"
+                                   @if($tour->visibility == 'on') checked="checked" @endif>
+                            <span>Visible on the site</span>
                         </label>
                     </div>
                     <div class="checkbox-custom">
                         <label>
-                            <input type="checkbox" class="flat" name="hot" @if($tour->hot == 'on') checked="checked" @endif> <span>Hot Tour</span>
+                            <input type="checkbox" class="flat" name="hot"
+                                   @if($tour->hot == 'on') checked="checked" @endif> <span>Hot Tour</span>
                         </label>
                     </div>
 
