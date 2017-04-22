@@ -18,8 +18,8 @@ class CreatePagesTable extends Migration
             $table->string('page_url');
             $table->string('page_name_en');
             $table->string('page_name_ru');
-            $table->string('desc_en');
-            $table->string('desc_ru');
+            $table->text('desc_en');
+            $table->text('desc_ru');
             $table->string('image');
             $table->enum('visibility', ['off', 'on'])->default('off');
             $table->enum('footer', ['off', 'on'])->default('off');

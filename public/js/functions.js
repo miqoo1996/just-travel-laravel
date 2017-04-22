@@ -18,9 +18,9 @@ $(document).ready( function () {
         "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Day " + newCount+ "</label>"+
             "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10'>"+
             "<input type='text' class='form-control input-medium' name='custom_day_title_en[]'"+
-        " placeholder='title'></div>"+
-        "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3'>"+
-        "<textarea class='resizable_textarea form-control' placeholder='description' name='custom_day_desc_en[]'></textarea>"+
+        "placeholder='title'></div>"+
+        "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10'>"+
+        "<textarea class='resizable_textarea form-control' placeholder='' name='custom_day_desc_en[]'></textarea>"+
         "</div><div class='clearfix'></div></div>");
 
         var container_ru = $('#custom_day_container_ru');
@@ -28,10 +28,7 @@ $(document).ready( function () {
         $(container_ru).append("<div class='custom_day'>"+
             "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Day " + newCount+ "</label>"+
             "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10'>"+
-            "<input type='text' class='form-control input-medium' name='custom_day_title_ru[]'"+
-            " placeholder='title'></div>"+
-            "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3'>"+
-            "<textarea class='resizable_textarea form-control' placeholder='description' name='custom_day_desc_ru[]'></textarea>"+
+            "<textarea class='resizable_textarea form-control' placeholder='' name='day_ru[]'></textarea>"+
             "</div><div class='clearfix'></div></div>")
     });
     $('.remove_day').on("click", function(){
@@ -147,6 +144,8 @@ function toggleAreas(){
 }
 var droppedFiles = false;
 var files;
+
+
 function dragDrop() {
     var $form = $('.admin-image-label');
     $form.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
@@ -188,20 +187,20 @@ function dragDrop() {
         var counter = 0 ;
         var name;
         var fileCount;
-        var $new;
-        console.log(fileCount);
+        var newData = '';
+        console.log(input.files);
         $(input.files).each(function () {
             var reader = new FileReader();
             name = this.name;
-            reader.onload = function (e) {
-                $new += "<div id='d_i_" + counter +"' class='drop-image' style='display:none'><span data-id='"+ name +"'></span><img src='" + e.target.result + "'></div>";
-                counter++;
+            reader.onload = function () {
+                // $('.admin-image-label').append("<div id='d_i_" + counter +"' class='drop-image' style='display:none'><span data-id='"+ name +"'></span><img src='" + e.target.result + "'></div>");
+                $('.admin-image-label').append("<div id='d_i_" + counter +"' class='drop-image'><img src='" + this.result + "'></div>")
             };
+            counter++;
             reader.readAsDataURL(this);
-            return false;
         });
             $(input.files).promise().done(function() {
-                alert('done');
+                console.log(newData);
                 $('.admin-image-label').addClass('finished');
             });
         }
