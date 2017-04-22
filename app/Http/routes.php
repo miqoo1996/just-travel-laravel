@@ -83,5 +83,8 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('/portfolio', 'GalleryController@getPortfolios');
     Route::get('/portfolio/{url}', 'GalleryController@getPortfolioByUrl');
     Route::get('/gallery/{url}', 'GalleryController@getGalleryByUrl');
+    Route::get('/catalogue', 'DownloadPDFController@getCatalogs');
+    Route::get('/contacts', 'ContactController@getContacts');
+    Route::post('/contacts', 'ContactController@postContacts');
     Route::get('/{page_url}', 'PageController@getPageByUrl');
 });

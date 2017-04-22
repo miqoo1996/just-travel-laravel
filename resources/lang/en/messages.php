@@ -16,5 +16,8 @@ return [
     'gallery' => 'Gallery',
     'portfolio' => 'Portfolio',
     'hot_tours' => 'Hot Tours',
-    'video_gallery' => 'Video Gallery'
+    'video_gallery' => 'Video Gallery',
+    'pdf_catalogs' => 'PDF Catalogs',
+    'download' => 'Download',
+    'sent_message' => 'Thank you, your message is sent'
 ];

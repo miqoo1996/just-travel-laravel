@@ -16,6 +16,10 @@ return [
     'gallery' => 'Галлерея',
     'portfolio' => 'Портфолио',
     'hot_tours' => 'Горячие Туры',
-    'video_gallery' => 'Видео Галлерея'
+    'video_gallery' => 'Видео Галлерея',
+    'pdf_catalogs' => 'PDF Каталоги',
+    'download' => 'Загрузить',
+    'sent_message' => 'Спасибо, Ваше сообшение отправлено'
+
 
 ];

@@ -1,4 +1,7 @@
 @extends('layouts.regular')
+@section('bodyStyle')
+    pdf
+@endsection
 @section('content')
     <div class="maincont">
         <div class="container">
@@ -9,8 +12,9 @@
                         @if(count($videos))
                             @foreach($videos as $video)
                                 <div class="item">
-                                    <a href="{{$video['video_url_'.app()->getLocale()]}}" target="iframe-player">
-                                        <img src="{{$video['video_thumbnail_'.app()->getLocale()]}}"><span class="play"></span></a>
+                                    <a data-video="{{$video['embed_'.app()->getLocale()]}}" class="video_player" target="iframe-player" data-toggle="modal" data-target="#video_modal">
+                                        <img src="{{$video['video_thumbnail_'.app()->getLocale()]}}"><span
+                                                class="play"></span></a>
                                     <h4>{{$video['video_title_'.app()->getLocale()]}}</h4>
                                 </div>
                             @endforeach
@@ -20,5 +24,13 @@
             </div>
         </div>
     </div>
-    <iframe frameborder="0" name="iframe-player"></iframe>
+
+    <div class="modal fade white" id="video_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-body row text-center">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <iframe src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
 @endsection

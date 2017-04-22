@@ -17,7 +17,7 @@
                         <div class="hottour">
                             <h1>{{$hotTour['tour_name_'.app()->getLocale()]}}</h1>
                             <h3>{{$hotTour['short_desc_'.app()->getLocale()]}}</h3>
-                            <a class="more" href="#">{{trans('messages.im_interested_in')}}</a>
+                            <a class="more" href="{{url('tours/'.$hotTour['tour_url'])}}">{{trans('messages.im_interested_in')}}</a>
                         </div>
                         <div class="header-overlay"></div>
                     </div>

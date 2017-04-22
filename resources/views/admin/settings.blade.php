@@ -88,7 +88,7 @@
                                         Currency Rate (USD)
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="usd" placeholder="USD" @if(null !== $currency) value="{{$currency->usd}} @endif">
+                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="usd" placeholder="USD" @if(null !== $admin_currency) value="{{$admin_currency->usd}} @endif">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -96,7 +96,7 @@
                                         Currency Rate (EUR)
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="eur" placeholder="EUR" @if(null !== $currency) value="{{$currency->eur}} @endif">
+                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="eur" placeholder="EUR" @if(null !== $admin_currency) value="{{$admin_currency->eur}} @endif">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -104,15 +104,7 @@
                                         Currency Rate (RUR)
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="rur" placeholder="RUR" @if(null !== $currency) value="{{$currency->rur}} @endif">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
-                                        Currency Rate (AMD)
-                                    </label>
-                                    <div class="col-md-3 col-sm-3 col-xs-12">
-                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="amd" placeholder="AMD" @if(null !== $currency) value="{{$currency->amd}} @endif">
+                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="rur" placeholder="RUR" @if(null !== $admin_currency) value="{{$admin_currency->rur}} @endif">
                                     </div>
                                 </div>
                                 <div class="form-group">

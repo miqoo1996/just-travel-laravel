@@ -22,7 +22,7 @@ class FooterMenuComposer
         [
             'page_name_en' => 'Photo Gallery',
             'page_name_ru' => 'Фото Галерея',
-            'page_url' => '/photo_gallery',
+            'page_url' => '/galleries',
             'prp' => 'fixed'
         ],
         [

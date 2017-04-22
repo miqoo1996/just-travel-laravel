@@ -22,6 +22,18 @@ class VideoGalleryController extends Controller
         return view('admin.new_video');
     }
 
+    public static function videoUrlOptimize($fields)
+    {
+        $change = [
+            'embed_en' => 'video_url_en',
+            'embed_ru' => 'video_url_ru'
+        ];
+        foreach ($change as $key => $item){
+            $video = explode('watch?v=', $fields[$item]);
+            $fields[$key] = $video[0]. 'embed/' . $video[1];
+        }
+       return $fields;
+    }
     public function adminPostNewVideo(Request $request)
     {
         $rules = [
@@ -32,12 +44,12 @@ class VideoGalleryController extends Controller
         ];
         $this->validate($request, $rules);
         $fields = $request->input();
+        $fields = self::videoUrlOptimize($fields);
         if(isset($request->video_id)){
             $video = VideoGallery::find($request->video_id);
         } else {
             $video = new VideoGallery();
         }
-
         if($request->hasFile('video_thumbnail_en')){
             $image = $request->file('video_thumbnail_en');
             $image_name = uniqid() . config('const.' . $image->getMimeType());

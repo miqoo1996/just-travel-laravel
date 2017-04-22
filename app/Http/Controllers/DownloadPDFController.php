@@ -82,4 +82,10 @@ class DownloadPDFController extends Controller
         $file = DownloadPDF::find($file_id);
         return view('admin.edit_pdf', ['file' => $file]);
     }
+
+    public function getCatalogs()
+    {
+        $catalogs = DownloadPDF::all()->toArray();
+        return view('catalogue', compact('catalogs'));
+    }
 }

@@ -24,14 +24,14 @@ class TourController extends Controller
 {
     public function adminGetToursList()
     {
-        $tours = Tour::select('id', 'tour_category', 'tour_name_en', 'hot', 'tour_url','type' ,'basic_price_adult')->get();
+        $tours = Tour::select('id', 'tour_category', 'tour_name_en', 'hot', 'tour_url', 'type', 'basic_price_adult')->get();
 
 
-        foreach ($tours as $key => $tour){
+        foreach ($tours as $key => $tour) {
             $tour['price'] = $tour->getFirstHotelAdultPrice();
             $data[] = $tour;
         }
-        $data = (isset($data))? $data : false;
+        $data = (isset($data)) ? $data : false;
         return view('admin.tours_list', ['tours' => $data]);
     }
 
@@ -96,7 +96,7 @@ class TourController extends Controller
             $imageChecker = ($fieldsImages == '') ? true : false;
             foreach ($request->file('tour_images') as $item) {
                 $image = $item;
-                if(null !== $image){
+                if (null !== $image) {
                     $image_name = uniqid() . config('const.' . $item->getMimeType());
                     $image->move($tourImagesPathName, $image_name);
                     $fieldsImages .= ($imageChecker) ? $tourImagesPathName . $image_name : ',' . $tourImagesPathName . $image_name;
@@ -131,10 +131,10 @@ class TourController extends Controller
             unset($fields['basic_frequency']);
         }
 
-        if (!isset($request->visibility)){
+        if (!isset($request->visibility)) {
             $fields['visibility'] = 'off';
         }
-        if (!isset($request->hot)){
+        if (!isset($request->hot)) {
             $fields['hot'] = 'off';
         }
 
@@ -157,11 +157,13 @@ class TourController extends Controller
             TourHotel::where('tour_id', $tour->id)->delete();
             if (isset($hotels)) TourHotel::insert($hotels);
         }
-        if(!$isBasic && isset($request->custom_day_desc_en)) {
+        if (!$isBasic && isset($request->custom_day_desc_en)) {
             foreach ($request->custom_day_desc_en as $key => $value) {
                 $tourDay['tour_id'] = $tour->id;
                 $tourDay['desc_en'] = $value;
                 $tourDay['desc_ru'] = $request->custom_day_desc_ru[$key];
+                $tourDay['title_en'] = $request->custom_day_title_en[$key];
+                $tourDay['title_ru'] = $request->custom_day_title_ru[$key];
                 $tourDays[] = $tourDay;
             }
             TourCustomDay::where('tour_id', $tour->id)->delete();
@@ -218,7 +220,7 @@ class TourController extends Controller
         TourHotel::where('tour_id', $tour->id)->delete();
         if (isset($hotels)) TourHotel::insert($hotels);
 
-        if(isset($request->custom_day_desc_en)) {
+        if (isset($request->custom_day_desc_en)) {
             foreach ($request->custom_day_desc_en as $key => $value) {
                 $tourDay['tour_id'] = $tour->id;
                 $tourDay['desc_en'] = $value;
@@ -237,7 +239,7 @@ class TourController extends Controller
         $tour = Tour::find($tour_id);
         $tour['custom_days'] = $tour->getCustomDays();
         $tour['hotels'] = $tour->getHotels();
-        $tour['hotels'] = ($tour['hotels']->isEmpty())? false: $tour['hotels'];
+        $tour['hotels'] = ($tour['hotels']->isEmpty()) ? false : $tour['hotels'];
         $tour['tour_images'] = explode(',', $tour->tour_images);
         $data['tour'] = $tour;
         return view('admin.edit_custom_tour', $data);
@@ -253,14 +255,23 @@ class TourController extends Controller
 
     public function getTourByUrl($tour_url)
     {
-        $tour = Tour::where('tour_url', $tour_url)->first();
-        $tour->getCategories();
-        $tour = $tour->toArray();
-        return view('tour_details_1', compact('tour'));
+        $tour = Tour::where('tour_url', $tour_url)
+            ->join('tour_cat_rels', 'tours.id', '=', 'tour_cat_rels.tour_id')
+            ->join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
+            ->first();
+        $data['tour'] = $tour->toArray();
+        if($tour['property'] !== 'basic'){
+            $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
+                ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
+            $data['days'] = TourCustomDay::where('tour_id', $tour['tour_id'])->get()->toArray();
+            return view('tour_details_custom', $data);
+        }
+        return view('tour_details_basic', $data);
     }
 
     public function getTours()
     {
-        dd('tours page works fine');
+        $tour = TourCatRel::join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')->orderBy('tour_cat_rels.id', 'desc')->first();
+        return redirect($tour->url);
     }
 }

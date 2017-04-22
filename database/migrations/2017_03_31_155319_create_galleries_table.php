@@ -21,6 +21,7 @@ class CreateGalleriesTable extends Migration
             $table->text('gallery_desc_ru');
             $table->string('gallery_url');
             $table->string('main_image')->nullable();
+            $table->enum('gallery', array('on', 'off'))->default('off');
             $table->enum('portfolio', array('on', 'off'))->default('off');
         });
     }

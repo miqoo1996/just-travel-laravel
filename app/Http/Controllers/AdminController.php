@@ -191,7 +191,7 @@ class AdminController extends Controller
     public function adminGetSettings()
     {
         $currency = Currency::first();
-        return view('admin.settings', ['currency' => $currency]);
+        return view('admin.settings', ['admin_currency' => $currency]);
     }
 
     public function adminPostResetPassword(Request $request)

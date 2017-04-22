@@ -6,6 +6,19 @@ $(document).ready( function () {
     });
 
     tourCategoryViewer();
+
+    $('.video_player').on('click', function(){
+        var videoSRC = $(this).attr("data-video"),
+            videoSRCauto = videoSRC + "?autoplay=1";
+        $('#video_modal iframe').attr('src', videoSRCauto);
+        $('video_modal button.close').click(function () {
+            $(theModal + ' iframe').attr('src', videoSRC);
+        });
+        $("#video_modal").on('hidden.bs.modal', function (e) {
+            $("#video_modal iframe").attr("src", "");
+        });
+    });
+
 });
 
 function tourCategoryViewer(){
@@ -26,3 +39,4 @@ function tourCategoryViewer(){
         });
     })
 }
+

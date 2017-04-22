@@ -17,6 +17,8 @@ class CreateVideoGalleriesTable extends Migration
             $table->timestamps();
             $table->string('video_url_en');
             $table->string('video_url_ru');
+            $table->string('embed_en');
+            $table->string('embed_ru');
             $table->string('video_title_en');
             $table->string('video_title_ru');
             $table->string('video_thumbnail_en');

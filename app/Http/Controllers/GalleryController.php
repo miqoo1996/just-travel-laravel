@@ -72,7 +72,7 @@ class GalleryController extends Controller
 
     public function getGalleries()
     {
-        $galleries = Gallery::where('portfolio', 'off')->get()->toArray();
+        $galleries = Gallery::where('gallery', 'on')->get()->toArray();
         $type = 'gallery';
         return view('galleries', compact('galleries', 'type'));
     }
@@ -86,7 +86,7 @@ class GalleryController extends Controller
 
     public function getGalleryByUrl($url)
     {
-        $gallery = Gallery::where('portfolio', 'off')->where('gallery_url', $url)->first();
+        $gallery = Gallery::where('gallery', 'on')->where('gallery_url', $url)->first();
         if(null !== $gallery){
             $gallery = $gallery->toArray();
             $images = GalleryPhotos::where('gallery_id', $gallery['id'])->get()->toArray();

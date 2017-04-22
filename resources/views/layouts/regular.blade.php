@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{csrf_token()}}">
-    <title>PriceFree</title>
+    <title>@yield('title')</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="icon" href="images/favicon.png" type="image/x-icon" />
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/default.css')}}">
-
+    @yield('style')
 </head>
 <body class="page-inside @yield('bodyStyle')">
 <span class="burger"></span>

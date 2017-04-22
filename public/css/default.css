@@ -354,6 +354,9 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .main-gallery .item .play{ position:absolute; top:60px; left:50%; width:56px; height:56px; margin:0 0 0 -28px; background:url(../images/play.svg) left top no-repeat; background-size:56px; opacity:0.6}
 .main-gallery .item:hover .play{opacity:1; transition:all ease 0.5s;}
 
+#video_modal .modal-body{background: rgba(255,255,255,0.5);padding: 15px; position: relative;height: 100vh;max-height: 356px;}
+#video_modal .modal-body iframe{position: absolute;left: 10px;right: 10px;top: 20px;bottom: 10px;width: calc(100% - 20px);height: calc(100% - 30px);}
+#video_modal button.close{position: absolute; top: 0; right: 5px}
 /*Portfolio*/
 .fortfolio-info{ background:#FFF; padding:15px; max-width:930px; margin:0 auto 10px; text-align:left;}
 
