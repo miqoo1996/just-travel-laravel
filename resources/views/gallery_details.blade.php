@@ -10,7 +10,7 @@
                     <h1><a href="{{url($backUrl)}}">{{trans($backName)}}</a>
                         / {{$gallery['gallery_name_'.app()->getLocale()]}}</h1>
                     @if(!empty($gallery['gallery_desc_'.app()->getLocale()]))
-                        <div class="fortfolio-info">{{$gallery['gallery_desc_'.app()->getLocale()]}}</div>
+                        <div class="fortfolio-info">{!!$gallery['gallery_desc_'.app()->getLocale()]!!}</div>
                     @endif
 
                     <div class="main-gallery">

@@ -17,7 +17,8 @@
                         <div class="hottour">
                             <h1>{{$hotTour['tour_name_'.app()->getLocale()]}}</h1>
                             <h3>{{$hotTour['short_desc_'.app()->getLocale()]}}</h3>
-                            <a class="more" href="{{url('tours/'.$hotTour['tour_url'])}}">{{trans('messages.im_interested_in')}}</a>
+                            <a class="more"
+                               href="{{url('tours/'.$hotTour['tour_url'])}}">{{trans('messages.im_interested_in')}}</a>
                         </div>
                         <div class="header-overlay"></div>
                     </div>
@@ -28,41 +29,30 @@
         <div class="filter-search">
             <div class="container search-cont">
                 <div class="row">
-                    <form>
-                        <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
-                            <input class="datepicker" type="text" placeholder="Date from">
-                        </div>
-                        <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
-                            <input class="datepicker" type="text" placeholder="Date from">
-                        </div>
-                        <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                    English
-                                    <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Excursion tours</a></li>
-                                    <li class="active"><a href="#">Daily tours</a></li>
-                                    <li><a href="#">Holiday tours</a></li>
-                                    <li><a href="#">Ski tours</a></li>
-                                    <li><a href="#">Health & SPA tours</a></li>
-                                    <li><a href="#">Hot tours</a></li>
-                                    <li><a href="#">Gastronomic tours</a></li>
-                                    <li><a href="#">Cultural tours</a></li>
-                                    <li><a href="#">Active holidays</a></li>
-                                    <li><a href="#">Religious tours</a></li>
-                                    <li><a href="#">Children tours</a></li>
-                                    <li><a href="#">Wedding tours</a></li>
-                                    <li><a href="#">Family tours</a></li>
-                                    <li><a href="#">VIP tours</a></li>
-                                </ul>
+                    <form id="tour_search_index">
+                        <div class="input-daterange">
+                            <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
+                                <input type="text" id="date_start" class="input-sm form-control datepicker" name="start"
+                                       placeholder="{{trans('messages.date_from')}}">
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
+                                <input type="text" id="date_end" class="input-sm form-control datepicker" name="end"
+                                       placeholder="{{trans('messages.date_to')}}">
                             </div>
                         </div>
+                        <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
+                            <select name="tour_category" class="form-control" id="tour_category_selector">
+                                <option value="">{{trans('messages.all_categories')}}</option>
+                                @foreach($tourCategories as $tc)
+                                    <option value="{{$tc['id'].'/'.$tc['property']}}">{{$tc['category_name_'.app()->getLocale()]}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-md-4 col-sm-6 col-xs-12 filteritem">
-                            <input class="search-field" type="text" placeholder="Search by keywords">
+                            <input class="search-field" type="text" placeholder="{{trans('messages.search_by_keywords')}}" name="tags" id="tags">
                         </div>
                         <div class="col-md-2 col-sm-12 col-xs-12 filteritem">
-                            <input type="submit" value="Search">
+                            <input type="button" id="search_tours" value="{{trans('messages.search')}}">
                         </div>
                     </form>
                 </div>
@@ -168,4 +158,18 @@
             </div>
         @endif
     </div>
+@endsection
+@section('script')
+    <script>
+    $('.input-daterange').datepicker({
+            format: "dd/mm/yyyy",
+            startDate: "d",
+            maxViewMode: 0,
+            language: "{{app()->getLocale()}}",
+            multidate: false
+        });
+
+
+    </script>
+
 @endsection

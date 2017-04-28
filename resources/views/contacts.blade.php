@@ -8,15 +8,14 @@
     <div class="maincont">
         <div class="container">
             <div class="row contacts">
-                <h1>Contacts</h1>
+                <h1>{{trans('messages.contacts')}}</h1>
                 <p>
-                    Yerevan 0001, Armenia, 21a Sayat Nova ave.<br/>
-                    +374 55 007 404 / 095 111 610 / info@justtravel.am
+                   {!! trans('messages.address_text') !!}
                 </p>
-                <h2>Feedback Form</h2>
+                <h2>{{trans('messages.feedback_form')}}</h2>
                 <form action="{{url('/contacts')}}" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="{{trans('messages.name')}}">
                     </div>
                     @if(!empty($errors->has('email')))
                         <div class="form-group message error">
@@ -26,7 +25,7 @@
                     @else
                         <div class="form-group">
                             <input type="email" class="form-control" name="email" id="email"
-                                   placeholder="Email Address *">
+                                   placeholder="{{trans('messages.email_address') . ' *'}}">
                         </div>
                     @endif
                     @if(!empty($errors->has('message')))
@@ -37,11 +36,11 @@
                     @else
                         <div class="form-group">
                         <textarea class="form-control" rows="5" name="message" id="comment"
-                                  placeholder="Message *"></textarea>
+                                  placeholder="{{trans('messages.message') . ' *'}}"></textarea>
                         </div>
                     @endif
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
-                    <button type="submit" class="btn btn-warning">Submit</button>
+                    <button type="submit" class="btn btn-warning">{{trans('messages.submit')}}</button>
                 </form>
             </div>
         </div>

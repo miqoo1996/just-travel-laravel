@@ -89,9 +89,9 @@
                             <li>
                                 <a href="{{route('admin-pdf-list')}}"><i class="fa fa-file-pdf-o"></i>Download PDF's</a>
                             </li>
-                            <li>
-                                <a href="{{route('admin-guide-list')}}"><i class="fa fa-bullhorn"></i>Guides</a>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a href="{{route('admin-guide-list')}}"><i class="fa fa-bullhorn"></i>Guides</a>--}}
+                            {{--</li>--}}
                             <li>
                                 <a href="{{route('admin-settings')}}"><i class="fa fa-gears"></i>Settings</a>
                             </li>

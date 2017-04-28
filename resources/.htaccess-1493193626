@@ -1,0 +1,5 @@
+# BEGIN custom php.ini PHP54
+<IfModule mod_suphp.c>
+    suPHP_ConfigPath /home/justtrav/new.justtravel.am
+</IfModule>
+# END custom php.ini

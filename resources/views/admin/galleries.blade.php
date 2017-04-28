@@ -35,6 +35,8 @@
                                 <thead>
                                 <tr>
                                     <th>Photo Gallery Name</th>
+                                    <th>Gallery</th>
+                                    <th>Portfolio</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -43,7 +45,9 @@
                                 <tbody>
                                 @foreach($galleries as $gallery)
                                 <tr id="cnt-{{$gallery->id}}">
-                                    <td>{{$gallery->gallery_name}}</td>
+                                    <td>{{$gallery->gallery_name_en}}</td>
+                                    <td>{{$gallery->gallery}}</td>
+                                    <td>{{$gallery->portfolio}}</td>
                                     <td style="text-align:right;">
                                         <a href="{{route('admin-edit-gallery', ['gallery_id' => $gallery->id])}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                         <a href="#" class="btn btn-danger btn-xs remove" id="{{$gallery->id}}/gallery" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
@@ -79,7 +83,7 @@
                     <h4 class="modal-title">Are you sure?</h4>
                 </div>
                 <div class="modal-body row text-center">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>
                     <button type="button" class="btn btn-success" id="confirm">Yes</button>
                 </div>
             </div>

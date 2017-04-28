@@ -125,13 +125,13 @@
 
                         <div class="checkbox-custom">
                             <label>
-                                <input type="checkbox" class="flat" name="visibility"> Visible on Right menu
+                                <input type="checkbox" class="flat" name="visibility" @if($page->visibility == 'on') checked="checked" @endif> Visible on Right menu
                             </label>
                         </div>
                         <br>
                         <div class="checkbox-custom">
                             <label>
-                                <input type="checkbox" class="flat" name="footer"> Visible on Footer menu
+                                <input type="checkbox" class="flat" name="footer" @if($page->footer == 'on') checked="checked" @endif> Visible on Footer menu
                             </label>
                         </div>
 

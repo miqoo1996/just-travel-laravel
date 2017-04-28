@@ -44,9 +44,11 @@
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>
-
                                 <div class="x-content">
-                                    <textarea name="gallery_desc_en" id="desc_en"></textarea>
+                                    <textarea class="tinymce" name="gallery_desc_ru"
+                                              id="desc_en">{{$gallery->gallery_desc_en}}</textarea>
+                                </div>
+                                <div class="x-content">
                                 </div>
                             </div>
                             <!--tab content end-->
@@ -70,7 +72,9 @@
                                 </div>
 
                                 <div class="x-content">
-                                    <textarea name="gallery_desc_ru" id="desc_en"></textarea>
+                                    <div class="x-content">
+                                        <textarea class="tinymce" name="gallery_desc_ru" id="desc_en"></textarea>
+                                    </div>
                                 </div>
                             </div>
                             <!--tab content end-->
@@ -82,8 +86,7 @@
                 <div class="x_panel">
                     <p>Drag multiple images to the box below for multi upload or click to select files. Required maximum
                         with for images should be 1000px.</p>
-                    {{--<div class="dropzone dz-clickable dz-started" id="hotel_images_dropzone"></div>--}}
-                    {{--<div id="dropzone-hidden-area"></div>--}}
+
                     <p>
                         <label for="files" class="admin-image-label">
                             <input type="file" name="files[]" multiple id="files" class="admin-image-upload">
@@ -131,7 +134,7 @@
                                     <ins class="iCheck-helper"
                                          style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                                 </div>
-                                <span>Portfolio</span> </label>
+                                <span>Gallery</span> </label>
                         </div>
                     </div>
                     <br/>

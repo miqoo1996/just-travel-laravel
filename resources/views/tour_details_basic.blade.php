@@ -1,4 +1,7 @@
 @extends('layouts.regular')
+@section('bodyStyle')
+    page-tours-details
+@endsection
 @section('content')
     <div class="maincont whitebg">
         <div class="container tour-details">
@@ -22,9 +25,9 @@
                     </span>
                     <div class="clearfix"></div>
                     <div class="pricebyperson">
-                        <span class="item"><span>{{$tour['basic_price_adult']/$currency[$currency['currency']]}}</span>Adults (12-99)</span>
-                        <span class="item"><span>{{$tour['basic_price_child']/$currency[$currency['currency']]}}</span>Child (4-11)</span>
-                        <span class="item"><span>{{$tour['basic_price_infant']/$currency[$currency['currency']]}}</span>Infants (0-4)</span>
+                        <span class="item"><span>{{$tour['basic_price_adult']/$currency[$currency['currency']]}}</span>{{trans('messages.adults')}} (12-99)</span>
+                        <span class="item"><span>{{$tour['basic_price_child']/$currency[$currency['currency']]}}</span>{{trans('messages.child')}} (4-11)</span>
+                        <span class="item"><span>{{$tour['basic_price_infant']/$currency[$currency['currency']]}}</span>{{trans('messages.infants')}} (0-4)</span>
                     </div>
                     <h3 class="frequency">Frequency</h3>
                     <div class="frequency">
@@ -47,20 +50,20 @@
 
                     <div class="row">
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <label for="example-text-input" class="col-form-label">Date</label>
+                            <label for="example-text-input" class="col-form-label">{{trans('messages.date')}}</label>
                             <input class="datepicker" type="text" placeholder="Date from">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <label for="example-text-input" class="col-form-label">Adults (12-99)</label>
-                            <input class="" type="text" placeholder="Date to" value="1">
+                            <label for="example-text-input" class="col-form-label">{{trans('messages.adults')}} (12-99)</label>
+                            <input class="" type="text" placeholder="" value="1">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <label for="example-text-input" class="col-form-label">Child (5-11)</label>
-                            <input class="" type="text" placeholder="Date to">
+                            <label for="example-text-input" class="col-form-label">{{trans('message.child')}} (5-11)</label>
+                            <input class="" type="text" placeholder="">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <label for="example-text-input" class="col-form-label">Infants (0-4)</label>
-                            <input class="" type="text" placeholder="Date to">
+                            <label for="example-text-input" class="col-form-label">{{trans('message.infants')}} (0-4)</label>
+                            <input class="" type="text" placeholder="">
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
                             <label for="example-text-input" class="col-form-label">&nbsp;</label>
@@ -76,117 +79,37 @@
         <div class="container tour-description-container">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <h3>Tour Description</h3>
+                    <h3>{{trans('messages.tour_description')}}</h3>
                     <div class="tour-description">
                         <p>
-                            The tour starts at 7am early in the morning. You will have breakfast on the road. The first
-                            stop is Khor Virap, which is the closest place to mount Ararat. You will then continue to
-                            Areni wine factory where you can enjoy wine tasting. After tasting why not buy some of the
-                            local produce.
+                            {!! $tour['desc_'. app()->getLocale()] !!}
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
-
+        @if(!empty($tour['tour_images']))
         <div class="greybg gallery-container">
             <div class="container">
-                <h1>Gallery</h1>
-                <div class="item">
-                    <a href="#"><img src="images/tours/gallery-tatev/01.jpg" alt="Tour Name" width="300"
-                                     height="190"></a>
-                </div>
-                <div class="item">
-                    <a href="#"><img src="images/tours/gallery-tatev/02.jpg" alt="Tour Name" width="300"
-                                     height="190"></a>
-                </div>
-                <div class="item">
-                    <a href="#"><img src="images/tours/gallery-tatev/03.jpg" alt="Tour Name" width="300"
-                                     height="190"></a>
-                </div>
-                <div class="item">
-                    <a href="#"><img src="images/tours/gallery-tatev/04.jpg" alt="Tour Name" width="300"
-                                     height="190"></a>
-                </div>
-                <div class="item">
-                    <a href="#"><img src="images/tours/gallery-tatev/05.jpg" alt="Tour Name" width="300"
-                                     height="190"></a>
-                </div>
-                <div class="item">
-                    <a href="#"><img src="images/tours/gallery-tatev/06.jpg" alt="Tour Name" width="300"
-                                     height="190"></a>
-                </div>
+                <h1>{{trans('messages.gallery')}}</h1>
+                @foreach($tour['tour_images'] as $image)
+                    <div class="item">
+                        <a href="{{url($image)}}" data-lightbox="gallery_trip">
+                            <img src="{{'/'.$image}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300" height="190">
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
-
-
-        <div class="popular-tours hotels">
-            <div class="container">
-                <h2>Hot Tours</h2>
-
-                <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/sevan.jpg"/>
-                        <span class="tour-title">Sevan Lake</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="tourdate">12.12.2017</div>
-                        <div class="price" data-toggle="tooltip" data-placement="top"
-                             title="241.110 &#1423; / 26.300 &#8381; / 400 &euro;">$70.00
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-
-                <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/tatev.jpg">
-                        <span class="tour-title">Tatev Monastery</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="frequency">
-                            <span class="freq-day available">M</span>
-                            <span class="freq-day">T</span>
-                            <span class="freq-day available">W</span>
-                            <span class="freq-day available">T</span>
-                            <span class="freq-day">F</span>
-                            <span class="freq-day available">S</span>
-                            <span class="freq-day">S</span>
-                        </div>
-                        <div class="price" data-toggle="tooltip" data-placement="top"
-                             title="241.110 &#1423; / 26.300 &#8381; / 400 &euro;">$70.00
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-
-                <!--Tour Itwm-->
-                <div class="item">
-                    <a href="tour-details.html" class="tour-photo">
-                        <img src="images/tours/history-museum.jpg">
-                        <span class="tour-title">Armenian Historical Museum</span>
-                    </a>
-                    <div class="tour-data">
-                        <div class="frequency">
-                            <span class="freq-day available">M</span>
-                            <span class="freq-day">T</span>
-                            <span class="freq-day available">W</span>
-                            <span class="freq-day available">T</span>
-                            <span class="freq-day">F</span>
-                            <span class="freq-day available">S</span>
-                            <span class="freq-day">S</span>
-                        </div>
-                        <div class="price" data-toggle="tooltip" data-placement="top"
-                             title="241.110 &#1423; / 26.300 &#8381; / 400 &euro;">$70.00
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        @endif
+        @include('includes.hot_tours')
     </div>
+@endsection
+@section('style')
+    <link rel="stylesheet" href="{{asset('css/lightbox.min.css')}}">
+@endsection
+
+@section('script')
+    <script src="{{asset('js/lightbox-plus-jquery.min.js')}}"></script>
 @endsection

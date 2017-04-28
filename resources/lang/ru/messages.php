@@ -19,7 +19,23 @@ return [
     'video_gallery' => 'Видео Галлерея',
     'pdf_catalogs' => 'PDF Каталоги',
     'download' => 'Загрузить',
-    'sent_message' => 'Спасибо, Ваше сообшение отправлено'
-
-
+    'sent_message' => 'Спасибо, Ваше сообшение отправлено',
+    'contacts' => 'Контакты',
+    'address_text' => 'Ереван 0001, Армения, 21а Саят Нова проп.<br/>
+                    +374 55 007 404 / 095 111 610 / info@justtravel.am',
+    'feedback_form' => 'Форма для обратной связи',
+    'name' => 'Имя',
+    'email_address' => 'Электронный адрес',
+    'message' => 'Сообшение',
+    'submit' => 'Отправить',
+    'day' => 'День',
+    'date' => 'Дата',
+    'date_from' => 'От',
+    'date_to' => 'До',
+    'search_by_keywords' => 'Искать по Ключевым словам',
+    'search' => 'Поиск',
+    'all_categories' => 'Все Категории',
+    'adult_short' => 'Взр',
+    'child_short' => 'Реб',
+    'infant_short' => 'Млад',
 ];

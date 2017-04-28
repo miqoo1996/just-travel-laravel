@@ -39,7 +39,12 @@ return [
         '3_star' => 'stars3',
         '2_star' => 'stars2',
         '1_star' => ''
-    ]
-
-
+    ],
+    'adult_key_1' => 'single',
+    'adult_key_2' => 'double',
+    'adult_key_3' => 'triple',
+    'currency_amd' => '&#1423;',
+    'currency_usd' => '$',
+    'currency_eur' => '€',
+    'currency_rur' => '&#8381;',
 ];

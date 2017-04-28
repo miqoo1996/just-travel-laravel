@@ -48,7 +48,7 @@
                                         <td></td>
                                         <td></td>
                                         <td style="text-align:right;">
-                                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                                            <a href="{{url('hotels/'.$hotel->hotel_url)}}" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-folder"></i> View </a>
                                             <a href="{{url('/admin/edit-hotel/' . $hotel->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                             <a href="#" class="btn btn-danger btn-xs remove" id="{{$hotel->id}}/hotel" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
                                         </td>
@@ -82,7 +82,7 @@
                     <h4 class="modal-title">Are you sure?</h4>
                 </div>
                 <div class="modal-body row text-center">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>
                     <button type="button" class="btn btn-success" id="confirm">Yes</button>
                 </div>
             </div>

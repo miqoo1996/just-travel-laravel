@@ -8,7 +8,7 @@
     <title>@yield('title')</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link rel="icon" href="images/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="{{asset('images/favicon.png')}}" type="image/x-icon"/>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/default.css')}}">
@@ -23,7 +23,7 @@
 </div>
 <div class="header-dd">
     <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">USD
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{strtoupper($currency['currency'])}}
             <span class="caret"></span></button>
         <ul class="dropdown-menu">
             @foreach(config('const.currencies') as $cur)

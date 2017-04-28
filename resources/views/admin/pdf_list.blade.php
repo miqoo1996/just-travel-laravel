@@ -32,13 +32,16 @@
                                 <tbody>
                                 @if(null !== $files)
                                     @foreach($files as $file)
-                                <tr class="cnt-{{$file->id}}">
-                                    <td>{{$file->pdf_name_en}}</td>
-                                    <td style="text-align:right;">
-                                        <a href="{{url('admin/edit-pdf/'.$file->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                        <a href="#" class="btn btn-danger btn-xs remove" id="{{$file->id}}/pdf" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
-                                    </td>
-                                </tr>
+                                        <tr id="cnt-{{$file->id}}">
+                                            <td>{{$file->pdf_name_en}}</td>
+                                            <td style="text-align:right;">
+                                                <a href="{{url('admin/edit-pdf/'.$file->id)}}"
+                                                   class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                <a href="#" class="btn btn-danger btn-xs remove" id="{{$file->id}}/pdf"
+                                                   data-toggle="modal" data-target="#delete_modal"><i
+                                                            class="fa fa-trash-o"></i> Delete </a>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 @endif
                                 </tbody>
@@ -61,7 +64,7 @@
                     <h4 class="modal-title">Are you sure?</h4>
                 </div>
                 <div class="modal-body row text-center">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>
                     <button type="button" class="btn btn-success" id="confirm">Yes</button>
                 </div>
             </div>

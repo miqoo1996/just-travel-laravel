@@ -13,6 +13,7 @@ class Gallery extends Model
         'gallery_desc_ru',
         'gallery_url',
         'main_image',
+        'gallery',
         'portfolio'
     ];
 

@@ -15,21 +15,29 @@ $(document).ready( function () {
             newCount = childrenCount + 1;
 
         $(container_en).append("<div class='custom_day'>"+
-        "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Day " + newCount+ "</label>"+
-            "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10'>"+
-            "<input type='text' class='form-control input-medium' name='custom_day_title_en[]'"+
-        "placeholder='title'></div>"+
-        "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10'>"+
-        "<textarea class='resizable_textarea form-control' placeholder='' name='custom_day_desc_en[]'></textarea>"+
-        "</div><div class='clearfix'></div></div>");
+                                    "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Day " + newCount+ "</label>"+
+                                    "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10'>"+
+                                        "<input type='text' class='form-control input-medium' name='custom_day_title_en[]' placeholder='title'>" +
+                                    "</div>"+
+                                    "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3'>"+
+                                        "<textarea class='resizable_textarea form-control' placeholder='' name='custom_day_desc_en[]'></textarea>"+
+                                    "</div>" +
+                                    "<div class='clearfix'></div>" +
+                                "</div>");
 
         var container_ru = $('#custom_day_container_ru');
 
         $(container_ru).append("<div class='custom_day'>"+
-            "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Day " + newCount+ "</label>"+
-            "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10'>"+
-            "<textarea class='resizable_textarea form-control' placeholder='' name='day_ru[]'></textarea>"+
-            "</div><div class='clearfix'></div></div>")
+                                    "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Day " + newCount+ "</label>"+
+                                    "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10'>"+
+                                        "<input type='text' class='form-control input-medium' name='custom_day_title_ru[]' placeholder='title'>" +
+                                    "</div>"+
+                                    "<div class='col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3'>"+
+                                        "<textarea class='resizable_textarea form-control' placeholder='' name='custom_day_desc_ru[]'></textarea>"+
+                                    "</div>" +
+                                    "<div class='clearfix'></div>" +
+                                "</div>");
+
     });
     $('.remove_day').on("click", function(){
         var container_en = $('#custom_day_container_en'),
@@ -96,10 +104,14 @@ $(document).ready( function () {
         });
 
     });
-
+    var d, container;
     $(".remove").on("click", function(){
-        var d = $(this).attr('id').split('/');
-        var container = $('#cnt-'+ d[0]);
+        d = $(this).attr('id').split('/');
+        container = $('#cnt-'+ d[0]);
+        $("#cancel").on("click", function(){
+            d = null;
+            container = null;
+        });
         $("#confirm").on("click", function(){
             $.ajax({
                 url:'/admin/remove-data',
@@ -110,7 +122,6 @@ $(document).ready( function () {
                 },
 
                 success: function (data) {
-                    console.log(data);
                     if(data == 'true'){
                         $('#delete_modal').modal('hide');
                         $(container).fadeOut( "slow", function() {

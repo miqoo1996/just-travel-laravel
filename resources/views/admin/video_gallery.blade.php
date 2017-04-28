@@ -65,7 +65,7 @@
                     <h4 class="modal-title">Are you sure?</h4>
                 </div>
                 <div class="modal-body row text-center">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>
                     <button type="button" class="btn btn-success" id="confirm">Yes</button>
                 </div>
             </div>

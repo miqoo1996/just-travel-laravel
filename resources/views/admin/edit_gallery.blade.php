@@ -48,7 +48,7 @@
                                 </div>
 
                                 <div class="x-content">
-                                    <textarea name="gallery_desc_en"
+                                    <textarea class="tinymce" name="gallery_desc_en"
                                               id="desc_en">{{$gallery->gallery_desc_en}}</textarea>
                                 </div>
                             </div>
@@ -73,8 +73,10 @@
                                 </div>
 
                                 <div class="x-content">
-                                    <textarea name="gallery_desc_ru"
-                                              id="desc_en">{{$gallery->gallery_desc_ru}}</textarea>
+                                    <div class="x-content">
+                                        <textarea class="tinymce" name="gallery_desc_ru" id="desc_en">{{$gallery->gallery_desc_ru}}</textarea>
+                                    </div>
+
                                 </div>
                             </div>
                             <!--tab content end-->
@@ -134,25 +136,24 @@
                                            class="flat"
                                            name="portfolio"
                                            id="visibility"
-                                           style="position: absolute; opacity: 0;"
-                                           @if($gallery->portfolio == 'on') checked="checked" @endif>
+                                           style="position: absolute; opacity: 0;" @if($gallery->portfolio == 'on') checked="checked" @endif>
                                     <ins class="iCheck-helper"
                                          style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                                 </div>
-                                <div class="checkbox-custom">
-                                    <label class="">
-                                        <div class="icheckbox_flat-green" style="position: relative;">
-                                            <input type="checkbox"
-                                                   class="flat"
-                                                   name="gallery"
-                                                   id="visibility"
-                                                   style="position: absolute; opacity: 0;">
-                                            <ins class="iCheck-helper"
-                                                 style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" @if($gallery->gallery == 'on') checked="checked" @endif></ins>
-                                        </div>
-                                        <span>Portfolio</span> </label>
-                                </div>
                                 <span>Portfolio</span> </label>
+                        </div>
+                        <div class="checkbox-custom">
+                            <label class="">
+                                <div class="icheckbox_flat-green" style="position: relative;">
+                                    <input type="checkbox"
+                                           class="flat"
+                                           name="gallery"
+                                           id="visibility"
+                                           style="position: absolute; opacity: 0;" @if($gallery->gallery == 'on') checked="checked" @endif>
+                                    <ins class="iCheck-helper">
+                                    </ins>
+                                </div>
+                                <span>Gallery</span> </label>
                         </div>
                     </div>
                     <br/>

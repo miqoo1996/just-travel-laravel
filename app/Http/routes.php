@@ -86,5 +86,8 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('/catalogue', 'DownloadPDFController@getCatalogs');
     Route::get('/contacts', 'ContactController@getContacts');
     Route::post('/contacts', 'ContactController@postContacts');
+    Route::post('/main_search', 'TourController@postSearchTours');
+    Route::post('/tour_detail_search', 'TourController@postSearchCustomTour');
+
     Route::get('/{page_url}', 'PageController@getPageByUrl');
 });

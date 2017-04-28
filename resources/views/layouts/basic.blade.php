@@ -8,10 +8,11 @@
     <title>JustTravel</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link rel="icon" href="images/favicon.png" type="image/x-icon"/>
+    <link rel="icon" href="{{asset('images/favicon.png')}}" type="image/x-icon"/>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/default.css')}}">
+    <link rel="stylesheet" href={{asset("vendors/bootstrap-datepicker/css/bootstrap-datepicker.css")}}>
 
 </head>
 <body>
@@ -98,9 +99,10 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{asset('js/jquery-1.11.3.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.js')}}"></script>
+<script src="{{asset("vendors/bootstrap-datepicker/js/bootstrap-datepicker.js")}}"></script>
 <script src="{{asset('js/custom.js')}}"></script>
 <script src="{{asset('js/script.js')}}"></script>
-
+@yield('script')
 
 </body>
 </html>

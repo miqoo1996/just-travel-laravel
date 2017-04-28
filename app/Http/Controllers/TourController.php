@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\HotelCalculator;
 use App\TourCatRel;
-use ClassPreloader\Config;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -12,12 +12,9 @@ use App\Hotel;
 use App\TourCategory;
 use App\TourCustomDay;
 use App\TourHotel;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\View;
 
 
 class TourController extends Controller
@@ -140,7 +137,6 @@ class TourController extends Controller
 
         $tour->fill($fields);
         $tour->save();
-
         if (!$isBasic) {
             $tourHotels = $fields['hotel'];
             foreach ($tourHotels['hotel_id'] as $key => $value) {
@@ -259,6 +255,7 @@ class TourController extends Controller
             ->join('tour_cat_rels', 'tours.id', '=', 'tour_cat_rels.tour_id')
             ->join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
             ->first();
+        $tour->tour_images = explode(',', $tour->tour_images);
         $data['tour'] = $tour->toArray();
         if($tour['property'] !== 'basic'){
             $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
@@ -273,5 +270,31 @@ class TourController extends Controller
     {
         $tour = TourCatRel::join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')->orderBy('tour_cat_rels.id', 'desc')->first();
         return redirect($tour->url);
+    }
+
+//    public function postSearchTours(Request $request)
+//    {
+//       if(empty($request->category){
+//           $tours =
+//       }
+//    }
+
+    public function postSearchCustomTour(Request $request)
+    {
+        $adult = (intval($request->adult) < 1)? 1 : intval($request->adult);
+        $child = (intval($request->child) < 0)? 0 : intval($request->child);
+        $infant = (intval($request->infant) < 0)? 0 : intval($request->infant);
+        $hotelCalculator = HotelCalculator::calc($adult, $child, $infant);
+        if(null == $hotelCalculator){
+            return View::make('ajax_views.many_adults_form');
+        }
+        $data['adult'] = $adult;
+        $data['child'] = $child;
+        $data['infant'] = $infant;
+        $data['rooms'] = $hotelCalculator;
+        $data['days'] = TourCustomDay::where('tour_id', $request->tour_id)->get()->toArray();
+        $data['hotels'] = TourHotel::where('tour_id', $request->tour_id)
+            ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
+        return View::make('ajax_views.tour_details_hotels', $data);
     }
 }

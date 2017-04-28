@@ -32,7 +32,7 @@ class CreateToursTable extends Migration
             $table->string('specific_days')->nullable();
             $table->string('custom_day_prp')->nullable();
             $table->string('custom_dates')->nullable();
-            $table->string('tour_images')->nullable();
+            $table->text('tour_images')->nullable();
             $table->string('main_image')->nullable();
             $table->string('hot_image')->nullable();
             $table->enum('visibility', ['on', 'off'])->default('off');

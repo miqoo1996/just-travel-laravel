@@ -22,6 +22,9 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer(
             'includes.footer_menu', 'App\Http\ViewComposers\FooterMenuComposer'
         );
+        view()->composer(
+            'includes.hot_tours', 'App\Http\ViewComposers\HotToursComposer'
+        );
     }
 
     /**

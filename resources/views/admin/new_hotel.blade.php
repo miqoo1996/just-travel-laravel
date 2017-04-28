@@ -245,10 +245,11 @@
                     </div>
                     <div class="x_content">
                         <p>Drag multiple images to the box below for multi upload or click to select files. Required maximum with for images should be 1000px.</p>
-                        {{--<div class="dropzone dz-clickable dz-started" id="hotel_images_dropzone"></div>--}}
-                        {{--<div id="dropzone-hidden-area"></div>--}}
+
                         <p>
-                            <input type="file" name="files[]" multiple id="files">
+                            <label for="files" class="admin-image-label">
+                                <input type="file" name="files[]" multiple id="files" class="admin-image-upload">
+                            </label>
                         </p>
                         <br />
                         <h2>Main Image (Optimal size is 350x200px)</h2>

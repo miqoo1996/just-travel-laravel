@@ -467,7 +467,9 @@
                 <div class="x_content">
                     <p>Drag multiple images to the box below for multi upload or click to select files. Required
                         maximum with for images should be 1000px.</p>
-                    <input type="file" name="tour_images[]" id="tour_images" multiple="multiple">
+                    <label for="files" class="admin-image-label">
+                        <input type="file" name="tour_images[]" multiple id="files" class="admin-image-upload">
+                    </label>
                     <br/>
                     <h2>Main Image (Optimal size is 350x200px)</h2>
                     <p><input type="file" name="main_image" size="chars"></p>

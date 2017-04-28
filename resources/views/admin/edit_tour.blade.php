@@ -95,11 +95,13 @@
                                                 <div class="custom_day">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
                                                     <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                                        <input type="text" class="form-control input-medium" name="custom_day_title_en[]"
+                                                        <input type="text" class="form-control input-medium"
+                                                               name="custom_day_title_en[]"
                                                                placeholder="title" value="{{$custom_day->title_en}}">
                                                     </div>
                                                     <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
-                                                        <textarea class="resizable_textarea form-control" placeholder="description"
+                                                        <textarea class="resizable_textarea form-control"
+                                                                  placeholder="description"
                                                                   name=custom_day_desc_en[]">{{$custom_day->desc_en}}</textarea>
                                                     </div>
                                                     <div class="clearfix"></div>
@@ -181,7 +183,8 @@
                                                 <div class="custom_day">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
                                                     <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                                        <input type="text" class="form-control input-medium" name="custom_day_title_ru[]"
+                                                        <input type="text" class="form-control input-medium"
+                                                               name="custom_day_title_ru[]"
                                                                placeholder="title" value="{{$custom_day->title_ru}}">
                                                     </div>
                                                     <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
@@ -521,7 +524,10 @@
                         <div class="x_content">
                             <p>Drag multiple images to the box below for multi upload or click to select files. Required
                                 maximum with for images should be 1000px.</p>
-                            <input type="file" name="tour_images[]" id="tour_images" multiple="multiple">
+
+                            <label for="files" class="admin-image-label">
+                                <input type="file" name="tour_images[]" multiple id="files" class="admin-image-upload">
+                            </label>
                             <br/>
                             <div>
                                 <h2>Uploaded images</h2>

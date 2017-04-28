@@ -18,7 +18,9 @@ class CreateTourCustomDaysTable extends Migration
             $table->integer('tour_id')->unsigned();
             $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
             $table->text('desc_en');
+            $table->string('title_en');
             $table->text('desc_ru');
+            $table->text('title_ru');
         });
     }
 
@@ -29,6 +31,6 @@ class CreateTourCustomDaysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tour_hotels');
+        Schema::drop('tour_custom_days');
     }
 }

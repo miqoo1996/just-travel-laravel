@@ -163,10 +163,10 @@
                     </div>
                     <div class="x_content">
                         <p>Drag multiple images to the box below for multi upload or click to select files. Required maximum with for images should be 1000px.</p>
-                        {{--<div class="dropzone dz-clickable dz-started" id="hotel_images_dropzone"></div>--}}
-                        {{--<div id="dropzone-hidden-area"></div>--}}
                         <p>
-                            <input type="file" name="files[]" multiple id="files">
+                            <label for="files" class="admin-image-label">
+                                <input type="file" name="files[]" multiple id="files" class="admin-image-upload">
+                            </label>
                         </p>
                         <br />
                         <div>
@@ -174,19 +174,18 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
+                            @if(empty($hotel->images))
+                                <div><p class="alert warning">No images</p></div>
+                            @else
                             <ul class="list-unstyled custom-image-viewer">
                                 @foreach($hotel->images as $image)
-                                    @if(empty($image))
-                                        <div><p class="alert warning">No images</p></div>
-                                    @else
                                         <li class="col-lg-2 custom-image-viewer-item">
                                             <span class="-remove custom-image-remove-button" id="{{'hotels?' .$hotel->id . '?hotels?' . $image}}"></span>
                                             <img src="{{URL::asset('/' . $image)}}" alt="profile Pic">
                                         </li>
-                                    @endif
-
                                 @endforeach
                             </ul>
+                            @endif
                         </div>
                         <h2>Main Image (Optimal size is 350x200px)</h2>
                         <p>
