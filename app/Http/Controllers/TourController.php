@@ -12,6 +12,7 @@ use App\Hotel;
 use App\TourCategory;
 use App\TourCustomDay;
 use App\TourHotel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -272,13 +273,6 @@ class TourController extends Controller
         return redirect($tour->url);
     }
 
-//    public function postSearchTours(Request $request)
-//    {
-//       if(empty($request->category){
-//           $tours =
-//       }
-//    }
-
     public function postSearchCustomTour(Request $request)
     {
         $adult = (intval($request->adult) < 1)? 1 : intval($request->adult);
@@ -296,5 +290,15 @@ class TourController extends Controller
         $data['hotels'] = TourHotel::where('tour_id', $request->tour_id)
             ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
         return View::make('ajax_views.tour_details_hotels', $data);
+    }
+
+    public function postOrderTour(Request $request)
+    {
+        $tourHotel = TourHotel::where('tour_hotels.tour_id', $request->tour_id)->where('tour_hotels.hotel_id', $request->htdata)->first();
+        $tourHotel->hotel = $tourHotel->hotel();
+        $tourHotel->tour = $tourHotel->tour();
+        $tourHotel->customDays = $tourHotel->customDays();
+
+        return view
     }
 }

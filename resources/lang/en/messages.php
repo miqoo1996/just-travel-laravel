@@ -38,4 +38,12 @@ return [
     'adult_short' => 'Adlt',
     'child_short' => 'Chld',
     'infant_short' => 'Inf',
+    'accomoation' => 'Accomodation',
+    'person_short' => 'pers',
+    'standard' => 'Standard',
+    'pay' => 'Pay',
+    'adult_short' => 'Adl',
+    'child_short' => 'Chl',
+    'infant_short' => 'Inf',
+
 ];

@@ -8,6 +8,7 @@ $(document).ready(function () {
     tourCategoryViewer();
     searchTours();
     tourDetailSearch();
+    tourHotelPay();
 
     $('.video_player').on('click', function () {
         var videoSRC = $(this).attr("data-video"),
@@ -64,16 +65,28 @@ function searchTours() {
         });
     })
 }
-
+var date_from = null,
+    adult = 1,
+    child = 0,
+    infant = 0,
+    tour_id = null;
 function tourDetailSearch() {
-
     var par = $('#custom_deatils_search');
     $(par).find('#detail_search').on("click", function () {
-        var date_from = $(par).find('#date_from').val(),
-            adult = $(par).find('#adult').val(),
-            child = $(par).find('#child').val(),
-            infant = $(par).find('#infant').val(),
-            tour_id = $(par).find('#tour_id').val();
+        date_from = $(par).find('#date_from').val();
+        adult = $(par).find('#adult').val();
+        if (adult < 1) {
+            $(par).find('#adult').val('1');
+        }
+        child = $(par).find('#child').val();
+        if (child <= 0) {
+            $(par).find('#child').val('');
+        }
+        infant = $(par).find('#infant').val();
+        if (infant <= 0) {
+            $(par).find('#infant').val('');
+        }
+        tour_id = $(par).find('#tour_id').val();
         $.ajax({
             url: '/tour_detail_search',
             type: 'POST',
@@ -85,7 +98,6 @@ function tourDetailSearch() {
                 'tour_id': tour_id
             },
             success: function (data) {
-                console.log(data);
                 $('#search_res_container').html(data);
             },
             error: function (data) {
@@ -93,6 +105,36 @@ function tourDetailSearch() {
             }
         });
     });
-
 }
+
+function tourHotelPay(){
+    $('#search_res_container').on('click', 'button.hotel-payment-button',function () {
+        if(('' !== date_from) && (typeof tour_id !== 'undefined')){
+            console.log(date_from);
+            var htdata = $(this).attr('htdata');
+            $.ajax({
+                url: '/order_tour',
+                type: 'POST',
+                data: {
+                    'htdata' : htdata,
+                    'date_from': date_from,
+                    'adult': adult,
+                    'child': child,
+                    'infant': infant,
+                    'tour_id': tour_id
+                },
+                success: function (data) {
+                    $('.maincont').html(data);
+                },
+                error: function (data) {
+                    $('body').html(data);
+                }
+            });
+        }
+
+    });
+}
+
+
+
 

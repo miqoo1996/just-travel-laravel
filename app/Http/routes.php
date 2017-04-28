@@ -88,6 +88,7 @@ Route::group(['middleware' => ['language']], function () {
     Route::post('/contacts', 'ContactController@postContacts');
     Route::post('/main_search', 'TourController@postSearchTours');
     Route::post('/tour_detail_search', 'TourController@postSearchCustomTour');
+    Route::post('/order_tour', 'TourController@postOrderTour');
 
     Route::get('/{page_url}', 'PageController@getPageByUrl');
 });

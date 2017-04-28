@@ -12,6 +12,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/default.css')}}">
+    <link rel="stylesheet" href={{asset("vendors/bootstrap-datepicker/css/bootstrap-datepicker.css")}}>
+
     @yield('style')
 </head>
 <body class="page-inside @yield('bodyStyle')">
@@ -94,6 +96,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{asset('js/jquery-1.11.3.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.js')}}"></script>
+<script src="{{asset("vendors/bootstrap-datepicker/js/bootstrap-datepicker.js")}}"></script>
 <script src="{{asset('js/custom.js')}}"></script>
 <script src="{{asset('js/script.js')}}"></script>
 @yield('script')

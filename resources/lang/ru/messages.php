@@ -38,4 +38,11 @@ return [
     'adult_short' => 'Взр',
     'child_short' => 'Реб',
     'infant_short' => 'Млад',
+    'accomoation' => 'Проживание',
+    'person_short' => 'мест',
+    'standard' => 'Стандарт',
+    'pay' => 'Оплатить',
+    'adult_short' => 'Взр',
+    'child_short' => 'Реб',
+    'infant_short' => 'Млад',
 ];

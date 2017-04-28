@@ -46,5 +46,6 @@ return [
     'currency_amd' => '&#1423;',
     'currency_usd' => '$',
     'currency_eur' => '€',
-    'currency_rur' => '&#8381;',
+//    'currency_rur' => '&#8381;',
+    'currency_rur' => '&#x20BD;',
 ];

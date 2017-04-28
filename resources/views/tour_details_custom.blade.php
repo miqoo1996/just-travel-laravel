@@ -74,7 +74,7 @@
             <div class="container choosehotel-cont">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <h3>Accomodation</h3>
+                        <h3>{{trans('messages.accomodation')}}</h3>
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12" id="">
                         @foreach($hotels as $key => $hotel)
@@ -89,12 +89,12 @@
                                     12.12.2017<br/>4 ночи до: 04.05, чт
                                 </div>
                                 <div class="hotels-c">
-                                    1-мест. Стандарт<br/>1 Взр
+                                    1-{{trans('messages.person_short')}}. {{trans('messages.standard')}}<br/>1 {{trans('messages.adult_short')}}
                                 </div>
                                 <div class="hotels-r">
                                     <a href="#!" class="btn btn-warning hotelpay disable" role="button"
                                        data-toggle="tooltip" data-placement="top"
-                                       title="Please choose the date before">PAY</a>
+                                       title="Please choose the date before">{{trans('messages.pay')}}</a>
                                     <div class="price hotelprice">
                                 <span class="maincurrency" data-toggle="tooltip" data-placement="top"
                                       title="@foreach ($currency as $key => $value)
@@ -155,5 +155,17 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('js/lightbox-plus-jquery.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#date_from').datepicker({
+                format: "dd/mm/yyyy",
+                startDate: "d",
+                maxViewMode: 0,
+                language: "{{app()->getLocale()}}",
+                multidate: false
+            });
+        });
+    </script>
+    <script src="{{asset('js/lightbox.min.js')}}"></script>
+
 @endsection
