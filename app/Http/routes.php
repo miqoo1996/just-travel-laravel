@@ -1,20 +1,9 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
 Route::get('/admin', 'AdminController@getLogin');
 Route::get('/admin/register', 'AdminController@getRegister');
 Route::post('/admin/panel', 'AdminController@postLogin')->name('login');
-Route::post('/admin/register', 'AdminController@postRegister')->name('register');
+//Route::post('/admin/register', 'AdminController@postRegister')->name('register');
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('/admin/dashboard', 'AdminController@getDashboard')->name('admin-dashboard');
 	Route::get('/admin/tours-categories', 'TourCategoryController@adminGetTourCategories')->name('admin-tours-categories');
@@ -88,7 +77,11 @@ Route::group(['middleware' => ['language']], function () {
     Route::post('/contacts', 'ContactController@postContacts');
     Route::post('/main_search', 'TourController@postSearchTours');
     Route::post('/tour_detail_search', 'TourController@postSearchCustomTour');
-    Route::post('/order_tour', 'TourController@postOrderTour');
+    Route::post('/order_tour', 'OrderTourController@postOrderTour');
+    Route::get('/order_tour/{order_id}', 'OrderTourController@getOrderTour');
+    Route::post('/post_ordered_custom_tour', 'OrderTourController@postOrderedCustomTour');
+    Route::post('/post_ordered_basic_tour', 'OrderTourController@postOrderedBasicTour');
+    Route::post('/update_cropped', 'AdminController@postUpdateCropped');
 
     Route::get('/{page_url}', 'PageController@getPageByUrl');
 });

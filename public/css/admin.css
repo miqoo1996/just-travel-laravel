@@ -80,3 +80,15 @@ label.admin-image-label:after{
     bottom: 5px;
     right: 5px;
 }
+#cropper-modal .modal-dialog{
+    width: 800px;
+}
+#cropper-modal .modal-body{
+    text-align:center;
+}
+#cropper-modal .image-container{
+    display: inline-block;
+}
+#cropper-modal #image{
+    max-width: 100%;
+}

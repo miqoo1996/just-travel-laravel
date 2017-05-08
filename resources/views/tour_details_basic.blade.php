@@ -26,7 +26,7 @@
                     <div class="clearfix"></div>
                     <div class="pricebyperson">
                         <span class="item"><span>{{$tour['basic_price_adult']/$currency[$currency['currency']]}}</span>{{trans('messages.adults')}} (12-99)</span>
-                        <span class="item"><span>{{$tour['basic_price_child']/$currency[$currency['currency']]}}</span>{{trans('messages.child')}} (4-11)</span>
+                        <span class="item"><span>{{$tour['basic_price_child']/$currency[$currency['currency']]}}</span>{{trans('messages.children')}} (4-11)</span>
                         <span class="item"><span>{{$tour['basic_price_infant']/$currency[$currency['currency']]}}</span>{{trans('messages.infants')}} (0-4)</span>
                     </div>
                     <h3 class="frequency">Frequency</h3>
@@ -46,31 +46,35 @@
 
         <div class="container">
             <div class="filter-search filter-details">
-                <form>
-
-                    <div class="row">
+                <form method="post" action="{{url('/order_tour')}}">
+                    <div class="row" id="custom_deatils_search">
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.date')}}</label>
-                            <input class="datepicker" type="text" placeholder="Date from">
+                            <input class="datepicker" type="text" id="date_from"
+                                   placeholder="{{trans('messages.date_from')}}" name="date_from">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <label for="example-text-input" class="col-form-label">{{trans('messages.adults')}} (12-99)</label>
-                            <input class="" type="text" placeholder="" value="1">
+                            <label for="example-text-input" class="col-form-label">{{trans('messages.adults')}}
+                                (12-99)</label>
+                            <input class="" type="number" name="adult" id="adult" placeholder="" value="1">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <label for="example-text-input" class="col-form-label">{{trans('message.child')}} (5-11)</label>
-                            <input class="" type="text" placeholder="">
+                            <label for="example-text-input" class="col-form-label">{{trans('messages.children')}}
+                                (5-11)</label>
+                            <input class="" type="number" name="child" id="child" placeholder="">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <label for="example-text-input" class="col-form-label">{{trans('message.infants')}} (0-4)</label>
-                            <input class="" type="text" placeholder="">
+                            <label for="example-text-input" class="col-form-label">{{trans('messages.infants')}}
+                                (0-4)</label>
+                            <input class="" type="number" name="infant" id="infant" placeholder="">
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
                             <label for="example-text-input" class="col-form-label">&nbsp;</label>
+                            <input type="hidden" id="tour_id" name="tour_id" value="{{$tour['id']}}">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input type="submit" value="Book">
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -111,5 +115,17 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('js/lightbox-plus-jquery.min.js')}}"></script>
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            startDate: 'd',
+            daysOfWeekDisabled: "{{$daysOfWeekDisabled}}",
+            datesDisabled: [
+                @foreach($datesDisabled as $day)
+                "{{$day}}" ,
+                @endforeach
+            ]
+        })
+    </script>
+    <script src="{{asset('js/lightbox.min.js')}}"></script>
+
 @endsection

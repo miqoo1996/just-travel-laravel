@@ -12,7 +12,6 @@ use App\Hotel;
 use App\TourCategory;
 use App\TourCustomDay;
 use App\TourHotel;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -20,6 +19,7 @@ use Illuminate\Support\Facades\View;
 
 class TourController extends Controller
 {
+
     public function adminGetToursList()
     {
         $tours = Tour::select('id', 'tour_category', 'tour_name_en', 'hot', 'tour_url', 'type', 'basic_price_adult')->get();
@@ -262,8 +262,12 @@ class TourController extends Controller
             $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
                 ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
             $data['days'] = TourCustomDay::where('tour_id', $tour['tour_id'])->get()->toArray();
+
             return view('tour_details_custom', $data);
         }
+        $data['datesDisabled'] = explode(',',$tour->specific_days);
+        $daysOfWeekDisabled = explode(',', $tour->basic_frequency);
+        $data['daysOfWeekDisabled'] = implode(",",array_intersect_key(config('const.bootstrap_week_days'),array_flip($daysOfWeekDisabled)));
         return view('tour_details_basic', $data);
     }
 
@@ -290,15 +294,5 @@ class TourController extends Controller
         $data['hotels'] = TourHotel::where('tour_id', $request->tour_id)
             ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
         return View::make('ajax_views.tour_details_hotels', $data);
-    }
-
-    public function postOrderTour(Request $request)
-    {
-        $tourHotel = TourHotel::where('tour_hotels.tour_id', $request->tour_id)->where('tour_hotels.hotel_id', $request->htdata)->first();
-        $tourHotel->hotel = $tourHotel->hotel();
-        $tourHotel->tour = $tourHotel->tour();
-        $tourHotel->customDays = $tourHotel->customDays();
-
-        return view
     }
 }

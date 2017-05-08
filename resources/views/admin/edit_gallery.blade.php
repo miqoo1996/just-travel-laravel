@@ -111,7 +111,9 @@
                                         <div>
                                             <span class="-remove custom-image-remove-button"
                                                   id={{'gallery?' .$image->id . '?gallery?' . $image->image_path}}></span>
+                                            <button type="button" class="btn btn-primary cropper-modal" data-target="#cropper-modal" data-toggle="modal">Crop</button>
                                             <img src="{{URL::asset('/' . $image->image_path)}}" alt="profile Pic">
+
                                         </div>
                                     </li>
                                 @endif

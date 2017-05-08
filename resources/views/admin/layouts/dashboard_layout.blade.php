@@ -13,20 +13,22 @@
     <link rel="icon" href={{asset("images/favicon.png")}} type="image/x-icon">
 
     <!-- Bootstrap -->
-    <link href={{asset("vendors/bootstrap/dist/css/bootstrap.min.css")}} rel="stylesheet">
+    <link rel="stylesheet" href={{asset("vendors/bootstrap/dist/css/bootstrap.min.css")}} >
     <!-- Font Awesome -->
-    <link href={{asset("vendors/font-awesome/css/font-awesome.min.css")}} rel="stylesheet">
+    <link rel="stylesheet" href={{asset("vendors/font-awesome/css/font-awesome.min.css")}} >
     <!-- NProgress -->
-    <link href={{asset("vendors/nprogress/nprogress.css")}} rel="stylesheet">
+    <link rel="stylesheet" href={{asset("vendors/nprogress/nprogress.css")}} >
     <!-- iCheck -->
-    <link href={{asset("vendors/iCheck/skins/flat/green.css")}} rel="stylesheet">
+    <link rel="stylesheet" href={{asset("vendors/iCheck/skins/flat/green.css")}} >
     <!-- Datatables -->
-    <link href={{asset("vendors/datatables.net-bs/css/dataTables.bootstrap.min.css")}} rel="stylesheet">
-    <link href={{asset("vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css")}} rel="stylesheet">
-    <link href={{asset("vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css")}} rel="stylesheet">
-    <link href={{asset("vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css")}} rel="stylesheet">
-    <link href={{asset("vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css")}} rel="stylesheet">
-    @yield('css')
+    <link rel="stylesheet" href={{asset("vendors/datatables.net-bs/css/dataTables.bootstrap.min.css")}} >
+    <link rel="stylesheet" href={{asset("vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css")}} >
+    <link rel="stylesheet" href={{asset("vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css")}} >
+    <link rel="stylesheet" href={{asset("vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css")}} >
+    <link rel="stylesheet" href={{asset("vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css")}} >
+    <link rel="stylesheet" href={{asset("vendors/crop/dist/cropper.css")}}>
+
+@yield('css')
     <!-- Custom Theme Style -->
     <link href={{asset("build/css/custom.min.css")}} rel="stylesheet">
 </head>
@@ -190,7 +192,26 @@
         <!-- page content -->
         @yield('content')
         <!-- /page content -->
-
+        <div class="modal fade" id="cropper-modal" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Crop the image</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="image-container">
+                            <img id="image" src="http://justtravel.dev/images/gallery/1/content/58ff118e14ce1.jpg" alt="Picture">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="save_cropped">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
         <!-- footer content -->
         <footer>
             <div class="pull-right">
@@ -230,6 +251,8 @@
 <script src={{asset("vendors/jszip/dist/jszip.min.js")}}></script>
 <script src={{asset("vendors/pdfmake/build/pdfmake.min.js")}}></script>
 <script src={{asset("vendors/pdfmake/build/vfs_fonts.js")}}></script>
+<script src={{asset("vendors/crop/dist/cropper.js")}}></script>
+<script src="{{asset("js/cropper.js")}}"></script>
 <script type="text/javascript" src="{{ asset('vendors/tinymce/tinymce.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendors/tinymce/init-tinymce.js') }}"></script>
 @yield('js')

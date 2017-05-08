@@ -213,6 +213,10 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function postUpdateCropped(Request $request)
+    {
+        dd($request);
+    }
     public function adminPostUpdateCurrencies(Request $request)
     {
         $cur = Currency::first();

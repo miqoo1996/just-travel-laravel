@@ -22,7 +22,7 @@
                         @if($infant > 0) {{$infant . ' ' . trans('messages.infant_short')}} @endif
                     </div>
                     <div class="hotels-r">
-                        <button class="btn btn-warning hotelpay hotel-payment-button" type="button" htdata="{{$hotel['id']}}">{{trans('messages.pay')}}</button>
+                        <button class="btn btn-warning hotelpay hotel-payment-button" type="button" htdata="{{$hotel['id']}}" htr="{{$rooms}}">{{trans('messages.pay')}}</button>
                         <div class="price hotelprice">
                                 <span class="maincurrency" data-toggle="tooltip" data-placement="top"
                                       title="@foreach ($currency as $key => $value)

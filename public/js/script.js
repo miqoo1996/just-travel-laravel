@@ -107,12 +107,13 @@ function tourDetailSearch() {
     });
 }
 
+
 function tourHotelPay(){
     $('#search_res_container').on('click', 'button.hotel-payment-button',function () {
         if(('' !== date_from) && (typeof tour_id !== 'undefined')){
             console.log(date_from);
             var htdata = $(this).attr('htdata');
-            $.ajax({
+             $.ajax({
                 url: '/order_tour',
                 type: 'POST',
                 data: {
@@ -124,7 +125,8 @@ function tourHotelPay(){
                     'tour_id': tour_id
                 },
                 success: function (data) {
-                    $('.maincont').html(data);
+                    window.location.href = 'http://'+ document.location.hostname + "/order_tour/" + data;
+
                 },
                 error: function (data) {
                     $('body').html(data);
