@@ -16,7 +16,7 @@
                             <span class="othercurrency">
                     @foreach ($currency as $key => $value)
                                     @if (($key !== 'currency') && ($key !== $currency['currency']))
-                                        <span class="{{$key}}">{{$totalPrice/$value}}</span>
+                                        <span class="{{$key}}">{{round($totalPrice/$value, 2)}}</span>
                                     @endif
                                 @endforeach
                 </span>

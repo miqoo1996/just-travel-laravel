@@ -18,13 +18,11 @@ class Tour extends Model
         'short_desc_ru',
         'tags_en',
         'tags_ru',
-        'specific_days',
         'basic_frequency',
         'basic_price_adult',
         'basic_price_child',
         'basic_price_infant',
         'custom_day_prp',
-        'custom_dates',
         'tour_images',
         'main_image',
         'hot_image',
@@ -58,10 +56,12 @@ class Tour extends Model
     {
         return $this->hasMany('App\TourHotel', 'tour_id', 'id')->get();
     }
+
     public function getFirstHotel()
     {
         return $this->hasOne('App\TourHotel', 'tour_id', 'id')->first();
     }
+
     /**
      * @return mixed
      */
@@ -71,8 +71,27 @@ class Tour extends Model
 
     }
 
+    public function getTourDates()
+    {
+        return $this->hasMany('App\TourDate', 'tour_id', 'id')->get()->pluck('date');
+    }
+
+    public static function rewriteDates($dates)
+    {
+        $result = '';
+        foreach ($dates as $date) {
+            if ($result == '') {
+                $result .= Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+            } else {
+                $result .= ',' . Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+            }
+        }
+        return $result;
+    }
+
     /**
      * @param $category_id
+     * @param $limit
      * @return mixed
      */
     public static function ToursByCategory($category_id, $limit = true)
@@ -88,16 +107,16 @@ class Tour extends Model
             $tours = Tour::whereIn('id', $tourCatRelations)
                 ->where('visibility', 'on')
                 ->orderBy('tours.updated_at', 'DESC');
-            if($limit){
+            if ($limit) {
                 $tours = $tours->limit(6);
             }
             $tours = $tours->get();
-            foreach ($tours as $key => $value){
+            foreach ($tours as $key => $value) {
                 $tours[$key]['single_adult'] = $value->getFirstHotel()->single_adult;
-                if($tours[$key]->custom_day_prp == 'custom'){
-                    $tours[$key]['date'] = explode(',', $tours[$key]->custom_dates)[0];
+                if ($tours[$key]->custom_day_prp == 'custom') {
+                    $tours[$key]['date'] = Carbon::createFromFormat('Y-m-d', $value->getTourDates()->first())->format('d.m.Y');
                 } else {
-                    $tours[$key]['date'] = date('d/m/Y');
+                    $tours[$key]['date'] = date('d.m.Y');
                 }
 
             }
@@ -114,4 +133,151 @@ class Tour extends Model
 //        if(count($tours)) return redirect('errors.404');
     }
 
+    public static function generateDateWeekDays(Carbon $start_date, Carbon $end_date)
+    {
+        $dates = [];
+        $localdates = array_flip(config('const.bootstrap_week_days'));
+
+        for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
+            $dates[] = $localdates[$date->dayOfWeek];
+        }
+        $dates = array_unique($dates);
+        return $dates;
+    }
+
+    public static function generateDateRange(Carbon $start_date, Carbon $end_date)
+    {
+        $dates = [];
+
+        for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
+            $dates[] = $date->format('Y-m-d');
+        }
+
+        return $dates;
+    }
+
+    public static function searchTours($request)
+    {
+
+        $category = (!empty($request->category)) ? explode('/', $request->category) : false;
+
+        $tours = Tour::join('tour_dates', function ($join) {
+                $join->on('tour_dates.tour_id', '=', 'tours.id');
+            })
+            ->join('tour_cat_rels', function ($join) {
+                $join->on('tour_cat_rels.tour_id', '=', 'tours.id');
+            })
+            ->join('tour_categories', function ($join){
+                $join->on('tour_categories.id', '=', 'tour_cat_rels.cat_id');
+            });
+
+        $dateStart = (!empty($request->date_start)) ? Carbon::createFromFormat('d/m/Y', $request->date_start) : Carbon::today();
+        $dateEnd = (!empty($request->date_end)) ? Carbon::createFromFormat('d/m/Y', $request->date_end) : Carbon::today()->addDays(7);
+        $weekDays = Tour::generateDateWeekDays($dateStart, $dateEnd);
+        $tourDates = Tour::generateDateRange($dateStart, $dateEnd);
+        $tourTags = (empty($request->tags)) ? false : explode(" ", $request->tags);
+
+        if ($category) {
+            if ($category[1] == 'basic') {
+                $tours = Tour::basicPart($category, $tours, $weekDays, $tourDates);
+                $tours = Tour::tourTags($tours, $tourTags);
+            } elseif ($category[1] == 'custom') {
+                $tours = Tour::customPart($category, $tours, $tourDates, $category[0]);
+                $tours = Tour::tourTags($tours, $tourTags);
+            }
+        } else {
+            $tours = Tour::basicPart($category, $tours, $weekDays, $tourDates);
+            $tours = Tour::tourTags($tours, $tourTags);
+            $tours = Tour::customPart($category, $tours, $tourDates, true);
+            $tours = Tour::tourTags($tours, $tourTags);
+        }
+        $tours = $tours->select(['tours.*', 'tour_categories.property'])->distinct()->get();
+        foreach ($tours as $key => $tour) {
+            $tours[$key]['single_adult'] = $tour->getFirstHotel()['single_adult'];
+            $tours[$key]['date'] = Carbon::createFromFormat('Y-m-d', $tour->getTourDates()->first())->format('d.m.Y');
+        }
+        return $tours;
+    }
+
+    public static function basicPart($category, $tours, $weekDays, $tourDates)
+    {
+
+        $tours = $tours->where('tour_categories.property', 'basic')->where(function ($query) use ($weekDays) {
+            foreach ($weekDays as $key => $weekDay) {
+                if ($key == 0) {
+                    $query = $query->where('tours.basic_frequency', 'like', '%' . $weekDay . '%');
+                } else {
+                    $query = $query->orWhere('tours.basic_frequency', 'like', '%' . $weekDay . '%');
+                }
+            }
+        });
+
+        $tours = $tours->where(function ($query) use ($tourDates) {
+            foreach ($tourDates as $tourDate) {
+                $query = $query->whereNot('tour_dates.date', $tourDate);
+            }
+        });
+
+        if($category){
+            $tours = $tours->where('tour_categories.id', intval($category[0]));
+        }
+        $tours = $tours->where('tours.visibility', 'on');
+
+        return $tours;
+    }
+
+    public static function customPart($category, $tours, $tourDates, $joined = false)
+    {
+        if ($joined) {
+            $tours = $tours->orWhere(function ($query) use ($joined) {
+                $query->orWhere('tour_categories.property', 'custom');
+            });
+        } else {
+            $tours = $tours->where(function ($query) use ($joined) {
+                $query->where('tours.visibility', 'on')
+                    ->where('tour_categories.property', 'custom');
+            });
+        }
+        $tours = $tours->where(function ($query) use ($tourDates) {
+            foreach ($tourDates as $key => $tourDate) {
+                if ($key == 0) {
+                    $query = $query->where('tour_dates.date', $tourDate);
+                } else {
+                    $query = $query->orWhere('tour_dates.date', $tourDate);
+                }
+            }
+        });
+        if($category){
+            $tours = $tours->where('tour_categories.id', intval($category[0]));
+        }
+        return $tours;
+    }
+
+    public static function tourTags($tours, $tourTags)
+    {
+        if ($tourTags) {
+            $tours = $tours->where(function ($query) use ($tourTags) {
+                if (app()->getLocale() == 'ru') {
+                    foreach ($tourTags as $key => $tourTag) {
+                        if ($key == 0) {
+                            $query = $query->where('tours.tags_ru', 'like', '%' . $tourTag . '%');
+                        } else {
+                            $query = $query->orWhere('tours.tags_ru', 'like', '%' . $tourTag . '%');
+                        }
+                    }
+                } else {
+                    foreach ($tourTags as $key => $tourTag) {
+                        if ($key == 0) {
+                            $query = $query->where('tours.tags_en', 'like', '%' . $tourTag . '%');
+                        } else {
+                            $query = $query->orWhere('tours.tags_en', 'like', '%' . $tourTag . '%');
+                        }
+                    }
+                }
+            });
+        }
+        return $tours;
+    }
 }
+
+

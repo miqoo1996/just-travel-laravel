@@ -28,4 +28,9 @@ class OrderTour extends Model
     {
         return $this->hasOne('App\Hotel', 'id', 'hotel_id')->first()->toArray();
     }
+
+    public function members()
+    {
+        return $this->hasMany('App\OrderMember', 'order_id', 'id')->get()->toArray();
+    }
 }

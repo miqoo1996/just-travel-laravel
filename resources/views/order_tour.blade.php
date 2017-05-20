@@ -13,17 +13,12 @@
                     <div class="col-1">
                         <span class="hint">{{trans('messages.total_price')}}</span>
                         <span class="{{$currency['currency']}}">
-                        <?php $result = round($order['tour_hotel'][config('const.adult_key_' . strval($order['adult'])) . '_adult'] / $currency[$currency['currency']], 2) * $order['days']
-                                + (round(($order['tour_hotel']['child'] / $currency[$currency['currency']]), 2) * $order['days'] * $order['child']) +
-                                (round(($order['tour_hotel']['infant'] / $currency[$currency['currency']]), 2) * $order['days'] * $order['infant'])?>{{$result}}
+                        {{round($totalPrice / $currency[$currency['currency']], 2)}}
                         </span>
                 <span class="othercurrency">
                     @foreach ($currency as $key => $value)
                         @if (($key !== 'currency') && ($key !== $currency['currency']))
-                            <?php $res = round($order['tour_hotel'][config('const.adult_key_' . strval($order['adult'])) . '_adult'] / $value, 2) * $order['days']
-                                + (round(($order['tour_hotel']['child'] / $value), 2) * $order['days'] * $order['child']) +
-                                (round(($order['tour_hotel']['infant'] / $value), 2) * $order['days'] * $order['infant'])?>
-                            <span class="{{$key}}">{{$res}}</span>
+                            <span class="{{$key}}">{{round($totalPrice / $value, 2)}}</span>
                         @endif
                     @endforeach
                 </span>
@@ -145,12 +140,16 @@
             <div class="row">
                 <div class="form-group col-md-8 col-sm-8 col-xs-12">
                     <label for="example-text-input" class="col-form-label">{{trans('messages.comments')}}</label>
-                    <textarea class="form-control" name="comments" type="text">{{ old('comments') }}</textarea>
+                    <textarea class="form-control" name="comment" type="text">{{ old('comment') }}</textarea>
                 </div>
 
                 <div class="form-group col-md-4 col-sm-4 col-xs-12">
                     <label for="example-text-input" class="col-form-label">{{trans('messages.lead_email')}}</label>
-                    <input class="form-control" name="lead_email" type="text" value="{{ old('lead_email') }}" placeholder="{{trans('messages.email_address')}}">
+                    @if($errors->has('lead_email'))
+                        <input class="form-control error" name="lead_email" type="text" value="" placeholder="{{$errors->get('lead_email')[0]}}">
+                    @else
+                        <input class="form-control" name="lead_email" type="text" value="{{ old('lead_email') }}" placeholder="{{trans('messages.email_address')}}">
+                    @endif
                     <span class="hint">{{trans('messages.vaucher_gen_text')}}</span>
                 </div>
             </div>

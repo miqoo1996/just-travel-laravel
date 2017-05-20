@@ -44,7 +44,7 @@ function tourCategoryViewer() {
 }
 function searchTours() {
     $('#search_tours').on("click", function () {
-        var par = $('#tour_search_index');
+        var par = $('form');
         var category = $(par).find('#tour_category_selector').find("option:selected").attr('value'),
             date_start = $(par).find('#date_start').val(),
             date_end = $(par).find('#date_end').val(),
@@ -60,7 +60,7 @@ function searchTours() {
             }
             ,
             success: function (data) {
-                $('body').html(data);
+                $('#tours_area').html(data);
             }
         });
     })

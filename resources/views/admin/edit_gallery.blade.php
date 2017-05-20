@@ -88,8 +88,6 @@
                 <div class="x_panel">
                     <p>Drag multiple images to the box below for multi upload or click to select files. Required maximum
                         with for images should be 1000px.</p>
-                    {{--<div class="dropzone dz-clickable dz-started" id="hotel_images_dropzone"></div>--}}
-                    {{--<div id="dropzone-hidden-area"></div>--}}
                     <p>
                         <label for="files" class="admin-image-label">
                             <input type="file" name="files[]" multiple id="files" class="admin-image-upload">
@@ -111,7 +109,7 @@
                                         <div>
                                             <span class="-remove custom-image-remove-button"
                                                   id={{'gallery?' .$image->id . '?gallery?' . $image->image_path}}></span>
-                                            <button type="button" class="btn btn-primary cropper-modal" data-target="#cropper-modal" data-toggle="modal">Crop</button>
+                                            <button type="button" class="cropper-modal" id="gallery" data-target="#cropper-modal" data-toggle="modal"></button>
                                             <img src="{{URL::asset('/' . $image->image_path)}}" alt="profile Pic">
 
                                         </div>
@@ -121,10 +119,18 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div>
-                        <h2>Main images</h2>
-                        <div class="clearfix"></div>
-                    </div>
+                    @if(!empty($gallery['main_image']))
+                        <div>
+                            <h2>Main Image</h2>
+                            <div class="custom-image-viewer">
+                                <div class="custom-image-viewer-item">
+                                    <button type="button" class="cropper-modal" id="main-image" data-target="#cropper-modal" data-toggle="modal"></button>
+                                    <img src="{{asset($gallery['main_image'])}}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <p>
                         <input type="file" name="main_image" size="chars" id="main_image">
                     </p>

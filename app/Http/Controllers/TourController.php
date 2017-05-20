@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\HotelCalculator;
 use App\TourCatRel;
+use App\TourDate;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -12,9 +13,12 @@ use App\Hotel;
 use App\TourCategory;
 use App\TourCustomDay;
 use App\TourHotel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use Carbon\Carbon; 
+
 
 
 class TourController extends Controller
@@ -45,7 +49,6 @@ class TourController extends Controller
      */
     public function adminPostNewTour(Request $request)
     {
-
         $fields = $request->input();
         $isBasic = false;
         if (isset($request->tour_id)) {
@@ -73,6 +76,21 @@ class TourController extends Controller
         TourCatRel::where('tour_id', $tour->id)->delete();
         if (isset($tourCats)) TourCatRel::insert($tourCats);
 
+        if($isBasic && !empty($request->specific_days)){
+            $dates = explode(',', $request->specific_days);
+
+        } elseif(!empty($request->custom_dates)){
+            $dates = explode(',', $request->custom_dates);
+        }
+        if(isset($dates)) {
+            foreach ($dates as $date) {
+                $tourDate['tour_id'] = $tour->id;
+                $tourDate['date'] = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+                $tourDates[] = $tourDate;
+            }
+        }
+        TourDate::where('tour_id', $tour->id)->delete();
+        if (isset($tourDates)) TourDate::insert($tourDates);
 
         $path = 'images/tours/' . $tour->id;
         $tourImagesPath = 'images/tours/' . $tour->id . '/tour_images';
@@ -171,14 +189,16 @@ class TourController extends Controller
 
     public function adminGetEditTour($tour_id)
     {
+        $tour = Tour::find($tour_id);
         $data['tour_categories'] = TourCategory::all();
         $data['hotels'] = Hotel::select('hotel_name_en', 'id')->get();
 
-        $tour = Tour::find($tour_id);
+
         $tour['categories'] = $tour->getCategories();
         $tour['hotels'] = $tour->getHotels();
         $tour['custom_days'] = $tour->getCustomDays();
         $tour['tour_images'] = explode(',', $tour->tour_images);
+        $tour['tour_dates'] = Tour::rewriteDates($tour->getTourDates());
         $tour['basic_frequency'] = array_flip(explode(',', $tour->basic_frequency));
         $data['tour'] = $tour;
         return view('admin.edit_tour', $data);
@@ -295,4 +315,14 @@ class TourController extends Controller
             ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
         return View::make('ajax_views.tour_details_hotels', $data);
     }
+
+    public function postSearchTours(Request $request)
+    {
+        DB::enableQueryLog();
+        $searchTours = Tour::searchTours($request)->toArray();
+        dd(DB::getQueryLog());
+        return View::make('ajax_views.search_tours', compact('searchTours'));
+    }
+
+
 }

@@ -9,7 +9,7 @@ h1 a{color:#333; text-decoration:underline;}
 .more a:hover{border:1px solid #FFF; background:#FFF; box-shadow:0 0 6px #CCC;}
 .innerpage, .singlepage{padding:50px 0 0;}
 
-a:focus, button:focus, textarea:fcous, input:focus, .btn:focus, a:active{ outline:0px !important;}
+a:focus, button:focus, textarea:focus, input:focus, .btn:focus, a:active{ outline:0px !important;}
 a:hover{ transition:all ease 0.4s;}
 input, textarea{ box-shadow:none;}
 .greybg{background:#F1F1F1;}
@@ -20,14 +20,14 @@ input, textarea{ box-shadow:none;}
 .tooltip-arrow{border-top-color:#CCC !important;}
 
 @font-face {
-      font-family:"Just";
-      src: url('../fonts/just/just.eot?66438791');
-      src: url('../fonts/just/just.eot?66438791#iefix') format('embedded-opentype'),
-           url('../fonts/just/just.woff?66438791') format('woff'),
-           url('../fonts/just/just.ttf?66438791') format('truetype'),
-           url('../fonts/just/just.svg?66438791#just') format('svg');
-      font-weight: normal;
-      font-style: normal;
+	font-family:"Just";
+	src: url('../fonts/just/just.eot?66438791');
+	src: url('../fonts/just/just.eot?66438791#iefix') format('embedded-opentype'),
+	url('../fonts/just/just.woff?66438791') format('woff'),
+	url('../fonts/just/just.ttf?66438791') format('truetype'),
+	url('../fonts/just/just.svg?66438791#just') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
@@ -142,9 +142,10 @@ label:hover:before {border:1px solid #FFA300 !important;}
 .filter-search{ height:80px;background-color:rgba(255, 255, 255, 1);}
 .filter-search .search-cont{padding:20px 0; margin:0 auto;}
 .filter-search input{padding:10px;border:0px;}
-.filter-search input.datepicker{ background:#FFF url(../images/calendar.svg) 10px 10px no-repeat; background-size:20px; padding:10px 10px 10px 38px; width:100%; border-radius:4px;}
+.filter-search .input-daterange input.datepicker{background:#FFF url(../images/calendar.svg) 10px 10px no-repeat;background-size:20px;padding: 5px 0 5px;width:100%;border-radius:4px;box-sizing:content-box;text-align: left;text-indent: 40px;}
+.filter-search select.form-control{box-sizing:content-box; padding:3px 0; border: none}
 .filter-search input, .filter-search .dropdown{border:0px; width:100%; margin:0 1px 0 0; border-radius:4px;}
-.filter-search input[type="submit"]{ padding:10px 50px;border:0px;} 
+.filter-search input[type="submit"]{ padding:10px 50px;border:0px;}
 .filter-search .dropdown{margin:0 10px 0 0; position:relative; z-index:40;}
 .filter-search .dropdown .btn{ padding:10px 15px; width:100%; text-align:left;border-radius:4px;}
 .filter-search .dropdown .caret{margin:8px 0 0 0; float:right;}
@@ -159,7 +160,7 @@ label:hover:before {border:1px solid #FFA300 !important;}
 .mp-categories{ background:#FFF; height:80px;}
 .fixme{ width:100%; z-index:100;}
 .mp-categories li{float:left; width:180px; padding:0px; list-style-type:none;}
-.mp-categories li a{display:block; padding:4px 10px; line-height:1; text-decoration:none; border-radius:5px;}
+.mp-categories li a{display:block; padding:4px 10px; line-height:1; text-decoration:none; border-radius:5px; cursor: pointer;}
 .mp-categories li a:hover{background:#F1F1F1;}
 .mp-categories li.active a{background:#FFA300; color:#FFF;}
 .mp-categories ul{ padding:8px 0; margin:0px;}
@@ -226,7 +227,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 /*---------------*/
 
 .page-inside{padding:70px 0 0;}
-.dropdown-menu{ max-height:200px; overflow:auto;}
+.dropdown-menu:not(.input-daterange .dropdown-menu){max-height:200px;overflow:auto;}
 
 /*Tours*/
 .page-tours .mp-categories{border-top:solid 1px #F1F1F1;}
@@ -250,6 +251,11 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .hotel-details .stars.stars3, .hotels-list .stars.stars3{background:url(../images/stars.svg) 0 -40px no-repeat;}
 .hotel-details .stars.stars4, .hotels-list .stars.stars4{background:url(../images/stars.svg) 0 -60px no-repeat;}
 .hotel-details .stars.stars5, .hotels-list .stars.stars5{background:url(../images/stars.svg) 0 -80px no-repeat;}
+.price .amd:after, .hotelprice .amd:after{content: ' \058F'}
+.price .usd:before, .hotelprice .usd:before{content: ' $'}
+.price .eur:after, .hotelprice .eur:after{content: ' €'}
+.price .rur:after, .hotelprice .rur:after{content: ' \20BD'}
+span.othercurrency span:not(:first-child){margin-left:5px;}
 
 /*-------*/
 
@@ -262,6 +268,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .tour-details{ padding:0 15px 30px;}
 .tour-details h1{ margin:0 0 15px;}
 .tour-description-container h3{font-family: 'Roboto', sans-serif;}
+.tour-details {padding: 30px 0;}
 .tour-details .tour-id{ display:block; font-size:12px; margin:0 0 15px;}
 .tour-details .price{ display:block; font-size:25px;}
 .tour-description-container{ margin:0 auto 30px;}
@@ -277,8 +284,8 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .choosehotel .hotelprice{ float:right; margin:7px 20px 0 0;}
 .hotelname{ line-height:36px;}
 
-.hotels-l, .hotels-c, .hotels-r{ width:25%;}
-.hotels-l, .hotels-c{ float:left;}
+.hotels-r{ width:30%;}
+.hotels-l, .hotels-c{ float:left; width:20%;}
 .hotels-r{ float:right;}
 .hotels-c{ font-size:13px; line-height:1.5; margin:0px;}
 
@@ -301,6 +308,8 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .enter-travelers-data h3{font-family: 'Roboto', sans-serif; margin:20px 0;}
 .enter-travelers-data .form-control{ height:42px; box-shadow:none; border-radius:4px;}
 .enter-travelers-data:last-child{ padding:0 15px 40px;}
+.comments-and-contact .form-control.error,.enter-travelers-data .form-control.error{ box-shadow: 0 0 7px #f90000;}
+
 
 .col-1{ float:left; margin:0 60px 20px 0;}
 .col{ margin:0 0 20px; height:75px;}
@@ -316,9 +325,9 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .filter-details { background:#F1F1F1; padding:15px;}
 .filter-details input, .filter-details label{ display:inherit; float:none;}
 .filter-details input{ padding:10px; margin:0px; border-radius:4px; border:solid 1px #e3e3e3;}
-.filter-details input[type="submit"]{ float:right; padding:10px; width:140px; border-radius:4px;}
+.filter-details input[type="button"]{ float:right; padding:10px; width:140px; border-radius:4px;}
 
-.feedback{ padding:10px 20px 20px; background:#F1F1F1; margin:20px 0 0;}
+.feedback{ padding:10px 20px 20px; background:#F1F1F1; margin:20px 0;}
 .feedback input[type="text"],
 .feedback input[type="email"]{max-width:600px; padding:10px; height:auto;}
 .feedback .btn{width:100%; max-width:140px; padding:10px; height:auto;}
@@ -327,21 +336,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .btn.btn-warning{ background:#FFA300; border:none;}
 .btn.btn-warning:hover{background:#e59200; border:none;}
 
-/*Preview*/
-.preview{ width:100%; max-width:700px; background:#FFF; margin:30px auto 0; text-align:center; border-radius:20px;}
-.preview-container{padding:40px; }
-.preview h4{ font-family:'Arial AMU'; line-height:1; margin:0 0 30px;}
-.preview .btn{ padding:12px; width:100%; max-width:300px;}
-.preview .tourtravelers{ margin:30px auto; width:100%; max-width:350px;}
-.preview .tourtravelers .item{border-bottom:dashed 1px #CCC; height:20px; margin:0 0 10px;}
-.preview .tourtravelers .item span.name{ background:#FFF; margin:0 0 -1px; float:left; padding:0 5px 0 0;} 
-.preview .tourtravelers .item span.date{float:right; color:#666; background:#FFF; margin:0 0 -2px; padding:0 0 0 5px;}
-
-.preview .tourstatement{margin:30px auto; padding:10px 0; width:100%; max-width:350px; border:solid #CCC; border-width:1px 0;}
-.preview .tourstatement span{ display:block; text-align:left; line-height:26px;} 
-.preview .tourstatement span span{float:right; color:#666;font-size:20px; text-align:right; color:#000;}
-.hint{ margin:0 0 30px;}
-
+.margin-t30{ margin:30px 0 0;}
 
 /*Congratulations*/
 .congratulations{ padding:130px 0 0; text-align:center; text-shadow:1px 1px #FFF;}
@@ -368,6 +363,9 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .main-gallery .item .play{ position:absolute; top:60px; left:50%; width:56px; height:56px; margin:0 0 0 -28px; background:url(../images/play.svg) left top no-repeat; background-size:56px; opacity:0.6}
 .main-gallery .item:hover .play{opacity:1; transition:all ease 0.5s;}
 
+#video_modal .modal-body{background: rgba(255,255,255,0.5);padding: 15px; position: relative;height: 100vh;max-height: 356px;}
+#video_modal .modal-body iframe{position: absolute;left: 10px;right: 10px;top: 20px;bottom: 10px;width: calc(100% - 20px);height: calc(100% - 30px);}
+#video_modal button.close{position: absolute; top: 0; right: 5px}
 /*Portfolio*/
 .fortfolio-info{ background:#FFF; padding:15px; max-width:930px; margin:0 auto 10px; text-align:left;}
 
@@ -386,7 +384,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 
 /*InsidePage*/
 .insidepage{ width:750px; padding:30px 0 0;}
-.contacts{width:100%; max-width:600px; margin:0 auto; padding:30px 0 60px; text-align:center;}
+.contacts:not(#mobile-menu ul li a){width:100%; max-width:600px; margin:0 auto; padding:30px 0 60px; text-align:center;}
 .contacts h1{ margin:20px 0;}
 .contacts h2{ margin:30px 0;}
 .contacts form{ width:100%; text-align:center;}
@@ -570,31 +568,31 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 	.carousel-indicators{ bottom:-10px;}
 	.icons li a{ width:40px; height:40px;padding:0px;}
 	.icons li a i{ font-size:14px;}
-	
+
 	.textpage{padding:20px 0 0;}
 	.background-img{ height:230px;}
 	.contactform, .contactdata{padding:20px 0; text-align:center;}
 	.contactform .btn-success{ width:100%;padding:12px; }
 	.form-control{padding:10px; height:auto !important;}
-	
+
 	.regdate{margin:0 0 20px;}
 	.personal-data .btn-success{ width:100%; padding:12px; margin:15px 0;}
 	.personal-data .row div:nth-of-type(2){ font-size:18px;}
 	.personal-data .row div:nth-of-type(3){ text-align:left;}
 	.breadcrumb{margin: 15px auto;}
-	
+
 	.map{ display:none;}
-	
+
 	.advantages{ text-align:center; padding:20px;}
 	.advantages i{ float:none; display:block; font-size:72px; margin:0px;}
-	
+
 	.payed-partner a{ width:50%;}
 	.brands a.shop-item{ width:50%;}
 	.categories{ height:60px;}
 	.categories a span.cat-name{ display:none;}
 	.categories a i.demo-icon{ float:none; margin:0;}
 	.categories a span{ text-align:center;}
-	
+
 	.search-result{margin: 0 -15px 20px;}
 	.whitebg{ z-index:40;}
 	.stats .col-sm-4{ margin:0 0 30px;}
@@ -602,18 +600,18 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 	.footer-menu li{ display:block;}
 	.footer-menu ul{ padding:0px; border-top:solid 1px #FFF; margin:10px 0 0;}
 	.footer-menu ul li a{ padding:15px; display:block; border-bottom:1px solid #FFF;}
-	
+
 	.innerpage, .singlepage {padding: 50px 0 0;}
-	
+
 	.sresult-tags{ margin:0 0 20px;}
 	.sresult-tags .sreautl-text{ display:block; float:none; padding:0px; line-height:3;}
-	
+
 	.details-content .white {padding:20px;}
 	.details-content .white h3 {margin:20px 0;}
 	.details-content .social{ height:84px;}
 	.details-content .social span{ width:50%; margin:0px; padding:2px; float:left;}
 	.details-content .social span a{ display:block; float:none; padding:10px;}
-	
+
 	.profile-page{ width:100%; margin:50px auto 0;}
 	.profile-page .tab-content .profile-tab-body {padding:20px;}
 	.changepass .btn, .personaldata-edit .btn, .pay-method .btn{ padding:10px; width:100%;}
@@ -622,11 +620,11 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 	.profile-page .nav-tabs li i{ float:none; margin:0;}
 	.profile-tab-body h3{ margin:0 0 20px;}
 	.profile-page .nav-tabs > li:nth-of-type(4) > a{margin:0px;}
-	
+
 	.profile-tab-body .avatar{ float:none; margin:0 auto 20px;}
 	.profile-tab-body .addavatar,
 	.profile-tab-body .remove{ display:block; float:none; text-align:center; margin:20px 0;}
-	
+
 	.pay-method .method{ height:auto; position:relative;}
 	.pay-method .method span{ float:none; margin:0px; line-height:2;}
 	.pay-method .method span.radio{ float:left; margin:8px 0 0;}
@@ -634,29 +632,29 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 	.method .edit, .method .delete{ position:absolute; top:18px; right:50px; margin:0px; font-size:20px;}
 	.method .delete{top:17px; right:20px;}
 	.addmethod {margin:20px 0;}
-	
+
 	.sum-item:nth-of-type(1){border-top:dotted 1px #CCC;}
 	.personaldata .col-sm-6 {padding: 10px 15px; margin: 0 14px 1px; background: #F1F1F1;}
-	
+
 	.notifications .col-md-3{ text-align:left; font-size:12px; line-height:3;}
 	.sresult-tag{padding:2px; float:none;}
 	.sresult-tag span{ margin:0px; padding:10px}
 	.sresult-tag a{ font-size:12px; margin:1px 5px 0 0;}
-	
+
 	.profile-tab-body .editdata{ margin:28px 0 0;}
 	.profile-tab-body .editdata span{ display:none;}
 	.profile-tab-body .editdata i{font-size:20px; margin:0px;}
-	
+
 	/*History Tab*/
 	.history-grid{border-top:solid 1px #CCC;}
 	.hg-heading {display:none;}
 	.hg-data{position:relative; height:70px; margin:0px;}
-	.hg-data div{position:absolute; width:auto; line-height:1;}	
+	.hg-data div{position:absolute; width:auto; line-height:1;}
 	.hg-data div:nth-of-type(1){top:15px; left:0px; font-weight:bold; font-size:16px;}
 	.hg-data div:nth-of-type(2){top:40px; left:0px; color:#999;font-size:13px;}
 	.hg-data div:nth-of-type(3){top:40px; right:0px;color:#999;font-size:13px;}
 	.hg-data div:nth-of-type(4){top:15px; right:0px;}
-	
+
 	.add-payment-method{ padding:20px 0; background:none; border:solid #CCC; border-width:1px 0;}
 	.select-custom{width:100%;}
 	.select-custom select{padding:10px;}
@@ -668,7 +666,7 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 	.brands span.brand-name{ min-height:40px; margin:0 0 10px;}
 	.login-block .col-lg-6{ padding:10px 20px;}
 	.modal-content h4{ padding:20px 0 0 20px;}
-	
+
 	/*Backgrounds*/
 	.highlighted,
 	.bg-carousel .item:nth-child(1),
@@ -678,7 +676,7 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 		background:#1d1d1d url(../images/backgrounds/flowers-2-mob.jpg) top center repeat fixed;
 	}
 	.bg-carousel .item:nth-child(1) {
-    	background: url(../images/backgrounds/bg4-mob.jpg) no-repeat top center fixed;
+		background: url(../images/backgrounds/bg4-mob.jpg) no-repeat top center fixed;
 	}
 	.bg-carousel .item:nth-child(2) {
 		background: url(../images/backgrounds/bg5-mob.jpg) no-repeat top center fixed;

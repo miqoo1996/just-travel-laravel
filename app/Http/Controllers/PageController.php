@@ -88,11 +88,13 @@ class PageController extends Controller
             }
             return view('page_detail', compact('page'));
         } else {
+            $tourCatRelations = TourCatRel::all()->pluck('cat_id')->toArray();
+            $tourCategories = TourCategory::whereIn('id', array_unique($tourCatRelations))->get()->toArray();
             $tourIds = TourCatRel::all()->pluck('tour_id')->toArray();
             $data['tourCategory'] = $tourCategory;
             $data['tours'] = Tour::ToursByCategory($tourCategory->id, false);
 //            dd($data['tours']);
-            $data['tourCategories'] = TourCategory::whereIn('id', array_unique($tourIds))->get()->toArray();
+            $data['tourCategories'] = $tourCategories;
             return view('tours', $data);
         }
     }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrdersTable extends Migration
+class CreateTourDatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,11 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('tour_dates', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->integer('tour_id')->unsigned();
             $table->foreign('tour_id')->references('id')->on('tours');
-            $table->integer('hotel_id');
-            $table->integer('order_amount');
-            $table->string('order_token');
-
+            $table->date('date');
         });
     }
 
@@ -31,6 +27,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('orders');
+        Schema::drop('tour_dates');
     }
 }

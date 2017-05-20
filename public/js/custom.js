@@ -26,21 +26,23 @@
 		});
 	});
 	//Fix categories after scroll
-	var fixmeTop = $('.fixme').offset().top;
-	$(window).scroll(function() {
-		var currentScroll = $(window).scrollTop()+70;
-		if (currentScroll >= fixmeTop) {
-			$('.fixme').css({
-				position: 'fixed',
-				top: '70px',
-				left: '0'
-			});
-		} else {
-			$('.fixme').css({
-				position: 'static',
-			});
-			$(".fixme").addClass("aaa");
-		}
-	});
+	if($('.fixme').length) {
+        var fixmeTop = $('.fixme').offset().top;
+        $(window).scroll(function () {
+            var currentScroll = $(window).scrollTop() + 70;
+            if (currentScroll >= fixmeTop) {
+                $('.fixme').css({
+                    position: 'fixed',
+                    top: '70px',
+                    left: '0'
+                });
+            } else {
+                $('.fixme').css({
+                    position: 'static',
+                });
+                $(".fixme").addClass("aaa");
+            }
+        });
+    }
 	//Tooltip
 	$('[data-toggle="tooltip"]').tooltip();

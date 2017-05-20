@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
+use App\OrderMember;
+use App\Payment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -41,17 +44,28 @@ class OrderTourController extends Controller
             $orderTour = array_flip(explode('/', $orderTour));
             if(isset($orderTour[$order_id])){
                 $order = OrderTour::where('order_id', $order_id)->first();
+                $saveOrder = clone $order;
                 $order->tour = $order->tour();
                 if(null !== $order->hotel_id) {
                     $order->days = $order->customDays();
                     $order->hotel = $order->hotel();
                     $order->tour_hotel = $order->tourHotel();
                     $rooms = HotelCalculator::calc($order->adult, $order->child, $order->infant);
-                    return view('order_tour', compact('order', 'rooms'));
+
+                    $adultPrice = $order->tour_hotel[config('const.adult_key_' . strval($order->adult)) . '_adult']  * $order->days;
+                    $childPrice = $order->tour_hotel['child'] * $order->days * $order->child;
+                    $infantPrice = $order->tour_hotel['infant'] * $order->days * $order->infant;
+
+                    $totalPrice = $adultPrice + $childPrice + $infantPrice;
+                    $saveOrder->amount = $totalPrice;
+                    $saveOrder->rooms = $rooms;
+                    $saveOrder->save();
+                    return view('order_tour', compact('order', 'rooms', 'totalPrice'));
                 }
                 $totalPrice = $order->tour['basic_price_adult'] * $order->adult + $order->tour['basic_price_child'] * $order->child + $order->tour['basic_price_infant'] * $order->infant;
+                $saveOrder->amount = $totalPrice;
+                $saveOrder->save();
                 return view('order_basic_tour', compact('order', 'totalPrice'));
-
             }
         }
         return redirect('404');
@@ -72,6 +86,7 @@ class OrderTourController extends Controller
             'infant_surname.*' => 'required',
 //            'infant_birth_date.*' => 'required|date|date_format:dd/mm/Y|before:yesterday',
             'infant_birth_date.*' => 'required',
+            'lead_email' => 'required|email'
 
         ];
         $lang = app()->getLocale();
@@ -88,17 +103,76 @@ class OrderTourController extends Controller
             'child_birth_date.*.date' => config('validation.'.$lang.'.child_birth_date_date'),
             'infant_birth_date.*.required' => config('validation.'.$lang.'.infant_birth_date_required'),
             'infant_birth_date.*.date' => config('validation.'.$lang.'.infant_birth_date_date'),
+            'lead_email.required' => config('validation.'.$lang.'.lead_email_required'),
+            'lead_email.email' => config('validation.'.$lang.'.lead_email_email'),
         ];
 
         $validator = Validator::make($request->input(), $rules, $messages);
         if($validator->fails()){
             return redirect()->back()->withInput()->withErrors($validator);
         }
-        
+        $orderTour = OrderTour::where('order_id', $request->order_id)->first();
+        $orderTour->lead_email = $request->lead_email;
+        $orderTour->comment = $request->comment;
+        $orderTour->save();
+        foreach ($request->adult_name as $key => $value){
+            $member['member_name'] = $value;
+            $member['member_surname'] = $request->adult_surname[$key];
+            $member['member_dob'] = $request->adult_birth_date[$key];
+            $member['member_prp'] = 'adult';
+            $member['order_id'] = $orderTour->id;
+            $data[] = $member;
+        }
+        if(count($request->child_name)){
+            foreach ($request->child_name as $key => $value){
+                $member['member_name'] = $value;
+                $member['member_surname'] = $request->child_surname[$key];
+                $member['member_dob'] = $request->child_birth_date[$key];
+                $member['member_prp'] = 'child';
+                $member['order_id'] = $orderTour->id;
+                $data[] = $member;
+            }
+        }
+        if(count($request->infant_name)) {
+
+            foreach ($request->infant_name as $key => $value) {
+                $member['member_name'] = $value;
+                $member['member_surname'] = $request->infant_surname[$key];
+                $member['member_dob'] = $request->infant_birth_date[$key];
+                $member['member_prp'] = 'infant';
+                $member['order_id'] = $orderTour->id;
+                $data[] = $member;
+            }
+        }
+        OrderMember::where('order_id', $orderTour->id)->delete();
+        if(isset($data)){ OrderMember::insert($data);}
+        return redirect('/payment/'. $orderTour->order_id);
+//
     }
 
+    public function getPaymentByOrderId($order_id)
+    {
+        $orderTour = OrderTour::where('order_id', $order_id)->first();
+        if(null == $orderTour) {return redirect('404');}
+        else {
+            $view = 'payment_basic';
+            $orderTour->tour = $orderTour->tour();
+            if(null !== $orderTour->hotel_id) {
+                $orderTour->hotel = $orderTour->hotel();
+                $view = 'payment';
+            }
+            $orderTour->members = $orderTour->members();
+        }
+        return view($view, compact('orderTour'));
+    }
     public function postOrderedBasicTour(Request $request)
     {
         dd($request->input());
+    }
+
+    public function postPay(Request $request)
+    {
+        $orderTour = OrderTour::where('order_id', $request->order_id)->first();
+        Payment::makeOrder($orderTour);
     }
 }

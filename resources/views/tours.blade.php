@@ -25,26 +25,31 @@
         <div class="container search-cont">
             <div class="row">
                 <form>
-                    <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
-                        <input class="datepicker" type="text" placeholder="Date from">
-                    </div>
-                    <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
-                        <input class="datepicker" type="text" placeholder="Date from">
+                    <div class="input-daterange">
+                        <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
+                            <input type="text" id="date_start" class="input-sm form-control datepicker" name="start"
+                                   placeholder="{{trans('messages.date_from')}}">
+                        </div>
+                        <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
+                            <input type="text" id="date_end" class="input-sm form-control datepicker" name="end"
+                                   placeholder="{{trans('messages.date_to')}}">
+                        </div>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
                         <div class="dropdown">
-                            <select class="form-control">
+                            <select class="form-control" id="tour_category_selector">
+                                <option value="">{{trans('messages.all_categories')}}</option>
                                 @foreach($tourCategories as $key => $tourCategory)
-                                    <option value="{{$tourCategory['id']}}">{{$tourCategory['category_name_'.app()->getLocale()]}}</option>
+                                    <option value="{{$tourCategory['id'].'/'.$tourCategory['property']}}">{{$tourCategory['category_name_'.app()->getLocale()]}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12 filteritem">
-                        <input class="search-field" type="text" placeholder="Search by keywords">
+                        <input class="search-field" type="text" placeholder="{{trans('messages.search_by_keywords')}}" name="tags" id="tags">
                     </div>
                     <div class="col-md-2 col-sm-12 col-xs-12 filteritem">
-                        <input type="submit" class="btn btn-warning" value="Search">
+                        <input type="button" id="search_tours" value="{{trans('messages.search')}}">
                     </div>
                 </form>
             </div>
@@ -53,7 +58,7 @@
 @endsection
 @section('content')
     <div class="maincont">
-        <div class="popular-tours">
+        <div class="popular-tours" id="tours_area">
             <div class="container">
                 <h2>{{$tours['tourCategory']['category_name_'.app()->getLocale()]}}</h2>
 
@@ -96,4 +101,16 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $('.input-daterange').datepicker({
+            format: "dd/mm/yyyy",
+            startDate: "d",
+            maxViewMode: 0,
+            language: "{{app()->getLocale()}}",
+            multidate: false
+        });
+    </script>
+
 @endsection

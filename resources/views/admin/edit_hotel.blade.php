@@ -180,8 +180,11 @@
                             <ul class="list-unstyled custom-image-viewer">
                                 @foreach($hotel->images as $image)
                                         <li class="col-lg-2 custom-image-viewer-item">
-                                            <span class="-remove custom-image-remove-button" id="{{'hotels?' .$hotel->id . '?hotels?' . $image}}"></span>
-                                            <img src="{{URL::asset('/' . $image)}}" alt="profile Pic">
+                                            <div>
+                                                <span class="-remove custom-image-remove-button" id="{{'hotels?' .$hotel->id . '?hotels?' . $image}}"></span>
+                                                <button type="button" class="cropper-modal" id="gallery" data-target="#cropper-modal" data-toggle="modal"></button>
+                                                <img src="{{URL::asset('/' . $image)}}" alt="profile Pic">
+                                            </div>
                                         </li>
                                 @endforeach
                             </ul>
@@ -192,7 +195,13 @@
                             <input type="file" name="main_image" size="chars" id="main_image">
                         </p>
                         @if(null !== $hotel->main_image)
-                            <div><img src="{{URL::asset('/' . $hotel->main_image)}}" alt="profile Pic" width="400"></div>
+                            <h2>Main Image</h2>
+                            <div class="custom-image-viewer">
+                                <div class="custom-image-viewer-item">
+                                    <button type="button" class="cropper-modal" id="main-image" data-target="#cropper-modal" data-toggle="modal"></button>
+                                    <img src="{{asset($hotel->main_image)}}" alt="">
+                                </div>
+                            </div>
                         @else
                             <div><p class="alert warning">No image</p></div>
                         @endif
@@ -236,39 +245,39 @@
 @endsection
 
 @section('js')
-    <!-- jQuery -->
-    <script src={{asset("vendors/jquery/dist/jquery.min.js")}}></script>
-    <!-- Bootstrap -->
-    <script src={{asset("vendors/bootstrap/dist/js/bootstrap.min.js")}}></script>
-    <!-- FastClick -->
-    <script src={{asset("vendors/fastclick/lib/fastclick.js")}}></script>
-    <!-- NProgress -->
-    <script src={{asset("vendors/nprogress/nprogress.js")}}></script>
-    <!-- bootstrap-progressbar -->
-    <script src={{asset("vendors/bootstrap-progressbar/bootstrap-progressbar.min.js")}}></script>
-    <!-- iCheck -->
-    <script src={{asset("vendors/iCheck/icheck.min.js")}}></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src={{asset("vendors/moment/min/moment.min.js")}}></script>
-    <script src={{asset("vendors/bootstrap-daterangepicker/daterangepicker.js")}}></script>
-    <!-- bootstrap-wysiwyg -->
-    <script src={{asset("vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js")}}></script>
-    <script src={{asset("vendors/jquery.hotkeys/jquery.hotkeys.js")}}></script>
-    <script src={{asset("vendors/google-code-prettify/src/prettify.js")}}></script>
-    <!-- jQuery Tags Input -->
-    <script src={{asset("vendors/jquery.tagsinput/src/jquery.tagsinput.js")}}></script>
-    <!-- Switchery -->
-    <script src={{asset("vendors/switchery/dist/switchery.min.js")}}></script>
-    <!-- Select2 -->
-    <script src={{asset("vendors/select2/dist/js/select2.full.min.js")}}></script>
-    <!-- Parsley -->
-    <script src={{asset("vendors/parsleyjs/dist/parsley.min.js")}}></script>
-    <!-- Autosize -->
-    <script src={{asset("vendors/autosize/dist/autosize.min.js")}}></script>
-    <!-- jQuery autocomplete -->
+    {{--<!-- jQuery -->--}}
+    {{--<script src={{asset("vendors/jquery/dist/jquery.min.js")}}></script>--}}
+    {{--<!-- Bootstrap -->--}}
+    {{--<script src={{asset("vendors/bootstrap/dist/js/bootstrap.min.js")}}></script>--}}
+    {{--<!-- FastClick -->--}}
+    {{--<script src={{asset("vendors/fastclick/lib/fastclick.js")}}></script>--}}
+    {{--<!-- NProgress -->--}}
+    {{--<script src={{asset("vendors/nprogress/nprogress.js")}}></script>--}}
+    {{--<!-- bootstrap-progressbar -->--}}
+    {{--<script src={{asset("vendors/bootstrap-progressbar/bootstrap-progressbar.min.js")}}></script>--}}
+    {{--<!-- iCheck -->--}}
+    {{--<script src={{asset("vendors/iCheck/icheck.min.js")}}></script>--}}
+    {{--<!-- bootstrap-daterangepicker -->--}}
+    {{--<script src={{asset("vendors/moment/min/moment.min.js")}}></script>--}}
+    {{--<script src={{asset("vendors/bootstrap-daterangepicker/daterangepicker.js")}}></script>--}}
+    {{--<!-- bootstrap-wysiwyg -->--}}
+    {{--<script src={{asset("vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js")}}></script>--}}
+    {{--<script src={{asset("vendors/jquery.hotkeys/jquery.hotkeys.js")}}></script>--}}
+    {{--<script src={{asset("vendors/google-code-prettify/src/prettify.js")}}></script>--}}
+    {{--<!-- jQuery Tags Input -->--}}
+    {{--<script src={{asset("vendors/jquery.tagsinput/src/jquery.tagsinput.js")}}></script>--}}
+    {{--<!-- Switchery -->--}}
+    {{--<script src={{asset("vendors/switchery/dist/switchery.min.js")}}></script>--}}
+    {{--<!-- Select2 -->--}}
+    {{--<script src={{asset("vendors/select2/dist/js/select2.full.min.js")}}></script>--}}
+    {{--<!-- Parsley -->--}}
+    {{--<script src={{asset("vendors/parsleyjs/dist/parsley.min.js")}}></script>--}}
+    {{--<!-- Autosize -->--}}
+    {{--<script src={{asset("vendors/autosize/dist/autosize.min.js")}}></script>--}}
+    {{--<!-- jQuery autocomplete -->--}}
     <script src={{asset("vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js")}}></script>
-    <!-- starrr -->
-    <script src={{asset("vendors/starrr/dist/starrr.js")}}></script>
+    {{--<!-- starrr -->--}}
+    {{--<script src={{asset("vendors/starrr/dist/starrr.js")}}></script>--}}
     <!-- Custom Theme Scripts -->
 
 

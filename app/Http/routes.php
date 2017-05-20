@@ -81,7 +81,8 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('/order_tour/{order_id}', 'OrderTourController@getOrderTour');
     Route::post('/post_ordered_custom_tour', 'OrderTourController@postOrderedCustomTour');
     Route::post('/post_ordered_basic_tour', 'OrderTourController@postOrderedBasicTour');
+    Route::get('/payment/{order_id}', 'OrderTourController@getPaymentByOrderId');
+    Route::get('/pay', 'OrderTourController@postPay');
     Route::post('/update_cropped', 'AdminController@postUpdateCropped');
-
     Route::get('/{page_url}', 'PageController@getPageByUrl');
 });

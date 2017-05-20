@@ -8,18 +8,41 @@ li.custom-image-viewer-item{
     width: inherit;
     max-width: 300px
 }
+div.custom-image-viewer,
 li.custom-image-viewer-item div{
     display: inline-block;
     position: relative;
+    max-width: 400px;
+    margin-bottom: 10px;
 }
 .drop-image:hover span,
-.custom-image-viewer-item:hover span{
+.custom-image-viewer-item:hover span,
+.custom-image-viewer-item:hover button.cropper-modal{
     visibility: visible;
 }
 .drop-image img,
 .custom-image-viewer-item img{
     max-width: 100%;
     border-radius: 5px;
+}
+.custom-image-viewer-item .cropper-modal{
+    position: absolute;
+    display: inline-block;
+    width: 31px;
+    height: 30px;
+    top: 0;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    text-align: center;
+    border-radius: 0 0 4px 4px;
+    visibility: hidden;
+    border: none;
+}
+div.custom-image-viewer-item .cropper-modal{
+    right: 0;
+    margin-right: 0;
+    border-radius: 0 0 0 4px;
 }
 .custom-image-viewer-item span{
     position: absolute;
@@ -34,6 +57,19 @@ li.custom-image-viewer-item div{
     border-radius: 0 0 0 4px;
     visibility: hidden;
 }
+.custom-image-viewer-item button.cropper-modal:before{
+    font-family: FontAwesome;
+    content: '\f125';
+    color: #000;
+    font-size: 20px;
+    line-height: 28px;
+    opacity: 0.4;
+    /*font-weight: bold*/
+}
+.custom-image-viewer-item button.cropper-modal:hover:before,
+.custom-image-viewer-item span:hover:before {
+    opacity: 1;
+}
 .custom-image-viewer-item span:before{
     font-family: FontAwesome;
     content: '\f014';
@@ -41,7 +77,7 @@ li.custom-image-viewer-item div{
     font-size: 25px;
     line-height: 30px;
     opacity: 0.4;
-    font-weight: bold
+    /*font-weight: bold*/
 }
 input.admin-image-upload{
     width: 1px;
@@ -81,14 +117,14 @@ label.admin-image-label:after{
     right: 5px;
 }
 #cropper-modal .modal-dialog{
-    width: 800px;
+    width: 1184px;
 }
 #cropper-modal .modal-body{
     text-align:center;
 }
-#cropper-modal .image-container{
-    display: inline-block;
-}
 #cropper-modal #image{
     max-width: 100%;
+}
+#cropper-modal .image-container{
+    height: 580px;
 }

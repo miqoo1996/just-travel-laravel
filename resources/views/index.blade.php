@@ -168,8 +168,5 @@
             language: "{{app()->getLocale()}}",
             multidate: false
         });
-
-
     </script>
-
 @endsection

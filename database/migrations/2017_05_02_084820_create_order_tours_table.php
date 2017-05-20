@@ -24,6 +24,7 @@ class CreateOrderToursTable extends Migration
             $table->integer('child');
             $table->integer('infant');
             $table->string('order_id');
+            $table->integer('amount');
         });
     }
 

@@ -335,7 +335,7 @@
                         specific days)</label>
                     <div class="col-md-3 col-sm-3 col-xs-3">
                         <input type="text" name="specific_days" class="form-control calendar tour-datepicker"
-                               placeholder="DatePicker" value="{{$tour->specific_days}}">
+                               placeholder="DatePicker" value="{{$tour->tour_dates}}">
                     </div>
                 </div>
 
@@ -362,7 +362,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Calendar</label>
                         <div class="col-md-3 col-sm-3 col-xs-3">
                             <input type="text" class="form-control calendar tour-datepicker" placeholder="DatePicker"
-                                   name="custom_dates" value="{{$tour->custom_dates}}">
+                                   name="custom_dates" value="{{$tour->tour_dates}}">
                         </div>
                     </div>
                     <div class="form-group" style="margin:27px 0 0;">
@@ -540,9 +540,12 @@
                                             <div><p class="alert warning">No images</p></div>
                                         @else
                                             <li class="col-lg-2 custom-image-viewer-item">
-                                                <span class="-remove custom-image-remove-button"
-                                                      id="{{'tours?' .$tour->id . '?tour_images?' . $tour_image}}"></span>
-                                                <img src="{{URL::asset('/' . $tour_image)}}" alt="profile Pic">
+                                                <div>
+                                                    <span class="-remove custom-image-remove-button"
+                                                          id="{{'tours?' .$tour->id . '?tour_images?' . $tour_image}}"></span>
+                                                    <button type="button" class="cropper-modal" id="gallery" data-target="#cropper-modal" data-toggle="modal"></button>
+                                                    <img src="{{asset($tour_image)}}" alt="profile Pic">
+                                                </div>
                                             </li>
                                         @endif
 
@@ -551,24 +554,30 @@
                             </div>
                             <h2>Main Image (Optimal size is 350x200px)</h2>
                             <p><input type="file" name="main_image" size="chars"></p>
-                            <div>
-                                <h2>Uploaded Main Image</h2>
-                                <div class="clearfix"></div>
-                            </div>
                             @if(null !== $tour->main_image)
-                                <div><img src="{{URL::asset('/' . $tour->main_image)}}" alt="profile Pic" width="400">
+                                <h2>Main Image</h2>
+                                <div class="custom-image-viewer">
+                                    <div class="custom-image-viewer-item">
+                                        <button type="button" class="cropper-modal" id="main-image" data-target="#cropper-modal" data-toggle="modal"></button>
+                                        <img src="{{asset($tour->main_image)}}" alt="">
+                                    </div>
                                 </div>
                             @else
                                 <div><p class="alert warning">No image</p></div>
                             @endif
                             <h2>Hot Tour Image (Optimal size is 1920x400px)</h2>
                             <p><input type="file" name="hot_image" size="chars"></p>
-                            <div>
-                                <h2>Uploaded Hot Tour Image</h2>
-                                <div class="clearfix"></div>
-                            </div>
+
                             @if(null !== $tour->hot_image)
-                                <div><img src="{{URL::asset('/' . $tour->hot_image)}}" alt="profile Pic" width="200">
+                                <div>
+                                    <h2>Uploaded Hot Tour Image</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="custom-image-viewer">
+                                    <div class="custom-image-viewer-item">
+                                        <button type="button" class="cropper-modal" id="hot" data-target="#cropper-modal" data-toggle="modal"></button>
+                                        <img src="{{asset($tour->hot_image)}}" alt="">
+                                    </div>
                                 </div>
                             @else
                                 <div><p class="alert warning">No image</p></div>
@@ -624,6 +633,7 @@
 @section('script')
     <script>
         $('.tour-datepicker').datepicker({
+            format: 'dd/mm/yyyy',
             orientation: "auto right",
             multidate: true
         });

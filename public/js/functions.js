@@ -113,6 +113,7 @@ $(document).ready( function () {
             container = null;
         });
         $("#confirm").on("click", function(){
+            alert('ok');
             $.ajax({
                 url:'/admin/remove-data',
                 type: 'POST',

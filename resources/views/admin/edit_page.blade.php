@@ -114,10 +114,17 @@
                             <p><input type="file" name="image" size="chars"></p>
                         </div>
                     </div>
+                    @if(!empty($page->image))
+                    <h2>Main Image</h2>
+                    <div class="custom-image-viewer">
+                        <div class="custom-image-viewer-item">
+                            <button type="button" class="cropper-modal" id="gallery" data-target="#cropper-modal" data-toggle="modal"></button>
+                            <img src="{{asset($page->image)}}" alt="">
+                        </div>
+                    </div>
+                    @endif
                 </div>
-                <div class="custom-image-viewer">
-                    <div class="custom-image-viewer-item"><img src="{{asset($page->image)}}" alt=""></div>
-                </div>
+
 
 
                 <div class="x_panel">

@@ -26,7 +26,9 @@
     <link rel="stylesheet" href={{asset("vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css")}} >
     <link rel="stylesheet" href={{asset("vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css")}} >
     <link rel="stylesheet" href={{asset("vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css")}} >
-    <link rel="stylesheet" href={{asset("vendors/crop/dist/cropper.css")}}>
+{{--    <link rel="stylesheet" href={{asset("vendors/crop/dist/cropper.css")}}>--}}
+    <link rel="stylesheet" href="{{asset('vendors/croppie/croppie.css')}}" />
+
 
 @yield('css')
     <!-- Custom Theme Style -->
@@ -201,11 +203,11 @@
                     </div>
                     <div class="modal-body">
                         <div class="image-container">
-                            <img id="image" src="http://justtravel.dev/images/gallery/1/content/58ff118e14ce1.jpg" alt="Picture">
+                            <img id="image" src="" alt="Picture">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel_croppie">Close</button>
                         <button type="button" class="btn btn-success" id="save_cropped">Save</button>
                     </div>
                 </div>
@@ -224,7 +226,9 @@
 </div>
 
 <!-- jQuery -->
+
 <script src={{asset("vendors/jquery/dist/jquery.min.js")}}></script>
+<script src={{asset("js/functions.js")}}></script>
 
 <!-- Bootstrap -->
 <script src={{asset("vendors/bootstrap/dist/js/bootstrap.min.js")}}></script>
@@ -251,15 +255,17 @@
 <script src={{asset("vendors/jszip/dist/jszip.min.js")}}></script>
 <script src={{asset("vendors/pdfmake/build/pdfmake.min.js")}}></script>
 <script src={{asset("vendors/pdfmake/build/vfs_fonts.js")}}></script>
-<script src={{asset("vendors/crop/dist/cropper.js")}}></script>
+{{--<script src={{asset("vendors/crop/dist/cropper.js")}}></script>--}}
+<script src="{{asset("vendors/croppie/croppie.js")}}"></script>
+
 <script src="{{asset("js/cropper.js")}}"></script>
 <script type="text/javascript" src="{{ asset('vendors/tinymce/tinymce.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendors/tinymce/init-tinymce.js') }}"></script>
+<script src={{asset("build/js/custom.min.js")}}></script>
 @yield('js')
 
 <!-- Custom Theme Scripts -->
-<script src={{asset("build/js/custom.min.js")}}></script>
-<script src={{asset("js/functions.js")}}></script>
+
 
 @yield('script')
 </body>
