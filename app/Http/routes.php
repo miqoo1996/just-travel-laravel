@@ -58,7 +58,6 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::group(['middleware' => ['language']], function () {
-
     Route::get('/', 'PageController@getIndexPage');
     Route::get('set_lang/{lang}', 'LanguageController@setLanguage');
     Route::get('/x_cat/{category_id}', 'TourController@ajaxGetToursByCategory');
@@ -84,5 +83,8 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('/payment/{order_id}', 'OrderTourController@getPaymentByOrderId');
     Route::get('/pay', 'OrderTourController@postPay');
     Route::post('/update_cropped', 'AdminController@postUpdateCropped');
+    Route::get('/resources/tags', 'PageController@getTags');
+
     Route::get('/{page_url}', 'PageController@getPageByUrl');
+
 });

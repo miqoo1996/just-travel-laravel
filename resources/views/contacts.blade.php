@@ -7,7 +7,7 @@
     @endif
     <div class="maincont">
         <div class="container">
-            <div class="row contacts">
+            <div class="row contact-page">
                 <h1>{{trans('messages.contacts')}}</h1>
                 <p>
                    {!! trans('messages.address_text') !!}

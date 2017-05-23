@@ -72,19 +72,30 @@
 
             @include('includes.footer_menu')
 
-            <div class="row">
-
-                <div class="col-xs-12">
-                    <div class="social">
-                        <a href="#"><i class="demo-icon just-facebook">&#xf30c;</i></a>
-                        <a href="#"><i class="demo-icon just-twitter">&#xf099;</i></a>
-                        <a href="#"><i class="demo-icon just-youtube">&#xe801;</i></a>
-                        <a href="#"><i class="demo-icon just-linkedin">&#xe802;</i></a>
-                        <a href="#"><i class="demo-icon just-pinterest">&#xf231;</i></a>
-                        <a href="#"><i class="demo-icon just-gplus">&#xf30f;</i></a>
-                    </div>
-                </div>
-            </div>
+	<div class="row">
+    <div class="col-xs-12">
+        <div class="social">
+            <a target="_blank" href="https://www.facebook.com/JustTravelInArmenia/">
+            	<i class="demo-icon just-facebook">&#xf30c;</i>
+            </a>
+            <a target="_blank" href="https://twitter.com/justtravel3?lang=en">
+            	<i class="demo-icon just-twitter">&#xf099;</i>
+            </a>
+            <a target="_blank" href="https://www.youtube.com/channel/UC4vrPwk7ZJmIiQLgjtMl7Tw">
+            	<i class="demo-icon just-youtube">&#xe801;</i>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/company-beta/9357479/">
+            	<i class="demo-icon just-linkedin">&#xe802;</i>
+            </a>
+            <a target="_blank" href="#">
+            	<i class="demo-icon just-pinterest">&#xf231;</i>
+            </a>
+            <a target="_blank" href="#">
+            	<i class="demo-icon just-gplus">&#xf30f;</i>
+            </a>
+        </div>
+    </div>
+    </div>
 
             <div class="col-xs-12 copyright">
                 <p>+374 55 007 404 <span class="sep">/</span> +374 95 111 610 <span class="sep">/</span> <a

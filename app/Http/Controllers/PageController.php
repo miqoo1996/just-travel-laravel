@@ -88,14 +88,47 @@ class PageController extends Controller
             }
             return view('page_detail', compact('page'));
         } else {
-            $tourCatRelations = TourCatRel::all()->pluck('cat_id')->toArray();
-            $tourCategories = TourCategory::whereIn('id', array_unique($tourCatRelations))->get()->toArray();
-            $tourIds = TourCatRel::all()->pluck('tour_id')->toArray();
+            $tourCategories = TourCatRel::join('tour_categories', 'tour_categories.id', '=', 'tour_cat_rels.cat_id')
+                ->select('tour_categories.*')->distinct()->get()->toArray();
             $data['tourCategory'] = $tourCategory;
             $data['tours'] = Tour::ToursByCategory($tourCategory->id, false);
-//            dd($data['tours']);
             $data['tourCategories'] = $tourCategories;
             return view('tours', $data);
         }
+    }
+
+    public function getTags()
+    {
+        $allTags = [];
+        $counter = 0;
+        $tags = Tour::where('visibility', 'on')->select('tags_en','tags_ru', 'tour_name_en', 'tour_name_ru')->distinct()->get();
+        foreach ($tags as $tagStr){
+            $tagsStrEn = explode(',', $tagStr->tags_en);
+            foreach ($tagsStrEn as $tagStrEn){
+                $allTags[$counter]['name'] = $tagStrEn;
+                $allTags[$counter]['code'] = 'tag';
+                $counter++;
+
+            }
+            $tagsStrRu = explode(',', $tagStr->tags_ru);
+            foreach ($tagsStrRu as $tagStrRu){
+                $allTags[$counter]['name'] = $tagStrRu;
+                $allTags[$counter]['code'] = 'tag';
+                $counter++;
+            }
+
+            $allTags[$counter]['name'] = $tagStr->tour_name_en;
+            $allTags[$counter]['code'] = 'title';
+            $counter++;
+            $allTags[$counter]['name'] = $tagStr->tour_name_ru;
+            $allTags[$counter]['code'] = 'title';
+            $counter++;
+        }
+        $allTags = array_unique($allTags, SORT_REGULAR);
+        foreach ($allTags as $res){
+            $result[] = $res;
+        }
+
+        return response()->json(array_filter(($result)));
     }
 }

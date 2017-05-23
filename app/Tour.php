@@ -137,10 +137,12 @@ class Tour extends Model
     {
         $dates = [];
         $localdates = array_flip(config('const.bootstrap_week_days'));
-
-        for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
+        $date = $start_date;
+        while ($date <= $date->lte($end_date)){
             $dates[] = $localdates[$date->dayOfWeek];
+            $date->addDay();
         }
+
         $dates = array_unique($dates);
         return $dates;
     }
@@ -148,11 +150,11 @@ class Tour extends Model
     public static function generateDateRange(Carbon $start_date, Carbon $end_date)
     {
         $dates = [];
-
-        for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
+        $date = $start_date;
+        while($date <= $date->lte($end_date)){
             $dates[] = $date->format('Y-m-d');
+            $date->addDay();
         }
-
         return $dates;
     }
 
@@ -257,22 +259,12 @@ class Tour extends Model
     {
         if ($tourTags) {
             $tours = $tours->where(function ($query) use ($tourTags) {
-                if (app()->getLocale() == 'ru') {
-                    foreach ($tourTags as $key => $tourTag) {
-                        if ($key == 0) {
-                            $query = $query->where('tours.tags_ru', 'like', '%' . $tourTag . '%');
-                        } else {
-                            $query = $query->orWhere('tours.tags_ru', 'like', '%' . $tourTag . '%');
-                        }
-                    }
-                } else {
-                    foreach ($tourTags as $key => $tourTag) {
-                        if ($key == 0) {
-                            $query = $query->where('tours.tags_en', 'like', '%' . $tourTag . '%');
-                        } else {
-                            $query = $query->orWhere('tours.tags_en', 'like', '%' . $tourTag . '%');
-                        }
-                    }
+                foreach ($tourTags as $key => $tourTag) {
+                    $query = $query->where('tours.tags_ru', 'like', '%' . $tourTag . '%');
+                    $query = $query->orWhere('tours.tags_ru', 'like', '%' . $tourTag . '%');
+                    $query = $query->orWhere('tours.tags_en', 'like', '%' . $tourTag . '%');
+                    $query = $query->orWhere('tours.tour_name_en', 'like', '%' . $tourTag . '%');
+                    $query = $query->orWhere('tours.tour_name_ru', 'like', '%' . $tourTag . '%');
                 }
             });
         }

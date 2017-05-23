@@ -318,11 +318,9 @@ class TourController extends Controller
 
     public function postSearchTours(Request $request)
     {
-        DB::enableQueryLog();
+//        DB::enableQueryLog();
         $searchTours = Tour::searchTours($request)->toArray();
-        dd(DB::getQueryLog());
+//        dd(DB::getQueryLog());
         return View::make('ajax_views.search_tours', compact('searchTours'));
     }
-
-
 }

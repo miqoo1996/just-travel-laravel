@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12 filteritem">
-                        <div class="dropdown">
+                        <div class="customselect">
                             <select class="form-control" id="tour_category_selector">
                                 <option value="">{{trans('messages.all_categories')}}</option>
                                 @foreach($tourCategories as $key => $tourCategory)
@@ -49,7 +49,7 @@
                         <input class="search-field" type="text" placeholder="{{trans('messages.search_by_keywords')}}" name="tags" id="tags">
                     </div>
                     <div class="col-md-2 col-sm-12 col-xs-12 filteritem">
-                        <input type="button" id="search_tours" value="{{trans('messages.search')}}">
+                        <input type="button" id="search_tours" class="btn btn-warning" value="{{trans('messages.search')}}">
                     </div>
                 </form>
             </div>
@@ -108,9 +108,12 @@
             format: "dd/mm/yyyy",
             startDate: "d",
             maxViewMode: 0,
+            weekStart: 1,
             language: "{{app()->getLocale()}}",
             multidate: false
         });
     </script>
-
+    <link rel="stylesheet" href="{{asset("vendors/easy_autocomplete/easy-autocomplete.css")}}">
+    <script src="{{asset("vendors/easy_autocomplete/jquery.easy-autocomplete.js")}}"></script>
+    <script src="{{asset('/js/autofill.js')}}"></script>
 @endsection
