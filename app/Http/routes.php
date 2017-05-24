@@ -83,7 +83,7 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('/payment/{order_id}', 'OrderTourController@getPaymentByOrderId');
     Route::get('/pay', 'OrderTourController@postPay');
     Route::post('/update_cropped', 'AdminController@postUpdateCropped');
-    Route::get('/resources/tags', 'PageController@getTags');
+    Route::get('/resources/tags/9996487a1df5', 'PageController@getTags');
 
     Route::get('/{page_url}', 'PageController@getPageByUrl');
 

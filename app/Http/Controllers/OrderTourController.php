@@ -173,6 +173,11 @@ class OrderTourController extends Controller
     public function postPay(Request $request)
     {
         $orderTour = OrderTour::where('order_id', $request->order_id)->first();
-        Payment::makeOrder($orderTour);
+        $url = Payment::makeOrder($orderTour);
+        if($url){
+            return redirect($url);
+        }
+        Session::flash('payment_error', 'Payment Failed');
+        return redirect('/');
     }
 }

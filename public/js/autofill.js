@@ -1,6 +1,6 @@
 $(function () {
     var options = {
-        url: "/resources/tags",
+        url: "/resources/tags/9996487a1df5",
         getValue: "name",
         list: {
             match: {
