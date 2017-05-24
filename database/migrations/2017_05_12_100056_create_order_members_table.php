@@ -14,8 +14,7 @@ class CreateOrderMembersTable extends Migration
     {
         Schema::create('order_members', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order_id')->unsigned();
-            $table->foreign('order_id')->references('order_id')->on('order_tours');
+            $table->string('order_id');
             $table->enum('member_prp',['adult', 'child', 'infant']);
             $table->string('member_name');
             $table->string('member_surname');

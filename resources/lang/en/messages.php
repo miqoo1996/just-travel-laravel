@@ -56,5 +56,10 @@ return [
     'comments'=> 'Comments',
     'lead_email' => 'Travelers Lead Email Address',
     'vaucher_gen_text' => 'System will generate travel vaucher and send to the selected email address.',
-    'tour_date' => 'Tour Date'
+    'tour_date' => 'Tour Date',
+    'congratulations' => 'Congratulations !!!',
+    'you_paid_for' => 'You have payed for tour',
+    'vaucher_sent_text' => 'Information about vaucher we sent to your email …..',
+    'in' => 'in'
+
 ];

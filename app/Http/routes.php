@@ -3,7 +3,7 @@
 Route::get('/admin', 'AdminController@getLogin');
 Route::get('/admin/register', 'AdminController@getRegister');
 Route::post('/admin/panel', 'AdminController@postLogin')->name('login');
-//Route::post('/admin/register', 'AdminController@postRegister')->name('register');
+Route::post('/admin/register', 'AdminController@postRegister')->name('register');
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('/admin/dashboard', 'AdminController@getDashboard')->name('admin-dashboard');
 	Route::get('/admin/tours-categories', 'TourCategoryController@adminGetTourCategories')->name('admin-tours-categories');
@@ -84,7 +84,7 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('/pay', 'OrderTourController@postPay');
     Route::post('/update_cropped', 'AdminController@postUpdateCropped');
     Route::get('/resources/tags/9996487a1df5', 'PageController@getTags');
-
+    Route::get('/congratulations', 'OrderTourController@getCongratulations');
     Route::get('/{page_url}', 'PageController@getPageByUrl');
 
 });

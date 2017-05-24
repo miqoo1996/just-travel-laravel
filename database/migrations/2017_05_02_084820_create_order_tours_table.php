@@ -17,7 +17,7 @@ class CreateOrderToursTable extends Migration
             $table->timestamps();
             $table->integer('tour_id')->unsigned();
             $table->foreign('tour_id')->references('id')->on('tours');
-            $table->integer('hotel_id')->unsigned();
+            $table->integer('hotel_id')->unsigned()->nullable();
             $table->foreign('hotel_id')->references('id')->on('hotels');
             $table->string('date_from');
             $table->integer('adult');
@@ -25,6 +25,9 @@ class CreateOrderToursTable extends Migration
             $table->integer('infant');
             $table->string('order_id');
             $table->integer('amount');
+            $table->string('lead_email');
+            $table->text('comment');
+            $table->integer('rooms');
         });
     }
 

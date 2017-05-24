@@ -15,7 +15,7 @@ class CreateTourDatesTable extends Migration
         Schema::create('tour_dates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tour_id')->unsigned();
-            $table->foreign('tour_id')->references('id')->on('tours');
+            $table->foreign('tour_id')->references('id')->on('tours')->onUpdate('restrict')->onDelete('cascade');
             $table->date('date');
         });
     }
