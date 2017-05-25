@@ -17,6 +17,7 @@
                                    class="{{strtolower(str_replace(' ', '_', $tc['category_name_en']))}}">{{$tc['category_name_'.app()->getLocale()]}}</a>
                             </li>
                             @endforeach
+                            <div class="clear"></div>
                 </ul>
             </div>
         </div>
@@ -45,7 +46,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12 filteritem">
+                    <div class="col-md-4 col-sm-6 col-xs-12 filteritem searchfield">
                         <input class="search-field" type="text" placeholder="{{trans('messages.search_by_keywords')}}" name="tags" id="tags">
                     </div>
                     <div class="col-md-2 col-sm-12 col-xs-12 filteritem">

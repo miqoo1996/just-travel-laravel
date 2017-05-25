@@ -162,7 +162,7 @@ label:hover:before {border:1px solid #FFA300 !important;}
 .filter-search .dropdown-menu{ width:200px;}
 .search-field{ width:300px;}
 .filteritem{ padding:0 2px;}
-.filteritem:nth-of-type(4){padding:0 2px 0 20px;}
+.searchfield{padding:0 2px 0 20px;}
 select.form-control{padding:10px; border:0px; height:40px; box-shadow:none;}
 .filteritem .customselect{ overflow:hidden; background:#FFF url(../images/select.svg) right center no-repeat; background-size:24px; border-radius:4px;}
 .page-inside .filteritem .customselect{border:solid 1px #CCC;}
@@ -171,7 +171,7 @@ select.form-control{padding:10px; border:0px; height:40px; box-shadow:none;}
 .page-inside .filteritem .search-field{ height:40px;}
 
 /*Main Page Categories*/
-.mp-categories{ background:#FFF; height:80px;}
+.mp-categories{ background:#FFF;}
 .fixme{ width:100%; z-index:100;}
 .mp-categories li{float:left; width:180px; padding:0px; list-style-type:none;}
 .mp-categories li a{display:block; padding:4px 10px; line-height:1; text-decoration:none; border-radius:5px;}
@@ -263,7 +263,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .dropdown-menu{ max-height:221px; overflow:auto;}
 
 /*Tours*/
-.page-tours .mp-categories{border-top:solid 1px #F1F1F1;}
+.page-tours .mp-categories{border-bottom:solid 1px #F1F1F1;}
 .page-tours .filter-search input{border:solid 1px #CCC;}
 .page-tours .filter-search input[type="submit"]{border:none; padding:10px 50px;}
 .page-tours .filter-search .btn-primary, .page-tours .filter-search .dropdown-toggle, .page-tours .filter-search .btn-primary:active:focus{border:solid 1px #CCC !important;}
@@ -350,7 +350,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .filter-details { background:#F1F1F1; padding:15px;}
 .filter-details input, .filter-details label{ display:inherit; float:none;}
 .filter-details input{ padding:10px; margin:0px; border-radius:4px; border:solid 1px #e3e3e3;}
-.filter-details input[type="submit"]{ float:right; padding:10px; width:140px; border-radius:4px;}
+.filter-details input[type="button"]{ float:right; padding:10px; width:140px; border-radius:4px;}
 
 .feedback{ padding:10px 20px 20px; background:#F1F1F1; margin:20px 0 0;}
 .feedback input[type="text"],
@@ -358,7 +358,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .feedback .btn{width:100%; max-width:140px; padding:10px; height:auto;}
 .feedback .hint{ font-style:italic; color:#666; margin:0 0 10px;}
 
-.btn.btn-warning{ background:#FFA300; border:none;}
+.btn.btn-warning{ background:#FFA300; border:none !important;}
 .btn.btn-warning:hover{background:#e59200; border:none;}
 
 /*Preview*/
