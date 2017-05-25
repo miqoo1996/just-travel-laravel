@@ -24,7 +24,9 @@
                 <span><span class="date">{{$orderTour['adult'] + $orderTour['child'] + $orderTour['infant']}}</span>{{trans('messages.total_travelers')}}</span>
                 <span><span class="date {{$currency['currency']}}">{{round($orderTour['amount'] / $currency[$currency['currency']], 2)}}</span>{{trans('messages.total_price')}}</span>
             </div>
-            <div class="hint">{{trans('messages.contact_person') . ' : ' . 'Pogos Pogosyan / Email: '.$orderTour['lead_email']}}</div>
+            <div class="hint">{{trans('messages.contact_person') . ' : ' . $orderTour['members'][0]['member_name'] . ' ' .
+            $orderTour['members'][0]['member_surname'] . ' ' .
+            ' / Email: '.$orderTour['lead_email']}}</div>
             <form action="{{url('pay')}}">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" name="order_id" value="{{$orderTour['order_id']}}">

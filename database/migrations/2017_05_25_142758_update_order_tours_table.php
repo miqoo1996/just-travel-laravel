@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateToursTable extends Migration
+class UpdateOrderToursTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,8 @@ class UpdateToursTable extends Migration
      */
     public function up()
     {
-        Schema::table('tours', function($table){
-           $table->string('traveler_email')->nullable();
-           $table->integer('price')->nullable();
-           $table->string('tour_day')->nullable();
+        Schema::table('order_tours', function (Blueprint $table) {
+            $table->string('md_order');
         });
     }
 
@@ -26,6 +24,8 @@ class UpdateToursTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('order_tours', function (Blueprint $table) {
+            $table->dropColumn(['md_order']);
+        });
     }
 }
