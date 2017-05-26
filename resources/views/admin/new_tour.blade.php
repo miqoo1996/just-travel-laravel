@@ -25,13 +25,13 @@
                             <div class="col-md-8 col-sm-8 col-xs-12 margin-t-20">
                                 <label>Tour Category</label>
                                 <div class="checkbox-custom tour-category-checkboxes">
-                                    @foreach($tour_categories as $tour_category)
+                                @foreach($tour_categories as $tour_category)
                                         <label>
-                                            <input type="checkbox" class="{{$tour_category->property}}" name="tour_category_id[]" value="{{$tour_category->id . '/' . $tour_category->property . '/' . $tour_category->category_name_en}}">
-                                            <span>{{$tour_category->category_name_en}}</span>
+                                            <input type="checkbox" class="{{$tour_category->property}}" name="tour_category_id[]" value="{{$tour_category->id . '/' . $tour_category->property . '/' . $tour_category->category_name_en}}"><span>{{$tour_category->category_name_en}}</span>
                                         </label>
-                                    @endforeach
+                                @endforeach    
                                 </div>
+                    
                             </div>
                         </div>
                     </div>
@@ -343,7 +343,7 @@
                         </div>
                         <div class="x_content">
                             <p>Drag multiple images to the box below for multi upload or click to select files. Required maximum with for images should be 1000px.</p>
-                            <input type="file" name="tour_images[]" id="tour_images" multiple="multiple">
+                            <input type="file" name="tour_images[]" id="tour_images" multiple>
                             <br />
                             <h2>Main Image (Optimal size is 350x200px)</h2>
                             <p><input type="file" name="main_image" size="chars"></p>
