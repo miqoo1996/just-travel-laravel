@@ -25,6 +25,12 @@ class GalleryController extends Controller
     {
         if(isset($request->gallery_id)){
             $gallery = Gallery::find($request->gallery_id);
+            if(!$request->has('gallery')){
+                $gallery->gallery = 'off';
+            }
+            if(!$request->has('portfolio')){
+                $gallery->portfolio = 'off';
+            }
             $gallery->fill($request->input());
             $gallery->save();
         } else {

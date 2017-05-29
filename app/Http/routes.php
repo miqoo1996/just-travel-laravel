@@ -81,7 +81,7 @@ Route::group(['middleware' => ['language']], function () {
     Route::post('/post_ordered_custom_tour', 'OrderTourController@postOrderedCustomTour');
     Route::post('/post_ordered_basic_tour', 'OrderTourController@postOrderedBasicTour');
     Route::get('/payment/{order_id}', 'OrderTourController@getPaymentByOrderId');
-    Route::get('/pay', 'OrderTourController@postPay');
+    Route::post('/pay', 'OrderTourController@postPay');
     Route::post('/update_cropped', 'AdminController@postUpdateCropped');
     Route::get('/resources/tags/9996487a1df5', 'PageController@getTags');
     Route::get('/congratulations', 'OrderTourController@getCongratulations');

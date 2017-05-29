@@ -175,7 +175,6 @@ class OrderTourController extends Controller
         $orderTour = OrderTour::where('order_id', $request->order_id)->first();
         $url = Payment::makeOrder($orderTour);
         if($url){
-            
             return redirect($url);
         }
         Session::flash('payment_error', 'Payment Failed');
@@ -189,15 +188,19 @@ class OrderTourController extends Controller
             if(null == $order){
                 return redirect('404');
             }
+            $orderStatus = Payment::checkOrder(request()->orderId);
+                if (Session::has('order_tour')){
+                    $orderSession = Session::get('order_tour');
+                    $orderSession = str_replace('/'.$order->order_id, '', $orderSession);
+                    $orderSession = str_replace($order->order_id . '/', '', $orderSession);
+                    $orderSession = str_replace($order->order_id, '', $orderSession);
+                    $orderSession = str_replace('//', '/', $orderSession);
+                    Session::put('order_tour', $orderSession);
+                }
+                dd($orderStatus);
             $order['tour'] = $order->tour();
-            if (Session::has('order_tour')){
-                $orderSession = Session::get('order_tour');
-                $orderSession = str_replace('/'.$order->order_id, '', $orderSession);
-                $orderSession = str_replace($order->order_id . '/', '', $orderSession);
-                $orderSession = str_replace($order->order_id, '', $orderSession);
-                $orderSession = str_replace('//', '/', $orderSession);
-                Session::put('order_tour', $orderSession);
-            }
+
+
             return view('congratulations', compact('order'));
         }
         return redirect('404');

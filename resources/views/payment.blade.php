@@ -29,10 +29,11 @@
             </div>
             <div class="hint">{{trans('messages.contact_person') . ' : ' . $orderTour['members'][0]['member_name'] . ' ' .
             $orderTour['members'][0]['member_surname'] . ' ' .
-            ' / Email: '.$orderTour['lead_email']}}</div>            <form action="{{url('pay')}}">
+            ' / Email: '.$orderTour['lead_email']}}</div>
+            <form action="{{url('pay')}}" method="post">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" name="order_id" value="{{$orderTour['order_id']}}">
-                <button type="submit" class="btn btn-warning">{{trans('approve_and_pay')}}</button>
+                <button type="submit" class="btn btn-warning">{{trans('messages.approve_and_pay')}}</button>
             </form>
         </div>
     </div>

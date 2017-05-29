@@ -15,10 +15,21 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('amount');
-            $table->string('order_token');
-            $table->enum('lang', ['en', 'ru'])->default('en');
-            $table->integer('currency');
+            $table->string('loc_amount');
+            $table->string('expiration');
+            $table->string('cardholderName');
+            $table->integer('depositAmount');
+            $table->string('currency');
+            $table->string('approvalCode');
+            $table->string('authCode');
+            $table->string('ErrorCode');
+            $table->string('ErrorMessage');
+            $table->string('OrderStatus');
+            $table->string('OrderNumber');
+            $table->string('Pan');
+            $table->integer('Amount');
+            $table->string('Ip');
+            $table->string('SvfeResponse');
         });
     }
 

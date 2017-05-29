@@ -105,7 +105,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="x_panel add_new">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                <button type="submit" class="btn btn-default">Cancel</button>
+                                <button type="button" class="btn btn-default" onclick="window.location.href='{{url()->previous()}}'">Cancel</button>
                                 <button type="submit" class="btn btn-success">Update</button>
                             </div>
                         </div>

@@ -18,7 +18,7 @@
                     <div class="tour-description">
                         <h3>{{trans('messages.hotel_description')}}</h3>
                         <p>
-                            {{$hotel['desc_'.app()->getLocale()]}}
+                            {!!$hotel['desc_'.app()->getLocale()]!!}
                         </p>
                     </div>
                 </div>

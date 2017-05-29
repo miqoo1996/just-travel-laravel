@@ -147,8 +147,7 @@
                         <div class="ln_solid"></div>
                         <div class="">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <button type="button" class="btn btn-danger">Delete</button>
-                            <button type="button" class="btn btn-default">Cancel</button>
+                            <button type="button" class="btn btn-default" onclick="window.location.href='{{url()->previous()}}'">Cancel</button>
                             <button type="submit" class="btn btn-success">Save</button>
                         </div>
 
