@@ -24,15 +24,13 @@
                             <div class="col-md-8 col-sm-8 col-xs-12 margin-t-20">
                                 <label>Tour Category</label>
                                 <div class="checkbox-custom tour-category-checkboxes">
-                                    @foreach($tour_categories as $tour_category)
+                                @foreach($tour_categories as $tour_category)
                                         <label>
-                                            <input type="checkbox" class="{{$tour_category->property}}"
-                                                   name="tour_category_id[]"
-                                                   value="{{$tour_category->id . '/' . $tour_category->property . '/' . $tour_category->category_name_en}}">
-                                            <span>{{$tour_category->category_name_en}}</span>
+                                            <input type="checkbox" class="{{$tour_category->property}}" name="tour_category_id[]" value="{{$tour_category->id . '/' . $tour_category->property . '/' . $tour_category->category_name_en}}"><span>{{$tour_category->category_name_en}}</span>
                                         </label>
-                                    @endforeach
+                                @endforeach    
                                 </div>
+                    
                             </div>
                         </div>
                     </div>

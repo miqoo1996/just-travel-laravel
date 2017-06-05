@@ -17,6 +17,8 @@
 .custom_day{ margin:0 0 10px !important;border-bottom:solid 1px #E6E9ED;}
 h2{ line-height:1.2 !important;}
 
+.tour-category-checkboxes label{ width:180px;}
+
 .loginbtn{ width:100%; display:block; margin:0px !important; background:#2A3F54 !important; color:#FFF !important; text-shadow:none; padding:10px !important;border:1px solid #2A3F54 !important;}
 .loginbtn:hover{border:1px solid #2A3F54 !important; background:#FFF !important;color:#2A3F54 !important; transition:all ease 0.5s;}
 
