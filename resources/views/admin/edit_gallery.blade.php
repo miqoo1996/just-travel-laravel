@@ -48,7 +48,7 @@
                                 </div>
 
                                 <div class="x-content">
-                                    <textarea class="tinymce" name="gallery_desc_en"
+                                    <textarea class="ckeditor" name="gallery_desc_en"
                                               id="desc_en">{{$gallery->gallery_desc_en}}</textarea>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
 
                                 <div class="x-content">
                                     <div class="x-content">
-                                        <textarea class="tinymce" name="gallery_desc_ru" id="desc_en">{{$gallery->gallery_desc_ru}}</textarea>
+                                        <textarea class="ckeditor" name="gallery_desc_ru" id="desc_en">{{$gallery->gallery_desc_ru}}</textarea>
                                     </div>
 
                                 </div>

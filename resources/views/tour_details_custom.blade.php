@@ -60,7 +60,7 @@
                             <input class="" type="number" id="infant" placeholder="">
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
-                            <label for="example-text-input" class="col-form-label">&nbsp;</label>
+                            <label for="example-text-input" class="col-form-label"></label>
                             <input type="hidden" id="tour_id" value="{{$tour['tour_id']}}">
                             <input type="button" class="btn btn-warning" value="{{trans('messages.search')}}"
                                    id="detail_search">

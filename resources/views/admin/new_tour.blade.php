@@ -65,9 +65,7 @@
                             </div>
 
                             <div class="x-content">
-                                <textarea class="tinymce" name="desc_en" id="desc_en">
-
-                                 </textarea>
+                                <textarea class="tinymce" name="desc_en" id="desc_en"></textarea>
                             </div>
                             <br>
                             <div class="form-group">
@@ -166,7 +164,7 @@
                             </div>
 
                             <div class="x_content">
-                                <textarea class="tinymce" name="desc_ru" id="desc_ru">
+                                <textarea class="ckedir" name="desc_ru" id="desc_ru">
 
                                  </textarea>
                             </div>

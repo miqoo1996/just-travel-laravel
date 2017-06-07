@@ -82,7 +82,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <textarea class="tinymce" name="desc_en" id="desc_en">{{$hotel->desc_en}}</textarea>
+                            <textarea class="ckeditor" name="desc_en" id="desc_en">{{$hotel->desc_en}}</textarea>
                         </div>
 
                         <div class="clearfix"></div>
@@ -114,7 +114,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x-content">
-                            <textarea class="tinymce" name="desc_ru" id="desc_en">{{$hotel->desc_ru}}</textarea>
+                            <textarea class="ckeditor" name="desc_ru" id="desc_en">{{$hotel->desc_ru}}</textarea>
                         </div>
                         <div class="clearfix"></div>
                         <div class="">

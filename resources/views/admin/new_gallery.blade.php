@@ -45,7 +45,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x-content">
-                                    <textarea class="tinymce" name="gallery_desc_ru"
+                                    <textarea class="ckeditor" name="gallery_desc_ru"
                                               id="desc_en"></textarea>
                                 </div>
                                 <div class="x-content">
@@ -73,7 +73,7 @@
 
                                 <div class="x-content">
                                     <div class="x-content">
-                                        <textarea class="tinymce" name="gallery_desc_ru" id="desc_en"></textarea>
+                                        <textarea class="ckeditor" name="gallery_desc_ru" id="desc_en"></textarea>
                                     </div>
                                 </div>
                             </div>

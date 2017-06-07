@@ -71,7 +71,7 @@
                             </div>
 
                             <div class="x-content">
-                                <textarea class="tinymce" name="desc_en" id="desc_en">{{$tour->desc_en}}</textarea>
+                                <textarea class="ckeditor" name="desc_en" id="desc_en">{{$tour->desc_en}}</textarea>
                             </div>
                             <br>
                             <div class="form-group">
@@ -158,7 +158,7 @@
                             </div>
 
                             <div class="x_content">
-                                <textarea class="tinymce" name="desc_ru" id="desc_ru">
+                                <textarea class="ckeditor" name="desc_ru" id="desc_ru">
                                     {{$tour->desc_ru}}
                                  </textarea>
                             </div>

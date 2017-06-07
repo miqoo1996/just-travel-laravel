@@ -34,7 +34,7 @@
                         <h2>Tour Description</h2>
                         <div class="clearfix"></div>
                     </div>
-                    <textarea class="tinymce" name="desc_en" id="desc_en">{{$tour->desc_en}}</textarea>
+                    <textarea class="ckeditor" name="desc_en" id="desc_en">{{$tour->desc_en}}</textarea>
 
                     <div class="margin-b-10">
                         <div class="x_title">

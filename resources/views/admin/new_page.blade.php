@@ -58,7 +58,7 @@
                                 </div>
 
                                 <div class="x-content">
-                                    <textarea class="tinymce" name="desc_en" id="desc_en"></textarea>
+                                    <textarea class="ckeditor" name="desc_en" id="desc_en"></textarea>
                                 </div>
                             </div>
                             <!--tab content end-->
@@ -88,7 +88,7 @@
 
 
                                 <div class="x_content">
-                                    <textarea class="tinymce" name="desc_ru" id="desc_ru"></textarea>
+                                    <textarea class="ckeditor" name="desc_ru" id="desc_ru"></textarea>
                                 </div>
                             </div>
                             <!--tab content end-->
