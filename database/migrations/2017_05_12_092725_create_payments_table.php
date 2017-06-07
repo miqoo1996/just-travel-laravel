@@ -30,6 +30,9 @@ class CreatePaymentsTable extends Migration
             $table->integer('Amount');
             $table->string('Ip');
             $table->string('SvfeResponse');
+            $table->integer('order_tour_id')->unsigned();
+            $table->foreign('order_tour_id')->references('id')->on('order_tours')
+                ->onDelete('cascade');
         });
     }
 

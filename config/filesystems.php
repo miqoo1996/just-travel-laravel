@@ -61,7 +61,11 @@ return [
             'region' => 'your-region',
             'bucket' => 'your-bucket',
         ],
-
+        'voucher' => [
+            'driver' => 'local',
+            'root' => storage_path().'/vouchers',
+            'visibility' => 'private',
+        ]
     ],
 
 ];

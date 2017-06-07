@@ -76,12 +76,10 @@
 @endsection
 @section('content')
     <div class="maincont">
-
         <div class="navbar navbar-default">
             <a href="{{url('/')}}" class="logo-element"></a>
             <!-- /.container-fluid -->
         </div>
-
         @if(count($tourCategories))
             <div class="mp-categories fixme">
                 <div class="container">
@@ -93,7 +91,7 @@
                                 <li id="cat_list_{{$indexTours['tourCategory']['id']}}">
                                     @endif
                                     <a id="{{'x_cat/' . $tc['id']}}"
-                                       class="tc-viewer {{strtolower(str_replace(' ', '_', $tc['category_name_en']))}}">{{$tc['category_name_'.$locale]}}</a>
+                                       class="tc-viewer {{strtolower(str_replace(' ', '_', trim($tc['category_name_en'])))}}">{{$tc['category_name_'.$locale]}}</a>
                                 </li>
                                 @endforeach
                                 <div class="clear"></div>

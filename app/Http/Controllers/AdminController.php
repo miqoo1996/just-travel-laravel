@@ -7,6 +7,7 @@ use App\DownloadPDF;
 use App\GalleryPhotos;
 use App\Gallery;
 use App\Guide;
+use App\OrderTour;
 use App\Tour;
 use App\TourCategory;
 use App\User;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -42,30 +44,23 @@ class AdminController extends Controller
         }
         return redirect()->back();
     }
-    // TODO delete this after created needed user
-/**
- * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
- */
-    public function getRegister(){
-        return view('admin.register');
-    }
-
-/**
- * @param Request $request
- */
-    public function postRegister(Request $request){
-        $user = new User();
-        $user->email = $request->email;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->password = bcrypt($request->password);
-        $user->save();
-    }
-    // TODO here is end of this shit
 
     public function getDashboard()
     {
-        return view('admin.dashboard');
+        $orders = OrderTour::rightJoin('payments', 'payments.order_tour_id', '=', 'order_tours.id')
+            ->leftJoin('tours', 'tours.id', '=', 'order_tours.tour_id')
+            ->get();
+        $successOrders = $orders->where('OrderStatus', '2');
+        $totalAmount = 0;
+        foreach ($successOrders as $successOrder) {
+            $totalAmount += $successOrder->Amount;
+        }
+        $data['hotels_count'] = Hotel::all()->count();
+        $data['tours_count'] = Tour::all()->count();
+        $data['orders'] = $orders;
+        $data['success_orders'] = $successOrders;
+        $data['total_amount'] = $totalAmount/100;
+        return view('admin.dashboard', $data);
     }
 
     /**
@@ -255,5 +250,15 @@ class AdminController extends Controller
         Session::flush();
         Auth::logout();
         return redirect()->back();
+    }
+
+    public function adminGetVoucher($orderTourId)
+    {
+        $path = Storage::disk('voucher')->getDriver()->getAdapter()->applyPathPrefix($orderTourId.'.pdf');
+
+        return response()->make(file_get_contents($path), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$orderTourId.'.pdf'.'"'
+        ]);
     }
 }

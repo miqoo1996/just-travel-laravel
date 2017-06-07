@@ -111,8 +111,11 @@ class OrderTourController extends Controller
         if($validator->fails()){
             return redirect()->back()->withInput()->withErrors($validator);
         }
+
         $orderTour = OrderTour::where('order_id', $request->order_id)->first();
         $orderTour->lead_email = $request->lead_email;
+        $orderTour->lead_name = $request->adult_name[1];
+        $orderTour->lead_surname = $request->adult_surname[1];
         $orderTour->comment = $request->comment;
         $orderTour->save();
         foreach ($request->adult_name as $key => $value){
@@ -120,7 +123,7 @@ class OrderTourController extends Controller
             $member['member_surname'] = $request->adult_surname[$key];
             $member['member_dob'] = $request->adult_birth_date[$key];
             $member['member_prp'] = 'adult';
-            $member['order_id'] = $orderTour->id;
+            $member['order_tour_id'] = $orderTour->id;
             $data[] = $member;
         }
         if(count($request->child_name)){
@@ -129,7 +132,7 @@ class OrderTourController extends Controller
                 $member['member_surname'] = $request->child_surname[$key];
                 $member['member_dob'] = $request->child_birth_date[$key];
                 $member['member_prp'] = 'child';
-                $member['order_id'] = $orderTour->id;
+                $member['order_tour_id'] = $orderTour->id;
                 $data[] = $member;
             }
         }
@@ -140,11 +143,11 @@ class OrderTourController extends Controller
                 $member['member_surname'] = $request->infant_surname[$key];
                 $member['member_dob'] = $request->infant_birth_date[$key];
                 $member['member_prp'] = 'infant';
-                $member['order_id'] = $orderTour->id;
+                $member['order_tour_id'] = $orderTour->id;
                 $data[] = $member;
             }
         }
-        OrderMember::where('order_id', $orderTour->id)->delete();
+        OrderMember::where('order_tour_id', $orderTour->id)->delete();
         if(isset($data)){ OrderMember::insert($data);}
         return redirect('/payment/'. $orderTour->order_id);
 //
@@ -161,7 +164,7 @@ class OrderTourController extends Controller
                 $orderTour->hotel = $orderTour->hotel();
                 $view = 'payment';
             }
-            $orderTour->members = $orderTour->members();
+            $orderTour->members = $orderTour->members()->toArray();
         }
         return view($view, compact('orderTour'));
     }
@@ -173,12 +176,13 @@ class OrderTourController extends Controller
     public function postPay(Request $request)
     {
         $orderTour = OrderTour::where('order_id', $request->order_id)->first();
-        $url = Payment::makeOrder($orderTour);
-        if($url){
-            return redirect($url);
+        $response = Payment::makeOrder($orderTour);
+        if($response['status']){
+            return redirect($response['url']);
         }
-        Session::flash('payment_error', 'Payment Failed');
-        return redirect('/');
+        dd($response);
+//        Session::flash('payment_error', 'Payment Failed');
+//        return redirect('/');
     }
 
     public function getCongratulations()
@@ -197,11 +201,19 @@ class OrderTourController extends Controller
                     $orderSession = str_replace('//', '/', $orderSession);
                     Session::put('order_tour', $orderSession);
                 }
-                dd($orderStatus);
-            $order['tour'] = $order->tour();
+            $payment = new Payment();
+            $payment->fill($orderStatus);
+            $payment->order_tour_id =  $order->id;
+            $payment->save();
 
-
-            return view('congratulations', compact('order'));
+            if($payment->ErrorCode === '0') {
+                $order->status = 'payed';
+                $order->save();
+                $order['tour'] = $order->tour();
+                $order['members'] = $order->members()->toArray();
+                Payment::generateAndSendVоucher($order);
+                return view('congratulations', compact('order', 'image'));
+            }
         }
         return redirect('404');
     }

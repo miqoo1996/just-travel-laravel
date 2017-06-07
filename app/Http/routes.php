@@ -1,9 +1,7 @@
 <?php
 
 Route::get('/admin', 'AdminController@getLogin');
-Route::get('/admin/register', 'AdminController@getRegister');
 Route::post('/admin/panel', 'AdminController@postLogin')->name('login');
-Route::post('/admin/register', 'AdminController@postRegister')->name('register');
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('/admin/dashboard', 'AdminController@getDashboard')->name('admin-dashboard');
 	Route::get('/admin/tours-categories', 'TourCategoryController@adminGetTourCategories')->name('admin-tours-categories');
@@ -53,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/admin/update-currencies', 'AdminController@adminPostUpdateCurrencies')->name('admin-post-update-currencies');
     Route::post('/admin/reset-password', 'AdminController@adminPostResetPassword')->name('admin-post-reset-password');
     Route::get('/admin/logout', 'AdminController@adminLogout')->name('admin-logout');
+    Route::get('/admin/voucher/{orderTourId}', 'AdminController@adminGetVoucher');
 
 
 });

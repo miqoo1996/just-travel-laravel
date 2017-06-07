@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\TourCategory;
+use App\TourCatRel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,11 @@ class TourCategoryController extends Controller
 {
     public function adminGetTourCategories()
     {
-        $data['categories'] = TourCategory::all();
-        return view('admin.tour_categories', $data);
+        $categories = TourCategory::all();
+        foreach ($categories as $key => $category){
+            $categories[$key]['tours_count'] = TourCatRel::where('cat_id', $category->id)->count();
+        }
+        return view('admin.tour_categories', compact('categories'));
     }
 
     public function adminGetNewCategory()

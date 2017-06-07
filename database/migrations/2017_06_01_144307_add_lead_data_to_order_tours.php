@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateOrderTours extends Migration
+class AddLeadDataToOrderTours extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class UpdateOrderTours extends Migration
     public function up()
     {
         Schema::table('order_tours', function (Blueprint $table) {
-            $table->enum('status', ['pending','payed', 'declined'])->default('pending');
+            $table->string('lead_name');
+            $table->string('lead_surname');
         });
     }
 
@@ -25,7 +26,7 @@ class UpdateOrderTours extends Migration
     public function down()
     {
         Schema::table('order_tours', function (Blueprint $table) {
-            $table->dropColumn(['status']);
+            $table->dropColumn(['lead_name', 'lead_surname']);
         });
     }
 }

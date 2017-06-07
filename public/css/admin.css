@@ -111,6 +111,18 @@ label.admin-image-label:after{
     position: relative;
     z-index: 1;
 }
+.tinymce{
+    min-height: 350px;
+}
+#mceu_12 button span{
+    display: none;
+}
+#mceu_12 button:before{
+    font-family: 'FontAwesome';
+    content: '\f03e';
+    text-indent: 0px;
+    font-size: 20px
+}
 #clear-images{
     position: absolute;
     bottom: 5px;

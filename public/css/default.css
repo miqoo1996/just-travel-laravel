@@ -195,6 +195,7 @@ select.form-control{padding:10px; border:0px; height:40px; box-shadow:none;}
 .mp-categories a.children_tours:before{content:"\e80a";}
 .mp-categories a.family_tours:before{content:"\e823";}
 .mp-categories a.vip_tours:before{content:"\e82a";}
+.mp-categories a.daily_tours:before{content:"\e821";}
 
 /*Popular Tours*/
 .popular-tours{ background:#F1F1F1; text-align:center;}

@@ -60,6 +60,13 @@ return [
     'congratulations' => 'Congratulations !!!',
     'you_paid_for' => 'You have payed for tour',
     'vaucher_sent_text' => 'Information about vaucher we sent to your email …..',
-    'in' => 'in'
+    'in' => 'in',
+    'tour_lang' => 'Tour Language',
+    'order_date' => 'Order Date',
+    'cur_lang' => 'English',
+    'tour_id' => 'Tour ID',
+    'order_id' => 'Order ID',
+    'details' => 'Details',
+    'total_travelers' => 'Total Travelers'
 
 ];
