@@ -60,5 +60,9 @@ return [
     'congratulations' => 'Поздравляем !!!',
     'you_paid_for' => 'Вы оплатили тур',
     'vaucher_sent_text' => 'Информацию о ваучере мы отправили на ваш Email',
-    'in' => 'в'
+    'in' => 'в',
+	'total_travelers' => 'Путешественники',
+	'contact_person' => 'Контактное лицо',
+	'approve_and_pay' => 'Подтвердить и заплатить',
+	'accomodation' => 'Размещение'
 ];
