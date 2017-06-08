@@ -287,7 +287,10 @@ class TourController extends Controller
         }
         $data['datesDisabled'] = explode(',',$tour->specific_days);
         $daysOfWeekDisabled = explode(',', $tour->basic_frequency);
-        $data['daysOfWeekDisabled'] = implode(",",array_intersect_key(config('const.bootstrap_week_days'),array_flip($daysOfWeekDisabled)));
+        $bootstrapWeekDays = array_flip(config('const.bootstrap_week_days'));
+        $difference = array_diff($bootstrapWeekDays, $daysOfWeekDisabled);
+        $data['daysOfWeekDisabled'] = implode(",",array_flip($difference));
+
         return view('tour_details_basic', $data);
     }
 

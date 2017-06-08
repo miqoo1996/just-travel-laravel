@@ -117,8 +117,9 @@
 @section('script')
     <script type="text/javascript">
         $('.datepicker').datepicker({
-            startDate: 'd',
+            startDate: '+3d',
             daysOfWeekDisabled: "{{$daysOfWeekDisabled}}",
+            weekStart: 1,
             datesDisabled: [
                 @foreach($datesDisabled as $day)
                 "{{$day}}" ,

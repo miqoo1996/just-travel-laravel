@@ -16,7 +16,7 @@ class Currency extends Model
     ];
     public static function getCur()
     {
-        $currency = Currency::first()->toArray();
+        $currency = Currency::select('usd', 'amd', 'eur', 'rur')->first()->toArray();
 
         return $currency;
     }
