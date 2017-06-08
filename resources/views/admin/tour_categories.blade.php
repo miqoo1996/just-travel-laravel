@@ -31,7 +31,7 @@
                                     @foreach($categories as $category)
                                         <tr id="cnt-{{$category->id}}">
                                             <td>{{ $category->category_name_en }}</td>
-                                            <td>0</td>
+                                            <td>{{$category->tours_count}}</td>
                                             <td style="text-align:right;">
                                                 <a href="{{url('admin/edit-category/'.$category->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                                 @if($category->property !== 'basic')

@@ -142,9 +142,7 @@
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
-      <textarea class="tinymce" name="desc_ru" id="desc_ru">
-
-                                 </textarea>
+      <textarea class="tinymce" name="desc_ru" id="desc_ru"></textarea>
     </div>
     <br>
     <div class="form-group">
@@ -180,14 +178,10 @@
             <div class="custom_day">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Day 2</label>
               <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                <input type="text" class="form-control input-medium"
-                                                           name="custom_day_title_ru[]"
-                                                           placeholder="title">
+                <input type="text" class="form-control input-medium" name="custom_day_title_ru[]" placeholder="title">
               </div>
               <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
-                <textarea class="resizable_textarea form-control"
-                                                              placeholder="description"
-                                                              name="custom_day_desc_ru[]"></textarea>
+                <textarea class="resizable_textarea form-control" placeholder="description" name="custom_day_desc_ru[]"></textarea>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -195,8 +189,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 col-sm-12 col-xs-12"> <a class="btn add_day"><span><i class="fa fa-plus"></i> Add Day</span></a> <a style="float:right;" class="btn remove_day"><span><i
-                                                    class="fa fa-remove"></i> Remove Last Day</span></a> </div>
+      <div class="col-md-12 col-sm-12 col-xs-12"> <a class="btn add_day"><span><i class="fa fa-plus"></i> Add Day</span></a> <a style="float:right;" class="btn remove_day"><span><i class="fa fa-remove"></i> Remove Last Day</span></a> </div>
     </div>
     <div class="clearfix"></div>
     <div class="">
@@ -208,10 +201,8 @@
       <form>
         --}}
         <div class="control-group">
-          <input id="tags_ru" name="tags_ru" type="text" class="tags form-control"
-                                           value=""/>
-          <div id="suggestions-container"
-                                         style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+          <input id="tags_ru" name="tags_ru" type="text" class="tags form-control" value=""/>
+          <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
         </div>
         {{--
       </form>
@@ -221,12 +212,6 @@
 </div>
 <!--tab content end-->
 </div>
-{{--
-</div>
---}}
-            {{--
-</div>
---}}
 <div class="x_panel basic-field" style="display: none">
   <div class="form-group" style="margin:10px 0 0;">
     <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
@@ -247,46 +232,26 @@
     <div class="col-md-9 col-sm-9 col-xs-12 checkbox-custom">
       <label>
       <div class="icheckbox_flat-green" style="position: relative;">
-        <input type="checkbox"
-                                                                                                 name="basic_frequency[]"
-                                                                                                 value="mon"
-                                                                                                 class="flat"
-                                                                                                 style="position: absolute; opacity: 0;">
-        <ins class="iCheck-helper"
-                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> </div>
+        <input type="checkbox" name="basic_frequency[]" value="mon" class="flat" style="position: absolute; opacity: 0;">
+        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> </div>
       <span>M</span>
       </label>
       <label>
       <div class="icheckbox_flat-green" style="position: relative;">
-        <input type="checkbox"
-                                                                                                 name="basic_frequency[]"
-                                                                                                 value="tue"
-                                                                                                 class="flat"
-                                                                                                 style="position: absolute; opacity: 0;">
-        <ins class="iCheck-helper"
-                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> </div>
+        <input type="checkbox" name="basic_frequency[]" value="tue" class="flat" style="position: absolute; opacity: 0;">
+        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> </div>
       <span>T</span>
       </label>
       <label>
       <div class="icheckbox_flat-green" style="position: relative;">
-        <input type="checkbox"
-                                                                                                 name="basic_frequency[]"
-                                                                                                 value="wed"
-                                                                                                 class="flat"
-                                                                                                 style="position: absolute; opacity: 0;">
-        <ins class="iCheck-helper"
-                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> </div>
+        <input type="checkbox" name="basic_frequency[]" value="wed" class="flat" style="position: absolute; opacity: 0;">
+        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> </div>
       <span>W</span>
       </label>
       <label>
       <div class="icheckbox_flat-green" style="position: relative;">
-        <input type="checkbox"
-                                                                                                 name="basic_frequency[]"
-                                                                                                 value="thu"
-                                                                                                 class="flat"
-                                                                                                 style="position: absolute; opacity: 0;">
-        <ins class="iCheck-helper"
-                                     style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> </div>
+        <input type="checkbox" name="basic_frequency[]" value="thu" class="flat" style="position: absolute; opacity: 0;">
+        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins> </div>
       <span>T</span>
       </label>
       <label>

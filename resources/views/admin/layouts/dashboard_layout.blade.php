@@ -11,7 +11,8 @@
     <link href={{asset("css/custom.css")}} rel="stylesheet">
     <link href={{asset("css/admin.css")}} rel="stylesheet">
     <link rel="icon" href={{asset("images/favicon.png")}} type="image/x-icon">
-
+    <script type="text/javascript" src="{{ asset('vendors/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendors/tinymce/init-tinymce.js') }}"></script>
     <!-- Bootstrap -->
     <link rel="stylesheet" href={{asset("vendors/bootstrap/dist/css/bootstrap.min.css")}} >
     <!-- Font Awesome -->
@@ -74,13 +75,6 @@
                             <li>
                                 <a href="{{route("admin-hotels")}}"><i class="fa fa-coffee"></i>Hotels</a>
                             </li>
-                            {{--<li><a><i class="fa fa-clipboard"></i>Pages<span class="fa fa-chevron-down"></span></a>--}}
-                                {{--<ul class="nav child_menu">--}}
-                                    {{--<li><a href="{{route('admin-new-page')}}">Add New Page</a></li>--}}
-                                    {{--<li><a href="page.html">Page 1</a></li>--}}
-                                    {{--<li><a href="page.html">Page 2</a></li>--}}
-                                {{--</ul>--}}
-                            {{--</li>--}}
                             <li>
                                 <a href="{{route('admin-pages-list')}}"><i class="fa fa-clipboard"></i>Pages</a>
                             </li>
@@ -93,9 +87,6 @@
                             <li>
                                 <a href="{{route('admin-pdf-list')}}"><i class="fa fa-file-pdf-o"></i>Download PDF's</a>
                             </li>
-                            {{--<li>--}}
-                                {{--<a href="{{route('admin-guide-list')}}"><i class="fa fa-bullhorn"></i>Guides</a>--}}
-                            {{--</li>--}}
                             <li>
                                 <a href="{{route('admin-settings')}}"><i class="fa fa-gears"></i>Settings</a>
                             </li>
@@ -259,8 +250,6 @@
 <script src="{{asset("vendors/croppie/croppie.js")}}"></script>
 
 <script src="{{asset("js/cropper.js")}}"></script>
-<script type="text/javascript" src="{{ asset('vendors/tinymce/tinymce.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendors/tinymce/init-tinymce.js') }}"></script>
 <script src={{asset("build/js/custom.min.js")}}></script>
 @yield('js')
 

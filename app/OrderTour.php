@@ -31,6 +31,6 @@ class OrderTour extends Model
 
     public function members()
     {
-        return $this->hasMany('App\OrderMember', 'order_id', 'id')->get()->toArray();
+        return $this->hasMany('App\OrderMember', 'order_tour_id', 'id')->get();
     }
 }

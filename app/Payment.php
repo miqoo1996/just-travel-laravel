@@ -2,8 +2,12 @@
 
 namespace App;
 
+use Barryvdh\DomPDF\Facade as PDF;
+use FontLib\EOT\File;
 use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
+use Endroid\QrCode\QrCode;
+use Illuminate\Support\Facades\File as Files;
 
 
 class Payment extends Model
@@ -40,9 +44,13 @@ class Payment extends Model
         if(array_key_exists('formUrl', $response)){
             $orderTour->md_order = $response['orderId'];
             $orderTour->save();
-            return $response['formUrl'];
+            $data['status'] = true;
+            $data['url'] = $response['formUrl'];
+        } else {
+            $data['status'] = false;
+            $data['content'] = $response;
         }
-        return false;
+        return $data;
 
 //        $client = new Client(['verify'=> false]);
 //        $url = 'https://ipaytest.arca.am:8445/payment/rest/register.do';
@@ -65,5 +73,34 @@ class Payment extends Model
         $response = $client->request('get',$uri)->getBody()->getContents();
         $response = json_decode($response, true);
         return $response;
+    }
+
+    public static function generateAndSendVоucher($order)
+    {
+
+        $storePath = storage_path('vouchers');
+        $qrCode = new QrCode();
+        $qrText = self::generateQrText($order);
+            $qrCode->setText($qrText)
+            ->setErrorCorrectionLevel('low')
+            ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+            ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+            ->setWriterByName('png');
+
+        $qrCode->writeFile('images/qr/'.$order->id.'_qrcode.png');
+        $generatedFile = PDF::loadView('pdf.voucher', compact('order'));
+        $generatedFile->save($storePath.'/'.$order->id.'.pdf');
+        Files::delete('images/qr/'.$order->id.'_qrcode.png');
+    }
+
+    public static function generateQrText($order)
+    {
+        $qrText = "Travelers lead - " . $order['lead_name'] . ' ' . $order['lead_name'] . "\n";
+        $qrText .= "Contact - " . $order['lead_email'] . "\n";
+        $qrText .= "Travelers count - " . count($order['members']) . "\n";
+        $qrText .= "Tour - " . $order['tour']['tour_name_en'] . "\n";
+        $qrText .= "Tour Date - " . $order['date_from'] . "\n";
+        $qrText .= "Tour Price - " . $order['amount'] . " AMD \n";
+        return $qrText;
     }
 }
