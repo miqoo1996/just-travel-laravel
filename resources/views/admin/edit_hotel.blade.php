@@ -114,7 +114,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x-content">
-                            <textarea class="tinymce" name="desc_ru" id="desc_en">{{$hotel->desc_ru}}</textarea>
+                            <textarea class="tinymce" name="desc_ru" id="desc_ru">{{$hotel->desc_ru}}</textarea>
                         </div>
                         <div class="clearfix"></div>
                         <div class="">

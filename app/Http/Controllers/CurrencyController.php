@@ -19,5 +19,13 @@ class CurrencyController extends Controller
         return redirect()->back();
     }
 
+    public function setGuestTimezone(Request $request)
+    {
+        if($request->has('tz')){
+            $tz = (-1) * $request->tz / 60;
+            Session::set('tz', $tz);
+        }
+        return Session::get('tz');
+    }
 
 }

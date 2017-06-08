@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 });
-
+Route::post('/set_guest_timezone', 'CurrencyController@setGuestTimezone');
 Route::group(['middleware' => ['language']], function () {
     Route::get('/', 'PageController@getIndexPage');
     Route::get('set_lang/{lang}', 'LanguageController@setLanguage');

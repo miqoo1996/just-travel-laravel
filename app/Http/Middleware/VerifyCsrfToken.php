@@ -13,6 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'admin/*',
-        'admin/*/*'
+        'admin/*/*',
+        'set_guest_timezone'
     ];
 }

@@ -136,7 +136,25 @@ function tourHotelPay(){
 
     });
 }
-
-
-
-
+function setTimeZone() {
+    var tz = new Date().getTimezoneOffset();
+    $.ajax({
+        url: '/set_guest_timezone',
+        type: 'POST',
+        data: {
+            'tz': tz
+        },
+        success: function (data) {
+            var show;
+            if(data > 0) {
+                show = '+ ' + data;
+            } else {
+                show = data;
+            }
+            console.log('timezone set ' + show);
+        },
+        error: function () {
+            console.log('timezone error');
+        }
+    });
+}

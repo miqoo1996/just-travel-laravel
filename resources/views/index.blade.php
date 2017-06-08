@@ -173,6 +173,7 @@
             language: "{{app()->getLocale()}}",
             multidate: false
         });
+       setTimeZone();
     </script>
     <link rel="stylesheet" href="{{asset("vendors/easy_autocomplete/easy-autocomplete.css")}}">
     <script src="{{asset("vendors/easy_autocomplete/jquery.easy-autocomplete.js")}}"></script>

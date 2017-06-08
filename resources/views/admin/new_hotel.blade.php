@@ -81,7 +81,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <textarea  class="tinymce" name="desc_en" id="desc_ru"></textarea>
+                            <textarea  class="tinymce" name="desc_en" id="desc_en"></textarea>
                         </div>
                         <div class="clearfix"></div>
                         <div class="">
@@ -196,59 +196,5 @@
         </div>
     </form>
 </div>
-
-@endsection
-
-@section('css')
-    <link href={{asset("vendors/select2/dist/css/select2.min.css")}} rel="stylesheet">
-    <!-- Switchery -->
-    <link href={{asset("vendors/switchery/dist/switchery.min.css")}} rel="stylesheet">
-    <!-- starrr -->
-    <link href={{asset("vendors/starrr/dist/starrr.css")}} rel="stylesheet">
-    <!-- bootstrap-daterangepicker -->
-    <link href={{asset("vendors/bootstrap-daterangepicker/daterangepicker.css")}} rel="stylesheet">
-    <!-- Dropzone.js -->
-    {{--<link href={{asset("vendors/dropzone/dist/min/dropzone.min.css")}} rel="stylesheet">--}}
-@endsection
-
-@section('js')
-    <!-- jQuery -->
-    <script src={{asset("vendors/jquery/dist/jquery.min.js")}}></script>
-    <!-- Bootstrap -->
-    <script src={{asset("vendors/bootstrap/dist/js/bootstrap.min.js")}}></script>
-    <!-- FastClick -->
-    <script src={{asset("vendors/fastclick/lib/fastclick.js")}}></script>
-    <!-- NProgress -->
-    <script src={{asset("vendors/nprogress/nprogress.js")}}></script>
-    <!-- bootstrap-progressbar -->
-    <script src={{asset("vendors/bootstrap-progressbar/bootstrap-progressbar.min.js")}}></script>
-    <!-- iCheck -->
-    <script src={{asset("vendors/iCheck/icheck.min.js")}}></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src={{asset("vendors/moment/min/moment.min.js")}}></script>
-    <script src={{asset("vendors/bootstrap-daterangepicker/daterangepicker.js")}}></script>
-    <!-- bootstrap-wysiwyg -->
-    <script src={{asset("vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js")}}></script>
-    <script src={{asset("vendors/jquery.hotkeys/jquery.hotkeys.js")}}></script>
-    <script src={{asset("vendors/google-code-prettify/src/prettify.js")}}></script>
-    <!-- jQuery Tags Input -->
-    <script src={{asset("vendors/jquery.tagsinput/src/jquery.tagsinput.js")}}></script>
-    <!-- Switchery -->
-    <script src={{asset("vendors/switchery/dist/switchery.min.js")}}></script>
-    <!-- Select2 -->
-    <script src={{asset("vendors/select2/dist/js/select2.full.min.js")}}></script>
-    <!-- Parsley -->
-    <script src={{asset("vendors/parsleyjs/dist/parsley.min.js")}}></script>
-    <!-- Autosize -->
-    <script src={{asset("vendors/autosize/dist/autosize.min.js")}}></script>
-    <!-- jQuery autocomplete -->
-    <script src={{asset("vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js")}}></script>
-    <!-- starrr -->
-    <script src={{asset("vendors/starrr/dist/starrr.js")}}></script>
-    <!-- Custom Theme Scripts -->
-    <!-- Dropzone.js -->
-    <script src={{asset("vendors/dropzone/dropzone.js")}}></script>
-    <!-- Run Dropzone -->
-    <script src={{asset("js/hotel-dropzone.js")}}></script>
 
 @endsection
