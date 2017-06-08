@@ -159,8 +159,9 @@
         $(document).ready(function () {
             $('#date_from').datepicker({
                 format: "dd/mm/yyyy",
-                startDate: "d",
+                startDate: "+3d",
                 maxViewMode: 0,
+                weekStart: 1,
                 language: "{{app()->getLocale()}}",
                 multidate: false
             });

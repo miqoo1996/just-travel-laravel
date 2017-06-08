@@ -16,9 +16,9 @@ class CreateTourHotelsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('hotel_id')->unsigned();
-            $table->foreign('hotel_id')->references('id')->on('hotels');
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->integer('tour_id')->unsigned();
-            $table->foreign('tour_id')->references('id')->on('tours');
+            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
             $table->integer('single_adult');
             $table->integer('double_adult');
             $table->integer('triple_adult');

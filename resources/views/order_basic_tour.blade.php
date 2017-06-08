@@ -161,6 +161,7 @@
                 format: "dd/mm/yyyy",
                 startDate: "-100y",
                 endDate: "-12y",
+                weekStart: 1,
                 changeYear: true,
                 language: "{{app()->getLocale()}}",
                 multidate: false
@@ -169,6 +170,7 @@
                 format: "dd/mm/yyyy",
                 changeYear: true,
                 startDate: "-12y",
+                weekStart: 1,
                 endDate: "-4y",
                 language: "{{app()->getLocale()}}",
                 multidate: false,
@@ -178,6 +180,7 @@
                 format: "dd/mm/yyyy",
                 changeYear: true,
                 startDate: "-4y",
+                weekStart: 1,
                 endDate: "-d",
                 language: "{{app()->getLocale()}}",
                 multidate: false,

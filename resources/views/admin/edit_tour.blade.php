@@ -599,6 +599,7 @@
 <script>
         $('.tour-datepicker').datepicker({
             format: 'dd/mm/yyyy',
+            weekStart: 1,
             orientation: "auto right",
             multidate: true
         });

@@ -172,12 +172,14 @@
                startDate: "-100y",
                endDate: "-12y",
                changeYear: true,
+               weekStart: 1,
                language: "{{app()->getLocale()}}",
                multidate: false
            });
             $('.dob.child').datepicker({
                 format: "dd/mm/yyyy",
                 changeYear: true,
+                weekStart: 1,
                 startDate: "-12y",
                 endDate: "-4y",
                 language: "{{app()->getLocale()}}",
@@ -187,6 +189,7 @@
             $('.dob.infant').datepicker({
                 format: "dd/mm/yyyy",
                 changeYear: true,
+                weekStart: 1,
                 startDate: "-4y",
                 endDate: "-d",
                 language: "{{app()->getLocale()}}",

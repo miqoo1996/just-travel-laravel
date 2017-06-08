@@ -15,10 +15,10 @@ class CreateOrderToursTable extends Migration
         Schema::create('order_tours', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('tour_id')->unsigned();
-            $table->foreign('tour_id')->references('id')->on('tours');
+            $table->integer('tour_id')->unsigned()->nullable();
+            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('set null');
             $table->integer('hotel_id')->unsigned()->nullable();
-            $table->foreign('hotel_id')->references('id')->on('hotels');
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('set null');
             $table->string('date_from');
             $table->integer('adult');
             $table->integer('child');
