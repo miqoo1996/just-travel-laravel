@@ -24,17 +24,9 @@
                     <div class="hotels-r">
                         <button class="btn btn-warning hotelpay hotel-payment-button" type="button" htdata="{{$hotel['id']}}" htr="{{$rooms}}">{{trans('messages.pay')}}</button>
                         <div class="price hotelprice">
-                                <span class="maincurrency" data-toggle="tooltip" data-placement="top"
-                                      title="@foreach ($currency as $key => $value)
-                                                  @if (($key !== 'currency') && ($key !== $currency['currency']))
-                                                           <?php $res[] = round($hotel[config('const.adult_key_' . strval($adult)) . '_adult'] / $value, 2) * count($days)
-                                                                  + (round(($hotel['child'] / $value), 2) * count($days) * $child) +
-                                                                  (round(($hotel['infant'] / $value), 2) * count($days) * $infant) . config('const.currency_' . $key)?>
-                                                  @endif
-                                             @endforeach {{$res[0] . '/' . $res[1] . '/' . $res[2]}}">
-                                    <span class="{{$currency['currency']}}"><?php $result = round($hotel[config('const.adult_key_' . strval($adult)) . '_adult'] / $currency[$currency['currency']], 2) * count($days)
-                                            + (round(($hotel['child'] / $currency[$currency['currency']]), 2) * count($days) * $child) +
-                                            (round(($hotel['infant'] / $currency[$currency['currency']]), 2) * count($days) * $infant)?>{{$result}}</span>
+                                <span class="maincurrency" data-toggle="tooltip" data-placement="top">
+
+                                    <span class="{{$currency['currency']}}">{{round($hotel['price']/$currency[$currency['currency']], 2)}}</span>
                                 </span>
                         </div>
                     </div>

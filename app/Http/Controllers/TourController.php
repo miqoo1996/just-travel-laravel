@@ -46,6 +46,7 @@ class TourController extends Controller
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function adminPostNewTour(Request $request)
     {
@@ -302,6 +303,7 @@ class TourController extends Controller
 
     public function postSearchCustomTour(Request $request)
     {
+
         $adult = (intval($request->adult) < 1)? 1 : intval($request->adult);
         $child = (intval($request->child) < 0)? 0 : intval($request->child);
         $infant = (intval($request->infant) < 0)? 0 : intval($request->infant);
@@ -314,15 +316,20 @@ class TourController extends Controller
         $data['infant'] = $infant;
         $data['rooms'] = $hotelCalculator;
         $data['days'] = TourCustomDay::where('tour_id', $request->tour_id)->get()->toArray();
-        $data['hotels'] = TourHotel::where('tour_id', $request->tour_id)
+        $hotels = TourHotel::where('tour_id', $request->tour_id)
             ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
+        foreach ($hotels as $key => $hotel){
+            $hotels[$key]['price'] = HotelCalculator::calcHotelPrice($hotel, $adult, $child, $infant);
+        }
+        $data['hotels'] = $hotels;
         return View::make('ajax_views.tour_details_hotels', $data);
     }
 
     public function postSearchTours(Request $request)
     {
 //        DB::enableQueryLog();
-        $searchTours = Tour::searchTours($request)->toArray();
+//        $searchTours = Tour::searchTours($request)->toArray();
+        $searchTours = Tour::searchTours($request);
 //        dd(DB::getQueryLog());
         return View::make('ajax_views.search_tours', compact('searchTours'));
     }

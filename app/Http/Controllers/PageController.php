@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Page;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
@@ -71,7 +72,9 @@ class PageController extends Controller
             ->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
         if (count($tourCategories)) {
             $currentCatId = (Session::has('cat_id')) ? Session::get('cat_id') : $tourCategories[0]['id'];
+//            DB::enableQueryLog();
             $indexTours = Tour::ToursByCategory($currentCatId);
+//            dd(DB::getQueryLog());
         } else {
             $indexTours = false;
         }

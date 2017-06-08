@@ -11,11 +11,11 @@
                     <h1>{{$tour['tour_name_'.app()->getLocale()]}}</h1>
                     <span class="tour-id">{{trans('messages.tour_code')}}: {{$tour['code']}}</span>
                     <span class="price {{$currency['currency']}}">
-            	        <span class="{{$currency['currency']}}">{{round($hotels[0]['single_adult']/$currency[$currency['currency']])}}</span>
+            	        <span class="{{$currency['currency']}}">{{round($hotels[0]['double_adult']/$currency[$currency['currency']])}}</span>
                         <span class="othercurrency">
                             @foreach($currency  as $key => $value)
                                 @if(($key !== 'currency') && ($key !== $currency['currency']))
-                                    <span class="{{$key}}">{{round($hotels[0]['single_adult']/$value, 2)}}</span>
+                                    <span class="{{$key}}">{{round($hotels[0]['double_adult']/$value, 2)}}</span>
                                 @endif
                             @endforeach
                         </span>
@@ -47,7 +47,7 @@
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.adults')}}
                                 (12-99)</label>
-                            <input class="" type="number" id="adult" placeholder="" value="1">
+                            <input class="" type="number" id="adult" placeholder="" value="2">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.children')}}
@@ -99,10 +99,10 @@
                                 <span class="maincurrency" data-toggle="tooltip" data-placement="top"
                                       title="@foreach ($currency as $key => $value)
                                       @if (($key !== 'currency') && ($key !== $currency['currency']))
-                                      <?php $res[] = round($hotel['single_adult'] / $value, 2) * count($days) . config('const.currency_' . $key)?>
+                                      <?php $res[] = round($hotel['double_adult'] / $value, 2) . config('const.currency_' . $key)?>
                                       @endif
                                       @endforeach {{$res[0] . '/' . $res[1] . '/' . $res[2]}}">
-                                    <span class="{{$currency['currency']}}"><?php $result = round($hotel['single_adult'] / $currency[$currency['currency']], 2) * count($days)?>{{$result}}</span>
+                                    <span class="{{$currency['currency']}}"><?php $result = round($hotel['double_adult'] / $currency[$currency['currency']], 2)?>{{$result}}</span>
                                 </span>
                                     </div>
                                 </div>

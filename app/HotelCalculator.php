@@ -17,9 +17,18 @@ class HotelCalculator extends Model
         'child' => '5',
         'infant' => '3'
     ];
+    protected static $adultPriceLabels = [
+      1 => 'single_adult',
+      2 => 'double_adult',
+      3 => 'triple_adult',
+    ];
 
-
-
+    /**
+     * @param int $adult
+     * @param int $child
+     * @param int $infant
+     * @return null
+     */
     public static function calc($adult = 0, $child = 0, $infant = 0)
     {
         $result = 0;
@@ -50,5 +59,12 @@ class HotelCalculator extends Model
             return $closest;
         }
         return null;
+    }
+
+    public static function calcHotelPrice($hotel, $adult = 1, $child = 0, $infant = 0)
+    {
+        $adultPriceLabel = self::$adultPriceLabels[$adult];
+        $price = $hotel[$adultPriceLabel] + $child * $hotel['child'] + $infant * $hotel['infant'];
+        return $price;
     }
 }
