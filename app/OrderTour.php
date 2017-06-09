@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderTour extends Model
 {
 	protected $fillable = [
-		'tour_id' , 'date_from', 'adult', 'child', 'infant'
+		'tour_id' , 'date_from', 'adults_count', 'children_count', 'infants_count'
 	];
 
 	public function tour()

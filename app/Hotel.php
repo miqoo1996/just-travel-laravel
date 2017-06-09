@@ -19,7 +19,7 @@ class Hotel extends Model
         'tags_ru',
         'type',
         'images',
-        'main_image',
+        'hotel_main_image',
         'visibility'
     ];
 }

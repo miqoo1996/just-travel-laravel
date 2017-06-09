@@ -7,17 +7,17 @@
         <div class="container tour-details">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12 tour-details-image">
-                    <img src="{{asset($tour['main_image'])}}">
+                    <img src="{{asset($tour['tour_main_image'])}}">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h1>{{$tour['tour_name_'.app()->getLocale()]}}</h1>
                     <span class="tour-id">{{trans('messages.tour_code')}}: {{$tour['code']}}</span>
                     <span class="price {{$currency['currency']}}">
-            	        <span class="{{$currency['currency']}}">{{$tour['basic_price_adult']/$currency[$currency['currency']]}}</span>
+            	        <span class="{{$currency['currency']}}">{{round($tour['basic_price_adult']/$currency[$currency['currency']] * 2, 2) }}</span>
                         <span class="othercurrency">
                             @foreach($currency  as $key => $value)
                                 @if(($key !== 'currency') && ($key !== $currency['currency']))
-                                    <span class="icon_{{$key}}">{{round($tour['basic_price_adult']/$value, 2)}}</span>
+                                    <span class="{{$key}}">{{round($tour['basic_price_adult']/$value * 2, 2)}}</span>
                                 @endif
                             @endforeach
                         </span>
@@ -25,9 +25,9 @@
                     </span>
                     <div class="clearfix"></div>
                     <div class="pricebyperson">
-                        <span class="item"><span>{{$tour['basic_price_adult']/$currency[$currency['currency']]}}</span>{{trans('messages.adults')}} (12-99)</span>
-                        <span class="item"><span>{{$tour['basic_price_child']/$currency[$currency['currency']]}}</span>{{trans('messages.children')}} (4-11)</span>
-                        <span class="item"><span>{{$tour['basic_price_infant']/$currency[$currency['currency']]}}</span>{{trans('messages.infants')}} (0-4)</span>
+                        <span class="item"><span class="{{$currency['currency']}}">{{round($tour['basic_price_adult']/$currency[$currency['currency']], 2)}}</span>{{trans('messages.adults')}} (12-99)</span>
+                        <span class="item"><span class="{{$currency['currency']}}">{{round($tour['basic_price_child']/$currency[$currency['currency']], 2)}}</span>{{trans('messages.children')}} (4-11)</span>
+                        <span class="item"><span class="{{$currency['currency']}}">{{round($tour['basic_price_infant']/$currency[$currency['currency']], 2)}}</span>{{trans('messages.infants')}} (0-4)</span>
                     </div>
                     <h3 class="frequency">Frequency</h3>
                     <div class="frequency">
@@ -56,21 +56,21 @@
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.adults')}}
                                 (12-99)</label>
-                            <input class="" type="number" name="adult" id="adult" placeholder="" value="1">
+                            <input class="" type="number" name="adults_count" id="adult" placeholder="" value="2">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.children')}}
                                 (5-11)</label>
-                            <input class="" type="number" name="child" id="child" placeholder="">
+                            <input class="" type="number" name="children_count" id="child" placeholder="">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.infants')}}
                                 (0-4)</label>
-                            <input class="" type="number" name="infant" id="infant" placeholder="">
+                            <input class="" type="number" name="infants_count" id="infant" placeholder="">
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
                             <label for="example-text-input" class="col-form-label">&nbsp;</label>
-                            <input type="hidden" id="tour_id" name="tour_id" value="{{$tour['id']}}">
+                            <input type="hidden" id="tour_id" name="tour_id" value="{{$tour['tour_id']}}">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input type="submit" value="Book">
                         </div>
@@ -120,6 +120,7 @@
             startDate: '+3d',
             daysOfWeekDisabled: "{{$daysOfWeekDisabled}}",
             weekStart: 1,
+            format: 'dd/mm/yyyy',
             datesDisabled: [
                 @foreach($datesDisabled as $day)
                 "{{$day}}" ,

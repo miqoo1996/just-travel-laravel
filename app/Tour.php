@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
 class Tour extends Model
 {
@@ -24,7 +25,7 @@ class Tour extends Model
         'basic_price_infant',
         'custom_day_prp',
         'tour_images',
-        'main_image',
+        'tour_main_image',
         'hot_image',
         'visibility',
         'hot',
@@ -103,6 +104,7 @@ class Tour extends Model
                 ->where('visibility', 'on')
                 ->orderBy('tours.updated_at', 'DESC')->get()->toArray();
         } else {
+            $tz = (Session::has('tz'))? Session::get('tz') : 4;
             $data['tours'] = TourDate::where('tour_dates.date', '>=', Carbon::now()->addDay(3)->format('Y-m-d'))
                 ->rightJoin('tours', 'tours.id', '=', 'tour_dates.tour_id')
                 ->rightJoin('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'tours.id')
@@ -235,7 +237,8 @@ class Tour extends Model
                 }
             }
         });
-        $tours = $tours->where('tour_dates.date', '>=', Carbon::now()->addDay(3)->format('Y-m-d'));
+        $tz = (Session::has('tz'))? Session::get('tz') : 4;
+        $tours = $tours->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3)->format('Y-m-d'));
 
         if($category){
             $tours = $tours->where('tour_categories.id', intval($category[0]));

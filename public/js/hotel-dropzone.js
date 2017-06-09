@@ -56,7 +56,7 @@ Dropzone.options.hotelImagesDropzone = {
                     visibleProp = 'on';
                 }
                 formData.append('visibility', visibleProp);
-                formData.append('main_image', $('#main_image').prop('files')[0]);
+                formData.append('hotel_main_image', $('#main_image').prop('files')[0]);
                 formData.append('type', $('#type').val());
                 formData.append('desc_en', $('#editor-en').html());
                 formData.append('desc_ru', $('#editor-ru').html());

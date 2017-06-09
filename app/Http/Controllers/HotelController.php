@@ -58,11 +58,11 @@ class HotelController extends Controller
         }
 
         $fields['regions'] = $fieldsRegions;
-        if($request->hasFile('main_image')){
-            $file = $request->file('main_image');
+        if($request->hasFile('hotel_main_image')){
+            $file = $request->file('hotel_main_image');
             $file_name = uniqid() .  $file->getClientOriginalName();
             $file->move('images/hotels', $file_name);
-            $fields['main_image'] = 'images/hotels/'.$file_name;
+            $fields['hotel_main_image'] = 'images/hotels/'.$file_name;
         }
         $fieldsImages = $hotel->images;
 

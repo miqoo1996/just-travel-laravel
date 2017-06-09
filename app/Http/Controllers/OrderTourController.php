@@ -25,7 +25,6 @@ class OrderTourController extends Controller
             Session::set('order_tour', $orderTour . '/' . $uniqId);
         } else {
             Session::set('order_tour',  $uniqId);
-
         }
         $newOrder = new OrderTour();
         $newOrder->fill($request->input());
@@ -43,18 +42,21 @@ class OrderTourController extends Controller
             $orderTour = Session::get('order_tour');
             $orderTour = array_flip(explode('/', $orderTour));
             if(isset($orderTour[$order_id])){
-                $order = OrderTour::where('order_id', $order_id)->first();
-                $saveOrder = clone $order;
-                $order->tour = $order->tour();
+                $order = OrderTour::where('order_id', $order_id)
+                    ->rightJoin('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'order_tours.tour_id')
+                    ->rightJoin('tours', 'tours.id', '=', 'tour_cat_rels.tour_id')
+                    ->leftJoin('tour_hotels', 'tour_hotels.hotel_id', '=', 'order_tours.hotel_id')
+                    ->leftJoin('hotels', 'hotels.id', '=', 'order_tours.hotel_id')
+//                    ->groupBy('order_tours.id')
+                    ->first();
+                    $saveOrder = $order;
                 if(null !== $order->hotel_id) {
                     $order->days = $order->customDays();
-                    $order->hotel = $order->hotel();
-                    $order->tour_hotel = $order->tourHotel();
                     $rooms = HotelCalculator::calc($order->adult, $order->child, $order->infant);
 
                     $adultPrice = $order->tour_hotel[config('const.adult_key_' . strval($order->adult)) . '_adult']  * $order->days;
-                    $childPrice = $order->tour_hotel['child'] * $order->days * $order->child;
-                    $infantPrice = $order->tour_hotel['infant'] * $order->days * $order->infant;
+                    $childPrice = $order->tour_hotel['child'] *  $order->child;
+                    $infantPrice = $order->tour_hotel['infant'] * $order->infant;
 
                     $totalPrice = $adultPrice + $childPrice + $infantPrice;
                     $saveOrder->amount = $totalPrice;
@@ -62,7 +64,7 @@ class OrderTourController extends Controller
                     $saveOrder->save();
                     return view('order_tour', compact('order', 'rooms', 'totalPrice'));
                 }
-                $totalPrice = $order->tour['basic_price_adult'] * $order->adult + $order->tour['basic_price_child'] * $order->child + $order->tour['basic_price_infant'] * $order->infant;
+                $totalPrice = $order->basic_price_adult * $order->adults_count + $order->basic_price_child * $order->children_count + $order->basic_price_infant * $order->infants_count;
                 $saveOrder->amount = $totalPrice;
                 $saveOrder->save();
                 return view('order_basic_tour', compact('order', 'totalPrice'));
@@ -165,6 +167,7 @@ class OrderTourController extends Controller
                 $view = 'payment';
             }
             $orderTour->members = $orderTour->members()->toArray();
+            dd($orderTour);
         }
         return view($view, compact('orderTour'));
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class LanguageController extends Controller
@@ -13,6 +14,7 @@ class LanguageController extends Controller
     {
         if(in_array($lang, ['en', 'ru'])){
             Session::set('locale', $lang);
+            Cookie::queue('locale', $lang, 24 * 60);
         }
         return redirect()->back();
     }

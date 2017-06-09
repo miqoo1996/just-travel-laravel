@@ -1,15 +1,18 @@
 @extends('layouts.regular')
+@section('bodyStyle')
+    page-tours-details
+@endsection
 @section('content')
 <form method="post" action="{{url('/post_ordered_custom_tour')}}">
     <div class="greybg tour-details">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4 col-xs-12 tour-details-image">
-                    <img src="{{asset($order['tour']['main_image'])}}">
+                    <img src="{{asset($order['main_image'])}}">
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-12">
-                    <h1>{{$order['tour']['tour_name_'.app()->getLocale()]}}</h1>
-                    <span class="tour-id">{{trans('messages.tour_code') . ' : ' . $order['tour']['code'] }}</span>
+                    <h1>{{$order['tour_name_'.app()->getLocale()]}}</h1>
+                    <span class="tour-id">{{trans('messages.tour_code') . ' : ' . $order['code'] }}</span>
                     <div class="col-1">
                         <span class="hint">{{trans('messages.total_price')}}</span>
                         <span class="{{$currency['currency']}}">
@@ -27,8 +30,8 @@
                         <span class="hint">{{trans('messages.travel_date')}}</span>
                         <span class="price">{{str_replace('/', '.', $order['date_from'])}}</span>
                     </div>
-                    <span class="choosedhotel">{{$order['hotel']['hotel_name_' . app()->getLocale()] .
-                    ' ' . str_replace('_star', '*', $order['hotel']['type']) .
+                    <span class="choosedhotel">{{$order['hotel_name_' . app()->getLocale()] .
+                    ' ' . str_replace('_star', '*', $order['type']) .
                     ' (' . trans('messages.room_' . config('const.adult_key_' . $rooms)) . ' ' . trans('messages.standard') . '), '.
                     trans('messages.travelers') . ' - ' . ($order['adult'] + $order['child'] + $order['infant'])}}</span>
                 </div>

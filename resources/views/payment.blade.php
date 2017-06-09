@@ -1,8 +1,6 @@
 @extends('layouts.regular_nf')
 @section('content')
 <div class="greybg tour-details">
-
-
     <div class="preview">
         <div class="preview-container">
             <h1>{{$orderTour['tour']['tour_name_'.app()->getLocale()]}}</h1>

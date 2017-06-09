@@ -20,9 +20,9 @@ class CreateOrderToursTable extends Migration
             $table->integer('hotel_id')->unsigned()->nullable();
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('set null');
             $table->string('date_from');
-            $table->integer('adult');
-            $table->integer('child');
-            $table->integer('infant');
+            $table->integer('adults_count');
+            $table->integer('children_count');
+            $table->integer('infants_count');
             $table->string('order_id');
             $table->integer('amount');
             $table->string('lead_email');

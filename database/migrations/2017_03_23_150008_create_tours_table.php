@@ -31,7 +31,7 @@ class CreateToursTable extends Migration
             $table->string('basic_frequency')->nullable();
             $table->string('custom_day_prp')->nullable();
             $table->text('tour_images')->nullable();
-            $table->string('main_image')->nullable();
+            $table->string('tour_main_image')->nullable();
             $table->string('hot_image')->nullable();
             $table->enum('visibility', ['on', 'off'])->default('off');
             $table->enum('hot', ['on', 'off'])->default('off');

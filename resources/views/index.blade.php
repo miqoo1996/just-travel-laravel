@@ -109,7 +109,7 @@
                         @if($indexTours['tourCategory']['property'] == 'basic')
                             <div class="item">
                                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                                    <img src="{{asset($tour['main_image'])}}">
+                                    <img src="{{asset($tour['tour_main_image'])}}">
                                     <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                                 </a>
                                 <div class="tour-data">
@@ -128,7 +128,7 @@
                         @else
                             <div class="item">
                                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                                    <img src="{{asset($tour['main_image'])}}">
+                                    <img src="{{asset($tour['tour_main_image'])}}">
                                     <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                                 </a>
                                 <div class="tour-data">
@@ -150,7 +150,7 @@
                     <!--Tour Itwm-->
                         <div class="item">
                             <a href="{{url('/hotels/'.$hotel['hotel_url'])}}" class="tour-photo">
-                                <img src="{{asset($hotel['main_image'])}}">
+                                <img src="{{asset($hotel['hotel_main_image'])}}">
                                 <span class="tour-title">{{$hotel['hotel_name_'.app()->getLocale()]}}</span>
                             </a>
                             <div class="tour-data">

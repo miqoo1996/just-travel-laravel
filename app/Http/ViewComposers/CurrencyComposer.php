@@ -10,6 +10,7 @@ namespace App\Http\ViewComposers;
 
 
 use App\Currency;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Session;
 
@@ -21,8 +22,8 @@ class CurrencyComposer
     {
         $this->currency = Currency::getCur();
         $this->currency['amd'] = 1;
-        if (Session::has('cur')) {
-            $this->currency['currency'] = Session::get('cur');
+        if (Cookie::has('cur')) {
+            $this->currency['currency'] = Cookie::get('cur');
         } else {
             $this->currency['currency'] = 'amd';
         }

@@ -6,6 +6,7 @@ use App\Currency;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class CurrencyController extends Controller
@@ -14,7 +15,7 @@ class CurrencyController extends Controller
     public function setCurrency($cur)
     {
         if (in_array($cur, config('const.currencies'))) {
-            Session::set('cur', $cur);
+            Cookie::queue('cur', $cur, 24 * 60);
         }
         return redirect()->back();
     }
@@ -23,9 +24,9 @@ class CurrencyController extends Controller
     {
         if($request->has('tz')){
             $tz = (-1) * $request->tz / 60;
-            Session::set('tz', $tz);
+            Cookie::set('tz', $tz);
         }
-        return Session::get('tz');
+        return Cookie::get('tz');
     }
 
 }

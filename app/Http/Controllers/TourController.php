@@ -123,11 +123,11 @@ class TourController extends Controller
             $fields['tour_images'] = $fieldsImages;
         }
 
-        if ($request->hasFile('main_image')) {
-            $file = $request->file('main_image');
+        if ($request->hasFile('tour_main_image')) {
+            $file = $request->file('tour_main_image');
             $file_name = uniqid() . config('const.' . $file->getMimeType());
             $file->move($mainImagePathName, $file_name);
-            $fields['main_image'] = $mainImagePathName . $file_name;
+            $fields['tour_main_image'] = $mainImagePathName . $file_name;
         }
         if ($request->hasFile('hot_image')) {
             $file = $request->file('hot_image');
@@ -281,7 +281,7 @@ class TourController extends Controller
         $data['tour'] = $tour->toArray();
         if($tour['property'] !== 'basic'){
             $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
-                ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
+                ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->groupBy('hotels.id')->get()->toArray();
             $data['days'] = TourCustomDay::where('tour_id', $tour['tour_id'])->get()->toArray();
 
             return view('tour_details_custom', $data);

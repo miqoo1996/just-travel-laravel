@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class Locale
@@ -16,7 +17,10 @@ class Locale
      */
     public function handle($request, Closure $next)
     {
-        if(Session::has('locale')){
+        if (Cookie::has('locale')){
+            app()->setLocale(Cookie::get('locale'));
+        }
+        elseif(Session::has('locale')){
             app()->setLocale(Session::get('locale'));
         }
         return $next($request);

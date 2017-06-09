@@ -364,33 +364,20 @@
         <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
             <div class="form-group">
-              <div class="custom_day"> @if(!$tour->hotels->isEmpty())
-                
-                @foreach($tour->hotels as $tourHotel)
+              <div class="custom_day" id="hotels">
                 <div class="hotel-container">
+                @if(!$tour->hotels->isEmpty())
+                @foreach($tour->hotels as $tourHotel)
                   <div class="new_hotel">
                     <div class="col-md-3 col-sm-3 col-xs-12"> Hotel
                       <select class="form-control" name="hotel[hotel_id][]">
-                        
-                        
-                                                                    @foreach($hotels as $hotel)
-                                                                        @if($tourHotel->id == $hotel->id)
-                                                                            
-                        
-                        <option value="{{$hotel->id}}"
-                                                                                    selected>{{$hotel->hotel_name_en}}</option>
-                        
-                        
-                                                                        @else
-                                                                            
-                        
-                        <option value="{{$hotel->id}}">{{$hotel->hotel_name_en}}</option>
-                        
-                        
-                                                                        @endif
-                                                                    @endforeach
-                                                                
-                      
+                        @foreach($hotels as $hotel)
+                          @if($tourHotel->hotel_id == $hotel->id)
+                            <option value="{{$hotel->id}}" selected>{{$hotel->hotel_name_en}}</option>
+                          @else
+                            <option value="{{$hotel->id}}">{{$hotel->hotel_name_en}}</option>
+                          @endif
+                        @endforeach
                       </select>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"> Single Adult (12-99)
@@ -421,10 +408,8 @@
                     </div>
                     <div class="clearfix margin-b-10"></div>
                   </div>
-                </div>
                 @endforeach
                 @else
-                <div class="hotel-container">
                   <div class="new_hotel">
                     <div class="col-md-3 col-sm-3 col-xs-12"> Hotel
                       <select class="form-control" name="hotel[hotel_id][]">
@@ -466,19 +451,18 @@
                   </div>
                 </div>
                 @endif
+              </div>
                 <div class="col-md-12 col-sm-12 col-xs-12"> <a type="button" id="add_hotel" class="btn"><span><i
                                                                 class="fa fa-plus"></i> Add Hotel</span></a> <a type="button" id="remove_hotel" class="btn"
                                                    style="float:right"><span><i
                                                                 class="fa fa-remove"></i> Remove Hotel</span></a> </div>
                 <div class="clearfix margin-b-10"></div>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 <!-- page content -->
 <div class="row">
@@ -520,9 +504,9 @@
         </div>
         <h2>Main Image (Optimal size is 350x200px)</h2>
         <p>
-          <input type="file" name="main_image" size="chars">
+          <input type="file" name="tour_main_image" size="chars">
         </p>
-        @if(null !== $tour->main_image)
+        @if(null !== $tour->tour_main_image)
         <h2>Main Image</h2>
         <div class="custom-image-viewer">
           <div class="custom-image-viewer-item">

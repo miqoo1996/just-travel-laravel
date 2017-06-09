@@ -27,7 +27,7 @@ class CreateHotelsTable extends Migration
             $table->text('tags_ru');
             $table->enum('type', ['1_star','2_star', '3_star', '4_star', '5_star', 'motel', 'hostel',]);
             $table->text('images');
-            $table->string('main_image');
+            $table->string('hotel_main_image');
             $table->enum('visibility', ['on', 'off'])->default('off');
         });
     }

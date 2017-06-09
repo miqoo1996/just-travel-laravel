@@ -343,7 +343,7 @@
         <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
             <div class="form-group">
-              <div class="custom_day">
+              <div class="custom_day" id="hotels">
                 <div class="hotel-container">
                   <div class="new_hotel">
                     <div class="col-md-3 col-sm-3 col-xs-12"> Hotel
@@ -411,7 +411,7 @@
         <br/>
         <h2>Main Image (Optimal size is 350x200px)</h2>
         <p>
-          <input type="file" name="main_image" size="chars">
+          <input type="file" name="tour_main_image" size="chars">
         </p>
         <h2>Hot Tour Image (Optimal size is 1920x400px)</h2>
         <p>

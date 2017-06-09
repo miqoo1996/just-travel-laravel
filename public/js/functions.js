@@ -6,9 +6,8 @@ $(document).ready( function () {
     });
 
     dragDrop();
-
     toggleAreas();
-
+    addHotel();
     $('.add_day').on("click", function(){
         var container_en = $('#custom_day_container_en'),
             childrenCount = $(container_en).children().length,
@@ -59,10 +58,7 @@ $(document).ready( function () {
             $('.datepicker-container').show();
         }
     });
-    $('#add_hotel').on("click", function(){
-        var clone = $('.new_hotel').last().clone();
-        $('.hotel-container').append(clone);
-    });
+
     $('#remove_hotel').on("click", function(){
         var container = $('.hotel-container'),
             childrenCount = $(container).children().length;
@@ -224,4 +220,30 @@ function runReadingUrl($form, $this) {
 function stopLoading() {
     $('.admin-image-label').removeClass('loading');
 }
+    var hotel =  "<div class='new_hotel'><div class='col-md-3 col-sm-3 col-xs-12'> Hotel" +
+        "<select class='form-control qaq' name='hotel[hotel_id][]'>"+
+        "</select></div>" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Single Adult (12-99)" +
+        "<input type='text' class='form-control' placeholder='Price' name='hotel[single_adult][]' value=''></div>" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Double Adult (12-99)" +
+        "<input type='text' class='form-control' placeholder='Price' name='hotel[double_adult][]' value=''></div>" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Tripple Adult (12-99)" +
+        "<input type='text' class='form-control' placeholder='Price' name='hotel[triple_adult][]' value=''></div>" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> </div>" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Child (4-11)" +
+        "<input type='text' class='form-control' placeholder='Price' name='hotel[child][]' value=''></div>" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Infant (0-4)" +
+        "<input type='text' class='form-control' placeholder='Price' name='hotel[infant][]' value=''></div>" +
+        "<div class='clearfix margin-b-10'></div></div>";
 
+function addHotel() {
+    var addHotel = $('#add_hotel');
+    $(addHotel).unbind('click').bind('click', function(){
+        var container = $('.hotel-container');
+        var select = $(container).find('.new_hotel').last().find('select');
+        var freeHotels = $(select).children('option');
+        $(container).append(hotel);
+        var newSelect =  $(container).find('.new_hotel').last().find('select');
+        $(newSelect).append(freeHotels.clone());
+    });
+}

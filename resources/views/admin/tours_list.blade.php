@@ -55,7 +55,7 @@
                                     <td>{{$tour->hot}}</td>
                                     <td>{{$tour->type}}</td>
                                     <td style="text-align:right;">
-                                        <a href="{{url('tours/'. $tour->tour_url)}}" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-folder"></i>  </a>
+                                        <a href="{{url('tours/'. $tour->tour_url)}}" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-folder"></i> View </a>
                                         @if($tour->type == 'custom')
                                             <a href="{{url('admin/edit-custom-tour/'.$tour->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                         @else

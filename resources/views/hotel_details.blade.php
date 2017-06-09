@@ -7,7 +7,7 @@
         <div class="container hotel-details">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12 tour-details-image">
-                    <img src="{{asset($hotel['main_image'])}}">
+                    <img src="{{asset($hotel['hotel_main_image'])}}">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h1>{{$hotel['hotel_name_'.app()->getLocale()]}}</h1>

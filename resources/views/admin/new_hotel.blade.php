@@ -170,7 +170,7 @@
                         <br />
                         <h2>Main Image (Optimal size is 350x200px)</h2>
                         <p>
-                            <input type="file" name="main_image" size="chars" id="main_image">
+                            <input type="file" name="hotel_main_image" size="chars" id="main_image">
                         </p>
                     </div>
                 </div>
