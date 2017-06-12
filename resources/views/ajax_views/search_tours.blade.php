@@ -6,7 +6,7 @@
         @if($tour['property'] == 'basic')
             <div class="item">
                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                    <img src="{{asset($tour['tour_main_image'])}}">
+                    <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
                     <span class="tour-title">{{$tour['tour_tour_name_'.app()->getLocale()]}}</span>
                 </a>
                 <div class="tour-data">
@@ -25,7 +25,7 @@
         @else
             <div class="item">
                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                    <img src="{{asset($tour['tour_main_image'])}}">
+                    <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
                     <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                 </a>
                 <div class="tour-data">

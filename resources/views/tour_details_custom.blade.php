@@ -5,7 +5,7 @@
         <div class="container tour-details">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12 tour-details-image">
-                    <img src="{{asset($tour['tour_main_image'])}}">
+                    <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h1>{{$tour['tour_name_'.app()->getLocale()]}}</h1>
@@ -81,7 +81,7 @@
                             <div class="choosehotel @if($key == 0) selected @endif">
                                 <div class="hotels-c">
                                     <a href="{{url('hotels/'.$hotel['hotel_url'])}}" target="_blank" class="hotelavatar"
-                                       style="background:url({{asset($hotel['hotel_main_image'])}}) top center no-repeat;"></a>
+                                       style="background:url({{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}) top center no-repeat;"></a>
                                     <a href="{{url('hotels/'.$hotel['hotel_url'])}}" target="_blank"
                                        class="hotelname">{{$hotel['hotel_name_'.app()->getLocale()]}}</a>
                                 </div>
