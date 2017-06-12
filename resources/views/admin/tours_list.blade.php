@@ -49,8 +49,10 @@
                                         <td>{{$tour->basic_price_adult}}</td>
                                     @elseif ($tour->type == 'custom')
                                         <td>{{$tour->tour_price}}</td>
-                                    @else
+                                    @elseif ($tour->price->single_adult)
                                         <td>{{$tour->price->single_adult}}</td>
+                                    @else ($tour->price->single_adult)
+                                        <td>{{$tour->basic_price_adult}}</td>
                                     @endif
                                     <td>{{$tour->hot}}</td>
                                     <td>{{$tour->type}}</td>
