@@ -35,7 +35,7 @@
                                             <td style="text-align:right;">
                                                 <a href="{{url('admin/edit-category/'.$category->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                                 @if($category->property !== 'basic')
-                                                    <a href="#" class="btn btn-danger btn-xs remove" id="{{$category->id}}/tour_category" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
+                                                    <a href="#" class="btn btn-danger btn-xs remove" id="{{$category->id}}/tour_category" data-toggle="modal" data-target="#delete_modal" data-name="{{ $category->category_name_en }}"><i class="fa fa-trash-o"></i> Delete </a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -58,7 +58,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Are you sure?</h4>
+                    <h4 class="modal-title">Are you sure to delete <span id="item-name"></span>?</h4>
                 </div>
                 <div class="modal-body row text-center">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>

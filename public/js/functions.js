@@ -102,6 +102,7 @@ $(document).ready( function () {
     });
     var d, container;
     $(".remove").on("click", function(){
+        $('#item-name').text($(this).data('name'));
         d = $(this).attr('id').split('/');
         container = $('#cnt-'+ d[0]);
         $("#cancel").on("click", function(){
