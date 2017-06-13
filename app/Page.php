@@ -23,6 +23,30 @@ class Page extends Model
         return $pages;
     }
 
+    public function getRightMenuPages()
+    {
+        $items = [];
+        $pages = $this->where('visibility', 'on')->get();
+        if ($pages) {
+            foreach ($pages as $page) {
+                $items[$page->id] = $page->toArray();
+            }
+        }
+        return $items;
+    }
+
+    public function getFooterPages()
+    {
+        $items = [];
+        $pages = $this->where('footer', 'on')->get();
+        if ($pages) {
+            foreach ($pages as $page) {
+                $items[$page->id] = $page->toArray();
+            }
+        }
+        return $items;
+    }
+
     public function getPages($_data, $order = true, $type = null)
     {
         $query = $this;
@@ -41,28 +65,23 @@ class Page extends Model
             $query->where('pages.type', $type);
         }
         $pages = $query->get();
-        $right_menu = [];
-        $footer_menu = [];
+        if (!$pages) {
+            return null;
+        }
+        $items = [];
         foreach ($pages as $page) {
-            if ($page->visibility == 'on') {
-                $right_menu[$page->id] = $page->toArray();
-            }
-            if ($page->footer == 'on') {
-                $footer_menu[$page->id] = $page->toArray();
+            if ($page->visibility == 'on' && $_data['right_menu'] == 1 && $page->right_menu) {
+                $items[$page->id] = $page->toArray();
+            } elseif ($page->footer == 'on' && $_data['footer'] == 1 && $page->o_footer == 1) {
+                $items[$page->id] = $page->toArray();
             }
         }
-        if ($_data['right_menu'] == 1) {
-            if (!isset($right_menu[$page->id]) && isset($footer_menu[$page->id])) {
-                $right_menu[$page->id] = $footer_menu[$page->id];
-            }
-            return $right_menu;
+        if ($_data['right_menu'] == 1 && empty($items)) {
+            $items = $this->getRightMenuPages();
         }
-        if ($_data['footer'] == 1) {
-            if (!isset($footer_menu[$page->id]) && isset($right_menu[$page->id])) {
-                $footer_menu[$page->id] = $right_menu[$page->id];
-            }
-            return $footer_menu;
+        if ($_data['footer'] == 1 && empty($items)) {
+            $items = $this->getFooterPages();
         }
-        return $right_menu;
+        return $items;
     }
 }
