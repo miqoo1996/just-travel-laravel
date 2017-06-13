@@ -45,14 +45,10 @@ class Page extends Model
         $footer_menu = [];
         foreach ($pages as $page) {
             if ($page->visibility == 'on') {
-                if (is_null($page->right_menu) || $page->right_menu == 1) {
-                    $right_menu[$page->id] = $page->toArray();
-                }
+                $right_menu[$page->id] = $page->toArray();
             }
             if ($page->footer == 'on') {
-                if (is_null($page->o_footer) || $page->o_footer == 1) {
-                    $footer_menu[$page->id] = $page->toArray();
-                }
+                $footer_menu[$page->id] = $page->toArray();
             }
         }
         if ($_data['right_menu'] == 1) {
