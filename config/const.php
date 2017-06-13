@@ -40,9 +40,9 @@ return [
         '2_star' => 'stars2',
         '1_star' => ''
     ],
-    'adult_key_1' => 'single',
-    'adult_key_2' => 'double',
-    'adult_key_3' => 'triple',
+    'adult_key_1' => 'single_adult',
+    'adult_key_2' => 'double_adult',
+    'adult_key_3' => 'triple_adult',
     'currency_amd' => '&#1423;',
     'currency_usd' => '$',
     'currency_eur' => '€',

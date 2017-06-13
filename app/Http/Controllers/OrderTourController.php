@@ -44,17 +44,18 @@ class OrderTourController extends Controller
             $orderTour = array_flip(explode('/', $orderTour));
             if (isset($orderTour[$order_id])) {
                 $order = OrderTour::with(config('relations.order_tour_all'))->where('order_id', $order_id)->first();
-                if (!empty($order->tour_hotel)) {
-                    $order->days = $order->customDays();
+                if (!$order->tourHotel->isEmpty()) {
                     $rooms = HotelCalculator::calc($order->adults_count, $order->children_count, $order->infants_count);
-
-                    $adultPrice = $order->tour_hotel[config('const.adult_key_' . strval($order->adults_count)) . '_adult'] * $order->days;
-                    $childPrice = $order->tour_hotel['child'] * $order->children_count;
-                    $infantPrice = $order->tour_hotel['infant'] * $order->infants_count;
-
+                    $hotel = $order->tourHotel->where('tour_id', $order->tour_id)->first()->toArray();
+                    $adultPrice = $hotel[config('const.adult_key_' . $order->adults_count)];
+                    $childPrice = $hotel['child'] * $order->children_count;
+                    $infantPrice = $hotel['infant'] * $order->infants_count;
                     $totalPrice = $adultPrice + $childPrice + $infantPrice;
                     $order->amount = $totalPrice;
                     $order->rooms = $rooms;
+                    $saveFields['order_tour.amount'] = $totalPrice;
+                    $saveFields['order_tour.rooms'] = $rooms;
+                    $order->fill($saveFields);
                     $order->save();
                     return view('order_tour', compact('order', 'rooms', 'totalPrice'));
                 } else {

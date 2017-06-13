@@ -119,9 +119,9 @@ function tourHotelPay(){
                 data: {
                     'htdata' : htdata,
                     'date_from': date_from,
-                    'adult': adult,
-                    'child': child,
-                    'infant': infant,
+                    'adults_count': adult,
+                    'children_count': child,
+                    'infants_count': infant,
                     'tour_id': tour_id
                 },
                 success: function (data) {

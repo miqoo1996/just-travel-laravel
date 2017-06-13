@@ -1,6 +1,6 @@
 @extends('layouts.regular')
 @section('bodyStyle')
-    page-tours-details
+page-tours-details
 @endsection
 @section('content')
 <form method="post" action="{{url('/post_ordered_custom_tour')}}">
@@ -8,11 +8,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4 col-xs-12 tour-details-image">
-                    <img src="{{asset($order['main_image'])}}">
+                    <img src="{{asset($order['tour']['tour_main_image'])}}">
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-12">
                     <h1>{{$order['tour_name_'.app()->getLocale()]}}</h1>
-                    <span class="tour-id">{{trans('messages.tour_code') . ' : ' . $order['code'] }}</span>
+                    <span class="tour-id">{{trans('messages.tour_code') . ' : ' . $order['tour']['code'] }}</span>
                     <div class="col-1">
                         <span class="hint">{{trans('messages.total_price')}}</span>
                         <span class="{{$currency['currency']}}">
@@ -33,7 +33,7 @@
                     <span class="choosedhotel">{{$order['hotel_name_' . app()->getLocale()] .
                     ' ' . str_replace('_star', '*', $order['type']) .
                     ' (' . trans('messages.room_' . config('const.adult_key_' . $rooms)) . ' ' . trans('messages.standard') . '), '.
-                    trans('messages.travelers') . ' - ' . ($order['adult'] + $order['child'] + $order['infant'])}}</span>
+                    trans('messages.travelers') . ' - ' . ($order['adults_count'] + $order['children_count'] + $order['infants_count'])}}</span>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
     <div class="maincont whitebg">
     <div class="container enter-travelers-data">
         <h3>{{trans('messages.adult_travelers')}}</h3>
-        @for ($i = 1; $i <= $order['adult']; $i++)
+        @for ($i = 1; $i <= $order['adults_count']; $i++)
             <div class="row">
                 <div class="form-group col-md-5 col-sm-5 col-xs-12">
                     <label for="example-text-input" class="col-form-label">{{trans('messages.traveler_name')}}</label>
@@ -70,10 +70,10 @@
             </div>
         @endfor
     </div>
-    @if($order['child'] > 0)
+    @if($order['children_count'] > 0)
     <div class="container enter-travelers-data">
         <h3>{{trans('messages.children')}}</h3>
-        @for ($i = 1; $i <= $order['child']; $i++)
+        @for ($i = 1; $i <= $order['children_count']; $i++)
             <div class="row">
                 <div class="form-group col-md-5 col-sm-5 col-xs-12">
                     <label for="example-text-input" class="col-form-label">{{trans('messages.traveler_name')}}</label>
@@ -103,10 +103,10 @@
         @endfor
     </div>
     @endif
-    @if($order['infant'] > 0)
+    @if($order['infants_count'] > 0)
         <div class="container enter-travelers-data">
             <h3>{{trans('messages.infants')}}</h3>
-            @for ($i = 1; $i <= $order['infant']; $i++)
+            @for ($i = 1; $i <= $order['infants_count']; $i++)
                 <div class="row">
                     <div class="form-group col-md-5 col-sm-5 col-xs-12">
                         <label for="example-text-input" class="col-form-label">{{trans('messages.traveler_name')}}</label>

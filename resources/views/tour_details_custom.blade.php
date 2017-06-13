@@ -1,4 +1,7 @@
 @extends('layouts.regular')
+@section('bodyStyle')
+    page-tours-details
+@endsection
 @section('content')
     <div class="maincont whitebg">
 
@@ -47,17 +50,17 @@
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.adults')}}
                                 (12-99)</label>
-                            <input class="" type="number" id="adult" placeholder="" value="2">
+                            <input class="" type="number" id="adult" name="adults_count" placeholder=""  value="2">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.children')}}
                                 (5-11)</label>
-                            <input class="" type="number" id="child" placeholder="">
+                            <input class="" type="number" id="child" name="children_count" placeholder="" >
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.infants')}}
                                 (0-4)</label>
-                            <input class="" type="number" id="infant" placeholder="">
+                            <input class="" type="number" id="infant" name="infants_count"  placeholder="">
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
                             <label for="example-text-input" class="col-form-label">&nbsp;</label>
