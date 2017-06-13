@@ -30,6 +30,7 @@ class PagesSeeder extends Seeder
                 'image' => '',
                 'visibility' => 'on',
                 'footer' => 'on',
+                'type' => 1,
             ],
             [
                 'created_at' => $current_time,
@@ -42,6 +43,7 @@ class PagesSeeder extends Seeder
                 'image' => '',
                 'visibility' => 'on',
                 'footer' => 'on',
+                'type' => 1,
             ],
             [
                 'created_at' => $current_time,
@@ -54,6 +56,7 @@ class PagesSeeder extends Seeder
                 'image' => '',
                 'visibility' => 'on',
                 'footer' => 'on',
+                'type' => 1,
             ],
             [
                 'created_at' => $current_time,
@@ -66,6 +69,7 @@ class PagesSeeder extends Seeder
                 'image' => '',
                 'visibility' => 'on',
                 'footer' => 'on',
+                'type' => 1,
             ],
             [
                 'created_at' => $current_time,
@@ -78,6 +82,7 @@ class PagesSeeder extends Seeder
                 'image' => '',
                 'visibility' => 'on',
                 'footer' => 'on',
+                'type' => 1,
             ],
             [
                 'created_at' => $current_time,
@@ -90,6 +95,7 @@ class PagesSeeder extends Seeder
                 'image' => '',
                 'visibility' => 'on',
                 'footer' => 'on',
+                'type' => 1,
             ]
         ]);
     }

@@ -59,7 +59,8 @@ class PageController extends Controller
 
     public function adminGetPagesList()
     {
-        $pages = Page::all();
+        $model = new Page();
+        $pages = $model->getByType(0);
         return view('admin.pages', ['pages' => $pages]);
     }
 
