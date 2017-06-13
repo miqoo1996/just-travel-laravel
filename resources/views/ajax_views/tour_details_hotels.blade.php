@@ -8,7 +8,7 @@
                 <div class="choosehotel @if($key == 0) selected @endif ">
                     <div class="hotels-c">
                         <a href="{{url('hotels/'.$hotel['hotel_url'])}}" target="_blank" class="hotelavatar"
-                           style="background:url({{asset(isset($tour['hotel_main_image']) ? $tour['hotel_main_image'] : '/images/no_image.png')}}) top center no-repeat;"></a>
+                           style="background:url({{asset(isset($hotel['hotel_main_image']) ? $hotel['hotel_main_image'] : '/images/no_image.png')}}) top center no-repeat;"></a>
                         <a href="{{url('hotels/'.$hotel['hotel_url'])}}" target="_blank"
                            class="hotelname">{{$hotel['hotel_name_'.app()->getLocale()]}}</a>
                     </div>

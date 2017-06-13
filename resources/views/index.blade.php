@@ -150,7 +150,7 @@
                     <!--Tour Itwm-->
                         <div class="item">
                             <a href="{{url('/hotels/'.$hotel['hotel_url'])}}" class="tour-photo">
-                                <img src="{{asset(isset($tour['hotel_main_image']) ? $tour['hotel_main_image'] : '/images/no_image.png')}}">
+                                <img src="{{asset(isset($hotel['hotel_main_image']) ? $hotel['hotel_main_image'] : '/images/no_image.png')}}">
                                 <span class="tour-title">{{$hotel['hotel_name_'.app()->getLocale()]}}</span>
                             </a>
                             <div class="tour-data">
