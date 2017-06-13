@@ -28,8 +28,8 @@ class PagesSeeder extends Seeder
                 'desc_en' => '',
                 'desc_ru' => '',
                 'image' => '',
-                'visibility' => 'off',
-                'footer' => 'off',
+                'visibility' => 'on',
+                'footer' => 'on',
             ],
             [
                 'created_at' => $current_time,
@@ -40,8 +40,8 @@ class PagesSeeder extends Seeder
                 'desc_en' => '',
                 'desc_ru' => '',
                 'image' => '',
-                'visibility' => 'off',
-                'footer' => 'off',
+                'visibility' => 'on',
+                'footer' => 'on',
             ],
             [
                 'created_at' => $current_time,
@@ -52,8 +52,8 @@ class PagesSeeder extends Seeder
                 'desc_en' => '',
                 'desc_ru' => '',
                 'image' => '',
-                'visibility' => 'off',
-                'footer' => 'off',
+                'visibility' => 'on',
+                'footer' => 'on',
             ],
             [
                 'created_at' => $current_time,
@@ -64,8 +64,8 @@ class PagesSeeder extends Seeder
                 'desc_en' => '',
                 'desc_ru' => '',
                 'image' => '',
-                'visibility' => 'off',
-                'footer' => 'off',
+                'visibility' => 'on',
+                'footer' => 'on',
             ],
             [
                 'created_at' => $current_time,
@@ -76,8 +76,8 @@ class PagesSeeder extends Seeder
                 'desc_en' => '',
                 'desc_ru' => '',
                 'image' => '',
-                'visibility' => 'off',
-                'footer' => 'off',
+                'visibility' => 'on',
+                'footer' => 'on',
             ],
             [
                 'created_at' => $current_time,
@@ -88,8 +88,8 @@ class PagesSeeder extends Seeder
                 'desc_en' => '',
                 'desc_ru' => '',
                 'image' => '',
-                'visibility' => 'off',
-                'footer' => 'off',
+                'visibility' => 'on',
+                'footer' => 'on',
             ]
         ]);
     }

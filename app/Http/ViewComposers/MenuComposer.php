@@ -23,13 +23,8 @@ class MenuComposer
      */
     public function __construct()
     {
-        $pages = Page::get();
-        foreach ($pages as $page) {
-            if (($page->visibility == 'off' && isset($page->dynamicPage) || ($page->visibility == 'on' && !isset($page->dynamicPage)))) {
-                $page->visibility = 'on';
-                $this->menu[] = $page->toArray();
-            }
-        }
+        $model = new Page();
+        $this->menu = $model->getPages(['right_menu' => 0, 'footer' => 1]);
     }
 
     public function compose(View $view)

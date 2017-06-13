@@ -79,6 +79,9 @@
                                 <a href="{{route('admin-pages-list')}}"><i class="fa fa-clipboard"></i>Pages</a>
                             </li>
                             <li>
+                                <a href="{{route('admin-page-orders')}}"><i class="fa fa-circle"></i>Pages Orders</a>
+                            </li>
+                            <li>
                                 <a href="{{route('admin-get-galleries')}}"><i class="fa fa-photo"></i>Photo Gallery</a>
                             </li>
                             <li>

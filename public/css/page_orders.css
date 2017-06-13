@@ -1,0 +1,24 @@
+#sortables {
+    margin-top: 30px;
+}
+
+#sortable-footer-pages, #sortable-right-menu-pages {
+    border: 1px solid #eee;
+    min-height: 20px;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+    float: left;
+}
+
+#sortable-footer-pages li, #sortable-right-menu-pages li {
+    cursor: pointer;
+    margin: 0 5px 5px 5px;
+    padding: 5px;
+    font-size: 1.2em;
+}
+
+.page-header {
+    padding: 0;
+    margin: 0;
+}

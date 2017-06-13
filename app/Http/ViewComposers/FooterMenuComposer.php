@@ -24,13 +24,8 @@ class FooterMenuComposer
      */
     public function __construct()
     {
-        $pages = Page::get();
-        foreach ($pages as $page) {
-            if (($page->footer == 'off' && isset($page->dynamicPage) || ($page->footer == 'on' && !isset($page->dynamicPage)))) {
-                $page->footer = 'on';
-                $this->menu[] = $page->toArray();
-            }
-        }
+        $model = new Page();
+        $this->menu = $model->getPages(['right_menu' => 1, 'footer' => 0]);
     }
 
     public function compose(View $view)
