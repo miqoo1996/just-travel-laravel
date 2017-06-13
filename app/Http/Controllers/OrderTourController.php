@@ -38,36 +38,33 @@ class OrderTourController extends Controller
     }
 
     public function getOrderTour($order_id){
-        if(Session::has('order_tour')){
+        if(Session::has('order_tour')) {
+
             $orderTour = Session::get('order_tour');
             $orderTour = array_flip(explode('/', $orderTour));
-            if(isset($orderTour[$order_id])){
-                $order = OrderTour::where('order_id', $order_id)
-                    ->rightJoin('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'order_tours.tour_id')
-                    ->rightJoin('tours', 'tours.id', '=', 'tour_cat_rels.tour_id')
-                    ->leftJoin('tour_hotels', 'tour_hotels.hotel_id', '=', 'order_tours.hotel_id')
-                    ->leftJoin('hotels', 'hotels.id', '=', 'order_tours.hotel_id')
-//                    ->groupBy('order_tours.id')
-                    ->first();
-                    $saveOrder = $order;
-                if(null !== $order->hotel_id) {
+            if (isset($orderTour[$order_id])) {
+                $order = OrderTour::with(config('relations.order_tour_all'))->where('order_id', $order_id)->first();
+                if (!empty($order->tour_hotel)) {
                     $order->days = $order->customDays();
-                    $rooms = HotelCalculator::calc($order->adult, $order->child, $order->infant);
+                    $rooms = HotelCalculator::calc($order->adults_count, $order->children_count, $order->infants_count);
 
-                    $adultPrice = $order->tour_hotel[config('const.adult_key_' . strval($order->adult)) . '_adult']  * $order->days;
-                    $childPrice = $order->tour_hotel['child'] *  $order->child;
-                    $infantPrice = $order->tour_hotel['infant'] * $order->infant;
+                    $adultPrice = $order->tour_hotel[config('const.adult_key_' . strval($order->adults_count)) . '_adult'] * $order->days;
+                    $childPrice = $order->tour_hotel['child'] * $order->children_count;
+                    $infantPrice = $order->tour_hotel['infant'] * $order->infants_count;
 
                     $totalPrice = $adultPrice + $childPrice + $infantPrice;
-                    $saveOrder->amount = $totalPrice;
-                    $saveOrder->rooms = $rooms;
-                    $saveOrder->save();
+                    $order->amount = $totalPrice;
+                    $order->rooms = $rooms;
+                    $order->save();
                     return view('order_tour', compact('order', 'rooms', 'totalPrice'));
+                } else {
+                    $totalPrice = floatval($order->tour->basic_price_adult * $order->adults_count + $order->tour->basic_price_child * $order->children_count + $order->tour->basic_price_infant * $order->infants_count);
+                    $order->amount = $totalPrice;
+                    $saveFields['order_tour.amount'] = $totalPrice;
+                    $order->fill($saveFields);
+                    $order->save();
+                    return view('order_basic_tour', compact('order', 'totalPrice'));
                 }
-                $totalPrice = $order->basic_price_adult * $order->adults_count + $order->basic_price_child * $order->children_count + $order->basic_price_infant * $order->infants_count;
-                $saveOrder->amount = $totalPrice;
-                $saveOrder->save();
-                return view('order_basic_tour', compact('order', 'totalPrice'));
             }
         }
         return redirect('404');
@@ -157,24 +154,23 @@ class OrderTourController extends Controller
 
     public function getPaymentByOrderId($order_id)
     {
-        $orderTour = OrderTour::where('order_id', $order_id)->first();
-        if(null == $orderTour) {return redirect('404');}
+        $orderTour = OrderTour::with(config('relations.order_tour_all'))->where('order_id', $order_id)->first();
+        if(null == $orderTour) {
+            return redirect('404');
+        }
         else {
             $view = 'payment_basic';
-            $orderTour->tour = $orderTour->tour();
-            if(null !== $orderTour->hotel_id) {
-                $orderTour->hotel = $orderTour->hotel();
+            if(!$orderTour->tourHotel->isEmpty()) {
                 $view = 'payment';
             }
-            $orderTour->members = $orderTour->members()->toArray();
-            dd($orderTour);
+            $orderTour->members;
         }
         return view($view, compact('orderTour'));
     }
-    public function postOrderedBasicTour(Request $request)
-    {
-        dd($request->input());
-    }
+//    public function postOrderedBasicTour(Request $request)
+//    {
+//        dd($request->input());
+//    }
 
     public function postPay(Request $request)
     {
@@ -191,7 +187,7 @@ class OrderTourController extends Controller
     public function getCongratulations()
     {
         if(request()->has('orderId')) {
-            $order = OrderTour::where('md_order', request()->orderId)->first();
+            $order = OrderTour::with(['tour', 'members'])->where('md_order', request()->orderId)->first();
             if(null == $order){
                 return redirect('404');
             }
@@ -210,10 +206,6 @@ class OrderTourController extends Controller
             $payment->save();
 
             if($payment->ErrorCode === '0') {
-                $order->status = 'payed';
-                $order->save();
-                $order['tour'] = $order->tour();
-                $order['members'] = $order->members()->toArray();
                 Payment::generateAndSendVоucher($order);
                 return view('congratulations', compact('order', 'image'));
             }

@@ -1,13 +1,13 @@
-{{--{{dd($searchTours)}}--}}
 @if(!count($searchTours))
-    <h1>{{trans('messages.no_tours')}}</h1>
+    <h2>{{trans('messages.no_tours')}}</h2>
 @else
+    <h2>{{trans('messages.search_results')}}</h2>
     @foreach($searchTours as $tour)
         @if($tour['property'] == 'basic')
             <div class="item">
                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                     <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
-                    <span class="tour-title">{{$tour['tour_tour_name_'.app()->getLocale()]}}</span>
+                    <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                 </a>
                 <div class="tour-data">
                     <div class="frequency">
@@ -30,7 +30,7 @@
                 </a>
                 <div class="tour-data">
                     <div class="tourdate">{{$tour['date']}}</div>
-                    <div class="price {{$currency['currency']}}">{{round($tour['single_adult'] / $currency[$currency['currency']], 2)}}</div>
+                    <div class="price {{$currency['currency']}}">{{round($tour['double_adult'] / $currency[$currency['currency']], 2)}}</div>
                     <div class="clear"></div>
                 </div>
             </div>

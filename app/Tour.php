@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 
@@ -45,17 +46,17 @@ class Tour extends Model
     /**
      * @return mixed
      */
-    public function getCategories()
+    public function categories()
     {
-        return $this->hasMany('App\TourCatRel', 'tour_id', 'id')->join('tour_categories', 'tour_categories.id', '=', 'tour_cat_rels.cat_id')->get()->toArray();
+        return $this->hasMany('App\TourCatRel', 'tour_id', 'id')->join('tour_categories', 'tour_categories.id', '=', 'tour_cat_rels.cat_id');
     }
 
     /**
      * @return mixed
      */
-    public function getHotels()
+    public function hotels()
     {
-        return $this->hasMany('App\TourHotel', 'tour_id', 'id')->get();
+        return $this->hasMany('App\TourHotel', 'tour_id', 'id');
     }
 
     public function getFirstHotel()
@@ -66,17 +67,21 @@ class Tour extends Model
     /**
      * @return mixed
      */
-    public function getCustomDays()
+    public function customDays()
     {
-        return $this->hasMany('App\TourCustomDay', 'tour_id', 'id')->get();
+        return $this->hasMany('App\TourCustomDay', 'tour_id', 'id');
 
     }
 
-    public function getTourDates()
+    public function tourDates()
     {
-        return $this->hasMany('App\TourDate', 'tour_id', 'id')->where('date', '>=', date('Y-m-d'))->get()->pluck('date');
+        return $this->hasMany('App\TourDate', 'tour_id', 'id')->where('date', '>=', date('Y-m-d'))->select('date');
     }
 
+    public function adminTourDates()
+    {
+        return $this->hasMany('App\TourDate', 'tour_id', 'id');
+    }
     public static function rewriteDates($dates)
     {
         $result = '';
@@ -95,33 +100,23 @@ class Tour extends Model
      * @param $limit
      * @return mixed
      */
-    public static function ToursByCategory($category_id, $limit = false)
+    public static function toursByCategory($category_id, $limit = false)
     {
-        $data['tourCategory'] = TourCategory::find($category_id)->toArray();
-        if ($data['tourCategory']['property'] == 'basic') {
-            $data['tours'] = TourCatRel::where('cat_id', $category_id)
-                ->join('tours', 'tour_cat_rels.tour_id', '=', 'tours.id')
-                ->where('visibility', 'on')
-                ->orderBy('tours.updated_at', 'DESC')->get()->toArray();
-        } else {
-            $tz = (Session::has('tz'))? Session::get('tz') : 4;
-            $data['tours'] = TourDate::where('tour_dates.date', '>=', Carbon::now()->addDay(3)->format('Y-m-d'))
-                ->rightJoin('tours', 'tours.id', '=', 'tour_dates.tour_id')
-                ->rightJoin('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'tours.id')
-                ->rightJoin('tour_categories', 'tour_categories.id', '=' ,'tour_cat_rels.cat_id')
-                ->where('tour_categories.id', $category_id)
-                ->groupBy('tours.id')->get();
-        }
-        return $data;
+        $tz = (Session::has('tz'))? Session::get('tz'): 4;
+        $tours = self::rightJoin('tour_cat_rels', function ($query) use ($category_id){
+            $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
+            ->where('tour_cat_rels.cat_id', '=' , $category_id);
+        })->leftJoin('tour_dates', function ($query) use ($tz){
+            $query->on('tour_dates.tour_id', '=', 'tours.id')
+                ->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3));
+        })->leftJoin('tour_hotels', function ($query) use ($tz){
+            $query->on('tour_hotels.tour_id', '=', 'tours.id');
+        })
+            ->whereNotNull('tours.id')
+        ->orWhereNotNull('tours.basic_frequency')
+        ->groupBy('tours.id')->get();
+        return $tours;
     }
-
-    public static function getToursByCat($cat_id)
-    {
-        $tourIds = TourCatRel::where('cat_id', $cat_id)->get()->pluck('tour_id')->toArray();
-        $tours = self::whereIn('id', $tourIds)->get()->toArray();
-//        if(count($tours)) return redirect('errors.404');
-    }
-
     public static function generateDateWeekDays(Carbon $start_date, Carbon $end_date)
     {
         $dates = [];
@@ -144,7 +139,13 @@ class Tour extends Model
             $dates[] = $date->format('Y-m-d');
             $date->addDay();
         }
-        return $dates;
+
+//        $period = new \DatePeriod(
+//            new \DateTime($start_date),
+//            new \DateInterval('P1D'),
+//            new \DateTime($end_date)
+//        );
+//        return $period;
     }
 
     public static function searchTours($request)
@@ -152,7 +153,7 @@ class Tour extends Model
 
         $category = (!empty($request->category)) ? explode('/', $request->category) : false;
 
-        $tours = Tour::join('tour_dates', function ($join) {
+        $tours = Tour::leftJoin('tour_dates', function ($join) {
                 $join->on('tour_dates.tour_id', '=', 'tours.id');
             })
             ->join('tour_cat_rels', function ($join) {
@@ -184,7 +185,7 @@ class Tour extends Model
         }
         $tours = $tours->select(['tours.*', 'tour_categories.property', 'tour_dates.date'])->groupBy('tours.id')->get();
         foreach ($tours as $key => $tour) {
-            $tours[$key]['single_adult'] = $tour->getFirstHotel()['single_adult'];
+            $tours[$key]['double_adult'] = $tour->getFirstHotel()['double_adult'];
         }
         return $tours;
     }
@@ -202,11 +203,11 @@ class Tour extends Model
             }
         });
 
-        $tours = $tours->where(function ($query) use ($tourDates) {
-            foreach ($tourDates as $tourDate) {
-                $query = $query->whereNot('tour_dates.date', $tourDate);
-            }
-        });
+//        $tours = $tours->where(function ($query) use ($tourDates) {
+//            foreach ($tourDates as $tourDate) {
+//                $query = $query->whereNot('tour_dates.date', $tourDate);
+//            }
+//        });
 
         if($category){
             $tours = $tours->where('tour_categories.id', intval($category[0]));
@@ -228,6 +229,7 @@ class Tour extends Model
                     ->where('tour_categories.property', 'custom');
             });
         }
+
         $tours = $tours->where(function ($query) use ($tourDates) {
             foreach ($tourDates as $key => $tourDate) {
                 if ($key == 0) {

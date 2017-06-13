@@ -64,21 +64,13 @@ class PageController extends Controller
 
     public function getIndexPage()
     {
-        $locale = (Session::has('locale')) ? Session::get('locale') : 'en';
-        $tourCatRelations = TourCatRel::all()->pluck('cat_id')->toArray();
-        $tourCategories = TourCategory::whereIn('id', array_unique($tourCatRelations))->get()->toArray();
-        $hotTours = Tour::where('hot', 'on')->inRandomOrder()->limit(3)->get()->toArray();
-        $topHotels = Hotel::whereIn('type', config('const.top_hotel_types'))
-            ->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
-        if (count($tourCategories)) {
-            $currentCatId = (Session::has('cat_id')) ? Session::get('cat_id') : $tourCategories[0]['id'];
-//            DB::enableQueryLog();
-            $indexTours = Tour::ToursByCategory($currentCatId);
-//            dd(DB::getQueryLog());
-        } else {
-            $indexTours = false;
-        }
-        return view('index', compact('tourCategories', 'locale', 'indexTours', 'hotTours', 'topHotels'));
+        $tourCategories = TourCategory::getAvailableCategories();
+        $hotTours = Tour::where('hot', 'on')->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
+        $topHotels = Hotel::whereIn('type', config('const.top_hotel_types'))->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
+        $currentCatId = (Session::has('cat_id') && (Session::get('cat_id') !== null)) ? Session::get('cat_id') : $tourCategories[0]['id'];
+        $indexTours = Tour::toursByCategory($currentCatId);
+
+        return view('index', compact('tourCategories', 'locale', 'indexTours', 'hotTours', 'topHotels', 'currentCatId'));
     }
 
     public function getPageByUrl($page_url)
@@ -94,7 +86,7 @@ class PageController extends Controller
             $tourCategories = TourCatRel::join('tour_categories', 'tour_categories.id', '=', 'tour_cat_rels.cat_id')
                 ->select('tour_categories.*')->distinct()->get()->toArray();
             $data['tourCategory'] = $tourCategory;
-            $data['tours'] = Tour::ToursByCategory($tourCategory->id, false);
+            $data['tours'] = Tour::toursByCategory($tourCategory->id, false);
             $data['tourCategories'] = $tourCategories;
             return view('tours', $data);
         }

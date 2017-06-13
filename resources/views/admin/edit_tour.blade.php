@@ -81,7 +81,7 @@
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
       <div class="form-group">
-        <div id="custom_day_container_en"> @foreach($tour->custom_days as $key => $custom_day)
+        <div id="custom_day_container_en"> @foreach($tour->customDays as $key => $custom_day)
           <div class="custom_day">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
             <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
@@ -157,7 +157,7 @@
       </div>
       <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
         <div class="form-group">
-          <div id="custom_day_container_ru"> @foreach($tour->custom_days as $key => $custom_day)
+          <div id="custom_day_container_ru"> @foreach($tour->customDays as $key => $custom_day)
             <div class="custom_day">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
               <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
@@ -511,7 +511,7 @@
         <div class="custom-image-viewer">
           <div class="custom-image-viewer-item">
             <button type="button" class="cropper-modal" id="main-image" data-target="#cropper-modal" data-toggle="modal"></button>
-            <img src="{{asset($tour->main_image)}}" alt=""> </div>
+            <img src="{{asset($tour->tour_main_image)}}" alt=""> </div>
         </div>
         @else
         <div>

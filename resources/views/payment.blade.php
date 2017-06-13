@@ -9,7 +9,7 @@
                 {{$orderTour['hotel']['short_desc_'.app()->getLocale()] .
                 str_replace('_star', '*', $orderTour['hotel']['type']) .
                 ' (' . trans('messages.room_' . config('const.adult_key_' . $orderTour['rooms'])) . ' ' . trans('messages.standard') . '), '.
-                trans('messages.travelers').' - ' . ($orderTour['adult'] + $orderTour['child'] + $orderTour['infant'])}}</h4>
+                trans('messages.travelers').' - ' . ($orderTour['adults_count'] + $orderTour['children_count'] + $orderTour['infants_count'])}}</h4>
             <div class="tourshortdescr">
                 {{$orderTour['tour']['short_desc_'.app()->getLocale()]}}
             </div>
@@ -22,7 +22,7 @@
                 @endforeach
             </div>
             <div class="tourstatement">
-                <span><span class="date">{{$orderTour['adult'] + $orderTour['child'] + $orderTour['infant']}}</span>{{trans('messages.total_travelers')}}</span>
+                <span><span class="date">{{$orderTour['adults_count'] + $orderTour['children_count'] + $orderTour['infants_count']}}</span>{{trans('messages.total_travelers')}}</span>
                 <span><span class="date {{$currency['currency']}}">{{round($orderTour['amount'] / $currency[$currency['currency']], 2)}}</span>{{trans('messages.total_price')}}</span>
             </div>
             <div class="hint">{{trans('messages.contact_person') . ' : ' . $orderTour['members'][0]['member_name'] . ' ' .

@@ -16,6 +16,7 @@ use App\TourHotel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon; 
 
@@ -94,19 +95,15 @@ class TourController extends Controller
         if (isset($tourDates)) TourDate::insert($tourDates);
 
         $path = 'images/tours/' . $tour->id;
-        $tourImagesPath = 'images/tours/' . $tour->id . '/tour_images';
-        $mainImagePath = 'images/tours/' . $tour->id . '/main_image';
-        $hotImagePath = 'images/tours/' . $tour->id . '/hot_image';
-        if (!isset($request->tour_id)) {
-            File::makeDirectory($path);
-            File::makeDirectory($tourImagesPath);
-            File::makeDirectory($mainImagePath);
-            File::makeDirectory($hotImagePath);
-        }
         $tourImagesPathName = 'images/tours/' . $tour->id . '/tour_images/';
         $mainImagePathName = 'images/tours/' . $tour->id . '/main_image/';
         $hotImagePathName = 'images/tours/' . $tour->id . '/hot_image/';
-
+        if (!isset($request->tour_id)) {
+            Storage::makeDirectory($path);
+            Storage::makeDirectory($tourImagesPathName);
+            Storage::makeDirectory($mainImagePathName);
+            Storage::makeDirectory($hotImagePathName);
+        }
         if ($request->hasFile('tour_images')) {
             $fieldsImages = $tour->tour_images;
 
@@ -190,16 +187,11 @@ class TourController extends Controller
 
     public function adminGetEditTour($tour_id)
     {
-        $tour = Tour::find($tour_id);
+        $tour = Tour::with(['categories', 'hotels', 'customDays','adminTourDates'])->find($tour_id);
         $data['tour_categories'] = TourCategory::all();
         $data['hotels'] = Hotel::select('hotel_name_en', 'id')->get();
-
-
-        $tour['categories'] = $tour->getCategories();
-        $tour['hotels'] = $tour->getHotels();
-        $tour['custom_days'] = $tour->getCustomDays();
         $tour['tour_images'] = explode(',', $tour->tour_images);
-        $tour['tour_dates'] = Tour::rewriteDates($tour->getTourDates());
+        $tour['tour_dates'] = Tour::rewriteDates($tour->adminTourDates()->get()->pluck('date'));
         $tour['basic_frequency'] = array_flip(explode(',', $tour->basic_frequency));
         $data['tour'] = $tour;
         return view('admin.edit_tour', $data);
@@ -266,7 +258,9 @@ class TourController extends Controller
 
     public function ajaxGetToursByCategory($category_id)
     {
-        $data = Tour::ToursByCategory($category_id);
+        $data['tours'] = Tour::toursByCategory($category_id);
+        $data['currentCategory'] = TourCategory::find($category_id);
+        $data['currentCatId'] = $category_id;
         Session::set('cat_id', $category_id);
         return view('ajax_views.index_tours', $data);
     }

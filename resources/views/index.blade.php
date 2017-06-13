@@ -85,14 +85,15 @@
                 <div class="container">
                     <ul>
                         @foreach($tourCategories as $tc)
-                            @if($indexTours['tourCategory']['id'] == $tc['id'])
-                                <li class="active" id="cat_list_{{$indexTours['tourCategory']['id']}}">
+                            @if($indexTours[0]['cat_id'] == $tc['id'])
+                                <li class="active" id="cat_list_{{$currentCatId}}">
                             @else
-                                <li id="cat_list_{{$indexTours['tourCategory']['id']}}">
+                                <li id="cat_list_{{$currentCatId}}">
                                     @endif
                                     <a id="{{'x_cat/' . $tc['id']}}"
-                                       class="tc-viewer {{strtolower(str_replace(' ', '_', trim($tc['category_name_en'])))}}">{{$tc['category_name_'.$locale]}}</a>
+                                       class="tc-viewer {{strtolower(str_replace(' ', '_', trim($tc['category_name_en'])))}}">{{$tc['category_name_'.app()->getLocale()]}}</a>
                                 </li>
+
                                 @endforeach
                                 <div class="clear"></div>
                     </ul>
@@ -103,10 +104,10 @@
         @if($indexTours)
             <div class="popular-tours" id="tours_area">
                 <div class="container">
-                    <h2>{{$indexTours['tourCategory']['category_name_'.app()->getLocale()]}}</h2>
+                    <h2>{{$tourCategories->find($currentCatId)['category_name_'.app()->getLocale()]}}</h2>
                     <!--Tour Itwm-->
-                    @foreach($indexTours['tours'] as $tour)
-                        @if($indexTours['tourCategory']['property'] == 'basic')
+                    @foreach($indexTours as $tour)
+                        @if($currentCatId == 1)
                             <div class="item">
                                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                                     <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
@@ -133,7 +134,7 @@
                                 </a>
                                 <div class="tour-data">
                                     <div class="tourdate">{{str_replace('/','.',$tour['date'])}}</div>
-                                    <div class="price {{$currency['currency']}}">{{round($tour['single_adult'] / $currency[$currency['currency']], 2)}}</div>
+                                    <div class="price {{$currency['currency']}}">{{round($tour['double_adult'] / $currency[$currency['currency']], 2)}}</div>
                                     <div class="clear"></div>
                                 </div>
                             </div>

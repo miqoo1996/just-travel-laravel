@@ -1,8 +1,7 @@
 <div class="container">
-    <h2>{{$tourCategory['category_name_' . app()->getLocale()]}}</h2>
-
+    <h2>{{$currentCategory['category_name_' . app()->getLocale()]}}</h2>
     @foreach($tours as $tour)
-        @if($tourCategory['property'] == 'basic')
+        @if($currentCatId == 1)
             <div class="item">
                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                     <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
@@ -29,7 +28,7 @@
                 </a>
                 <div class="tour-data">
                     <div class="tourdate">{{str_replace('/','.',$tour['date'])}}</div>
-                    <div class="price {{$currency['currency']}}">{{round($tour['single_adult'] / $currency[$currency['currency']], 2)}}</div>
+                    <div class="price {{$currency['currency']}}">{{round($tour['double_adult'] / $currency[$currency['currency']], 2)}}</div>
                     <div class="clear"></div>
                 </div>
             </div>

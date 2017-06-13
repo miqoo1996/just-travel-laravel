@@ -90,7 +90,7 @@ class Payment extends Model
         $qrCode->writeFile('images/qr/'.$order->id.'_qrcode.png');
         $generatedFile = PDF::loadView('pdf.voucher', compact('order'));
         $generatedFile->save($storePath.'/'.$order->id.'.pdf');
-        Files::delete('images/qr/'.$order->id.'_qrcode.png');
+//        Files::delete('images/qr/'.$order->id.'_qrcode.png');
     }
 
     public static function generateQrText($order)
