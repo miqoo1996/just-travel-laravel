@@ -44,29 +44,29 @@ class Page extends Model
         $right_menu = [];
         $footer_menu = [];
         foreach ($pages as $page) {
-            if ($_data['right_menu'] == 1 && $page->visibility == 'on') {
+            if ($page->visibility == 'on') {
                 if (is_null($page->right_menu) || $page->right_menu == 1) {
                     $right_menu[$page->id] = $page->toArray();
                 }
             }
-            if ($_data['footer'] == 1 && $page->footer == 'on') {
+            if ($page->footer == 'on') {
                 if (is_null($page->o_footer) || $page->o_footer == 1) {
                     $footer_menu[$page->id] = $page->toArray();
                 }
             }
+        }
+        if ($_data['right_menu'] == 1) {
             if (!isset($right_menu[$page->id]) && isset($footer_menu[$page->id])) {
                 $right_menu[$page->id] = $footer_menu[$page->id];
             }
-            if (!isset($footer_menu[$page->id]) && isset($right_menu[$page->id])) {
-                $footer_menu[$page->id] = $right_menu[$page->id];
-            }
-        }
-        if ($_data['right_menu'] == 1) {
             return $right_menu;
         }
         if ($_data['footer'] == 1) {
+            if (!isset($footer_menu[$page->id]) && isset($right_menu[$page->id])) {
+                $footer_menu[$page->id] = $right_menu[$page->id];
+            }
             return $footer_menu;
         }
-        return null;
+        return $right_menu;
     }
 }
