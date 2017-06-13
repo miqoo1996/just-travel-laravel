@@ -16,4 +16,12 @@ class Page extends Model
         'footer',
         'image',
     ];
+
+    /**
+     * Get the dynamic pages record associated with the pages.
+     */
+    public function dynamicPage()
+    {
+        return $this->hasOne(DynamicPages::class);
+    }
 }

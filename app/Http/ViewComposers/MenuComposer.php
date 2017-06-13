@@ -3,7 +3,6 @@
 namespace App\Http\ViewComposers;
 
 use App\Page;
-use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class MenuComposer
@@ -13,42 +12,7 @@ class MenuComposer
      * Stable menu items
      */
     public $menu = [
-        [
-            'page_name_en' => 'Tours',
-            'page_name_ru' => 'Туры',
-            'page_url' => '/tours',
-            'prp' => 'fixed'
-        ],
-        [
-            'page_name_en' => 'Photo Gallery',
-            'page_name_ru' => 'Фото Галерея',
-            'page_url' => '/galleries',
-            'prp' => 'fixed'
-        ],
-        [
-            'page_name_en' => 'Portfolio',
-            'page_name_ru' => 'Портфолио',
-            'page_url' => '/portfolio',
-            'prp' => 'fixed'
-        ],
-        [
-            'page_name_en' => 'Video Gallery',
-            'page_name_ru' => 'Видео Галерея',
-            'page_url' => '/video_gallery',
-            'prp' => 'fixed'
-        ],
-        [
-            'page_name_en' => 'Catalogue',
-            'page_name_ru' => 'Каталог',
-            'page_url' => '/catalogue',
-            'prp' => 'fixed'
-        ],
-        [
-            'page_name_en' => 'Contacts',
-            'page_name_ru' => 'Контакты',
-            'page_url' => '/contacts',
-            'prp' => 'fixed'
-        ]
+
     ];
 
 
@@ -56,16 +20,15 @@ class MenuComposer
      * MenuComposer constructor.
      *
      * adding custom created pages to stable menu items and sharing to layouts
-     *
-     *
      */
     public function __construct()
     {
-        $pages = Page::where('visibility', 'on')->get()->toArray();
-        $itemsCount = count($this->menu) + 1;
-        foreach ($pages as $page){
-            $this->menu[$itemsCount] = $page;
-            $itemsCount++;
+        $pages = Page::get();
+        foreach ($pages as $page) {
+            if (($page->visibility == 'off' && isset($page->dynamicPage) || ($page->visibility == 'on' && !isset($page->dynamicPage)))) {
+                $page->visibility = 'on';
+                $this->menu[] = $page->toArray();
+            }
         }
     }
 
