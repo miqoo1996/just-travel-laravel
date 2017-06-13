@@ -24,7 +24,7 @@ class MenuComposer
     public function __construct()
     {
         $model = new Page();
-        $this->menu = $model->getPages(['right_menu' => 0, 'footer' => 1]);
+        $this->menu = $model->getPages(['right_menu' => 1, 'footer' => 0]);
     }
 
     public function compose(View $view)
