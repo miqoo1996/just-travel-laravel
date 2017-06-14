@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Hotel;
+use App\PageOrders;
 use App\Tour;
 use App\TourCategory;
 use App\TourCatRel;
 use App\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
@@ -54,7 +56,8 @@ class PageController extends Controller
 
     public function adminGetPagesList()
     {
-        $pages = Page::all();
+        $model = new Page();
+        $pages = $model->getByType(0);
         return view('admin.pages', ['pages' => $pages]);
     }
 
@@ -125,5 +128,31 @@ class PageController extends Controller
         }
 
         return response()->json(array_filter(($result)));
+    }
+
+    public function adminPageOrders()
+    {
+        $model = new Page();
+        $pagesRightMenu = $model->getPages(['right_menu' => 1, 'footer' => 0]);
+        $pagesFooterMenu = $model->getPages(['right_menu' => 0, 'footer' => 1]);
+
+        return view('admin.page_orders', [
+            'pagesRightMenu' => $pagesRightMenu,
+            'pagesFooterMenu' => $pagesFooterMenu
+        ]);
+    }
+
+    public function adminPageRightMenuItemOrdersSave(Request $request)
+    {
+        $model = new PageOrders();
+        $items = $request->get('items');
+        $model->saveData($items, ['right_menu' => 1, 'footer' => 0]);
+    }
+
+    public function adminPageFooterItemOrdersSave(Request $request)
+    {
+        $model = new PageOrders();
+        $items = $request->get('items');
+        $model->saveData($items, ['right_menu' => 0, 'footer' => 1]);
     }
 }
