@@ -36,6 +36,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/edit-custom-tour/{tour_id}', 'TourController@adminGetEditCustomTour');
     Route::post('/admin/remove-data', 'AdminController@adminAjaxRemoveData');
     Route::get('/admin/pages', 'PageController@adminGetPagesList')->name('admin-pages-list');
+    Route::get('/admin/page-orders', 'PageController@adminPageOrders')->name('admin-page-orders');
+    Route::post('/admin/page-right-menu-orders', 'PageController@adminPageRightMenuItemOrdersSave')->name('admin-right-menu-items-orders');
+    Route::post('/admin/page-footer-menu-orders', 'PageController@adminPageFooterItemOrdersSave')->name('admin-footer-items-orders');
     Route::get('/admin/new-page', 'PageController@adminGetNewPage')->name('admin-new-page');
     Route::post('/admin/new-page', 'PageController@adminPostNewPage')->name('admin-post-new-page');
     Route::get('/admin/edit-page/{page_id}', 'PageController@adminGetEditPage')->name('admin-edit-page');
