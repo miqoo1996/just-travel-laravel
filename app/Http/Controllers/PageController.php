@@ -86,8 +86,7 @@ class PageController extends Controller
             }
             return view('page_detail', compact('page'));
         } else {
-            $tourCategories = TourCatRel::join('tour_categories', 'tour_categories.id', '=', 'tour_cat_rels.cat_id')
-                ->select('tour_categories.*')->distinct()->get()->toArray();
+            $tourCategories = TourCategory::getAvailableCategories();
             $data['tourCategory'] = $tourCategory;
             $data['tours'] = Tour::toursByCategory($tourCategory->id, false);
             $data['tourCategories'] = $tourCategories;

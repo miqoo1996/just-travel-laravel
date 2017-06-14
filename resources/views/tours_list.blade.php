@@ -40,8 +40,8 @@
                         <div class="customselect">
                             <select class="form-control" id="tour_category_selector">
                                 <option value="">{{trans('messages.all_categories')}}</option>
-                                @foreach($tourCategories as $key => $tourCategory)
-                                    <option value="{{$tourCategory['id'].'/'.$tourCategory['property']}}">{{$tourCategory['category_name_'.app()->getLocale()]}}</option>
+                                @foreach($tourCategories as $key => $item)
+                                    <option value="{{$item['id'].'/'.$item['property']}}">{{$item['category_name_'.app()->getLocale()]}}</option>
                                 @endforeach
                             </select>
                         </div>
