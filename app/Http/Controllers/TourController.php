@@ -45,21 +45,129 @@ class TourController extends Controller
      */
     public function adminPostNewTour(Request $request)
     {
-        $fields = $request->input();
         $isBasic = false;
-        if (isset($request->tour_id)) {
-            $tour = Tour::find($request->tour_id);
+        if ($request->get('tour_id')) {
+            $tour = Tour::find($request->get('tour_id'));
         } else {
             $tour = new Tour();
             $tour->code = substr(strtoupper(uniqid()), -7);
-            $tour->save();
         }
 
+        $tourCats = $tourDays = $tourHotels = [];
+        if ($fields = $request->input()) {
+            $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
+            $tourDays = $this->setTourDays($request, $tour, $isBasic);
+            $tourHotels = $this->setTourHotels($tour);
+            $this->setTourFile($request, $fields, 'tour_images');
+            $this->setTourFile($request, $fields, 'tour_main_image');
+            $this->setTourFile($request, $fields, 'hot_image');
+            $tour->fill($fields);
+        }
+
+        if ($tour->save()) {
+            $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
+            $tourDays = $this->setTourDays($request, $tour, $isBasic);
+            $tourHotels = $this->setTourHotels($tour);
+
+            TourCatRel::where('tour_id', $tour->id)->delete();
+            if (!empty($tourCats)) TourCatRel::insert($tourCats);
+
+            if($isBasic && !empty($request->specific_days)){
+                $dates = explode(',', $request->specific_days);
+
+            } elseif(!empty($request->custom_dates)){
+                $dates = explode(',', $request->custom_dates);
+            }
+            if(isset($dates)) {
+                foreach ($dates as $date) {
+                    $tourDate['tour_id'] = $tour->id;
+                    $tourDate['date'] = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+                    $tourDates[] = $tourDate;
+                }
+            }
+            TourDate::where('tour_id', $tour->id)->delete();
+            if (isset($tourDates)) TourDate::insert($tourDates);
+
+            $path = 'images/tours/' . $tour->id;
+            $tourImagesPathName = 'images/tours/' . $tour->id . '/tour_images/';
+            $mainImagePathName = 'images/tours/' . $tour->id . '/main_image/';
+            $hotImagePathName = 'images/tours/' . $tour->id . '/hot_image/';
+            if (!isset($request->tour_id)) {
+                Storage::makeDirectory($path);
+                Storage::makeDirectory($tourImagesPathName);
+                Storage::makeDirectory($mainImagePathName);
+                Storage::makeDirectory($hotImagePathName);
+            }
+
+            $this->setTourFile($request, $fields, 'tour_images', $tourImagesPathName);
+            $this->setTourFile($request, $fields, 'tour_main_image', $mainImagePathName);
+            $this->setTourFile($request, $fields, 'hot_image', $hotImagePathName);
+
+            if ($isBasic) {
+                if (isset($request->basic_frequency)) {
+                    $fields['basic_frequency'] = '';
+                    $BFChecker = true;
+                    foreach ($request->basic_frequency as $BF) {
+                        $fields['basic_frequency'] .= ($BFChecker) ? $BF : ',' . $BF;
+                        $BFChecker = false;
+                    }
+                }
+            } else {
+                unset($fields['basic_frequency']);
+            }
+
+            if (!isset($request->visibility)) {
+                $fields['visibility'] = 'off';
+            }
+            if (!isset($request->hot)) {
+                $fields['hot'] = 'off';
+            }
+
+            if (!$isBasic && isset($tourHotels['hotel_id'])) {
+                TourHotel::where('tour_id', $tour->id)->delete();
+                if (!empty($tourHotels)) TourHotel::insert($tourHotels);
+            }
+            if (!$isBasic && isset($request->custom_day_desc_en)) {
+                TourCustomDay::where('tour_id', $tour->id)->delete();
+                if (!empty($tourDays)) TourCustomDay::insert($tourDays);
+            }
+
+            return redirect()->route('admin-tours-list');
+        }
+        $data = $this->getEditTour($tour);
+        $data['tourCats'] = $tourCats;
+        $data['tourDays'] = $tourDays;
+        $data['tourHotels'] = $tourHotels;
+        $data['errors'] = $tour->getValidator()->errors();
+        return view('admin.edit_tour', $data);
+    }
+
+    public function adminGetEditTour($tour_id)
+    {
+        $tour = Tour::with(['categories', 'hotels', 'customDays','adminTourDates'])->find($tour_id);
+        $data = $this->getEditTour($tour);
+        return view('admin.edit_tour', $data);
+    }
+
+    public function getEditTour(Tour $tour)
+    {
+        $tour['tour_images'] = explode(',', $tour->tour_images);
+        $tour['tour_dates'] = Tour::rewriteDates($tour->adminTourDates()->get()->pluck('date'));
+        $tour['basic_frequency'] = array_flip(explode(',', $tour->basic_frequency));
+        $data['tour_categories'] = TourCategory::all();
+        $data['hotels'] = Hotel::select('hotel_name_en', 'id')->get();
+        $data['tour'] = $tour;
+        return $data;
+    }
+
+    public function setTourCategories(Request $request, Tour $tour, &$fields, &$isBasic)
+    {
+        $tourCats = [];
         $fields['tour_category'] = '';
         if (isset($request->tour_category_id)) {
             foreach ($request->tour_category_id as $item) {
                 $item = explode('/', $item);
-                $tourCat['tour_id'] = $tour->id;
+                $tourCat['tour_id'] = isset($tour->id) ? $tour->id : null;
                 $tourCat['cat_id'] = $item[0];
 
                 $fields['tour_category'] .= ($fields['tour_category'] == '') ? $item[2] : ', ' . $item[2];
@@ -69,128 +177,75 @@ class TourController extends Controller
                 $tourCats[] = $tourCat;
             }
         }
-        TourCatRel::where('tour_id', $tour->id)->delete();
-        if (isset($tourCats)) TourCatRel::insert($tourCats);
 
-        if($isBasic && !empty($request->specific_days)){
-            $dates = explode(',', $request->specific_days);
-
-        } elseif(!empty($request->custom_dates)){
-            $dates = explode(',', $request->custom_dates);
-        }
-        if(isset($dates)) {
-            foreach ($dates as $date) {
-                $tourDate['tour_id'] = $tour->id;
-                $tourDate['date'] = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
-                $tourDates[] = $tourDate;
-            }
-        }
-        TourDate::where('tour_id', $tour->id)->delete();
-        if (isset($tourDates)) TourDate::insert($tourDates);
-
-        $path = 'images/tours/' . $tour->id;
-        $tourImagesPathName = 'images/tours/' . $tour->id . '/tour_images/';
-        $mainImagePathName = 'images/tours/' . $tour->id . '/main_image/';
-        $hotImagePathName = 'images/tours/' . $tour->id . '/hot_image/';
-        if (!isset($request->tour_id)) {
-            Storage::makeDirectory($path);
-            Storage::makeDirectory($tourImagesPathName);
-            Storage::makeDirectory($mainImagePathName);
-            Storage::makeDirectory($hotImagePathName);
-        }
-        if ($request->hasFile('tour_images')) {
-            $fieldsImages = $tour->tour_images;
-
-            $imageChecker = ($fieldsImages == '') ? true : false;
-            foreach ($request->file('tour_images') as $item) {
-                $image = $item;
-                if (null !== $image) {
-                    $image_name = uniqid() . config('const.' . $item->getMimeType());
-                    $image->move($tourImagesPathName, $image_name);
-                    $fieldsImages .= ($imageChecker) ? $tourImagesPathName . $image_name : ',' . $tourImagesPathName . $image_name;
-                    $imageChecker = false;
-                }
-            }
-            $fields['tour_images'] = $fieldsImages;
-        }
-
-        if ($request->hasFile('tour_main_image')) {
-            $file = $request->file('tour_main_image');
-            $file_name = uniqid() . config('const.' . $file->getMimeType());
-            $file->move($mainImagePathName, $file_name);
-            $fields['tour_main_image'] = $mainImagePathName . $file_name;
-        }
-        if ($request->hasFile('hot_image')) {
-            $file = $request->file('hot_image');
-            $file_name = uniqid() . config('const.' . $file->getMimeType());
-            $file->move($hotImagePathName, $file_name);
-            $fields['hot_image'] = $hotImagePathName . $file_name;
-        }
-        if ($isBasic) {
-            if (isset($request->basic_frequency)) {
-                $fields['basic_frequency'] = '';
-                $BFChecker = true;
-                foreach ($request->basic_frequency as $BF) {
-                    $fields['basic_frequency'] .= ($BFChecker) ? $BF : ',' . $BF;
-                    $BFChecker = false;
-                }
-            }
-        } else {
-            unset($fields['basic_frequency']);
-        }
-
-        if (!isset($request->visibility)) {
-            $fields['visibility'] = 'off';
-        }
-        if (!isset($request->hot)) {
-            $fields['hot'] = 'off';
-        }
-
-        $tour->fill($fields);
-        $tour->save();
-        if (!$isBasic) {
-            $tourHotels = $fields['hotel'];
-            if (isset($tourHotels['hotel_id'])) {
-                foreach ($tourHotels['hotel_id'] as $key => $value) {
-                    $hotel['hotel_id'] = $value;
-                    $hotel['tour_id'] = $tour->id;
-                    $hotel['single_adult'] = $tourHotels['single_adult'][$key];
-                    $hotel['double_adult'] = $tourHotels['double_adult'][$key];
-                    $hotel['triple_adult'] = $tourHotels['triple_adult'][$key];
-                    $hotel['child'] = $tourHotels['child'][$key];
-                    $hotel['infant'] = $tourHotels['infant'][$key];
-                    $hotels[] = $hotel;
-                }
-
-                TourHotel::where('tour_id', $tour->id)->delete();
-                if (isset($hotels)) TourHotel::insert($hotels);
-            }
-        }
-        if (!$isBasic && isset($request->custom_day_desc_en)) {
-            foreach ($request->custom_day_desc_en as $key => $value) {
-                $tourDay['tour_id'] = $tour->id;
-                $tourDay['desc_en'] = $value;
-                $tourDay['desc_ru'] = $request->custom_day_desc_ru[$key];
-                $tourDay['title_en'] = $request->custom_day_title_en[$key];
-                $tourDay['title_ru'] = $request->custom_day_title_ru[$key];
-                $tourDays[] = $tourDay;
-            }
-            TourCustomDay::where('tour_id', $tour->id)->delete();
-            if (isset($tourDays)) TourCustomDay::insert($tourDays);
-        }
-        return redirect()->route('admin-tours-list');
+        return $tourCats;
     }
 
-    public function adminGetEditTour($tour_id)
+    public function setTourDays(Request $request, Tour $tour, &$isBasic)
     {
-        $tour = Tour::with(['categories', 'hotels', 'customDays','adminTourDates'])->find($tour_id);
-        $data['tour_categories'] = TourCategory::all();
-        $data['hotels'] = Hotel::select('hotel_name_en', 'id')->get();
-        $tour['tour_images'] = explode(',', $tour->tour_images);
-        $tour['tour_dates'] = Tour::rewriteDates($tour->adminTourDates()->get()->pluck('date'));
-        $tour['basic_frequency'] = array_flip(explode(',', $tour->basic_frequency));
-        $data['tour'] = $tour;
-        return view('admin.edit_tour', $data);
+        $tourDays = [];
+        if (!$isBasic && isset($request->custom_day_desc_en)) {
+            foreach ($request->custom_day_desc_en as $key => $value) {
+                if (trim($value)) {
+                    $tourDay['tour_id'] = $tour->id;
+                    $tourDay['desc_en'] = $value;
+                    $tourDay['desc_ru'] = isset($request->custom_day_desc_ru[$key]) ? $request->custom_day_desc_ru[$key] : '';
+                    $tourDay['title_ru'] = isset($request->custom_day_title_ru[$key]) ? $request->custom_day_title_ru[$key] : '';
+                    $tourDay['title_en'] = isset($request->custom_day_title_en[$key]) ? $request->custom_day_title_en[$key] : '';
+                    $tourDays[] = $tourDay;
+                }
+            }
+        }
+        return $tourDays;
+    }
+
+    public function setTourHotels(Tour $tour)
+    {
+        $hotels = [];
+        $tourHotels = isset($fields['hotel']) ? $fields['hotel'] : [];
+        if (isset($tourHotels['hotel_id'])) {
+            foreach ($tourHotels['hotel_id'] as $key => $value) {
+                $hotel['hotel_id'] = $value;
+                $hotel['tour_id'] = isset($tour->id) ? $tour->id : null;
+                $hotel['single_adult'] = $tourHotels['single_adult'][$key];
+                $hotel['double_adult'] = $tourHotels['double_adult'][$key];
+                $hotel['triple_adult'] = $tourHotels['triple_adult'][$key];
+                $hotel['child'] = $tourHotels['child'][$key];
+                $hotel['infant'] = $tourHotels['infant'][$key];
+                $hotels[] = $hotel;
+            }
+        }
+        return $hotels;
+    }
+
+    public function setTourFile(Request $request, &$fields, $_file, $imagePathName = '', $move = false)
+    {
+        if ($_file == 'tour_images') {
+            if ($request->hasFile('tour_images')) {
+                $fieldsImages = $request->get('tour_images');
+
+                $imageChecker = ($fieldsImages == '') ? true : false;
+                foreach ($request->file('tour_images') as $item) {
+                    $image = $item;
+                    if (null !== $image) {
+                        $image_name = uniqid() . config('const.' . $item->getMimeType());
+                        if ($move) {
+                            $image->move($imagePathName, $image_name);
+                        }
+                        $fieldsImages .= ($imageChecker) ? $imagePathName . $image_name : ',' . $imagePathName . $image_name;
+                        $imageChecker = false;
+                    }
+                }
+                $fields['tour_images'] = $fieldsImages;
+            }
+        } elseif ($request->hasFile($_file)) {
+            $file = $request->file($_file);
+            $file_name = uniqid() . config('const.' . $file->getMimeType());
+            if ($move) {
+                $file->move($imagePathName, $file_name);
+            }
+            $fields['tour_main_image'] = $imagePathName . $file_name;
+        }
     }
 
     public function adminGetNewCustomTour()
@@ -201,42 +256,47 @@ class TourController extends Controller
 
     public function adminPostNewCustomTour(Request $request)
     {
-        $fields = $request->input();
-        if (isset($request->tour_id)) {
+        if ($request->get('tour_id')) {
             $tour = Tour::find($request->tour_id);
         } else {
             $tour = new Tour();
             $tour->type = 'custom';
         }
-        $tour->fill($fields);
-        $tour->save();
 
-        $tourHotels = $fields['hotel'];
-        foreach ($tourHotels['hotel_id'] as $key => $value) {
-            $hotel['hotel_id'] = $value;
-            $hotel['tour_id'] = $tour->id;
-            $hotel['single_adult'] = $tourHotels['single_adult'][$key];
-            $hotel['double_adult'] = $tourHotels['double_adult'][$key];
-            $hotel['triple_adult'] = $tourHotels['triple_adult'][$key];
-            $hotel['child'] = $tourHotels['child'][$key];
-            $hotel['infant'] = $tourHotels['infant'][$key];
-            $hotels[] = $hotel;
+        $tourDays = $tourHotels = [];
+        if ($fields = $request->input()) {
+            $tourDays = $this->setTourDays($request, $tour, $isBasic);
+            $tourHotels = $this->setTourHotels($tour);
+            $tour->fill($fields);
         }
 
-        TourHotel::where('tour_id', $tour->id)->delete();
-        if (isset($hotels)) TourHotel::insert($hotels);
-
-        if (isset($request->custom_day_desc_en)) {
-            foreach ($request->custom_day_desc_en as $key => $value) {
-                $tourDay['tour_id'] = $tour->id;
-                $tourDay['desc_en'] = $value;
-                $tourDay['desc_ru'] = $request->custom_day_desc_ru[$key];
-                $tourDays[] = $tourDay;
+        if ($tour->save()) {
+            $tourDays = $this->setTourDays($request, $tour, $isBasic);
+            $tourHotels = $this->setTourHotels($tour);
+            if (isset($tourHotels['hotel_id'])) {
+                TourHotel::where('tour_id', $tour->id)->delete();
+                if (!empty($tourHotels)) TourHotel::insert($tourHotels);
             }
-            TourCustomDay::where('tour_id', $tour->id)->delete();
-            if (isset($tourDays)) TourCustomDay::insert($tourDays);
+            if (isset($request->custom_day_desc_en)) {
+                TourCustomDay::where('tour_id', $tour->id)->delete();
+                if (!empty($tourDays)) TourCustomDay::insert($tourDays);
+            }
+            return redirect()->route('admin-tours-list');
         }
-        return redirect()->route('admin-tours-list');
+        $data = $this->getEditTour($tour);
+        $data['tourDays'] = $tourDays;
+        $data['tourHotels'] = $tourHotels;
+        $data['errors'] = $tour->getValidator()->errors();
+
+        if ($tour->id) {
+            $tour['custom_days'] = $tour->getCustomDays();
+            $tour['hotels'] = $tour->getHotels();
+            $tour['hotels'] = ($tour['hotels']->isEmpty()) ? false : $tour['hotels'];
+            $tour['tour_images'] = explode(',', $tour->tour_images);
+            $data['tour'] = $tour;
+        }
+
+        return view('admin.edit_custom_tour', $data);
     }
 
     public function adminGetEditCustomTour($tour_id)

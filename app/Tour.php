@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class Tour extends Model
 {
+    private $validator;
+
     protected $fillable = [
         'tour_url',
         'tour_category',
@@ -43,7 +45,6 @@ class Tour extends Model
      */
     private $rules = [
         'tour_url' =>  'required|max:255',
-        'tour_category' => 'required|max:255',
         'tour_name_en' => 'required|max:255',
         'tour_name_ru' => 'required|max:255',
         'desc_en' => 'required|max:255',
@@ -52,16 +53,16 @@ class Tour extends Model
         'short_desc_ru' => 'max:255',
         'tags_en' => 'max:255',
         'tags_ru' => 'max:255',
-        'basic_price_adult' => 'required|numeric|max:11',
-        'basic_price_child' => 'required|numeric|max:11',
-        'basic_price_infant' => 'required|numeric|max:11',
-        'tour_images' => 'required|max:50000|mimes:doc,docx',
-        'tour_main_image' => 'required|max:50000|mimes:doc,docx',
-        'hot_image' => 'required|max:50000|mimes:doc,docx',
-        'traveler_email' => 'required|email|max:255',
-        'tour_price' => 'required|email|max:255',
-        'tour_day' => 'required|numeric|max:11',
+        'tour_images' => 'max:255',
+        'tour_main_image' => 'required|max:255',
+        'hot_image' => 'max:255',
+        'traveler_email' => 'email|max:255',
     ];
+
+    public function getValidator()
+    {
+        return $this->validator;
+    }
 
     public static function boot()
     {
@@ -78,6 +79,7 @@ class Tour extends Model
                     }
                 }
             });
+            $model->validator = $v;
             return !$v->fails();
         });
         parent::boot();
