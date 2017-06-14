@@ -7,8 +7,8 @@
         <div class="mp-categories">
             <div class="container">
                 <ul>
-                    @foreach($tourCategories as $tc)
-                        @if(isset($tours['tourCategory']) && $tours['tourCategory']['id'] == $tc['id'])
+                @foreach($tourCategories as $tc)
+                    @if(isset($tourCategory) && $tourCategory['id'] == $tc['id'])
                             <li class="active">
                         @else
                             <li>
@@ -61,12 +61,12 @@
     <div class="maincont">
         <div class="popular-tours" id="tours_area">
             <div class="container">
-                @if(isset($tours['tourCategory']))
-                    <h2>{{$tours['tourCategory']['category_name_'.app()->getLocale()]}}</h2>
+                @if(isset($tourCategory))
+                    <h2>{{$tourCategory['category_name_'.app()->getLocale()]}}</h2>
                 @endif
-                @if(isset($tours['tours']))
-                        @foreach($tours['tours'] as $tour)
-                            @if(isset($tours['tourCategory']['property']) && $tours['tourCategory']['property'] == 'basic')
+                @if(isset($tours))
+                        @foreach($tours as $tour)
+                            @if(isset($tourCategory['property']) && $tourCategory['property'] == 'basic')
                                 <div class="item">
                                     <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                                         <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">

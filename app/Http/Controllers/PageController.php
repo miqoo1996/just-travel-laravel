@@ -88,7 +88,7 @@ class PageController extends Controller
             $data['tourCategory'] = $tourCategory;
             $data['tours'] = Tour::toursByCategory($tourCategory->id, false);
             $data['tourCategories'] = $tourCategories;
-            return view('tours', $data);
+            return view('tours_list', $data);
         }
     }
 
