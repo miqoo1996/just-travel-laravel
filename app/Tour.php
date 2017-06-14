@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class Tour extends Model
 {
@@ -34,6 +35,53 @@ class Tour extends Model
         'tour_price',
         'tour_day'
     ];
+
+    /**
+     * Validation rules.
+     *
+     * @var array
+     */
+    private $rules = [
+        'tour_url' =>  'required|max:255',
+        'tour_category' => 'required|max:255',
+        'tour_name_en' => 'required|max:255',
+        'tour_name_ru' => 'required|max:255',
+        'desc_en' => 'required|max:255',
+        'desc_ru' => 'max:255',
+        'short_desc_en' => 'max:255',
+        'short_desc_ru' => 'max:255',
+        'tags_en' => 'max:255',
+        'tags_ru' => 'max:255',
+        'basic_price_adult' => 'required|numeric|max:11',
+        'basic_price_child' => 'required|numeric|max:11',
+        'basic_price_infant' => 'required|numeric|max:11',
+        'tour_images' => 'required|max:50000|mimes:doc,docx',
+        'tour_main_image' => 'required|max:50000|mimes:doc,docx',
+        'hot_image' => 'required|max:50000|mimes:doc,docx',
+        'traveler_email' => 'required|email|max:255',
+        'tour_price' => 'required|email|max:255',
+        'tour_day' => 'required|numeric|max:11',
+    ];
+
+    public static function boot()
+    {
+        // Saving event
+        static::saving(function ($model) {
+            // Make a new validator object
+            $v = Validator::make($model->getAttributes(), $model->rules);
+            // Optionally customize this version using new ->after()
+            $v->after(function() use ($v, $model) {
+                // Do more validation
+                if (isset($model->visibility)) {
+                    if (!in_array($model->visibility, ['on', 'off'])) {
+                        $v->errors()->add('error:visibility', 'Error');
+                    }
+                }
+            });
+            return !$v->fails();
+        });
+        parent::boot();
+    }
 
     /**
      * @return mixed
@@ -139,13 +187,6 @@ class Tour extends Model
             $dates[] = $date->format('Y-m-d');
             $date->addDay();
         }
-
-//        $period = new \DatePeriod(
-//            new \DateTime($start_date),
-//            new \DateInterval('P1D'),
-//            new \DateTime($end_date)
-//        );
-//        return $period;
     }
 
     public static function searchTours($request)
@@ -202,12 +243,6 @@ class Tour extends Model
                 }
             }
         });
-
-//        $tours = $tours->where(function ($query) use ($tourDates) {
-//            foreach ($tourDates as $tourDate) {
-//                $query = $query->whereNot('tour_dates.date', $tourDate);
-//            }
-//        });
 
         if($category){
             $tours = $tours->where('tour_categories.id', intval($category[0]));

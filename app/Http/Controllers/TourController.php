@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\HotelCalculator;
-use App\TourCatRel;
-use App\TourDate;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Tour;
 use App\Hotel;
+use App\TourDate;
+use App\TourHotel;
+use App\TourCatRel;
 use App\TourCategory;
 use App\TourCustomDay;
-use App\TourHotel;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
+use App\HotelCalculator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\View;
-use Carbon\Carbon; 
-
-
+use Carbon\Carbon;
 
 class TourController extends Controller
 {
