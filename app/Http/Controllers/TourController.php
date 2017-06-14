@@ -57,7 +57,7 @@ class TourController extends Controller
         if ($fields = $request->input()) {
             $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
-            $tourHotels = $this->setTourHotels($tour);
+            $tourHotels = $this->setTourHotels($tour, $fields);
             $this->setTourFile($request, $fields, 'tour_images');
             $this->setTourFile($request, $fields, 'tour_main_image');
             $this->setTourFile($request, $fields, 'hot_image');
@@ -67,7 +67,7 @@ class TourController extends Controller
         if ($tour->save()) {
             $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
-            $tourHotels = $this->setTourHotels($tour);
+            $tourHotels = $this->setTourHotels($tour, $fields);
 
             TourCatRel::where('tour_id', $tour->id)->delete();
             if (!empty($tourCats)) TourCatRel::insert($tourCats);
@@ -186,20 +186,18 @@ class TourController extends Controller
         $tourDays = [];
         if (!$isBasic && isset($request->custom_day_desc_en)) {
             foreach ($request->custom_day_desc_en as $key => $value) {
-                if (trim($value)) {
-                    $tourDay['tour_id'] = $tour->id;
-                    $tourDay['desc_en'] = $value;
-                    $tourDay['desc_ru'] = isset($request->custom_day_desc_ru[$key]) ? $request->custom_day_desc_ru[$key] : '';
-                    $tourDay['title_ru'] = isset($request->custom_day_title_ru[$key]) ? $request->custom_day_title_ru[$key] : '';
-                    $tourDay['title_en'] = isset($request->custom_day_title_en[$key]) ? $request->custom_day_title_en[$key] : '';
-                    $tourDays[] = $tourDay;
-                }
+                $tourDay['tour_id'] = $tour->id;
+                $tourDay['desc_en'] = $value;
+                $tourDay['desc_ru'] = isset($request->custom_day_desc_ru[$key]) ? $request->custom_day_desc_ru[$key] : '';
+                $tourDay['title_ru'] = isset($request->custom_day_title_ru[$key]) ? $request->custom_day_title_ru[$key] : '';
+                $tourDay['title_en'] = isset($request->custom_day_title_en[$key]) ? $request->custom_day_title_en[$key] : '';
+                $tourDays[] = $tourDay;
             }
         }
         return $tourDays;
     }
 
-    public function setTourHotels(Tour $tour)
+    public function setTourHotels(Tour $tour, $fields)
     {
         $hotels = [];
         $tourHotels = isset($fields['hotel']) ? $fields['hotel'] : [];
@@ -266,13 +264,13 @@ class TourController extends Controller
         $tourDays = $tourHotels = [];
         if ($fields = $request->input()) {
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
-            $tourHotels = $this->setTourHotels($tour);
+            $tourHotels = $this->setTourHotels($tour, $fields);
             $tour->fill($fields);
         }
 
         if ($tour->save()) {
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
-            $tourHotels = $this->setTourHotels($tour);
+            $tourHotels = $this->setTourHotels($tour, $fields);
             if (isset($tourHotels['hotel_id'])) {
                 TourHotel::where('tour_id', $tour->id)->delete();
                 if (!empty($tourHotels)) TourHotel::insert($tourHotels);
