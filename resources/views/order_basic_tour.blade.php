@@ -3,6 +3,7 @@
 page-tours-details
 @endsection
 @section('content')
+
     <form method="post" action="{{url('/post_ordered_custom_tour')}}">
         <div class="greybg tour-details">
             <div class="container">

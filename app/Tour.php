@@ -231,11 +231,13 @@ class Tour extends Model
         }
 
         $tours = $tours->where(function ($query) use ($tourDates) {
-            foreach ($tourDates as $key => $tourDate) {
-                if ($key == 0) {
-                    $query = $query->where('tour_dates.date', $tourDate);
-                } else {
-                    $query = $query->orWhere('tour_dates.date', $tourDate);
+            if ($tourDates) {
+                foreach ($tourDates as $key => $tourDate) {
+                    if ($key == 0) {
+                        $query = $query->where('tour_dates.date', $tourDate);
+                    } else {
+                        $query = $query->orWhere('tour_dates.date', $tourDate);
+                    }
                 }
             }
         });

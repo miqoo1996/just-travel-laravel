@@ -6,11 +6,8 @@ use App\Hotel;
 use App\Tour;
 use App\TourCategory;
 use App\TourCatRel;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Page;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
@@ -67,8 +64,11 @@ class PageController extends Controller
         $tourCategories = TourCategory::getAvailableCategories();
         $hotTours = Tour::where('hot', 'on')->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
         $topHotels = Hotel::whereIn('type', config('const.top_hotel_types'))->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
-        $currentCatId = (Session::has('cat_id') && (Session::get('cat_id') !== null)) ? Session::get('cat_id') : $tourCategories[0]['id'];
-        $indexTours = Tour::toursByCategory($currentCatId);
+        $indexTours = null;
+        if (isset($tourCategories[0]['id'])) {
+            $currentCatId = (Session::has('cat_id') && (Session::get('cat_id') !== null)) ? Session::get('cat_id') : $tourCategories[0]['id'];
+            $indexTours = Tour::toursByCategory($currentCatId);
+        }
 
         return view('index', compact('tourCategories', 'locale', 'indexTours', 'hotTours', 'topHotels', 'currentCatId'));
     }

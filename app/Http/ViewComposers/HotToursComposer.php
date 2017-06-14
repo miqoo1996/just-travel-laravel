@@ -15,7 +15,7 @@ class HotToursComposer
         $hotTours = Tour::where('hot', 'on')->where('visibility', 'on')->inRandomOrder()->limit(3)->get();
         foreach ($hotTours as $key => $hotTour) {
             if (null == $hotTour['basic_frequency']) {
-                $hotTours[$key]['single_adult'] = $hotTour->getFirstHotel()->single_adult;
+                $hotTours[$key]['single_adult'] = isset($hotTour->getFirstHotel()->single_adult) ? $hotTour->getFirstHotel()->single_adult : 0;
                 if ($hotTours[$key]->custom_day_prp == 'custom') {
                     $hotTours[$key]['date'] = explode(',', $hotTours[$key]->custom_dates)[0];
                 } else {

@@ -156,19 +156,21 @@ class TourController extends Controller
         $tour->save();
         if (!$isBasic) {
             $tourHotels = $fields['hotel'];
-            foreach ($tourHotels['hotel_id'] as $key => $value) {
-                $hotel['hotel_id'] = $value;
-                $hotel['tour_id'] = $tour->id;
-                $hotel['single_adult'] = $tourHotels['single_adult'][$key];
-                $hotel['double_adult'] = $tourHotels['double_adult'][$key];
-                $hotel['triple_adult'] = $tourHotels['triple_adult'][$key];
-                $hotel['child'] = $tourHotels['child'][$key];
-                $hotel['infant'] = $tourHotels['infant'][$key];
-                $hotels[] = $hotel;
-            }
+            if (isset($tourHotels['hotel_id'])) {
+                foreach ($tourHotels['hotel_id'] as $key => $value) {
+                    $hotel['hotel_id'] = $value;
+                    $hotel['tour_id'] = $tour->id;
+                    $hotel['single_adult'] = $tourHotels['single_adult'][$key];
+                    $hotel['double_adult'] = $tourHotels['double_adult'][$key];
+                    $hotel['triple_adult'] = $tourHotels['triple_adult'][$key];
+                    $hotel['child'] = $tourHotels['child'][$key];
+                    $hotel['infant'] = $tourHotels['infant'][$key];
+                    $hotels[] = $hotel;
+                }
 
-            TourHotel::where('tour_id', $tour->id)->delete();
-            if (isset($hotels)) TourHotel::insert($hotels);
+                TourHotel::where('tour_id', $tour->id)->delete();
+                if (isset($hotels)) TourHotel::insert($hotels);
+            }
         }
         if (!$isBasic && isset($request->custom_day_desc_en)) {
             foreach ($request->custom_day_desc_en as $key => $value) {
