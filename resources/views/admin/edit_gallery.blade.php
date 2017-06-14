@@ -3,6 +3,17 @@
     <div class="right_col" role="main">
         <div class="x_content">
             <form action="{{route('admin-post-new-gallery')}}" method="post" enctype="multipart/form-data">
+                @if ($errors->has())
+                    <div class="alert alert-danger">
+                        <strong>Whoops!</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <input type="hidden" name="gallery_id" value="{{$gallery->id}}">
                 <div class="x_panel">
                     <div class="row">
