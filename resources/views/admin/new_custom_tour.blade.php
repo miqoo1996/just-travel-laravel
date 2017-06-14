@@ -46,14 +46,26 @@
                                     <div class="custom_day">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Day 1</label>
                                         <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                            <textarea class="resizable_textarea form-control" placeholder="" name="custom_day_desc_en[]"></textarea>
+                                            <input type="text" class="form-control input-medium"
+                                                   name="custom_day_title_en[]"
+                                                   placeholder="title">
+                                        </div>
+                                        <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+                                            <textarea rows="4" class="resizable_textarea form-control" placeholder="description" name=custom_day_desc_en[]"></textarea>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="custom_day">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Day 2</label>
                                         <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                            <textarea class="resizable_textarea form-control" placeholder=""  name="custom_day_desc_en[]"></textarea>
+                                            <input type="text" class="form-control input-medium"
+                                                   name="custom_day_title_en[]"
+                                                   placeholder="title">
+                                        </div>
+                                        <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+              <textarea class="resizable_textarea form-control"
+                        placeholder="description"
+                        name="custom_day_desc_en[]"></textarea>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>

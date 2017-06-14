@@ -54,22 +54,36 @@
                         <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
                             <div class="form-group">
                                 <div id="custom_day_container_en">
-                                    @if(isset($tour->custom_days))
-                                        @foreach($tour->custom_days as $key => $custom_day)
-                                            <div class="custom_day">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
-                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                                    <textarea class="resizable_textarea form-control" placeholder="" name=custom_day_desc_en[]">{{$custom_day->desc_en}}</textarea>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        @endforeach
-                                    @elseif(isset($tourDays) && !empty($tourDays))
+                                    @if(isset($tourDays) && !empty($tourDays))
                                         @foreach($tourDays as $key => $custom_day)
                                             <div class="custom_day">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
                                                 <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                                    <textarea class="resizable_textarea form-control" placeholder="" name=custom_day_desc_en[]">{{$custom_day['desc_en']}}</textarea>
+                                                    <input type="text" class="form-control input-medium"
+                                                           name="custom_day_title_en[]"
+                                                           placeholder="title" value="{{$custom_day['title_en']}}">
+                                                </div>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+              <textarea rows="4" class="resizable_textarea form-control"
+                        placeholder="description"
+                        name=custom_day_desc_en[]">{{$custom_day['desc_en']}}</textarea>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        @endforeach
+                                    @elseif(isset($tour->customDays) && !empty($tour->customDays))
+                                        @foreach($tour->customDays as $key => $custom_day)
+                                            <div class="custom_day">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                                                    <input type="text" class="form-control input-medium"
+                                                           name="custom_day_title_en[]"
+                                                           placeholder="title" value="{{$custom_day->title_en}}">
+                                                </div>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+          <textarea rows="4" class="resizable_textarea form-control"
+                    placeholder="description"
+                    name=custom_day_desc_en[]">{{$custom_day->desc_en}}</textarea>
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>
@@ -119,7 +133,56 @@
                                     <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
                                         <div class="form-group">
                                             <div class="custom_day">
-                                                @if($tour->hotels)
+                                                @if(isset($tourHotels) && !empty($tourHotels))
+                                                    @foreach($tourHotels as $tourHotel)
+                                                        <div class="hotel-container">
+                                                            <div class="new_hotel">
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Hotel
+                                                                    <select class="form-control" name="hotel[hotel_id][]">
+                                                                        @foreach($hotels as $hotel)
+                                                                            @if($tourHotel['hotel_id'] == $hotel->id)
+                                                                                <option value="{{$hotel->id}}" selected>{{$hotel->hotel_name_en}}</option>
+                                                                            @else
+                                                                                <option value="{{$hotel->id}}">{{$hotel->hotel_name_en}}</option>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Single Adult (12-99)
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel['single_adult']}}">
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Double Adult (12-99)
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel['double_adult']}}">
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Tripple Adult (12-99)
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel['triple_adult']}}">
+                                                                </div>
+
+
+
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Child (4-11)
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel['child']}}">
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Infant (0-4)
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel['infant']}}">
+                                                                </div>
+
+
+
+                                                                <div class="clearfix margin-b-10"></div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @elseif($tour->hotels)
                                                     @foreach($tour->hotels as $tourHotel)
                                                         <div class="hotel-container">
                                                             <div class="new_hotel">

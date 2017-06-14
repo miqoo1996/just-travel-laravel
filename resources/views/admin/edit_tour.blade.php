@@ -199,21 +199,43 @@
       </div>
       <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
         <div class="form-group">
-          <div id="custom_day_container_ru"> @foreach($tour->customDays as $key => $custom_day)
-            <div class="custom_day">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
-              <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                <input type="text" class="form-control input-medium"
-                                                               name="custom_day_title_ru[]"
-                                                               placeholder="title" value="{{$custom_day->title_ru}}">
-              </div>
-              <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
-                <textarea class="resizable_textarea form-control" placeholder=""
-                                                                  name="custom_day_desc_ru[]">{{$custom_day->desc_ru}}</textarea>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            @endforeach </div>
+          <div id="custom_day_container_ru">
+            @if(isset($tourDays) && !empty($tourDays))
+              @foreach($tourDays as $key => $custom_day)
+                <div class="custom_day">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                    <input type="text" class="form-control input-medium"
+                           name="custom_day_title_ru[]"
+                           placeholder="title" value="{{$custom_day['title_ru']}}">
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+              <textarea rows="4" class="resizable_textarea form-control"
+                        placeholder="description"
+                        name=custom_day_desc_ru[]">{{$custom_day['desc_ru']}}</textarea>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              @endforeach
+            @elseif(isset($tour->customDays) && !empty($tour->customDays))
+              @foreach($tour->customDays as $key => $custom_day)
+                <div class="custom_day">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                    <input type="text" class="form-control input-medium"
+                           name="custom_day_title_ru[]"
+                           placeholder="title" value="{{$custom_day->title_ru}}">
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+          <textarea rows="4" class="resizable_textarea form-control"
+                    placeholder="description"
+                    name=custom_day_desc_ru[]">{{$custom_day->desc_ru}}</textarea>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              @endforeach
+            @endif
+          </div>
           <div class="col-md-12 col-sm-12 col-xs-12"> <a class="btn add_day"><span><i class="fa fa-plus"></i> Add Day</span></a> <a style="float:right;" class="btn remove_day"><span><i
                                                             class="fa fa-remove"></i> Remove Last Day</span></a> </div>
         </div>

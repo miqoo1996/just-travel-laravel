@@ -18,7 +18,6 @@ use Carbon\Carbon;
 
 class TourController extends Controller
 {
-
     public function adminGetToursList()
     {
         $tours = Tour::select('id', 'tour_category', 'tour_name_en', 'hot', 'tour_url', 'type', 'basic_price_adult')->get();
@@ -260,6 +259,8 @@ class TourController extends Controller
             $tour = new Tour();
             $tour->type = 'custom';
         }
+
+        $tour->setIsCustom(true);
 
         $tourDays = $tourHotels = [];
         if ($fields = $request->input()) {

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class Tour extends Model
 {
+    private $isCustom = false;
+
     private $validator;
 
     protected $fillable = [
@@ -44,20 +46,29 @@ class Tour extends Model
      * @var array
      */
     private $rules = [
-        'tour_url' =>  'required|max:255',
         'tour_name_en' => 'required|max:255',
-        'tour_name_ru' => 'required|max:255',
         'desc_en' => 'required|max:255',
-        'desc_ru' => 'max:255',
-        'short_desc_en' => 'max:255',
-        'short_desc_ru' => 'max:255',
         'tags_en' => 'max:255',
-        'tags_ru' => 'max:255',
         'tour_images' => 'max:255',
-        'tour_main_image' => 'required|max:255',
         'hot_image' => 'max:255',
         'traveler_email' => 'email|max:255',
     ];
+
+    public function getRules()
+    {
+        if (!$this->isCustom()) {
+            $this->rules += [
+                'tour_url' =>  'required|max:255',
+                'tour_name_ru' => 'required|max:255',
+                'desc_ru' => 'max:255',
+                'short_desc_ru' => 'max:255',
+                'tags_ru' => 'max:255',
+                'tour_main_image' => 'required|max:255',
+            ];
+        }
+
+        return $this->rules;
+    }
 
     public function getValidator()
     {
@@ -69,7 +80,7 @@ class Tour extends Model
         // Saving event
         static::saving(function ($model) {
             // Make a new validator object
-            $v = Validator::make($model->getAttributes(), $model->rules);
+            $v = Validator::make($model->getAttributes(), $model->getRules());
             // Optionally customize this version using new ->after()
             $v->after(function() use ($v, $model) {
                 // Do more validation
@@ -83,6 +94,16 @@ class Tour extends Model
             return !$v->fails();
         });
         parent::boot();
+    }
+
+    public function setIsCustom($custom)
+    {
+        $this->isCustom = (bool)$custom;
+    }
+
+    public function isCustom()
+    {
+        return (bool)$this->isCustom;
     }
 
     /**
