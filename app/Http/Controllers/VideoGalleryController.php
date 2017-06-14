@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\VideoGallery;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use Illuminate\Support\Facades\Validator;
-
 class VideoGalleryController extends Controller
 {
     public function adminGetVideoGallery()

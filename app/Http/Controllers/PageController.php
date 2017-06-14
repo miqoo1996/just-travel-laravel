@@ -22,30 +22,32 @@ class PageController extends Controller
 
     public function adminPostNewPage(Request $request)
     {
-        if (!isset($request->page_id)) {
+        if (!$request->get('page_id')) {
             $page = new Page();
-            $page->save();
         } else {
-            $page = Page::find($request->page_id);
+            $page = Page::find($request->get('page_id'));
         }
 
-        $fields = $request->input();
         $fields['visibility'] = (!isset($fields['visibility'])) ? 'off' : $fields['visibility'];
         $fields['footer'] = (!isset($fields['footer'])) ? 'off' : $fields['footer'];
 
-        if ($request->hasFile('image')) {
-            $oldImage = $page->image;
-            File::delete($oldImage);
-            $image = $request->file('image');
-            $image_name = uniqid() . config('const.' . $image->getMimeType());
-            $image_path = 'images/pages/' . $page->id . '/' . $image_name;
-            $image->move('images/pages/' . $page->id, $image_name);
-            $fields['image'] = $image_path;
+        if($fields = $request->input()) {
+            $page->fill($fields);
         }
 
-        $page->fill($fields);
-        $page->save();
-        return redirect()->route('admin-pages-list');
+        if ($page->save()) {
+            if ($request->hasFile('image')) {
+                $oldImage = $page->image;
+                File::delete($oldImage);
+                $image = $request->file('image');
+                $image_name = uniqid() . config('const.' . $image->getMimeType());
+                $image_path = 'images/pages/' . $page->id . '/' . $image_name;
+                $image->move('images/pages/' . $page->id, $image_name);
+                $fields['image'] = $image_path;
+            }
+            return redirect()->route('admin-pages-list');
+        }
+        return view('admin.edit_page', ['page' => $page, 'errors' => $page->getValidator()->errors()]);
     }
 
     public function adminGetEditPage($page_id)

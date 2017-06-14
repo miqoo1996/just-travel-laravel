@@ -47,7 +47,8 @@ class Tour extends Model
      */
     private $rules = [
         'tour_name_en' => 'required|max:255',
-        'desc_en' => 'required|max:255',
+        'desc_en' => 'required|max:500000',
+        'short_desc_ru' => 'max:500000',
         'tags_en' => 'max:255',
         'tour_images' => 'max:255',
         'hot_image' => 'max:255',
@@ -60,8 +61,8 @@ class Tour extends Model
             $this->rules += [
                 'tour_url' =>  'required|max:255',
                 'tour_name_ru' => 'required|max:255',
-                'desc_ru' => 'max:255',
-                'short_desc_ru' => 'max:255',
+                'desc_ru' => 'equired|max:500000',
+                'short_desc_ru' => 'max:500000',
                 'tags_ru' => 'max:255',
                 'tour_main_image' => 'required|max:255',
             ];
