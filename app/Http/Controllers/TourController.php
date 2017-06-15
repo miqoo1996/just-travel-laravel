@@ -276,7 +276,11 @@ class TourController extends Controller
         $data['rooms'] = $hotelCalculator;
         $data['days'] = TourCustomDay::where('tour_id', $request->tour_id)->get()->toArray();
         $hotels = TourHotel::where('tour_id', $request->tour_id)
-            ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->get()->toArray();
+            ->where('tours.custom_day_prp', '!=', 'any')
+            ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')
+            ->join('tours', 'tour_hotels.tour_id', '=', 'tours.id')
+            ->get()
+            ->toArray();
         foreach ($hotels as $key => $hotel){
             $hotels[$key]['price'] = HotelCalculator::calcHotelPrice($hotel, $adult, $child, $infant);
         }
