@@ -92,6 +92,8 @@ class Tour extends Model
                 }
                 if ((!isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) && isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') {
                     $v->errors()->add('error:tour_dates', 'The calendar field is required');
+                } else {
+                    unset($model->tour_dates);
                 }
             });
             $model->validator = $v;

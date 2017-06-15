@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Traits;
 use App\Tour;
 use App\Hotel;
 use App\TourCategory;
+use App\TourHotel;
 use Illuminate\Http\Request;
 
 trait TourTrait
@@ -16,6 +17,9 @@ trait TourTrait
         $tour['basic_frequency'] = array_flip(explode(',', $tour->basic_frequency));
         $data['tour_categories'] = TourCategory::all();
         $data['hotels'] = Hotel::select('hotel_name_en', 'id')->get();
+        if ($tour->id) {
+            $data['tourHotels'] = TourHotel::where('tour_id', $tour->id)->get();
+        }
         $data['tour'] = $tour;
         return $data;
     }
