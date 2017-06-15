@@ -77,6 +77,7 @@
         @endif
     </div>
 @endsection
+
 @section('content')
     <div class="maincont">
         <div class="navbar navbar-default">
