@@ -145,14 +145,20 @@
         @if(!empty($tour['tour_images']))
             <div class="greybg gallery-container">
                 <div class="container">
-                    <h1>{{trans('messages.gallery')}}</h1>
+                    <?php $isImage=false; ?>
                     @foreach($tour['tour_images'] as $image)
-                        <div class="item">
-                            <a href="{{url($image)}}" data-lightbox="gallery_trip">
-                                <img src="{{'/'.$image}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300"
-                                     height="190">
-                            </a>
-                        </div>
+                        @if($image)
+                            @if(!$isImage)
+                                <h1>{{trans('messages.gallery')}}</h1>
+                            @endif
+                            <?php $isImage=true; ?>
+                            <div class="item">
+                                <a href="{{url($image)}}" data-lightbox="gallery_trip">
+                                    <img src="{{'/'.$image}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300"
+                                         height="190">
+                                </a>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
             </div>
