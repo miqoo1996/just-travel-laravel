@@ -6,7 +6,7 @@
             <!-- Indicators -->
             <ol class="carousel-indicators">
                 @foreach($hotTours as $key => $hotTour)
-                    <li data-target="#myCarousel" data-slide-to="{{$key}}" class="@if($key == 0) active @endif""></li>
+                    <li data-target="#myCarousel" data-slide-to="{{$key}}" class="@if($key == 0) active @endif"></li>
                 @endforeach
             </ol>
         @endif
