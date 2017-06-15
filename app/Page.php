@@ -26,6 +26,7 @@ class Page extends Model
      * @var array
      */
     private $rules = [
+        'page_url' => 'max:255',
         'page_name_en' => 'required|max:255',
         'page_name_ru' => 'required|max:255',
         'desc_en' => 'required|max:50000',

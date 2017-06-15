@@ -75,7 +75,6 @@ class HotelController extends Controller
             $fields['images'] = $fieldsImages;
             return ($request->ajax())? route('admin-hotels') : redirect()->route('admin-hotels');
         }
-
         if (!$request->ajax()) {
             $hotel['images'] = explode(',', $hotel->images);
             $hotel['regions'] = isset($fields['regions']) && !empty($fields['regions']) ? array_flip(explode(',', $fields['regions'])) : [];

@@ -46,6 +46,7 @@ class Tour extends Model
      * @var array
      */
     private $rules = [
+        'tour_url' => 'max:255',
         'tour_name_en' => 'required|max:255',
         'desc_en' => 'required|max:500000',
         'short_desc_en' => 'max:500000',

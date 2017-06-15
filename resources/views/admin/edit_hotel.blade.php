@@ -10,7 +10,16 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-
+            @if ($errors->has())
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="x_panel">
                 <div class="row">
                     <div class="form-horizontal form-label-left">
