@@ -368,24 +368,24 @@
                       </select>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"> Single Adult (12-99)
-                      <input type="text" class="form-control" placeholder="Price"
+                      <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[single_adult][]">
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"> Double Adult (12-99)
-                      <input type="text" class="form-control" placeholder="Price"
+                      <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[double_adult][]">
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"> Tripple Adult (12-99)
-                      <input type="text" class="form-control" placeholder="Price"
+                      <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[triple_adult][]">
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"> </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"> Child (4-11)
-                      <input type="text" class="form-control" placeholder="Price"
+                      <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[child][]">
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"> Infant (0-4)
-                      <input type="text" class="form-control" placeholder="Price"
+                      <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[infant][]">
                     </div>
                     <div class="clearfix margin-b-10"></div>
@@ -469,10 +469,15 @@
 @endsection
 @section('script') 
 <script>
-        $('.tour-datepicker').datepicker({
-            orientation: "auto right",
-            multidate: true
-        });
-
+     $(document).ready(function () {
+         $('.tour-datepicker').datepicker({
+             startDate: '+3d',
+             orientation: "auto right",
+             multidate: true
+         });
+         $('#any_day_radio').change(function() {
+             $('.tour-datepicker').val('')
+         });
+     });
     </script> 
 @endsection

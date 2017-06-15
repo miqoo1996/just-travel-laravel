@@ -3,16 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Hotel;
-use App\Tour;
-use App\TourCategory;
 use App\TourDay;
 use App\TourHolel;
-use App\TourHotel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-
 use App\Http\Requests;
-use Illuminate\Support\Facades\Storage;
 
 class HotelController extends Controller
 {
@@ -36,19 +30,15 @@ class HotelController extends Controller
 
     public function adminPostNewHotel(Request $request)
     {
-        $fields = $request->input();
         $imageChecker = true;
-
-        if(isset($request->hotel_id)){
-            $hotel = Hotel::find($request->hotel_id);
+        if($request->get('hotel_id')){
+            $hotel = Hotel::find($request->get('hotel_id'));
             if(null !== $hotel->images) $imageChecker = false;
-
         } else {
             $hotel = new Hotel();
-            $hotel->save();
         }
-        $checker = true;
 
+        $checker = true;
         $fieldsRegions = '';
         foreach (config('regions.fields') as $region){
             if(isset($request->$region)){
@@ -57,29 +47,40 @@ class HotelController extends Controller
             }
         }
 
-        $fields['regions'] = $fieldsRegions;
-        if($request->hasFile('hotel_main_image')){
-            $file = $request->file('hotel_main_image');
-            $file_name = uniqid() .  $file->getClientOriginalName();
-            $file->move('images/hotels', $file_name);
-            $fields['hotel_main_image'] = 'images/hotels/'.$file_name;
-        }
-        $fieldsImages = $hotel->images;
+        $fields['visibility'] = !isset($fields['visibility']) ? 'off': 'on';
 
-        if($request->hasFile('files')){
-            foreach($request->file('files') as $item){
-                $image = $item;
-                $image_name = uniqid() . config('const.' . $image->getMimeType());
-                $image->move('images/hotels', $image_name);
-                $fieldsImages .=  ($imageChecker)? 'images/hotels/'.$image_name: ',images/hotels/'.$image_name;
-                $imageChecker = false;
-            }
+        if ($fields = $request->input()) {
+            $fields['regions'] = $fieldsRegions;
+            $hotel->fill($fields);
         }
-        $fields['visibility'] = (!isset($fields['visibility']))? 'off': 'on';
-        $fields['images'] = $fieldsImages;
-        $hotel->fill($fields);
-        $hotel->save();
-        return ($request->ajax())? route('admin-hotels') : redirect()->route('admin-hotels');
+
+        if ($hotel->save()) {
+            if($request->hasFile('hotel_main_image')){
+                $file = $request->file('hotel_main_image');
+                $file_name = uniqid() .  $file->getClientOriginalName();
+                $file->move('images/hotels', $file_name);
+                $fields['hotel_main_image'] = 'images/hotels/'.$file_name;
+            }
+            $fieldsImages = $hotel->images;
+
+            if($request->hasFile('files')){
+                foreach($request->file('files') as $item){
+                    $image = $item;
+                    $image_name = uniqid() . config('const.' . $image->getMimeType());
+                    $image->move('images/hotels', $image_name);
+                    $fieldsImages .=  ($imageChecker)? 'images/hotels/'.$image_name: ',images/hotels/'.$image_name;
+                    $imageChecker = false;
+                }
+            }
+            $fields['images'] = $fieldsImages;
+            return ($request->ajax())? route('admin-hotels') : redirect()->route('admin-hotels');
+        }
+
+        if (!$request->ajax()) {
+            $hotel['images'] = explode(',', $hotel->images);
+            $hotel['regions'] = isset($fields['regions']) && !empty($fields['regions']) ? array_flip(explode(',', $fields['regions'])) : [];
+            return view('admin.edit_hotel', ['hotel' => $hotel, 'errors' => $hotel->getValidator()->errors()]);
+        }
     }
 
     public function adminGetEditHotel($hotel_id)

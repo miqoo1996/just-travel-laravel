@@ -213,7 +213,6 @@ class AdminController extends Controller
 
     public function postUpdateCropped(Request $request)
     {
-//        dd($request);
         $image = $request->file('data');
         $source = str_replace(URL::to('/') . '/', '', $request->source);
         $image_name = array_reverse(explode('/',$source))[0];
@@ -221,27 +220,20 @@ class AdminController extends Controller
         File::deleteDirectory($source);
         $image->move($image_path, $image_name);
         return $source;
-//        $ratio = (int)$request->naturalWidth / (int)$request->width;
-//        $ratio = (int)$ratio;
-//        $width = (int)$request->width;
-//        $height =  (int)$request->height;
-//        $left = (int)$request->left * $ratio;
-//        $top = (int)$request->top * $ratio;
-//
-//        $source = str_replace(URL::to('/') . '/', '', $request->source);
-//        $img = Image::make($source);
-//        $img->crop($width, $height, $left, $top);
-//        $img->save($source);
-
     }
     public function adminPostUpdateCurrencies(Request $request)
     {
         $cur = Currency::first();
+
         if(null == $cur){
             $cur = new Currency();
         }
+
         $cur->fill($request->input());
-        $cur->save();
+
+        if (!$cur->save()) {
+            return redirect()->back()->with('errors', $cur->getValidator()->errors());
+        }
         return redirect()->back();
     }
 

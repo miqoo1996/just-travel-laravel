@@ -4,15 +4,6 @@
         <div class="">
             <div class="clearfix"></div>
 
-
-
-
-
-
-
-
-
-
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
@@ -24,7 +15,16 @@
                         <div class="x_content">
                             <br />
                             <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="{{route('admin-post-reset-password')}}" method="post">
-
+                                @if ($errors->has())
+                                    <div class="alert alert-danger">
+                                        <strong>Whoops!</strong>
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pswd" >
                                         Old Password
@@ -63,13 +63,9 @@
                             </form>
                         </div>
 
-
                     </div>
                 </div>
             </div>
-
-
-
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -88,7 +84,7 @@
                                         Currency Rate (USD)
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="usd" placeholder="USD" @if(null !== $admin_currency) value="{{$admin_currency->usd}} @endif">
+                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="usd" placeholder="USD" @if(null !== $admin_currency) value="{{$admin_currency->usd}}@endif">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -96,7 +92,7 @@
                                         Currency Rate (EUR)
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="eur" placeholder="EUR" @if(null !== $admin_currency) value="{{$admin_currency->eur}} @endif">
+                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="eur" placeholder="EUR" @if(null !== $admin_currency) value="{{$admin_currency->eur}}@endif">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -104,7 +100,7 @@
                                         Currency Rate (RUR)
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="rur" placeholder="RUR" @if(null !== $admin_currency) value="{{$admin_currency->rur}} @endif">
+                                        <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="rur" placeholder="RUR" @if(null !== $admin_currency) value="{{$admin_currency->rur}}@endif">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -116,7 +112,6 @@
 
                             </form>
                         </div>
-
 
                     </div>
                 </div>

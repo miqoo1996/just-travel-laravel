@@ -26,7 +26,6 @@ class Page extends Model
      * @var array
      */
     private $rules = [
-        'page_url' => 'required|max:255',
         'page_name_en' => 'required|max:255',
         'page_name_ru' => 'required|max:255',
         'desc_en' => 'required|max:50000',
@@ -42,6 +41,7 @@ class Page extends Model
     {
         // Saving event
         static::saving(function ($model) {
+            $model->rules['page_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url,%d,id|unique:tours,tour_url,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $model->id);
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->rules);
             // Optionally customize this version using new ->after()

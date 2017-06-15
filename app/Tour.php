@@ -48,7 +48,7 @@ class Tour extends Model
     private $rules = [
         'tour_name_en' => 'required|max:255',
         'desc_en' => 'required|max:500000',
-        'short_desc_ru' => 'max:500000',
+        'short_desc_en' => 'max:500000',
         'tags_en' => 'max:255',
         'tour_images' => 'max:255',
         'hot_image' => 'max:255',
@@ -59,9 +59,9 @@ class Tour extends Model
     {
         if (!$this->isCustom()) {
             $this->rules += [
-                'tour_url' =>  'required|max:255',
+                'tour_url' => sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id),
                 'tour_name_ru' => 'required|max:255',
-                'desc_ru' => 'equired|max:500000',
+                'desc_ru' => 'required|max:500000',
                 'short_desc_ru' => 'max:500000',
                 'tags_ru' => 'max:255',
                 'tour_main_image' => 'required|max:255',
@@ -89,6 +89,9 @@ class Tour extends Model
                     if (!in_array($model->visibility, ['on', 'off'])) {
                         $v->errors()->add('error:visibility', 'Error');
                     }
+                }
+                if ((!isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) && isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') {
+                    $v->errors()->add('error:tour_dates', 'The calendar field is required');
                 }
             });
             $model->validator = $v;
@@ -131,6 +134,9 @@ class Tour extends Model
         return $this->hasMany('App\TourHotel', 'tour_id', 'id');
     }
 
+    /**
+     * @return mixed
+     */
     public function getFirstHotel()
     {
         return $this->hasOne('App\TourHotel', 'tour_id', 'id')->first();
@@ -145,15 +151,22 @@ class Tour extends Model
 
     }
 
+    /**
+     * @return mixed
+     */
     public function tourDates()
     {
         return $this->hasMany('App\TourDate', 'tour_id', 'id')->where('date', '>=', date('Y-m-d'))->select('date');
     }
 
+    /**
+     * @return mixed
+     */
     public function adminTourDates()
     {
         return $this->hasMany('App\TourDate', 'tour_id', 'id');
     }
+
     public static function rewriteDates($dates)
     {
         $result = '';
@@ -189,6 +202,7 @@ class Tour extends Model
         ->groupBy('tours.id')->get();
         return $tours;
     }
+
     public static function generateDateWeekDays(Carbon $start_date, Carbon $end_date)
     {
         $dates = [];

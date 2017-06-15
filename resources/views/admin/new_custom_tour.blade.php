@@ -124,15 +124,15 @@
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Single Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]">
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[single_adult][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Double Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]">
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[double_adult][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Tripple Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
                                                         </div>
 
 
@@ -142,11 +142,11 @@
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Child (4-11)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[child][]">
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[child][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
                                                             Infant (0-4)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]">
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[infant][]">
                                                         </div>
                                                         <div class="clearfix margin-b-10"></div>
                                                     </div>

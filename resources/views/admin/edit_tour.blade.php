@@ -1,7 +1,7 @@
 @extends('admin.layouts.dashboard_layout')
 @section('content')
 <div class="right_col" role="main">
-  <form action="" method="post" enctype="multipart/form-data">
+  <form action="{{ url('/admin/new-tour') }}" method="post" enctype="multipart/form-data">
   <input type="hidden" value="{{$tour->id}}" name="tour_id">
   <div class="page-title">
     <div class="title_left">
@@ -120,7 +120,7 @@
                 <div class="clearfix"></div>
               </div>
             @endforeach
-          @elseif(isset($tour->customDays) && !empty($tour->customDays))
+          @elseif(isset($tour->customDays) && count($tour->customDays))
             @foreach($tour->customDays as $key => $custom_day)
               <div class="custom_day">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
@@ -137,6 +137,19 @@
                 <div class="clearfix"></div>
               </div>
             @endforeach
+          @else
+            <div class="custom_day">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Day 1</label>
+              <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                <input type="text" class="form-control input-medium"
+                       name="custom_day_title_en[]"
+                       placeholder="title">
+              </div>
+              <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+                <textarea rows="4" class="resizable_textarea form-control" placeholder="description" name=custom_day_desc_en[]"></textarea>
+              </div>
+              <div class="clearfix"></div>
+            </div>
           @endif
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12"> <a class="btn add_day"><span><i class="fa fa-plus"></i> Add Day</span></a> <a class="btn remove_day" style="float:right;"><span><i
@@ -234,6 +247,21 @@
                   <div class="clearfix"></div>
                 </div>
               @endforeach
+            @else
+              <div class="custom_day">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Day 2</label>
+                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                  <input type="text" class="form-control input-medium"
+                         name="custom_day_title_en[]"
+                         placeholder="title">
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+              <textarea class="resizable_textarea form-control"
+                        placeholder="description"
+                        name="custom_day_desc_en[]"></textarea>
+                </div>
+                <div class="clearfix"></div>
+              </div>
             @endif
           </div>
           <div class="col-md-12 col-sm-12 col-xs-12"> <a class="btn add_day"><span><i class="fa fa-plus"></i> Add Day</span></a> <a style="float:right;" class="btn remove_day"><span><i
@@ -447,15 +475,15 @@
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Single Adult (12-99)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel['single_adult']}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel['single_adult']}}">
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Double Adult (12-99)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel['double_adult']}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel['double_adult']}}">
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Tripple Adult (12-99)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel['triple_adult']}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel['triple_adult']}}">
                         </div>
 
 
@@ -465,11 +493,11 @@
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Child (4-11)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel['child']}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel['child']}}">
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Infant (0-4)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel['infant']}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel['infant']}}">
                         </div>
 
 
@@ -478,7 +506,7 @@
                       </div>
                     </div>
                   @endforeach
-                @elseif($tour->hotels)
+                @elseif(count($tour->hotels))
                   @foreach($tour->hotels as $tourHotel)
                     <div class="hotel-container">
                       <div class="new_hotel">
@@ -496,15 +524,15 @@
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Single Adult (12-99)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel->single_adult}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel->single_adult}}">
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Double Adult (12-99)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel->double_adult}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel->double_adult}}">
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Tripple Adult (12-99)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel->triple_adult}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel->triple_adult}}">
                         </div>
 
 
@@ -514,11 +542,11 @@
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Child (4-11)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel->child}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel->child}}">
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           Infant (0-4)
-                          <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel->infant}}">
+                          <input type="number" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel->infant}}">
                         </div>
 
 
@@ -540,15 +568,15 @@
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-12">
                         Single Adult (12-99)
-                        <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]">
+                        <input type="number" class="form-control" placeholder="Price" name="hotel[single_adult][]">
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-12">
                         Double Adult (12-99)
-                        <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]">
+                        <input type="number" class="form-control" placeholder="Price" name="hotel[double_adult][]">
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-12">
                         Tripple Adult (12-99)
-                        <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
+                        <input type="number" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
                       </div>
 
 
@@ -558,11 +586,11 @@
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-12">
                         Child (4-11)
-                        <input type="text" class="form-control" placeholder="Price" name="hotel[child][]">
+                        <input type="number" class="form-control" placeholder="Price" name="hotel[child][]">
                       </div>
                       <div class="col-md-3 col-sm-3 col-xs-12">
                         Infant (0-4)
-                        <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]">
+                        <input type="number" class="form-control" placeholder="Price" name="hotel[infant][]">
                       </div>
 
 
@@ -702,11 +730,14 @@
 @section('script') 
 <script>
         $('.tour-datepicker').datepicker({
+            startDate: '+3d',
             format: 'dd/mm/yyyy',
             weekStart: 1,
             orientation: "auto right",
             multidate: true
         });
-
+        $('#any_day_radio').change(function() {
+            $('.tour-datepicker').val('')
+        });
     </script> 
 @endsection

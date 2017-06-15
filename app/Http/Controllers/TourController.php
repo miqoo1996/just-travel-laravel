@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Traits\TourTrait;
 use App\Tour;
 use App\Hotel;
 use App\TourDate;
@@ -13,6 +12,7 @@ use App\TourCustomDay;
 use App\HotelCalculator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use App\Http\Controllers\Traits\TourTrait;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -24,7 +24,6 @@ class TourController extends Controller
     public function adminGetToursList()
     {
         $tours = Tour::select('id', 'tour_category', 'tour_name_en', 'hot', 'tour_url', 'type', 'basic_price_adult')->get();
-
 
         foreach ($tours as $key => $tour) {
             $tour['price'] = $tour->getFirstHotelAdultPrice();
@@ -57,6 +56,7 @@ class TourController extends Controller
 
         $tourCats = $tourDays = $tourHotels = [];
         if ($fields = $request->input()) {
+            $tour->tour_dates = $request->get('custom_dates');
             $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
             $tourHotels = $this->setTourHotels($tour, $fields);
@@ -88,7 +88,7 @@ class TourController extends Controller
                 }
             }
             TourDate::where('tour_id', $tour->id)->delete();
-            if (isset($tourDates)) TourDate::insert($tourDates);
+            if (!$isBasic && isset($tourDates)) TourDate::insert($tourDates);
 
             $path = 'images/tours/' . $tour->id;
             $tourImagesPathName = 'images/tours/' . $tour->id . '/tour_images/';
@@ -125,18 +125,19 @@ class TourController extends Controller
                 $fields['hot'] = 'off';
             }
 
-            if (!$isBasic && isset($tourHotels['hotel_id'])) {
-                TourHotel::where('tour_id', $tour->id)->delete();
+            TourHotel::where('tour_id', $tour->id)->delete();
+            if (!$isBasic) {
                 if (!empty($tourHotels)) TourHotel::insert($tourHotels);
             }
+            TourCustomDay::where('tour_id', $tour->id)->delete();
             if (!$isBasic && isset($request->custom_day_desc_en)) {
-                TourCustomDay::where('tour_id', $tour->id)->delete();
                 if (!empty($tourDays)) TourCustomDay::insert($tourDays);
             }
 
             return redirect()->route('admin-tours-list');
         }
         $data = $this->getEditTour($tour);
+        $tour->tour_dates = $request->get('custom_dates');
         $data['tourCats'] = $tourCats;
         $data['tourDays'] = $tourDays;
         $data['tourHotels'] = $tourHotels;
@@ -178,16 +179,17 @@ class TourController extends Controller
         if ($tour->save()) {
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
             $tourHotels = $this->setTourHotels($tour, $fields);
-            if (isset($tourHotels['hotel_id'])) {
-                TourHotel::where('tour_id', $tour->id)->delete();
-                if (!empty($tourHotels)) TourHotel::insert($tourHotels);
-            }
+
+            TourHotel::where('tour_id', $tour->id)->delete();
+            if (!empty($tourHotels)) TourHotel::insert($tourHotels);
+
             if (isset($request->custom_day_desc_en)) {
                 TourCustomDay::where('tour_id', $tour->id)->delete();
                 if (!empty($tourDays)) TourCustomDay::insert($tourDays);
             }
             return redirect()->route('admin-tours-list');
         }
+
         $data = $this->getEditTour($tour);
         $data['tourDays'] = $tourDays;
         $data['tourHotels'] = $tourHotels;
@@ -208,8 +210,10 @@ class TourController extends Controller
     {
         $data['hotels'] = Hotel::select('id', 'hotel_name_en')->get();
         $tour = Tour::find($tour_id);
-        $tour['custom_days'] = $tour->getCustomDays();
-        $tour['hotels'] = $tour->getHotels();
+        //$tour['custom_days'] = $tour->getCustomDays();
+        $tour['custom_days'] = $tour->customDays;
+        //$tour['hotels'] = $tour->getHotels();
+        $tour['hotels'] = $tour->hotels;
         $tour['hotels'] = ($tour['hotels']->isEmpty()) ? false : $tour['hotels'];
         $tour['tour_images'] = explode(',', $tour->tour_images);
         $data['tour'] = $tour;
