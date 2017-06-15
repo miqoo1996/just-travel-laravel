@@ -1,14 +1,15 @@
 @extends('layouts.basic')
 @section('carousel')
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-
         <!-- Wrapper for slides -->
+        @if(count($hotTours) > 1)
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                @foreach($hotTours as $key => $hotTour)
+                    <li data-target="#myCarousel" data-slide-to="{{$key}}" class="@if($key == 0) active @endif""></li>
+                @endforeach
+            </ol>
+        @endif
         @if(count($hotTours))
             <div class="carousel-inner" role="listbox">
                 @foreach($hotTours as $key => $hotTour)
@@ -63,15 +64,17 @@
             </div>
         </div>
 
-        <!-- Left and right controls -->
-        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        @if(count($hotTours) > 1)
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        @endif
     </div>
 @endsection
 @section('content')
