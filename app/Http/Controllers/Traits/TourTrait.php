@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 trait TourTrait
 {
+    private $imageName = '';
+
+    public function __construct()
+    {
+        $this->imageName = uniqid();
+    }
+
     public function getEditTour(Tour $tour)
     {
         $tour['tour_images'] = explode(',', $tour->tour_images);
@@ -92,15 +99,15 @@ trait TourTrait
             if ($request->hasFile('tour_images')) {
                 $fieldsImages = $request->get('tour_images');
 
-                $imageChecker = ($fieldsImages == '') ? true : false;
+                $imageChecker = $fieldsImages == '' ? true : false;
                 foreach ($request->file('tour_images') as $item) {
                     $image = $item;
                     if (null !== $image) {
-                        $image_name = uniqid() . config('const.' . $item->getMimeType());
+                        $image_name = $this->imageName . config('const.' . $item->getMimeType());
                         if ($move) {
                             $image->move($imagePathName, $image_name);
                         }
-                        $fieldsImages .= ($imageChecker) ? $imagePathName . $image_name : ',' . $imagePathName . $image_name;
+                        $fieldsImages .= $imageChecker ? $imagePathName . $image_name : ',' . $imagePathName . $image_name;
                         $imageChecker = false;
                     }
                 }
@@ -108,12 +115,13 @@ trait TourTrait
             }
         } elseif ($request->hasFile($_file)) {
             $file = $request->file($_file);
-            $file_name = uniqid() . config('const.' . $file->getMimeType());
+            $file_name = $this->imageName . config('const.' . $file->getMimeType());
             if ($move) {
                 $file->move($imagePathName, $file_name);
             }
-            $fields['tour_main_image'] = $imagePathName . $file_name;
+            $fields[$_file] = $imagePathName . $file_name;
         }
+        return isset($fields[$_file]) ? $fields[$_file] : null;
     }
 
     public function isDaily($fields)
@@ -121,4 +129,25 @@ trait TourTrait
         $isDaily = (bool)isset($fields['tour_category']) && ($fields['tour_category'] == 'Daily Tours' || $fields['tour_category'] == 'daily');
         return $isDaily;
     }
+
+    public function makeDirectory($path)
+    {
+        $tourImagesPathName = $path . '/tour_images/';
+        $mainImagePathName = $path . '/main_image/';
+        $hotImagePathName = $path . '/hot_image/';
+
+        if (!is_dir($path)) {
+            mkdir($path);
+        }
+        if (!is_dir($tourImagesPathName)) {
+            mkdir($tourImagesPathName);
+        }
+        if (!is_dir($mainImagePathName)) {
+            mkdir($mainImagePathName);
+        }
+        if (!is_dir($hotImagePathName)) {
+            mkdir($hotImagePathName);
+        }
+    }
+
 }

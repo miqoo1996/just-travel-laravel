@@ -12,6 +12,8 @@ class Tour extends Model
 {
     public $scenario = 'insert';
 
+    public $isBasic = false;
+
     private $isCustom = false;
 
     private $validator;
@@ -122,13 +124,15 @@ class Tour extends Model
                         $v->errors()->add('error:visibility', 'Error');
                     }
                 }
-//                if ((!isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) && isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') {
-//                    $v->errors()->add('error:tour_dates', 'The calendar field is required');
-//                } else {
-//                    unset($model->tour_dates);
-//                }
-                unset($model->tour_dates);
-
+                $unsetDateValidationRule = false;
+                if ((isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') || $model->isBasic) {
+                    if($unsetDateValidationRule = !isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) {
+                        $v->errors()->add('error:tour_dates', 'The calendar field is required');
+                    }
+                    if (!$unsetDateValidationRule) {
+                        unset($model->tour_dates);
+                    }
+                }
                 if (isset($model->hotel)) {
                     unset($model->hotel);
                 }
@@ -144,7 +148,7 @@ class Tour extends Model
                 if (isset($model->custom_day_desc_ru)) {
                     unset($model->custom_day_desc_ru);
                 }
-                if (!$model->isDaily()) {
+                if (!$model->isBasic) {
                     if (isset($model->basic_price_adult)) {
                         unset($model->basic_price_adult);
                     }

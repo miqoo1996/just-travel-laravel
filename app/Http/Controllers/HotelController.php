@@ -49,10 +49,7 @@ class HotelController extends Controller
         if ($fields = $request->input()) {
             $fields['visibility'] = $request->get('visibility', 'off');
             $fields['regions'] = $fieldsRegions;
-            $hotel->fill($fields);
-        }
 
-        if ($hotel->save()) {
             if($request->hasFile('hotel_main_image')){
                 $file = $request->file('hotel_main_image');
                 $file_name = uniqid() .  $file->getClientOriginalName();
@@ -71,6 +68,11 @@ class HotelController extends Controller
                 }
             }
             $fields['images'] = $fieldsImages;
+
+            $hotel->fill($fields);
+        }
+
+        if ($hotel->save()) {
             return ($request->ajax())? route('admin-hotels') : redirect()->route('admin-hotels');
         }
         if (!$request->ajax()) {

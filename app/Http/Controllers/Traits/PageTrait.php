@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
 
-trait VideoGalleryTrait
+trait PageTrait
 {
     private $imageName = '';
 
@@ -15,13 +15,14 @@ trait VideoGalleryTrait
 
     public function setFile(Request $request, &$fields, $_file, $move = false)
     {
-        if ($image = $request->file($_file)) {
+        if ($request->hasFile($_file)) {
+            $image = $request->file($_file);
             $image_name = $this->imageName . config('const.' . $image->getMimeType());
-            $image_path = 'images/video_thumbnails/en/' . $image_name;
+            $image_path = 'images/pages/';
             if ($move) {
-                $image->move('images/video_thumbnails/en', $image_name);
+                $image->move($image_path, $image_name);
             }
-            $fields[$_file] = $image_path;
+            $fields[$_file] = $image_path . $image_name;
         }
     }
 

@@ -58,15 +58,17 @@ class TourController extends Controller
         if ($fields = $request->input()) {
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
             $tourHotels = $this->setTourHotels($tour, $fields);
-            $this->setTourFile($request, $fields, 'tour_images');
-            $this->setTourFile($request, $fields, 'tour_main_image');
-            $this->setTourFile($request, $fields, 'hot_image');
-            if ($this->isDaily($fields)) {
+
+            $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
+            $this->setTourFile($request, $fields, 'tour_images', 'images/tours/tour_images/');
+            $this->setTourFile($request, $fields, 'tour_main_image', 'images/tours/main_image/');
+            $this->setTourFile($request, $fields, 'hot_image', 'images/tours/hot_image/');
+
+            if ($isBasic) {
                 $tour->tour_dates = $request->get('specific_days');
             } else {
                 $tour->tour_dates = $request->get('custom_dates');
             }
-            $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
 
             $fields['basic_frequency'] = '';
             if ($isBasic) {
@@ -83,10 +85,15 @@ class TourController extends Controller
 
             $fields['visibility'] = $request->get('visibility', 'off');
             $fields['hot'] = $request->get('hot', 'off');
+            $tour->isBasic = $isBasic;
             $tour->fill($fields);
         }
 
         if ($tour->save()) {
+            $this->setTourFile($request, $fields, 'tour_images', 'images/tours/tour_images/', true);
+            $this->setTourFile($request, $fields, 'tour_main_image', 'images/tours/main_image/', true);
+            $this->setTourFile($request, $fields, 'hot_image', 'images/tours/hot_image/', true);
+
             $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
             $tourHotels = $this->setTourHotels($tour, $fields);
@@ -111,19 +118,8 @@ class TourController extends Controller
             if (isset($tourDates)) TourDate::insert($tourDates);
 
             $path = 'images/tours/' . $tour->id;
-            $tourImagesPathName = 'images/tours/' . $tour->id . '/tour_images/';
-            $mainImagePathName = 'images/tours/' . $tour->id . '/main_image/';
-            $hotImagePathName = 'images/tours/' . $tour->id . '/hot_image/';
-            if (!isset($request->tour_id)) {
-                Storage::makeDirectory($path);
-                Storage::makeDirectory($tourImagesPathName);
-                Storage::makeDirectory($mainImagePathName);
-                Storage::makeDirectory($hotImagePathName);
-            }
 
-            $this->setTourFile($request, $fields, 'tour_images', $tourImagesPathName);
-            $this->setTourFile($request, $fields, 'tour_main_image', $mainImagePathName);
-            $this->setTourFile($request, $fields, 'hot_image', $hotImagePathName);
+            $this->makeDirectory($path);
 
             TourHotel::where('tour_id', $tour->id)->delete();
             if (!$isBasic) {
@@ -137,7 +133,7 @@ class TourController extends Controller
             return redirect()->route('admin-tours-list');
         }
         $data = $this->getEditTour($tour);
-        if ($this->isDaily($fields)) {
+        if ($isBasic) {
             $tour->tour_dates = $request->get('specific_days');
         } else {
             $tour->tour_dates = $request->get('custom_dates');
