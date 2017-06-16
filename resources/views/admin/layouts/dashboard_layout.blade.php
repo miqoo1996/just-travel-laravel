@@ -88,6 +88,12 @@
                                 <a href="{{route('admin-pdf-list')}}"><i class="fa fa-file-pdf-o"></i>Download PDF's</a>
                             </li>
                             <li>
+                                <a href="{{route('admin-photo-orders')}}"><i class="fa fa-circle"></i>Photo Orders</a>
+                            </li>
+                            <li>
+                                <a href="{{route('admin-video-orders')}}"><i class="fa fa-circle"></i>Video Orders</a>
+                            </li>
+                            <li>
                                 <a href="{{route('admin-page-orders')}}"><i class="fa fa-circle"></i>Menu Orders</a>
                             </li>
                             <li>

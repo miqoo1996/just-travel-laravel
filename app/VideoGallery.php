@@ -16,4 +16,10 @@ class VideoGallery extends Model
         'video_thumbnail_en',
         'video_thumbnail_ru'
     ];
+
+    public function getVideos()
+    {
+        $videos = VideoGallery::all()->toArray();
+        return $videos;
+    }
 }

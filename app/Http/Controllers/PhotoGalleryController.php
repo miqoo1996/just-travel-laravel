@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\PhotoGallery;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class PhotoGalleryController extends Controller
 {
     public function adminGetPhotoGallery()
@@ -33,4 +31,10 @@ class PhotoGalleryController extends Controller
         if (isset($data)) PhotoGallery::insert($data);
         return redirect()->back();
     }
+
+    public function adminPhotoOrders()
+    {
+        return view('admin.photo_orders', []);
+    }
+
 }
