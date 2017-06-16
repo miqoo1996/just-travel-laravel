@@ -41,7 +41,7 @@ trait TourTrait
                 $tourCats[] = $tourCat;
             }
         }
-
+        $tour->tour_category = isset($fields['tour_category']) ? $fields['tour_category'] : null;
         return $tourCats;
     }
 
