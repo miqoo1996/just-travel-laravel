@@ -14,9 +14,15 @@ trait TourTrait
     {
         $tour['tour_images'] = explode(',', $tour->tour_images);
         $tour['tour_dates'] = Tour::rewriteDates($tour->adminTourDates()->get()->pluck('date'));
-        $tour['basic_frequency'] = is_array($tour->basic_frequency) ? array_flip($tour->basic_frequency) : [];
         $data['tour_categories'] = TourCategory::all();
         $data['hotels'] = Hotel::select('hotel_name_en', 'id')->get();
+        $basic_frequency = [];
+        if (is_array($tour->basic_frequency)) {
+            $basic_frequency = array_flip($tour->basic_frequency);
+        } elseif ($tour->basic_frequency) {
+            $basic_frequency = array_flip(explode(',', $tour->basic_frequency));
+        }
+        $tour['basic_frequency'] = $basic_frequency;
         if ($tour->id) {
             $data['tourHotels'] = TourHotel::where('tour_id', $tour->id)->get();
         }

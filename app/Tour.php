@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class Tour extends Model
 {
+    public $scenario = 'insert';
+
     private $isCustom = false;
 
     private $validator;
@@ -44,9 +46,6 @@ class Tour extends Model
         'custom_day_desc_en',
         'custom_day_desc_ru',
         'tour_dates',
-        'basic_price_adult',
-        'basic_price_child',
-        'basic_price_infant',
     ];
 
     /**
@@ -79,9 +78,9 @@ class Tour extends Model
                 'custom_day_title_ru.*' => 'max:500000',
                 'custom_day_desc_en.*' => 'max:500000',
                 'custom_day_desc_ru.*' => 'max:500000',
-                'basic_price_adult' => ['min:1', 'max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'basic_price_child' => ['min:1', 'max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'basic_price_infant' => ['min:1', 'max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'basic_price_adult' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'basic_price_child' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'basic_price_infant' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'tour_dates' => 'max:255',
                 'hotel.single_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'hotel.double_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
@@ -123,11 +122,12 @@ class Tour extends Model
                         $v->errors()->add('error:visibility', 'Error');
                     }
                 }
-                if ((!isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) && isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') {
-                    $v->errors()->add('error:tour_dates', 'The calendar field is required');
-                } else {
-                    unset($model->tour_dates);
-                }
+//                if ((!isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) && isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') {
+//                    $v->errors()->add('error:tour_dates', 'The calendar field is required');
+//                } else {
+//                    unset($model->tour_dates);
+//                }
+                unset($model->tour_dates);
 
                 if (isset($model->hotel)) {
                     unset($model->hotel);
@@ -144,14 +144,16 @@ class Tour extends Model
                 if (isset($model->custom_day_desc_ru)) {
                     unset($model->custom_day_desc_ru);
                 }
-                if (isset($model->basic_price_adult)) {
-                    unset($model->basic_price_adult);
-                }
-                if (isset($model->basic_price_child)) {
-                    unset($model->basic_price_child);
-                }
-                if (isset($model->basic_price_infant)) {
-                    unset($model->basic_price_infant);
+                if (!$model->isDaily()) {
+                    if (isset($model->basic_price_adult)) {
+                        unset($model->basic_price_adult);
+                    }
+                    if (isset($model->basic_price_child)) {
+                        unset($model->basic_price_child);
+                    }
+                    if (isset($model->basic_price_infant)) {
+                        unset($model->basic_price_infant);
+                    }
                 }
             });
             $model->validator = $v;

@@ -118,9 +118,9 @@ class Page extends Model
         }
         $items = [];
         foreach ($pages as $page) {
-            if ($page->visibility == 'on' && $_data['right_menu'] == 1 && (is_null($page->right_menu) || $page->right_menu == 1)) {
+            if ($page->visibility == 'on' && $_data['right_menu'] == 1 && $page->right_menu == 1) {
                 $items[$page->id] = $page->toArray();
-            } elseif ($page->footer == 'on' && $_data['footer'] == 1 && (is_null($page->o_footer) || $page->o_footer == 1)) {
+            } elseif ($page->footer == 'on' && $_data['footer'] == 1 && $page->o_footer == 1) {
                 $items[$page->id] = $page->toArray();
             }
         }

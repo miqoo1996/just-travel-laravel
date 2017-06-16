@@ -6,7 +6,6 @@ use App\Hotel;
 use App\TourDay;
 use App\TourHolel;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 
 class HotelController extends Controller
 {
@@ -47,9 +46,8 @@ class HotelController extends Controller
             }
         }
 
-        $fields['visibility'] = !isset($fields['visibility']) ? 'off': 'on';
-
         if ($fields = $request->input()) {
+            $fields['visibility'] = $request->get('visibility', 'off');
             $fields['regions'] = $fieldsRegions;
             $hotel->fill($fields);
         }

@@ -28,10 +28,9 @@ class PageController extends Controller
             $page = Page::find($request->get('page_id'));
         }
 
-        $fields['visibility'] = (!isset($fields['visibility'])) ? 'off' : $fields['visibility'];
-        $fields['footer'] = (!isset($fields['footer'])) ? 'off' : $fields['footer'];
-
         if($fields = $request->input()) {
+            $fields['visibility'] = $request->get('visibility', 'off');
+            $fields['footer'] = $request->get('footer', 'off');
             $page->fill($fields);
         }
 

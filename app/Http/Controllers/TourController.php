@@ -61,13 +61,29 @@ class TourController extends Controller
             $this->setTourFile($request, $fields, 'tour_images');
             $this->setTourFile($request, $fields, 'tour_main_image');
             $this->setTourFile($request, $fields, 'hot_image');
-            $tour->fill($fields);
             if ($this->isDaily($fields)) {
                 $tour->tour_dates = $request->get('specific_days');
             } else {
                 $tour->tour_dates = $request->get('custom_dates');
             }
             $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
+
+            $fields['basic_frequency'] = '';
+            if ($isBasic) {
+                if (isset($request->basic_frequency)) {
+                    $BFChecker = true;
+                    foreach ($request->basic_frequency as $BF) {
+                        $fields['basic_frequency'] .= ($BFChecker) ? $BF : ',' . $BF;
+                        $BFChecker = false;
+                    }
+                }
+            } else {
+                unset($fields['basic_frequency']);
+            }
+
+            $fields['visibility'] = $request->get('visibility', 'off');
+            $fields['hot'] = $request->get('hot', 'off');
+            $tour->fill($fields);
         }
 
         if ($tour->save()) {
@@ -92,7 +108,7 @@ class TourController extends Controller
                 }
             }
             TourDate::where('tour_id', $tour->id)->delete();
-            if (!$isBasic && isset($tourDates)) TourDate::insert($tourDates);
+            if (isset($tourDates)) TourDate::insert($tourDates);
 
             $path = 'images/tours/' . $tour->id;
             $tourImagesPathName = 'images/tours/' . $tour->id . '/tour_images/';
@@ -108,26 +124,6 @@ class TourController extends Controller
             $this->setTourFile($request, $fields, 'tour_images', $tourImagesPathName);
             $this->setTourFile($request, $fields, 'tour_main_image', $mainImagePathName);
             $this->setTourFile($request, $fields, 'hot_image', $hotImagePathName);
-
-            if ($isBasic) {
-                if (isset($request->basic_frequency)) {
-                    $fields['basic_frequency'] = '';
-                    $BFChecker = true;
-                    foreach ($request->basic_frequency as $BF) {
-                        $fields['basic_frequency'] .= ($BFChecker) ? $BF : ',' . $BF;
-                        $BFChecker = false;
-                    }
-                }
-            } else {
-                unset($fields['basic_frequency']);
-            }
-
-            if (!isset($request->visibility)) {
-                $fields['visibility'] = 'off';
-            }
-            if (!isset($request->hot)) {
-                $fields['hot'] = 'off';
-            }
 
             TourHotel::where('tour_id', $tour->id)->delete();
             if (!$isBasic) {
