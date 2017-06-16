@@ -91,11 +91,12 @@ class Tour extends Model
     }
 
     /**
-     * @param $category_id
-     * @param $limit
+     * @param null $category_id
+     * @param bool $limit
+     * @param bool $order
      * @return mixed
      */
-    public static function ToursByCategory($category_id, $limit = false)
+    public static function ToursByCategory($category_id, $limit = false, $order = true)
     {
         $data['tourCategory'] = TourCategory::find($category_id)->toArray();
         if ($data['tourCategory']['property'] == 'basic') {
@@ -104,13 +105,15 @@ class Tour extends Model
                 ->where('visibility', 'on')
                 ->orderBy('tours.updated_at', 'DESC')->get()->toArray();
         } else {
-            $tz = (Session::has('tz'))? Session::get('tz') : 4;
             $data['tours'] = TourDate::where('tour_dates.date', '>=', Carbon::now()->addDay(3)->format('Y-m-d'))
                 ->rightJoin('tours', 'tours.id', '=', 'tour_dates.tour_id')
                 ->rightJoin('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'tours.id')
                 ->rightJoin('tour_categories', 'tour_categories.id', '=' ,'tour_cat_rels.cat_id')
                 ->where('tour_categories.id', $category_id)
-                ->groupBy('tours.id')->get();
+                ->groupBy('tours.id');
+            if ($order) {
+                $data['tours'] = $data['tours']->orderBy('tours.order', 'ASC')->get();
+            }
         }
         return $data;
     }
@@ -261,6 +264,38 @@ class Tour extends Model
         }
         return $tours;
     }
+
+    public function getTours($order = false)
+    {
+        $tours = TourDate::where('tour_dates.date', '>=', Carbon::now()->addDay(3)->format('Y-m-d'))
+            ->rightJoin('tours', 'tours.id', '=', 'tour_dates.tour_id')
+            ->rightJoin('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'tours.id')
+            ->rightJoin('tour_categories', 'tour_categories.id', '=' ,'tour_cat_rels.cat_id')
+            ->groupBy('tours.id');
+        if ($order) {
+            $tours = $tours->orderBy('tours.order', 'ASC')->get();
+        } else {
+            $tours = $this->all()->toArray();
+        }
+        return $tours;
+    }
+
+    public function saveData(array $attributes)
+    {
+        if (is_array($attributes) && !empty($attributes)) {
+            foreach ($attributes as $attribute) {
+                if (isset($attribute['page_id'], $attribute['order'])) {
+                    $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
+                    if ($model) {
+                        $model->order = intval($attribute['order']);
+                        $model->save();
+                    }
+                }
+            }
+        };
+        return $this;
+    }
+
 }
 
 

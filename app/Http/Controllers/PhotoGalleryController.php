@@ -33,11 +33,20 @@ class PhotoGalleryController extends Controller
         return redirect()->back();
     }
 
-    public function adminPhotoOrders()
+    public function adminPhotoGalleryOrders()
     {
         $model = new Gallery();
-        $images = $model->getImages(true);
-        return view('admin.photo_orders', compact('images'));
+        $images = $model->getImages(true, ['gallery', 'on']);
+        $title = 'Photo Gallery';
+        return view('admin.photo_orders', compact('images', 'title'));
+    }
+
+    public function adminPortfolioOrders()
+    {
+        $model = new Gallery();
+        $images = $model->getImages(true, ['portfolio', 'on']);
+        $title = 'Portfolio';
+        return view('admin.photo_orders', compact('images', 'title'));
     }
 
     public function adminPhotoOrdersSave(Request $request)

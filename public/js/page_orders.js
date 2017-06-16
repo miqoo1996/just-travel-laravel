@@ -25,7 +25,7 @@ $(function() {
         }
     };
 
-    $( "#sortable-right-menu-pages, #sortable-footer-pages, #sortable-video-gallery, #sortable-photo-gallery" ).sortable({
+    $( "#sortable-right-menu-pages, #sortable-footer-pages, #sortable-video-gallery, #sortable-photo-gallery, #sortable-tour" ).sortable({
         stop: stop
     });
 });
