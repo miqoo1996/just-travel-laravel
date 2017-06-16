@@ -79,15 +79,15 @@ class Tour extends Model
                 'custom_day_title_ru.*' => 'max:500000',
                 'custom_day_desc_en.*' => 'max:500000',
                 'custom_day_desc_ru.*' => 'max:500000',
-                'basic_price_adult' => ['max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'basic_price_child' => ['max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'basic_price_infant' => ['max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'basic_price_adult' => ['min:1', 'max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'basic_price_child' => ['min:1', 'max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'basic_price_infant' => ['min:1', 'max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'tour_dates' => 'max:255',
-                'hotel.single_adult.*' => ['required', 'max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'hotel.double_adult.*' => ['required', 'max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'hotel.triple_adult.*' => ['required', 'max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'hotel.child.*' => ['required', 'max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'hotel.infant.*' => ['required', 'max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'hotel.single_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'hotel.double_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'hotel.triple_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'hotel.child.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'hotel.infant.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
             ];
         }
 
@@ -108,9 +108,9 @@ class Tour extends Model
                     unset($model->hotel);
                 }
                 $model->rules += [
-                    'basic_price_adult' => ['required', 'max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                    'basic_price_child' => ['required', 'max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                    'basic_price_infant' => ['required', 'max:10', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'basic_price_adult' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'basic_price_child' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'basic_price_infant' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 ];
             }
             // Make a new validator object
