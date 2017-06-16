@@ -27,9 +27,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/admin/photo-gallery', 'PhotoGalleryController@adminGetPhotoGallery')->name('admin-photo-gallery');
     Route::get('/admin/photo-orders', 'PhotoGalleryController@adminPhotoOrders')->name('admin-photo-orders');
+    Route::post('/admin/photo-orders-save', 'PhotoGalleryController@adminPhotoOrdersSave')->name('admin-photo-gallery-items-orders');
     Route::post('/admin/photo-gallery', 'PhotoGalleryController@adminPostPhotoGallery')->name('admin-post-photo-gallery');
     Route::get('/admin/video-gallery', 'VideoGalleryController@adminGetVideoGallery')->name('admin-video-gallery');
     Route::get('/admin/video-orders', 'VideoGalleryController@adminVideoOrders')->name('admin-video-orders');
+    Route::post('/admin/video-orders-save', 'VideoGalleryController@adminVideoOrdersSave')->name('admin-video-gallery-items-orders');
     Route::get('/admin/new-video', 'VideoGalleryController@adminGetNewVideo')->name('admin-new-video');
     Route::post('/admin/new-video', 'VideoGalleryController@adminPostNewVideo')->name('admin-post-new-video');
     Route::get('/admin/edit-video/{video_id}', 'VideoGalleryController@adminGetEditVideo');

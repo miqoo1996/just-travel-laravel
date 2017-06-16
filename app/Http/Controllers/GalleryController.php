@@ -6,8 +6,6 @@ use App\Gallery;
 use App\GalleryPhotos;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class GalleryController extends Controller
 {
     public function adminGetGalleries()
@@ -72,13 +70,13 @@ class GalleryController extends Controller
     {
         $gallery = Gallery::find($gallery_id);
         $gallery['images'] = $gallery->images();
-//        $gallery->images();
         return view('admin.edit_gallery', ['gallery' => $gallery]);
     }
 
     public function getGalleries()
     {
-        $galleries = Gallery::where('gallery', 'on')->get()->toArray();
+        $model = new Gallery();
+        $galleries = $model->getImages(true, ['gallery', 'on']);
         $type = 'gallery';
         return view('galleries', compact('galleries', 'type'));
     }

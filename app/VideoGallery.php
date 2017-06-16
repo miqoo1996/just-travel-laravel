@@ -17,9 +17,30 @@ class VideoGallery extends Model
         'video_thumbnail_ru'
     ];
 
-    public function getVideos()
+    public function getVideos($order = false)
     {
-        $videos = VideoGallery::all()->toArray();
+        if ($order) {
+            $videos =  $this->orderBy('order', 'ASC')->get()->toArray();
+        } else {
+            $videos = $this->all()->toArray();
+        }
         return $videos;
     }
+
+    public function saveData(array $attributes)
+    {
+        if (is_array($attributes) && !empty($attributes)) {
+            foreach ($attributes as $attribute) {
+                if (isset($attribute['page_id'], $attribute['order'])) {
+                    $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
+                    if ($model) {
+                        $model->order = intval($attribute['order']);
+                        $model->save();
+                    }
+                }
+            }
+        };
+        return $this;
+    }
+
 }
