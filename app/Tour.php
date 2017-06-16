@@ -267,13 +267,8 @@ class Tour extends Model
 
     public function getTours($order = false)
     {
-        $tours = TourDate::where('tour_dates.date', '>=', Carbon::now()->addDay(3)->format('Y-m-d'))
-            ->rightJoin('tours', 'tours.id', '=', 'tour_dates.tour_id')
-            ->rightJoin('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'tours.id')
-            ->rightJoin('tour_categories', 'tour_categories.id', '=' ,'tour_cat_rels.cat_id')
-            ->groupBy('tours.id');
         if ($order) {
-            $tours = $tours->orderBy('tours.order', 'ASC')->get();
+            $tours = $this->where('type', '!=', 'custom')->orderBy('tours.order', 'ASC')->get();
         } else {
             $tours = $this->all()->toArray();
         }
