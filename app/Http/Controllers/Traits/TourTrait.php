@@ -109,4 +109,10 @@ trait TourTrait
             $fields['tour_main_image'] = $imagePathName . $file_name;
         }
     }
+
+    public function isDaily($fields)
+    {
+        $isDaily = (bool)isset($fields['tour_category']) && ($fields['tour_category'] == 'Daily Tours' || $fields['tour_category'] == 'daily');
+        return $isDaily;
+    }
 }

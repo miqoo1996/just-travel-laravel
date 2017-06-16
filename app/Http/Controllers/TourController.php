@@ -56,14 +56,18 @@ class TourController extends Controller
 
         $tourCats = $tourDays = $tourHotels = [];
         if ($fields = $request->input()) {
-            $tour->tour_dates = $request->get('custom_dates');
-            $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
             $tourHotels = $this->setTourHotels($tour, $fields);
             $this->setTourFile($request, $fields, 'tour_images');
             $this->setTourFile($request, $fields, 'tour_main_image');
             $this->setTourFile($request, $fields, 'hot_image');
             $tour->fill($fields);
+            if ($this->isDaily($fields)) {
+                $tour->tour_dates = $request->get('specific_days');
+            } else {
+                $tour->tour_dates = $request->get('custom_dates');
+            }
+            $tourCats = $this->setTourCategories($request, $tour, $fields, $isBasic);
         }
 
         if ($tour->save()) {
@@ -137,7 +141,14 @@ class TourController extends Controller
             return redirect()->route('admin-tours-list');
         }
         $data = $this->getEditTour($tour);
-        $tour->tour_dates = $request->get('custom_dates');
+        if ($this->isDaily($fields)) {
+            $tour->tour_dates = $request->get('specific_days');
+        } else {
+            $tour->tour_dates = $request->get('custom_dates');
+        }
+        $tour->basic_price_adult = $request->get('basic_price_adult');
+        $tour->basic_price_child = $request->get('basic_price_child');
+        $tour->basic_price_infant = $request->get('basic_price_infant');
         $data['tourCats'] = $tourCats;
         $data['tourDays'] = $tourDays;
         $data['tourHotels'] = $tourHotels;

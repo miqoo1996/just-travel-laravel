@@ -103,7 +103,7 @@ class Tour extends Model
     {
         // Saving event
         static::saving(function ($model) {
-            if (isset($model->tour_category) && $model->tour_category == 'Daily Tours') {
+            if ($model->isDaily()) {
                 if (isset($model->hotel)) {
                     unset($model->hotel);
                 }
@@ -168,6 +168,12 @@ class Tour extends Model
     public function isCustom()
     {
         return (bool)$this->isCustom;
+    }
+
+    public function isDaily()
+    {
+        $isDaily = (bool)isset($this->tour_category) && ($this->tour_category == 'Daily Tours' || $this->tour_category == 'daily');
+        return $isDaily;
     }
 
     /**
