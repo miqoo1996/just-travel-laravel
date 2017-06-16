@@ -18,23 +18,14 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <div id="sortables" class="col-md-10 col-md-offset-1">
+                <div id="sortables" class="col-md-10 col-md-offset-1 main-gallery">
                     <ul data-ajax="{{route('admin-photo-gallery-items-orders')}}" id="sortable-photo-gallery" class="connectedSortable col-md-12">
                         @foreach($images as $image)
-                            <li data-page-id="{{ $image['id'] }}" class="ui-state-default clearfix">
-                                <div class="col-md-6">
-                                    <p>{{ $image['gallery_name_en'] }}</p>
-                                    @if($image['main_image'])
-                                        <div>
-                                            <img style="max-height: 200px;width: auto;" src="{{ asset($image['main_image']) }}" alt="{{ $image['gallery_name_en'] }}">
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-md-6">
-                                    <div style="margin-top: 40px;">
-                                        description en: {{ $image['gallery_desc_en'] ? $image['gallery_desc_en'] : '-- Not Set --' }}
-                                    </div>
-                                </div>
+                            <li data-page-id="{{ $image['id'] }}" class="item">
+                                <a href="javascript:void(0)">
+                                    <img src="{{ asset($image['main_image']) }}" alt="{{ $image['gallery_name_en'] }}">
+                                </a>
+                                <h4>{{ $image['gallery_name_en'] }}</h4>
                             </li>
                         @endforeach
                     </ul>
