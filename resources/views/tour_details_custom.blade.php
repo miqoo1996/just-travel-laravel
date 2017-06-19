@@ -153,8 +153,8 @@
                             @endif
                             <?php $isImage=true; ?>
                             <div class="item">
-                                <a href="{{url($image)}}" data-lightbox="gallery_trip">
-                                    <img src="{{App\SimpleImage::image('/'.$image, true)}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300"
+                                <a href="{{App\SimpleImage::image($image)}}" data-lightbox="gallery_trip">
+                                    <img src="{{App\SimpleImage::image($image, true)}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300"
                                          height="190">
                                 </a>
                             </div>

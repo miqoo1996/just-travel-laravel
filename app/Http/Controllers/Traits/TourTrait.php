@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 trait TourTrait
 {
+    private $images = [];
     private $imageName = '';
 
     public function __construct()
@@ -101,12 +102,15 @@ trait TourTrait
                 $fieldsImages = $request->get('tour_images');
 
                 $imageChecker = $fieldsImages == '' ? true : false;
-                foreach ($request->file('tour_images') as $item) {
+                foreach ($request->file('tour_images') as $key => $item) {
                     $image = $item;
                     if (null !== $image) {
-                        $image_name = $this->imageName . config('const.' . $item->getMimeType());
+                        $this->imageName = uniqid();
+                        $this->images[$key] = isset($this->images[$key]) ? $this->images[$key] : $this->imageName  . config('const.' . $item->getMimeType());
+                        $image_name = $this->images[$key];
                         if ($move) {
                             $image->move($imagePathName, $image_name);
+                            SimpleImage::resize($imagePathName . $image_name, $imagePathName . 'thumbnail-' . $image_name, 754, 481, 280, 190);
                         }
                         $fieldsImages .= $imageChecker ? $imagePathName . $image_name : ',' . $imagePathName . $image_name;
                         $imageChecker = false;

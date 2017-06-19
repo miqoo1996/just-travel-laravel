@@ -99,8 +99,8 @@
                 <h1>{{trans('messages.gallery')}}</h1>
                 @foreach($tour['tour_images'] as $image)
                     <div class="item">
-                        <a href="{{url($image)}}" data-lightbox="gallery_trip">
-                            <img src="{{App\SimpleImage::image('/'.$image, true)}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300" height="190">
+                        <a href="{{App\SimpleImage::image($image)}}" data-lightbox="gallery_trip">
+                            <img src="{{App\SimpleImage::image($image, true)}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300" height="190">
                         </a>
                     </div>
                 @endforeach
