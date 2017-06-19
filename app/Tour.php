@@ -260,9 +260,10 @@ class Tour extends Model
      */
     public static function toursByCategory($category_id, $limit = false, $order = true)
     {
+        $tz = (Session::has('tz'))? Session::get('tz'): 4;
         $tours = self::rightJoin('tour_cat_rels', function ($query) use ($category_id){
             $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
-            ->where('tour_cat_rels.cat_id', '=' , $category_id);
+                ->where('tour_cat_rels.cat_id', '=' , $category_id);
         })->leftJoin('tour_dates', function ($query) use ($tz){
             $query->on('tour_dates.tour_id', '=', 'tours.id')
                 ->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3));
@@ -270,11 +271,11 @@ class Tour extends Model
             $query->on('tour_hotels.tour_id', '=', 'tours.id');
         })
             ->whereNotNull('tours.id')
-        ->orWhereNotNull('tours.basic_frequency')
-                ->groupBy('tours.id');
-            if ($order) {
-                $data['tours'] = $data['tours']->orderBy('tours.order', 'ASC')->get();
-            }
+            ->orWhereNotNull('tours.basic_frequency')
+            ->groupBy('tours.id');
+        if ($order) {
+            $tours = $tours->orderBy('tours.order', 'ASC')->get();
+        }
         return $tours;
     }
 
