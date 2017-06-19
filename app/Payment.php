@@ -36,8 +36,10 @@ class Payment extends Model
     {
 //        $amount = number_format((float)$orderTour->amount, 2, '.', '');
         $returnUrl = url('/congratulations');
+        $language = app()->getLocale();
         $amount = $orderTour->amount * 100;
-        $uri = '/payment/rest/register.do?userName='.self::$userName.'&password='.self::$password.'&amount='. $amount .'&currency=051&language='.app()->getLocale().'&orderNumber='.$orderTour->order_id.'&returnUrl='.$returnUrl;
+        $description = str_limit(strip_tags($orderTour->tour->{'desc_'.$language}), $limit = 100, $end = '...');
+        $uri = '/payment/rest/register.do?userName='.self::$userName.'&password='.self::$password.'&amount='. $amount .'&currency=051&language='.$language.'&orderNumber='.$orderTour->order_id.'&description='.$description.'&returnUrl='.$returnUrl;
         $client = new Client(['base_uri' => 'https://ipaytest.arca.am:8445', 'verify'=> false]);
         $response = $client->request('get',$uri)->getBody()->getContents();
         $response = json_decode($response, true);
