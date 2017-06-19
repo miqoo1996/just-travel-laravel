@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Traits;
 
+use App\SimpleImage;
 use App\Tour;
 use App\Hotel;
 use App\TourCategory;
@@ -120,6 +121,7 @@ trait TourTrait
                 $file->move($imagePathName, $file_name);
             }
             $fields[$_file] = $imagePathName . $file_name;
+//            SimpleImage::resize($imagePathName . $file_name, $imagePathName . 'thumbnail-' . $file_name, 0, 0, 0, 0);
         }
         return isset($fields[$_file]) ? $fields[$_file] : null;
     }

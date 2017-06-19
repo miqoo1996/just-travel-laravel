@@ -260,6 +260,7 @@ class Tour extends Model
      */
     public static function toursByCategory($category_id, $limit = false, $order = true)
     {
+        $tz = (Session::has('tz'))? Session::get('tz'): 4;
         $tours = self::rightJoin('tour_cat_rels', function ($query) use ($category_id){
             $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
             ->where('tour_cat_rels.cat_id', '=' , $category_id);
@@ -273,7 +274,7 @@ class Tour extends Model
         ->orWhereNotNull('tours.basic_frequency')
                 ->groupBy('tours.id');
             if ($order) {
-                $data['tours'] = $data['tours']->orderBy('tours.order', 'ASC')->get();
+                $tours = $tours->orderBy('tours.order', 'ASC')->get();
             }
         return $tours;
     }

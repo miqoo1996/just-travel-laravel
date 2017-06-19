@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Traits\TourTrait;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class TourController extends Controller
