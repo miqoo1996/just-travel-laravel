@@ -294,4 +294,19 @@ class TourController extends Controller
         $searchTours = Tour::searchTours($request);
         return View::make('ajax_views.search_tours', compact('searchTours'));
     }
+
+    public function adminTourOrders()
+    {
+        $model = new Tour();
+        $tours = $model->getTours(true);
+        return view('admin.tour_orders', compact('tours'));
+    }
+
+    public function adminTourOrdersSave(Request $request)
+    {
+        $model = new Tour();
+        $items = $request->get('items');
+        $model->saveData($items);
+    }
+
 }

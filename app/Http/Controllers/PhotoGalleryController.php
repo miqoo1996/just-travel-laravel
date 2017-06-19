@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Gallery;
 use App\PhotoGallery;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class PhotoGalleryController extends Controller
 {
@@ -33,4 +32,28 @@ class PhotoGalleryController extends Controller
         if (isset($data)) PhotoGallery::insert($data);
         return redirect()->back();
     }
+
+    public function adminPhotoGalleryOrders()
+    {
+        $model = new Gallery();
+        $images = $model->getImages(true, ['gallery', 'on']);
+        $title = 'Photo Gallery';
+        return view('admin.photo_orders', compact('images', 'title'));
+    }
+
+    public function adminPortfolioOrders()
+    {
+        $model = new Gallery();
+        $images = $model->getImages(true, ['portfolio', 'on']);
+        $title = 'Portfolio';
+        return view('admin.photo_orders', compact('images', 'title'));
+    }
+
+    public function adminPhotoOrdersSave(Request $request)
+    {
+        $model = new Gallery();
+        $items = $request->get('items');
+        $model->saveData($items);
+    }
+
 }

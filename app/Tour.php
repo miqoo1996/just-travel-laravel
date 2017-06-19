@@ -253,13 +253,13 @@ class Tour extends Model
     }
 
     /**
-     * @param $category_id
-     * @param $limit
+     * @param null $category_id
+     * @param bool $limit
+     * @param bool $order
      * @return mixed
      */
-    public static function toursByCategory($category_id, $limit = false)
+    public static function toursByCategory($category_id, $limit = false, $order = true)
     {
-        $tz = (Session::has('tz'))? Session::get('tz'): 4;
         $tours = self::rightJoin('tour_cat_rels', function ($query) use ($category_id){
             $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
             ->where('tour_cat_rels.cat_id', '=' , $category_id);
@@ -271,7 +271,10 @@ class Tour extends Model
         })
             ->whereNotNull('tours.id')
         ->orWhereNotNull('tours.basic_frequency')
-        ->groupBy('tours.id')->get();
+                ->groupBy('tours.id');
+            if ($order) {
+                $data['tours'] = $data['tours']->orderBy('tours.order', 'ASC')->get();
+            }
         return $tours;
     }
 
@@ -410,6 +413,33 @@ class Tour extends Model
         }
         return $tours;
     }
+
+    public function getTours($order = false)
+    {
+        if ($order) {
+            $tours = $this->where('type', '!=', 'custom')->orderBy('tours.order', 'ASC')->get();
+        } else {
+            $tours = $this->all()->toArray();
+        }
+        return $tours;
+    }
+
+    public function saveData(array $attributes)
+    {
+        if (is_array($attributes) && !empty($attributes)) {
+            foreach ($attributes as $attribute) {
+                if (isset($attribute['page_id'], $attribute['order'])) {
+                    $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
+                    if ($model) {
+                        $model->order = intval($attribute['order']);
+                        $model->save();
+                    }
+                }
+            }
+        };
+        return $this;
+    }
+
 }
 
 

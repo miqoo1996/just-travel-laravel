@@ -38,6 +38,15 @@ class VideoGallery extends Model
     {
         return $this->validator;
     }
+    public function getVideos($order = false)
+    {
+        if ($order) {
+            $videos =  $this->orderBy('order', 'ASC')->get()->toArray();
+        } else {
+            $videos = $this->all()->toArray();
+        }
+        return $videos;
+    }
 
     public static function boot()
     {
@@ -54,4 +63,20 @@ class VideoGallery extends Model
         });
         parent::boot();
     }
+    public function saveData(array $attributes)
+    {
+        if (is_array($attributes) && !empty($attributes)) {
+            foreach ($attributes as $attribute) {
+                if (isset($attribute['page_id'], $attribute['order'])) {
+                    $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
+                    if ($model) {
+                        $model->order = intval($attribute['order']);
+                        $model->save();
+                    }
+                }
+            }
+        };
+        return $this;
+    }
+
 }

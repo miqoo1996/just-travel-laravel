@@ -66,8 +66,23 @@ class VideoGalleryController extends Controller
 
     public function getVideoGallery()
     {
-        $videos = VideoGallery::all()->toArray();
+        $model = new VideoGallery();
+        $videos = $model->getVideos(true);
         return view('video_gallery', compact('videos'));
+    }
+
+    public function adminVideoOrders()
+    {
+        $model = new VideoGallery();
+        $videos = $model->getVideos(true);
+        return view('admin.video_orders', compact('videos'));
+    }
+
+    public function adminVideoOrdersSave(Request $request)
+    {
+        $model = new VideoGallery();
+        $items = $request->get('items');
+        $model->saveData($items);
     }
 
 }
