@@ -35,7 +35,6 @@ class Payment extends Model
     ];
     public static function makeOrder($orderTour)
     {
-//        $amount = number_format((float)$orderTour->amount, 2, '.', '');
         $returnUrl = url('/congratulations');
         $language = app()->getLocale();
         $amount = $orderTour->amount * 100;

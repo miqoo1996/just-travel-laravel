@@ -168,10 +168,6 @@ class OrderTourController extends Controller
         }
         return view($view, compact('orderTour'));
     }
-//    public function postOrderedBasicTour(Request $request)
-//    {
-//        dd($request->input());
-//    }
 
     public function postPay(Request $request)
     {
@@ -180,9 +176,7 @@ class OrderTourController extends Controller
         if($response['status']){
             return redirect($response['url']);
         }
-        dd($response);
-//        Session::flash('payment_error', 'Payment Failed');
-//        return redirect('/');
+        return view('payment_error', compact('response'));
     }
 
     public function getCongratulations()
