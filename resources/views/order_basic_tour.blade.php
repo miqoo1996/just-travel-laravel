@@ -9,11 +9,11 @@ page-tours-details
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 col-sm-4 col-xs-12 tour-details-image">
-                        <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
+                        <img src="{{App\SimpleImage::image($order->tour->tour_main_image, true)}}">
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-12">
                         <h1>{{$order['tour_name_'.app()->getLocale()]}}</h1>
-                        <span class="tour-id">{{trans('messages.tour_code') . ' : ' . $order['code'] }}</span>
+                        <span class="tour-id">{{trans('messages.tour_code') . ' : ' . $order->tour->code }}</span>
                         <div class="col-1">
                             <span class="hint">{{trans('messages.total_price')}}</span>
                             <span class="{{$currency['currency']}}">{{round($totalPrice/$currency[$currency['currency']], 2)}}</span>
