@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Traits;
 
+use App\SimpleImage;
 use Illuminate\Http\Request;
 
 trait PageTrait
@@ -21,6 +22,7 @@ trait PageTrait
             $image_path = 'images/pages/';
             if ($move) {
                 $image->move($image_path, $image_name);
+                SimpleImage::resize($image_path . $image_name, $image_path . 'thumbnail-' . $image_name, 690, 391, 690, 391);
             }
             $fields[$_file] = $image_path . $image_name;
         }

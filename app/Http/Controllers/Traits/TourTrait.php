@@ -121,7 +121,7 @@ trait TourTrait
                 $file->move($imagePathName, $file_name);
             }
             $fields[$_file] = $imagePathName . $file_name;
-//            SimpleImage::resize($imagePathName . $file_name, $imagePathName . 'thumbnail-' . $file_name, 0, 0, 0, 0);
+            SimpleImage::resize($imagePathName . $file_name, $imagePathName . 'thumbnail-' . $file_name, 570, 326, 450, 257);
         }
         return isset($fields[$_file]) ? $fields[$_file] : null;
     }
