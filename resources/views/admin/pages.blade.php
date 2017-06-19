@@ -46,7 +46,7 @@
                                         <td style="text-align:right;">
                                             <a href="{{url($page->page_url)}}" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-folder"></i> View </a>
                                             <a href="{{url('/admin/edit-page/' . $page->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                            <a href="#" class="btn btn-danger btn-xs remove" id="{{$page->id}}/page" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
+                                            <a href="#" class="btn btn-danger btn-xs remove" data-name="{{$page->page_name_en}}" id="{{$page->id}}/page" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -75,7 +75,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Are you sure?</h4>
+                    <h4 class="modal-title">Are you sure <span id="item-name"></span>?</h4>
                 </div>
                 <div class="modal-body row text-center">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>

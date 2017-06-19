@@ -63,7 +63,7 @@
                                         @else
                                             <a href="{{url('admin/edit-tour/'.$tour->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                         @endif
-                                            <a href="#" class="btn btn-danger btn-xs remove" id="{{$tour->id}}/tour" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
+                                            <a href="#" class="btn btn-danger btn-xs remove" data-name="{{$tour->tour_name_en}}" id="{{$tour->id}}/tour" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -94,7 +94,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Are you sure?</h4>
+                    <h4 class="modal-title">Are you sure <span id="item-name"></span>?</h4>
                 </div>
                 <div class="modal-body row text-center">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>

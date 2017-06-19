@@ -7,7 +7,6 @@
         <div class="">
             <div class="clearfix"></div>
 
-
             <!-- top tiles -->
             <div class="row tile_count">
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -34,20 +33,7 @@
             </div>
             <!-- /top tiles -->
 
-
-
-
-
-
-
-
-
-
-
-
             <div class="row">
-
-
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
@@ -91,8 +77,8 @@
                                         </td>
                                         <td align="right">
                                             <a href="{{url('/admin/voucher/'.$order->order_tour_id)}}" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Vaucher</a>
-                                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
-                                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete</a>
+                                            <a href="{{url('admin/edit-custom-tour/'.$order->order_tour_id)}}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
+                                            <a href="#" class="btn btn-danger btn-xs remove" data-name="{{$order->tour_name_en}}" id="{{$order->order_tour_id}}/tour" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -102,6 +88,26 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    {{--MODAL FOR DELETE--}}
+
+    <div class="modal fade" id="delete_modal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Are you sure <span id="item-name"></span>?</h4>
+                </div>
+                <div class="modal-body row text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>
+                    <button type="button" class="btn btn-success" id="confirm">Yes</button>
+                </div>
+            </div>
+
         </div>
     </div>
 @endsection

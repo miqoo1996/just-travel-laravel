@@ -3,11 +3,6 @@
     <div class="right_col" role="main">
         <div class="">
             <div class="clearfix"></div>
-
-
-
-
-
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
@@ -15,10 +10,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
 
             <div class="row">
 
@@ -50,7 +41,7 @@
                                     <td>{{$gallery->portfolio}}</td>
                                     <td style="text-align:right;">
                                         <a href="{{route('admin-edit-gallery', ['gallery_id' => $gallery->id])}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                        <a href="#" class="btn btn-danger btn-xs remove" id="{{$gallery->id}}/gallery" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
+                                        <a href="#" class="btn btn-danger btn-xs remove" data-name="{{$gallery->gallery_name_en}}" id="{{$gallery->id}}/gallery" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -62,15 +53,10 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
             </div>
         </div>
     </div>
+
     {{--MODAL FOR DELETE--}}
 
     <div class="modal fade" id="delete_modal" role="dialog">
@@ -80,7 +66,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Are you sure?</h4>
+                    <h4 class="modal-title">Are you sure <span id="item-name"></span>?</h4>
                 </div>
                 <div class="modal-body row text-center">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>

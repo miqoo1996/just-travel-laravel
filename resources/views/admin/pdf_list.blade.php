@@ -38,6 +38,7 @@
                                                 <a href="{{url('admin/edit-pdf/'.$file->id)}}"
                                                    class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                                 <a href="#" class="btn btn-danger btn-xs remove" id="{{$file->id}}/pdf"
+                                                   data-name="{{$file->pdf_name_en}}"
                                                    data-toggle="modal" data-target="#delete_modal"><i
                                                             class="fa fa-trash-o"></i> Delete </a>
                                             </td>
@@ -61,7 +62,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Are you sure?</h4>
+                    <h4 class="modal-title">Are you sure <span id="item-name"></span>?</h4>
                 </div>
                 <div class="modal-body row text-center">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">No</button>
