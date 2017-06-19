@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
 use Endroid\QrCode\QrCode;
 use Illuminate\Support\Facades\File as Files;
+use Illuminate\Support\Facades\Session;
 
 
 class Payment extends Model
@@ -48,25 +49,18 @@ class Payment extends Model
             $orderTour->save();
             $data['status'] = true;
             $data['url'] = $response['formUrl'];
+            Session::set('payFormUrl', $response['formUrl']);
         } else {
-            $data['status'] = false;
+            if (Session::get('payOrder') === true) {
+                $data['status'] = true;
+                $data['url'] = Session::get('payFormUrl');
+            } else {
+                $data['status'] = false;
+            }
             $data['content'] = $response;
         }
+        Session::set('payOrder', $data['status']);
         return $data;
-
-//        $client = new Client(['verify'=> false]);
-//        $url = 'https://ipaytest.arca.am:8445/payment/rest/register.do';
-//
-//        $body['userName'] = 'converse_test';
-//        $body['password'] = 'password123456';
-//        $body['amount'] = 5000;
-//        $body['currency'] = 051;
-//        $body['language'] = 'en';
-//        $body['orderNumber'] = 64118716;
-//        $body['returnUrl'] = 'http://justtravel.dev';
-//
-//        $response = $client->post($url, $body)->getBody()->getContents();
-//        dd($response);
     }
 
     public static function checkOrder($orderId){
