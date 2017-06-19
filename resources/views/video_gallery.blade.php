@@ -13,7 +13,7 @@
                             @foreach($videos as $video)
                                 <div class="item">
                                     <a data-video="{{$video['embed_'.app()->getLocale()]}}" class="video_player" target="iframe-player" data-toggle="modal" data-target="#video_modal">
-                                        <img src="{{$video['video_thumbnail_'.app()->getLocale()]}}"><span
+                                        <img src="{{App\SimpleImage::image($video['video_thumbnail_'.app()->getLocale()], true)}}"><span
                                                 class="play"></span></a>
                                     <h4>{{$video['video_title_'.app()->getLocale()]}}</h4>
                                 </div>

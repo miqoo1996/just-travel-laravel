@@ -69,7 +69,7 @@
                             @if(isset($tourCategory['property']) && $tourCategory['property'] == 'basic')
                                 <div class="item">
                                     <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                                        <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
+                                        <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                                         <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                                     </a>
                                     <div class="shortdescr">{{$tour['short_desc_'.app()->getLocale()]}}</div>
@@ -89,7 +89,7 @@
                             @else
                                 <div class="item">
                                     <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                                        <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
+                                        <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                                         <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                                     </a>
                                     <div class="shortdescr">{{$tour['short_desc_'.app()->getLocale()]}}</div>

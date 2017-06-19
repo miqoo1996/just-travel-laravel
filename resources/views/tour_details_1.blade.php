@@ -4,7 +4,7 @@
         <div class="container tour-details">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12 tour-details-image">
-                    <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
+                    <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h1>{{$tour['tour_name_'.app()->getLocale()]}}</h1>

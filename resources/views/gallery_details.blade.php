@@ -16,7 +16,7 @@
                     <div class="main-gallery">
                         @foreach($images as $image)
                             <div class="item">
-                                <a href="{{trim($image['image_path']) ? '/'.$image['image_path'] : asset('/images/no_image.png')}}" data-lightbox="gallery_trip"><img src="{{trim($image['image_path']) ? '/'.$image['image_path'] : asset('/images/no_image.png')}}"></a>
+                                <a href="{{App\SimpleImage::image(trim($image['image_path']))}}" data-lightbox="gallery_trip"><img src="{{App\SimpleImage::image(trim($image['image_path']), true)}}"></a>
                             </div>
                         @endforeach
                     </div>

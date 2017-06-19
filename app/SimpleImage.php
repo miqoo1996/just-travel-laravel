@@ -9,6 +9,23 @@ namespace App;
 class SimpleImage
 {
     /**
+     * Get image by path
+     * @param $image
+     */
+    public static function image($image, $thumb = false)
+    {
+        if (is_file($image)) {
+            if ($thumb) {
+                $arr = explode('/', $image);
+                $image_thumbnail = 'thumbnail-' . end($arr);
+                $image = is_file($image_thumbnail) ? $image_thumbnail : $image;
+            }
+            return asset($image);
+        }
+        return asset('images/no_image.png');
+    }
+
+    /**
      * Resize image php @link Imagick
      * @param $width
      * @param $height
@@ -27,7 +44,7 @@ class SimpleImage
             $imageprops = $thumb->getImageGeometry();
             $imgWidth = $imageprops['width'];
             $imgHeight = $imageprops['height'];
-            if (!$checkImageSizes || ($checkImageSizes && $imgWidth > $width && $imgHeight > $height)) {
+            if (!$checkImageSizes || ($checkImageSizes && ($imgWidth >= $width || $imgHeight >= $height))) {
                 if ($crop) {
                     $thumb->cropThumbnailImage($width, $height);
                 } else {
