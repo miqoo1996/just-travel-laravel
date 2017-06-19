@@ -17,7 +17,11 @@ class SimpleImage
         if (is_file($image)) {
             if ($thumb) {
                 $arr = explode('/', $image);
-                $image_thumbnail = 'thumbnail-' . end($arr);
+                $arrKeys = array_keys($arr);
+                $arrLastElementKey = end($arrKeys);
+                $image_thumbnail = 'thumbnail-' . $arr[$arrLastElementKey];
+                $arr[$arrLastElementKey] = $image_thumbnail;
+                $image_thumbnail = implode('/', $arr);
                 $image = is_file($image_thumbnail) ? $image_thumbnail : $image;
             }
             return asset($image);

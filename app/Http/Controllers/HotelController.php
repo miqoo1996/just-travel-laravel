@@ -49,6 +49,8 @@ class HotelController extends Controller
             }
         }
 
+        $images = [];
+
         if ($fields = $request->input()) {
             $fields['visibility'] = $request->get('visibility', 'off');
             $fields['regions'] = $fieldsRegions;
@@ -57,9 +59,9 @@ class HotelController extends Controller
 
             $fieldsImages = $hotel->images;
             if($request->hasFile('files')){
-                foreach($request->file('files') as $item){
-                    $image = $item;
-                    $image_name = uniqid() . config('const.' . $image->getMimeType());
+                foreach($request->file('files') as $key => $item){
+                    $images[$key] = isset($images[$key]) ? $images[$key] : uniqid()  . config('const.' . $item->getMimeType());
+                    $image_name = $images[$key];
                     $fieldsImages .=  ($imageChecker)? 'images/hotels/'.$image_name: ',images/hotels/'.$image_name;
                     $imageChecker = false;
                 }
@@ -70,12 +72,14 @@ class HotelController extends Controller
         }
 
         if ($hotel->save()) {
+            $this->setFile($request, $fields, 'images/hotels/', 'hotel_main_image', true);
             if($request->hasFile('files')){
-                foreach($request->file('files') as $item){
+                foreach($request->file('files') as $key => $item){
                     $image = $item;
-                    $image_name = uniqid() . config('const.' . $image->getMimeType());
+                    $images[$key] = isset($images[$key]) ? $images[$key] : uniqid()  . config('const.' . $item->getMimeType());
+                    $image_name = $images[$key];
                     $image->move('images/hotels', $image_name);
-                    SimpleImage::resize('images/hotels' . $image_name, 'images/hotels' . 'thumbnail-' . $image_name, 848, 488, 450, 257);
+                    SimpleImage::resize('images/hotels/' . $image_name, 'images/hotels/thumbnail-' . $image_name, 848, 488, 450, 257);
                 }
             }
             return ($request->ajax())? route('admin-hotels') : redirect()->route('admin-hotels');

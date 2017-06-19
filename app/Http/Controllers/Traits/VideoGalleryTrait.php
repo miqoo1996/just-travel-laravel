@@ -19,12 +19,12 @@ trait VideoGalleryTrait
         if ($image = $request->file($_file)) {
             $image_name = $this->imageName . config('const.' . $image->getMimeType());
             $imagePathName = 'images/video_thumbnails/en/';
-            $image = $imagePathName . $image_name;
+            $imagePath = $imagePathName . $image_name;
             if ($move) {
                 $image->move($imagePathName, $image_name);
-                SimpleImage::resize($image, $imagePathName . 'thumbnail-' . $image_name, 280, 160, 280, 160);
+                SimpleImage::resize($imagePath, $imagePathName . 'thumbnail-' . $image_name, 280, 160, 280, 160);
             }
-            $fields[$_file] = $image;
+            $fields[$_file] = $imagePath;
         }
     }
 
