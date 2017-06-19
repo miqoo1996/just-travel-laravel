@@ -21,6 +21,16 @@
                                 <h2>Add/Edit PDF</h2>
                                 <div class="clearfix"></div>
                             </div>
+                            @if ($errors->has())
+                                <div class="alert alert-danger">
+                                    <strong>Whoops!</strong>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="x_content">
                                 <div id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
@@ -28,7 +38,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_name_en">PDF Name<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="pdf_name_en" name="pdf_name_en" required="required" class="form-control col-md-7 col-xs-12">
+                                            <input type="text" id="pdf_name_en" name="pdf_name_en"  class="form-control col-md-7 col-xs-12">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -69,7 +79,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_name_ru">PDF Name<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="pdf_name_ru" name="pdf_name_ru" required="required" class="form-control col-md-7 col-xs-12">
+                                            <input type="text" id="pdf_name_ru" name="pdf_name_ru"  class="form-control col-md-7 col-xs-12">
                                         </div>
                                     </div>
                                     <div class="form-group">

@@ -22,6 +22,16 @@
                                 <h2>Add/Edit PDF</h2>
                                 <div class="clearfix"></div>
                             </div>
+                            @if ($errors->has())
+                                <div class="alert alert-danger">
+                                    <strong>Whoops!</strong>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="x_content">
                                 <div id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
@@ -29,7 +39,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_name_en">PDF Name<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="pdf_name_en" name="pdf_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$file->pdf_name_en}}">
+                                            <input type="text" id="pdf_name_en" name="pdf_name_en"  class="form-control col-md-7 col-xs-12" value="{{$file->pdf_name_en}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -41,13 +51,13 @@
                                         <div class="col-md-2 col-sm-2 col-xs-12">
                                             (Required size is 200x350px)
                                         </div>
-                                        <br />
-                                        <div class="custom-image-viewer">
-                                            <div class="custom-image-viewer-item"><img src="{{asset($file->pdf_thumbnail_en)}}" alt=""></div>
-                                        </div>
-                                        <br />
-
-
+                                        @if($file->pdf_thumbnail_en)
+                                            <br />
+                                            <div class="custom-image-viewer">
+                                                <div class="custom-image-viewer-item"><img src="{{asset($file->pdf_thumbnail_en)}}" alt=""></div>
+                                            </div>
+                                            <br />
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_file_en">PDF File<span class="required">*</span>
@@ -56,7 +66,9 @@
                                             <input type="file" name="pdf_file_en" size="chars" id="pdf_file_en">
                                         </div>
                                     </div>
-                                    <a href="{{asset($file->pdf_file_en)}}" target="_blank" class="btn btn-default">File</a>
+                                    @if($file->pdf_file_en)
+                                        <a href="{{asset($file->pdf_file_en)}}" target="_blank" class="btn btn-default">File</a>
+                                    @endif
                                 </div>
                             </div>
 
@@ -78,7 +90,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_name_ru">PDF Name<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="pdf_name_ru" name="pdf_name_ru" required="required" class="form-control col-md-7 col-xs-12" value="{{$file->pdf_name_ru}}">
+                                            <input type="text" id="pdf_name_ru" name="pdf_name_ru"  class="form-control col-md-7 col-xs-12" value="{{$file->pdf_name_ru}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -90,13 +102,13 @@
                                         <div class="col-md-2 col-sm-2 col-xs-12">
                                             (Required size is 200x350px)
                                         </div>
-
-                                        <br />
-                                        <div class="custom-image-viewer">
-                                            <div class="custom-image-viewer-item"><img src="{{asset($file->pdf_thumbnail_ru)}}" alt=""></div>
-                                        </div>
-                                        <br />
-
+                                        @if($file->pdf_thumbnail_ru)
+                                            <br />
+                                            <div class="custom-image-viewer">
+                                                <div class="custom-image-viewer-item"><img src="{{asset($file->pdf_thumbnail_ru)}}" alt=""></div>
+                                            </div>
+                                            <br />
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_file_ru">PDF File<span class="required">*</span>
@@ -104,7 +116,9 @@
                                         <div class="col-md-4 col-sm-4 col-xs-12">
                                             <input type="file" name="pdf_file_ru" size="chars" id="pdf_file_ru">
                                         </div>
-                                        <a href="{{asset($file->pdf_file_ru)}}" target="_blank" class="btn btn-default">File</a>
+                                        @if($file->pdf_file_ru)
+                                            <a href="{{asset($file->pdf_file_ru)}}" target="_blank" class="btn btn-default">File</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

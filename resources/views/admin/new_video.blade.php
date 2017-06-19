@@ -2,14 +2,7 @@
 @section('content')
     <div class="right_col" role="main">
         <div class="">
-            @if(count($errors))
-                <div class="x_panel">
-                    @foreach($errors as $error)
-                        {{$error}}<br>;
-                    @endforeach
-                </div>
-                @endif
-            <form action="{{route('admin-new-video')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin-post-new-video')}}" method="post" enctype="multipart/form-data">
             <div class="clearfix"></div>
                     <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
@@ -28,20 +21,30 @@
                                 <h2>Add/Edit Video</h2>
                                 <div class="clearfix"></div>
                             </div>
+                            @if ($errors->has())
+                                <div class="alert alert-danger">
+                                    <strong>Whoops!</strong>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="x_content">
                                 <div id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="video_title_en">Video Title<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="video_title_en" name="video_title_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="Title (English)">
+                                            <input type="text" id="video_title_en" name="video_title_en"  class="form-control col-md-7 col-xs-12" placeholder="Title (English)">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="video_url_en">Video URL form Youtube<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="video_url_en" name="video_url_en" required="required" class="form-control col-md-7 col-xs-12">
+                                            <input type="text" id="video_url_en" name="video_url_en"  class="form-control col-md-7 col-xs-12">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -74,14 +77,14 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Video Title<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="video_title_ru" required="required" name="video_title_ru" class="form-control col-md-7 col-xs-12" placeholder="Title (Russian)">
+                                            <input type="text" id="video_title_ru"  name="video_title_ru" class="form-control col-md-7 col-xs-12" placeholder="Title (Russian)">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="video_url_ru">Video URL form Youtube<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="video_url_ru" required="required" name="video_url_ru" class="form-control col-md-7 col-xs-12">
+                                            <input type="text" id="video_url_ru"  name="video_url_ru" class="form-control col-md-7 col-xs-12">
                                         </div>
                                     </div>
                                     <div class="form-group">

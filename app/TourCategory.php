@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class TourCategory extends Model
 {
@@ -14,6 +15,32 @@ class TourCategory extends Model
         'category_name_ru',
         'url'
     ];
+
+    /**
+     * Validation rules.
+     *
+     * @var array
+     */
+    private $rules = [
+        'category_name_en' =>  'required|max:255',
+        'category_name_ru' => 'required|max:255',
+    ];
+
+    public static function boot()
+    {
+        // Saving event
+        static::saving(function ($model) {
+            $model->rules['hotel_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,id|unique:galleries,gallery_url|unique:tour_categories,url,%d,id|max:255', $model->id);
+            // Make a new validator object
+            $v = Validator::make($model->getAttributes(), $model->rules);
+            // Optionally customize this version using new ->after()
+            $v->after(function() use ($v, $model) {
+                // Do more validation
+            });
+            return !$v->fails();
+        });
+        parent::boot();
+    }
 
     /**
      * @param Request $request

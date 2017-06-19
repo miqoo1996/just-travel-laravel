@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Hotel;
-use App\PageOrders;
-use App\Tour;
-use App\TourCategory;
-use App\TourCatRel;
 use App\Page;
+use App\Tour;
+use App\Hotel;
+use App\TourCatRel;
+use App\PageOrders;
+use App\TourCategory;
+use App\Http\Controllers\Traits\PageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
 {
+    use PageTrait;
+
     public function adminGetNewPage()
     {
         return view('admin.new_page');
@@ -22,30 +24,29 @@ class PageController extends Controller
 
     public function adminPostNewPage(Request $request)
     {
-        if (!isset($request->page_id)) {
+        $oldImage = null;
+        if (!$request->get('page_id')) {
             $page = new Page();
-            $page->save();
         } else {
-            $page = Page::find($request->page_id);
-        }
-
-        $fields = $request->input();
-        $fields['visibility'] = (!isset($fields['visibility'])) ? 'off' : $fields['visibility'];
-        $fields['footer'] = (!isset($fields['footer'])) ? 'off' : $fields['footer'];
-
-        if ($request->hasFile('image')) {
+            $page = Page::find($request->get('page_id'));
             $oldImage = $page->image;
-            File::delete($oldImage);
-            $image = $request->file('image');
-            $image_name = uniqid() . config('const.' . $image->getMimeType());
-            $image_path = 'images/pages/' . $page->id . '/' . $image_name;
-            $image->move('images/pages/' . $page->id, $image_name);
-            $fields['image'] = $image_path;
         }
 
-        $page->fill($fields);
-        $page->save();
-        return redirect()->route('admin-pages-list');
+        if($fields = $request->input()) {
+            $fields['visibility'] = $request->get('visibility', 'off');
+            $fields['footer'] = $request->get('footer', 'off');
+            $this->setFile($request, $fields, 'image');
+            $page->fill($fields);
+        }
+
+        if ($page->save()) {
+            if ($oldImage) {
+                File::delete($oldImage);
+            }
+            $this->setFile($request, $fields, 'image', true);
+            return redirect()->route('admin-pages-list');
+        }
+        return view('admin.edit_page', ['page' => $page, 'errors' => $page->getValidator()->errors()]);
     }
 
     public function adminGetEditPage($page_id)
