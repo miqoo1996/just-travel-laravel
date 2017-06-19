@@ -100,7 +100,6 @@ trait TourTrait
         if ($_file == 'tour_images') {
             if ($request->hasFile('tour_images')) {
                 $fieldsImages = $request->get('tour_images');
-
                 $imageChecker = $fieldsImages == '' ? true : false;
                 foreach ($request->file('tour_images') as $key => $item) {
                     $image = $item;
