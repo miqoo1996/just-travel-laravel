@@ -20,7 +20,7 @@
                         <div class="form-horizontal form-label-left">
                             <div class="form-group">
                                 <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <label>Gallery URL</label>
+                                    <label>Gallery URL <span class="required">*</span></label>
                                     <input type="text" class="form-control" placeholder="Gallry URL" name="gallery_url"
                                            value="{{$gallery->gallery_url}}">
                                 </div>
@@ -46,14 +46,14 @@
                             <div class="x_panel">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 col-xs-4">
-                                        <label>Gallery Name</label>
+                                        <label>Gallery Name <span class="required">*</span></label>
                                         <input type="text" class="form-control" placeholder="Gallery Name"
                                                name="gallery_name_en" value="{{$gallery->gallery_name_en}}">
                                     </div>
                                 </div>
                                 <div class="x_title no_border">
                                     <h2>Gallery Description
-                                        <small>(English Version)</small>
+                                        <small>(English Version)</small> <span class="required">*</span>
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>
@@ -71,14 +71,14 @@
                             <div class="x_panel">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 col-xs-4">
-                                        <label>Gallery Name</label>
+                                        <label>Gallery Name <span class="required">*</span></label>
                                         <input type="text" class="form-control" placeholder="Gallery Name"
                                                name="gallery_name_ru" value="{{$gallery->gallery_name_ru}}">
                                     </div>
                                 </div>
                                 <div class="x_title no_border">
                                     <h2>Gallery Description
-                                        <small>(Russian Version)</small>
+                                        <small>(Russian Version)</small> <span class="required">*</span>
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>

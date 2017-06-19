@@ -25,7 +25,7 @@
                         <div class="form-horizontal form-label-left">
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label>Tour Name</label>
+                                    <label>Tour Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" placeholder="Tour Name" name="tour_name_en" value="{{$tour->tour_name_en}}">
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -41,7 +41,7 @@
                 <!--tab content start-->
                 <div class="x_panel">
                     <div class="x_title no_border">
-                        <h2>Tour Description</h2>
+                        <h2>Tour Description <span class="required">*</span></h2>
                         <div class="clearfix"></div>
                     </div>
                     <textarea class="tinymce" name="desc_en" id="desc_en">{{$tour->desc_en}}</textarea>
@@ -150,15 +150,15 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Single Adult (12-99)
+                                                                    Single Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel['single_adult']}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Double Adult (12-99)
+                                                                    Double Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel['double_adult']}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Tripple Adult (12-99)
+                                                                    Tripple Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel['triple_adult']}}">
                                                                 </div>
 
@@ -168,11 +168,11 @@
 
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Child (4-11)
+                                                                    Child (4-11) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel['child']}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Infant (0-4)
+                                                                    Infant (0-4) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel['infant']}}">
                                                                 </div>
 
@@ -199,15 +199,15 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Single Adult (12-99)
+                                                                    Single Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel->single_adult}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Double Adult (12-99)
+                                                                    Double Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel->double_adult}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Tripple Adult (12-99)
+                                                                    Tripple Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel->triple_adult}}">
                                                                 </div>
 
@@ -217,11 +217,11 @@
 
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Child (4-11)
+                                                                    Child (4-11) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel->child}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Infant (0-4)
+                                                                    Infant (0-4) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel->infant}}">
                                                                 </div>
 
@@ -243,15 +243,15 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Single Adult (12-99)
+                                                                Single Adult (12-99) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Double Adult (12-99)
+                                                                Double Adult (12-99) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Tripple Adult (12-99)
+                                                                Tripple Adult (12-99) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
                                                             </div>
 
@@ -261,11 +261,11 @@
 
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Child (4-11)
+                                                                Child (4-11) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[child][]">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Infant (0-4)
+                                                                Infant (0-4) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]">
                                                             </div>
 

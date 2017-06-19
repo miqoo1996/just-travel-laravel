@@ -81,7 +81,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
-                                        Currency Rate (USD)
+                                        Currency Rate (USD) <span class="required">*</span>
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
                                         <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="usd" placeholder="USD" @if(null !== $admin_currency) value="{{$admin_currency->usd}}@endif">
@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
-                                        Currency Rate (EUR)
+                                        Currency Rate (EUR) <span class="required">*</span>
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
                                         <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="eur" placeholder="EUR" @if(null !== $admin_currency) value="{{$admin_currency->eur}}@endif">
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
-                                        Currency Rate (RUR)
+                                        Currency Rate (RUR) <span class="required">*</span>
                                     </label>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
                                         <input type="text" id="first-name" class="form-control col-md-7 col-xs-12" name="rur" placeholder="RUR" @if(null !== $admin_currency) value="{{$admin_currency->rur}}@endif">

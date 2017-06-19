@@ -64,6 +64,11 @@ class Tour extends Model
         'tour_images' => 'max:255',
         'hot_image' => 'max:255',
         'traveler_email' => 'email|max:255',
+        'hotel.single_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+        'hotel.double_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+        'hotel.triple_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+        'hotel.child.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+        'hotel.infant.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
     ];
 
     public function getRules()
@@ -84,11 +89,6 @@ class Tour extends Model
                 'basic_price_child' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'basic_price_infant' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'tour_dates' => 'max:255',
-                'hotel.single_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'hotel.double_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'hotel.triple_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'hotel.child.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'hotel.infant.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
             ];
         }
 

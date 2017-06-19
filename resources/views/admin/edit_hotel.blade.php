@@ -25,7 +25,7 @@
                     <div class="form-horizontal form-label-left">
                         <div class="form-group">
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <label>Tour URL</label>
+                                <label>Tour URL <span class="required">*</span></label>
                                 <input type="text" class="form-control" placeholder="Hotel URL" name="hotel_url" value="{{$hotel->hotel_url}}">
                             </div>
                             <div class="clearfix"></div>
@@ -82,12 +82,12 @@
                     <!--tab content start-->
                     <div class="x_panel">
                         <div class="x_title no_border">
-                            <h2>Hotel Name</h2>
+                            <h2>Hotel Name <span class="required">*</span></h2>
                             <div class="clearfix"></div>
                         </div>
                         <input type="text" class="form-control input-lg" placeholder="Hotel Name (English)" name="hotel_name_en" id="hotel_name_en" value="{{$hotel->hotel_name_en}}">
                         <div class="x_title no_border">
-                            <h2>Hotel Description</h2>
+                            <h2>Hotel Description <span class="required">*</span></h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
@@ -114,12 +114,12 @@
                     <!--tab content start-->
                     <div class="x_panel">
                         <div class="x_title no_border">
-                            <h2>Hotel Name</h2>
+                            <h2>Hotel Name <span class="required">*</span></h2>
                             <div class="clearfix"></div>
                         </div>
                         <input type="text" class="form-control input-lg" placeholder="Hotel Name (Russian)" name="hotel_name_ru" id="hotel_name_ru" value="{{$hotel->hotel_name_ru}}">
                         <div class="x_title no_border">
-                            <h2>Hotel Description</h2>
+                            <h2>Hotel Description <span class="required">*</span></h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x-content">

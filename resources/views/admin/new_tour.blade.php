@@ -23,7 +23,7 @@
       <div class="form-horizontal form-label-left">
         <div class="form-group">
           <div class="col-md-8 col-sm-8 col-xs-12">
-            <label>Tour URL</label>
+            <label>Tour URL <span class="required">*</span></label>
             <input type="text" class="form-control" name="tour_url" id="tour_url"
                                        placeholder="Tour URL">
           </div>
@@ -54,13 +54,13 @@
   <!--tab content start-->
   <div class="x_panel">
   <div class="x_title no_border">
-    <h2>Tour Name</h2>
+    <h2>Tour Name <span class="required">*</span></h2>
     <div class="clearfix"></div>
   </div>
   <input type="text" class="form-control input-lg" placeholder="Tour Name (English)"
                                    name="tour_name_en">
   <div class="x_title no_border">
-    <h2>Tour Description</h2>
+    <h2>Tour Description <span class="required">*</span></h2>
     <div class="clearfix"></div>
   </div>
   <div class="x-content">
@@ -142,13 +142,13 @@
   <!--tab content start-->
   <div class="x_panel">
     <div class="x_title no_border">
-      <h2>Tour Name</h2>
+      <h2>Tour Name <span class="required">*</span></h2>
       <div class="clearfix"></div>
     </div>
     <input type="text" class="form-control input-lg" name="tour_name_ru" id="tour_name_ru"
                                    placeholder="Tour Name (Russian)">
     <div class="x_title no_border">
-      <h2>Tour Description</h2>
+      <h2>Tour Description <span class="required">*</span></h2>
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
@@ -224,7 +224,7 @@
 </div>
 <div class="x_panel basic-field" style="display: none">
   <div class="form-group" style="margin:10px 0 0;">
-    <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Price <span class="required">*</span></label>
     <div class="col-md-3 col-sm-3 col-xs-3">
       <input type="text" class="form-control" placeholder="Price for Adult" name="basic_price_adult">
     </div>
@@ -238,7 +238,7 @@
   </div>
   <div class="clearfix"></div>
   <div class="form-group" style="margin:20px 0 0;">
-    <label class="control-label col-md-3 col-sm-3 col-xs-12">Frequency</label>
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Frequency <span class="required">*</span></label>
     <div class="col-md-9 col-sm-9 col-xs-12 checkbox-custom">
       <label>
       <div class="icheckbox_flat-green" style="position: relative;">
@@ -302,7 +302,7 @@
   <div class="clearfix"></div>
   <div class="form-group" style="margin:15px 0 0;">
     <label class="control-label col-md-3 col-sm-3 col-xs-12" style="margin:8px 0 0;">Calendar (select
-      specific days)</label>
+      specific days) <span class="required">*</span></label>
     <div class="col-md-3 col-sm-3 col-xs-3">
       <input type="text" name="specific_days" class="form-control calendar tour-datepicker"
                                placeholder="DatePicker" name="basic_dates">
@@ -330,7 +330,7 @@
   <div class="clearfix"></div>
   <div class="datepicker-container">
     <div class="form-group" style="margin:20px 0 0;">
-      <label class="control-label col-md-3 col-sm-3 col-xs-12">Calendar</label>
+      <label class="control-label col-md-3 col-sm-3 col-xs-12">Calendar <span class="required">*</span></label>
       <div class="col-md-3 col-sm-3 col-xs-3">
         <input type="text" class="form-control calendar tour-datepicker" placeholder="DatePicker"
                                    name="custom_dates">
@@ -356,7 +356,7 @@
               <div class="custom_day" id="hotels">
                 <div class="hotel-container">
                   <div class="new_hotel">
-                    <div class="col-md-3 col-sm-3 col-xs-12"> Hotel
+                    <div class="col-md-3 col-sm-3 col-xs-12"> Hotel <span class="required">*</span>
                       <select class="form-control" name="hotel[hotel_id][]">
                         
                                                             @foreach($hotels as $hotel)
@@ -367,24 +367,24 @@
                                                         
                       </select>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12"> Single Adult (12-99)
+                    <div class="col-md-3 col-sm-3 col-xs-12"> Single Adult (12-99) <span class="required">*</span>
                       <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[single_adult][]">
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12"> Double Adult (12-99)
+                    <div class="col-md-3 col-sm-3 col-xs-12"> Double Adult (12-99) <span class="required">*</span>
                       <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[double_adult][]">
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12"> Tripple Adult (12-99)
+                    <div class="col-md-3 col-sm-3 col-xs-12"> Tripple Adult (12-99) <span class="required">*</span>
                       <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[triple_adult][]">
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"> </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12"> Child (4-11)
+                    <div class="col-md-3 col-sm-3 col-xs-12"> Child (4-11) <span class="required">*</span>
                       <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[child][]">
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12"> Infant (0-4)
+                    <div class="col-md-3 col-sm-3 col-xs-12"> Infant (0-4) <span class="required">*</span>
                       <input type="number" class="form-control" placeholder="Price"
                                                                name="hotel[infant][]">
                     </div>
@@ -419,7 +419,7 @@
           <input type="file" name="tour_images[]" multiple id="files" class="admin-image-upload">
         </label>
         <br/>
-        <h2>Main Image (Optimal size is 350x200px)</h2>
+        <h2>Main Image (Optimal size is 350x200px) <span class="required">*</span></h2>
         <p>
           <input type="file" name="tour_main_image" size="chars">
         </p>
