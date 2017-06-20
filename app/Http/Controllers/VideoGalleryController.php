@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\VideoGalleryTrait;
+use App\SimpleImage;
 use App\VideoGallery;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,7 @@ class VideoGalleryController extends Controller
     {
         if($request->get('video_id')){
             $video = VideoGallery::find($request->get('video_id'));
+            SimpleImage::setModel(clone $video);
         } else {
             $video = new VideoGallery();
         }

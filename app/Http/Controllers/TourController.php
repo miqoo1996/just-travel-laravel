@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SimpleImage;
 use App\Tour;
 use App\Hotel;
 use App\TourDate;
@@ -48,6 +49,7 @@ class TourController extends Controller
         $isBasic = false;
         if ($request->get('tour_id')) {
             $tour = Tour::find($request->get('tour_id'));
+            SimpleImage::setModel(clone $tour);
         } else {
             $tour = new Tour();
             $tour->code = substr(strtoupper(uniqid()), -7);

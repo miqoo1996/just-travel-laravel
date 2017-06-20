@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Page;
+use App\SimpleImage;
 use App\Tour;
 use App\Hotel;
 use App\TourCatRel;
@@ -24,12 +25,11 @@ class PageController extends Controller
 
     public function adminPostNewPage(Request $request)
     {
-        $oldImage = null;
         if (!$request->get('page_id')) {
             $page = new Page();
         } else {
             $page = Page::find($request->get('page_id'));
-            $oldImage = $page->image;
+            SimpleImage::setModel(clone $page);
         }
 
         if($fields = $request->input()) {
@@ -40,9 +40,6 @@ class PageController extends Controller
         }
 
         if ($page->save()) {
-            if ($oldImage) {
-                File::delete($oldImage);
-            }
             $this->setFile($request, $fields, 'image', true);
             return redirect()->route('admin-pages-list');
         }

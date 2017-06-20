@@ -18,13 +18,20 @@ trait PageTrait
     {
         if ($request->hasFile($_file)) {
             $image = $request->file($_file);
-            $image_name = $this->imageName . config('const.' . $image->getMimeType());
-            $image_path = 'images/pages/';
-            if ($move) {
-                $image->move($image_path, $image_name);
-                SimpleImage::resize($image_path . $image_name, $image_path . 'thumbnail-' . $image_name, 690, 391, 690, 391);
+            if (in_array($image->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                $images = [];
+                $image_name = $this->imageName . config('const.' . $image->getMimeType());
+                $image_path = 'images/pages/';
+                if ($move) {
+                    if (isset(SimpleImage::$model->$_file)) {
+                        $images[] = SimpleImage::$model->$_file;
+                    }
+                    $image->move($image_path, $image_name);
+                    SimpleImage::resize($image_path . $image_name, $image_path . 'thumbnail-' . $image_name, 690, 391, 690, 391);
+                }
+                $fields[$_file] = $image_path . $image_name;
+                SimpleImage::deleteImages($images);
             }
-            $fields[$_file] = $image_path . $image_name;
         }
     }
 

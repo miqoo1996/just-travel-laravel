@@ -8,6 +8,8 @@ use App\GalleryPhotos;
 use App\Gallery;
 use App\Guide;
 use App\OrderTour;
+use App\Page;
+use App\SimpleImage;
 use App\Tour;
 use App\TourCategory;
 use App\User;
@@ -104,7 +106,9 @@ class AdminController extends Controller
             }
         }
 
+        $imageThumb = SimpleImage::getImagePath($imagePosition, 'thumbnail');
         File::delete($imagePosition);
+        File::delete($imageThumb);
 
         return $data;
     }
@@ -128,38 +132,75 @@ class AdminController extends Controller
 
             case 'tour':
                 $obj = Tour::find($request->id);
-                if(File::exists('images/tours/'.$obj->id)) {
-                    File::deleteDirectory('images/tours/'.$obj->id);
+                $images = [];
+                if (isset($obj->tour_images)) {
+                    if (strpos($obj->tour_images,',') !== false) {
+                        $images += explode(',', $obj->tour_images);
+                    } else {
+                        $images[] = $obj->tour_images;
+                    }
+                }
+                if (isset($obj->tour_main_image)) {
+                    $images[] = $obj->tour_main_image;
+                }
+                if (isset($obj->hot_image)) {
+                    $images[] = $obj->hot_image;
                 }
                 if(null == $obj){
                     $status = false;
                     break;
                 }
+                SimpleImage::deleteImages($images);
                 $obj->delete();
                 break;
             case 'hotel':
                 $obj = Hotel::find($request->id);
+                $images = [];
+                if (isset($obj->images)) {
+                    if (strpos( $obj->images, ',') !== false) {
+                        $images += explode(',', $obj->images);
+                    } else {
+                        $images[] = $obj->images;
+                    }
+                }
+                if (isset($obj->hotel_main_image)) {
+                    $images[] = $obj->hotel_main_image;
+                }
                 if(null == $obj){
                     $status = false;
                     break;
                 }
+                SimpleImage::deleteImages($images);
                 $obj->delete();
                 break;
             case 'video':
                 $obj = VideoGallery::find($request->id);
+                $images = [];
+                if (isset($obj->video_thumbnail_en)) {
+                    $images[] = $obj->video_thumbnail_en;
+                }
+                if (isset($obj->video_thumbnail_ru)) {
+                    $images[] = $obj->video_thumbnail_ru;
+                }
                 if(null == $obj){
                     $status = false;
                     break;
                 }
+                SimpleImage::deleteImages($images);
                 $obj->delete();
                 break;
             case 'gallery' :
                 $obj = Gallery::find($request->id);
+                $images = [];
+                if (isset($obj->main_image)) {
+                    $images[] = $obj->main_image;
+                }
                 if(null == $obj){
                     $status = false;
                     break;
                 }
                 File::deleteDirectory('images/gallery/'.$obj->id);
+                SimpleImage::deleteImages($images);
                 $obj->delete();
                 break;
             case 'pdf' :
@@ -171,7 +212,6 @@ class AdminController extends Controller
                 File::deleteDirectory('files/pdf/'.$obj->id);
                 File::deleteDirectory('images/pdf/'.$obj->id);
                 $obj->delete();
-
                 break;
             case 'guide' :
                 $obj = Guide::find($request->id);
@@ -179,6 +219,19 @@ class AdminController extends Controller
                     $status = false;
                     break;
                 }
+                $obj->delete();
+                break;
+            case 'page' :
+                $obj = Page::find($request->id);
+                $images = [];
+                if (isset($obj->image)) {
+                    $images[] = $obj->image;
+                }
+                if(null == $obj){
+                    $status = false;
+                    break;
+                }
+                SimpleImage::deleteImages($images);
                 $obj->delete();
                 break;
         }

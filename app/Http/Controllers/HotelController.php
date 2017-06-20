@@ -35,6 +35,7 @@ class HotelController extends Controller
         $imageChecker = true;
         if($request->get('hotel_id')){
             $hotel = Hotel::find($request->get('hotel_id'));
+            SimpleImage::setModel(clone $hotel);
             if(null !== $hotel->images) $imageChecker = false;
         } else {
             $hotel = new Hotel();
@@ -55,15 +56,18 @@ class HotelController extends Controller
             $fields['visibility'] = $request->get('visibility', 'off');
             $fields['regions'] = $fieldsRegions;
 
-            $this->setFile($request, $fields, 'images/hotels/', 'hotel_main_image');
+            $this->setFile($request, $fields, 'images/hotels/hotel_main_image/', 'hotel_main_image');
 
             $fieldsImages = $hotel->images;
             if($request->hasFile('files')){
                 foreach($request->file('files') as $key => $item){
-                    $images[$key] = isset($images[$key]) ? $images[$key] : uniqid()  . config('const.' . $item->getMimeType());
-                    $image_name = $images[$key];
-                    $fieldsImages .=  ($imageChecker)? 'images/hotels/'.$image_name: ',images/hotels/'.$image_name;
-                    $imageChecker = false;
+                    if (in_array($item->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                        $imageName = uniqid();
+                        $images[$key] = isset($images[$key]) ? $images[$key] : $imageName . config('const.' . $item->getMimeType());
+                        $image_name = $images[$key];
+                        $fieldsImages .=  ($imageChecker)? 'images/hotels/'.$image_name: ',images/hotels/'.$image_name;
+                        $imageChecker = false;
+                    }
                 }
             }
             $fields['images'] = $fieldsImages;
@@ -72,14 +76,18 @@ class HotelController extends Controller
         }
 
         if ($hotel->save()) {
-            $this->setFile($request, $fields, 'images/hotels/', 'hotel_main_image', true);
+            $this->setFile($request, $fields, 'images/hotels/hotel_main_image/', 'hotel_main_image', true);
             if($request->hasFile('files')){
                 foreach($request->file('files') as $key => $item){
-                    $image = $item;
-                    $images[$key] = isset($images[$key]) ? $images[$key] : uniqid()  . config('const.' . $item->getMimeType());
-                    $image_name = $images[$key];
-                    $image->move('images/hotels', $image_name);
-                    SimpleImage::resize('images/hotels/' . $image_name, 'images/hotels/thumbnail-' . $image_name, 848, 488, 450, 257);
+                    if (in_array($item->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                        if (isset($image_name)) {
+                            $imageName = uniqid();
+                            $images[$key] = isset($images[$key]) ? $images[$key] : $imageName . config('const.' . $item->getMimeType());
+                            $image_name = $images[$key];
+                            $item->move('images/hotels', $image_name);
+                            SimpleImage::resize('images/hotels/' . $image_name, 'images/hotels/thumbnail-' . $image_name, 848, 488, 450, 257);
+                        }
+                    }
                 }
             }
             return ($request->ajax())? route('admin-hotels') : redirect()->route('admin-hotels');

@@ -8,25 +8,72 @@ namespace App;
  */
 class SimpleImage
 {
+    public static $model = null;
+
+    /**
+     * @var array
+     */
+    private static $images = [];
+
+    /**
+     * @var array
+     */
+    private static $delImages = [];
+
+    /**
+     * @param null $model
+     */
+    public static function setModel($model)
+    {
+        self::$model = $model;
+    }
+
+    /**
+     * @param array $images
+     */
+    public static function setImages(array $images)
+    {
+        self::$images = $images;
+    }
+
+    /**
+     * @param array $images
+     */
+    public static function setDelImages(array $images)
+    {
+        self::$delImages = $images;
+    }
+
+    /**
+     * @param $image
+     * @param string $prefix
+     * @return string
+     */
+    public static function getImagePath($image, $prefix = 'thumbnail')
+    {
+        $arr = explode('/', $image);
+        $arrKeys = array_keys($arr);
+        $arrLastElementKey = end($arrKeys);
+        $image = $prefix . '-' . $arr[$arrLastElementKey];
+        $arr[$arrLastElementKey] = $image;
+        $image = implode('/', $arr);
+        return $image;
+    }
+
     /**
      * Get image by path
      * @param $image
      */
-    public static function image($image, $thumb = false)
+    public static function image($image, $thumb = false, $prefix = 'thumbnail', $no_image = true)
     {
         if (is_file($image)) {
             if ($thumb) {
-                $arr = explode('/', $image);
-                $arrKeys = array_keys($arr);
-                $arrLastElementKey = end($arrKeys);
-                $image_thumbnail = 'thumbnail-' . $arr[$arrLastElementKey];
-                $arr[$arrLastElementKey] = $image_thumbnail;
-                $image_thumbnail = implode('/', $arr);
+                $image_thumbnail = self::getImagePath($image, $prefix);
                 $image = is_file($image_thumbnail) ? $image_thumbnail : $image;
             }
             return asset($image);
         }
-        return asset('images/no_image.png');
+        return $no_image ? asset('images/no_image.png') : '';
     }
 
     /**
@@ -73,8 +120,38 @@ class SimpleImage
      */
     public static function resize($path, $path_thumbnail, $big_width, $big_height, $thumb_width, $thumb_height)
     {
-        self::resizeImage($big_width, $big_height, $path, $path);
-        self::resizeImage($thumb_width, $thumb_height, $path, $path_thumbnail);
+      try {
+          self::resizeImage($big_width, $big_height, $path, $path);
+          self::resizeImage($thumb_width, $thumb_height, $path, $path_thumbnail);
+          if (!empty(self::$images)) {
+              foreach (self::$images as $image) {
+                  self::resizeImage($image['width'], $image['height'], $path, $image['path']);
+              }
+          }
+      } catch (\Exception $e) {
+          dd($e);
+      }
+    }
+
+    /**
+     * @param array $images
+     */
+    public static function deleteImages(array $images = [])
+    {
+        if (!empty($images)) {
+            foreach ($images as $image) {
+                $image = $_SERVER['DOCUMENT_ROOT'] . '/' . $image;
+                if (is_file($image)) {
+                    unlink($image);
+                }
+                if (is_file(($thumbnailImage = self::getImagePath($image, 'thumbnail')))) {
+                    unlink($thumbnailImage);
+                }
+                if (is_file(($slideImage = self::getImagePath($image, 'slide')))) {
+                    unlink($slideImage);
+                }
+            }
+        }
     }
 
 }

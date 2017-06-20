@@ -14,7 +14,7 @@
             <div class="carousel-inner" role="listbox">
                 @foreach($hotTours as $key => $hotTour)
                     <div class="item @if($key == 0) active @endif"
-                         style="background:url({{asset($hotTour['hot_image'])}}) top center no-repeat; ">
+                         style="background:url({{App\SimpleImage::image($hotTour['hot_image'], true, 'slide', false)}}) top center no-repeat; ">
                         <div class="hottour">
                             <h1>{{$hotTour['tour_name_'.app()->getLocale()]}}</h1>
                             <div class="hotdescr">{{$hotTour['short_desc_'.app()->getLocale()]}}</div>
