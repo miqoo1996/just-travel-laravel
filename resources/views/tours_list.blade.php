@@ -66,7 +66,7 @@
                 @endif
                 @if(isset($tours))
                         @foreach($tours as $tour)
-                            @if(isset($tourCategory['property']) && $tourCategory['property'] == 'basic')
+                            @if(null !== $tour['basic_frequency'])
                                 <div class="item">
                                     <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                                         <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">

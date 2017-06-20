@@ -1,7 +1,7 @@
 <div class="container">
     <h2>{{$currentCategory['category_name_' . app()->getLocale()]}}</h2>
     @foreach($tours as $tour)
-        @if($currentCatId == 1)
+        @if(null !== $tour['basic_frequency'])
             <div class="item">
                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                     <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">

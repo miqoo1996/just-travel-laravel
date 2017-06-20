@@ -21,7 +21,7 @@
                 <div id="sortables" class="col-md-10 col-md-offset-1 tours">
                     <ul data-ajax="{{route('admin-tour-items-orders')}}" id="sortable-tour" class="col-md-12">
                         @foreach($tours as $tour)
-                            @if(isset($tour['tour_category']) && ($tour['tour_category'] == 'Daily Tours' || $tour['tour_category'] == 'daily'))
+                            @if(null !== $tour['basic_frequency'])
                                 <li data-page-id="{{ $tour['tour_id'] }}" class="item">
                                     <a href="javascript:void(0)">
                                         <img src="{{ asset($tour['main_image']) }}" alt="{{ $tour['gallery_name_en'] }}">

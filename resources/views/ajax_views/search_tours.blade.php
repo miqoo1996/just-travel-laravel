@@ -3,7 +3,7 @@
 @else
     <h2>{{trans('messages.search_results')}}</h2>
     @foreach($searchTours as $tour)
-        @if($tour['property'] == 'basic')
+        @if(null !== $tour['basic_frequency'])
             <div class="item">
                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                     <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">

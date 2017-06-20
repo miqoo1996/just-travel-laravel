@@ -109,9 +109,9 @@
             <div class="popular-tours" id="tours_area">
                 <div class="container">
                     <h2>{{$tourCategories->find($currentCatId)['category_name_'.app()->getLocale()]}}</h2>
-                    <!--Tour Itwm-->
+                    <!--Tour Item-->
                     @foreach($indexTours as $tour)
-                        @if($currentCatId == 1)
+                        @if(null !== $tour['basic_frequency'])
                             <div class="item">
                                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                                     <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
