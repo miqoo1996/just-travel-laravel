@@ -89,7 +89,7 @@
                 <div class="container">
                     <ul>
                         @foreach($tourCategories as $tc)
-                            @if($indexTours[0]['cat_id'] == $tc['id'])
+                            @if(isset($indexTours[0]['cat_id']) && $indexTours[0]['cat_id'] == $tc['id'])
                                 <li class="active" id="cat_list_{{$currentCatId}}">
                             @else
                                 <li id="cat_list_{{$currentCatId}}">
