@@ -30,7 +30,7 @@ trait VideoGalleryTrait
                         $images[] = SimpleImage::$model->$_file;
                     }
                     $image->move($imagePathName, $image_name);
-                    SimpleImage::resize($imagePath, $imagePathName . 'thumbnail-' . $image_name, 280, 160, 280, 160);
+                    SimpleImage::resize($imagePath, $imagePathName . 'thumbnail-' . $image_name, 570, 326, 280, 160);
                 }
                 $fields[$_file] = $imagePath;
             }

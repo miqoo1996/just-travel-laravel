@@ -133,6 +133,9 @@ class Tour extends Model
                         unset($model->tour_dates);
                     }
                 }
+                if (!$model->isBasic && isset($model->tour_dates)) {
+                    unset($model->tour_dates);
+                }
                 if (isset($model->hotel)) {
                     unset($model->hotel);
                 }

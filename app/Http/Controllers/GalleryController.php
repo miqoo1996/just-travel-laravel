@@ -55,13 +55,14 @@ class GalleryController extends Controller
             if (isset($image, $image_path, $image_name)) {
                 $delImages[] = $oldImg;
                 $image->move($image_path, $image_name);
-                SimpleImage::resize($image_path . $image_name, $image_path . 'thumbnail-' . $image_name, 280, 160, 500, 350);
+                SimpleImage::resize($image_path . $image_name, $image_path . 'thumbnail-' . $image_name, 500, 350, 280, 160);
             }
 
             if($request->hasFile('files')){
                 foreach($request->file('files') as $item){
                     $image = $item;
                     if (in_array($image->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                        $uniqid = uniqid();
                         $image_name = $uniqid . config('const.' . $image->getMimeType());
                         $image_path = 'images/gallery/' . $gallery->id. '/content/' . $image_name;
                         $image->move('images/gallery/'. $gallery->id .'/content', $image_name);
@@ -69,6 +70,7 @@ class GalleryController extends Controller
                         $images['image_path'] = $image_path;
                         $images['gallery_id'] = $gallery->id;
                         $data[] = $images;
+                        SimpleImage::resize($image_path, 'images/gallery/' . $gallery->id. '/content/thumbnail-' . $image_name, 570, 326, 280, 160);
                     }
                 }
             }

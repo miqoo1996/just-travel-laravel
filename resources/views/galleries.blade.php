@@ -13,7 +13,7 @@
                             @foreach($galleries as $gallery)
                                 <div class="item">
                                     <a href="{{url($type . '/' .$gallery['gallery_url'])}}">
-                                        <img src="{{asset(isset($gallery['main_image']) ? $gallery['main_image'] : '/images/no_image.png')}}"></a>
+                                        <img src="{{App\SimpleImage::image($gallery['main_image'], true)}}"></a>
                                     <h4>{{$gallery['gallery_name_' . app()->getLocale()]}}</h4>
                                 </div>
                             @endforeach

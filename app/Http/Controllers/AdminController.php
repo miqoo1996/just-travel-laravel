@@ -82,6 +82,7 @@ class AdminController extends Controller
                 break;
             case 'gallery' :
                 $object = GalleryPhotos::find($request->id);
+                $object->images = self::imageRemove($object->images, $request->image_position);
                 $object->delete();
                 $object = null;
                 break;
