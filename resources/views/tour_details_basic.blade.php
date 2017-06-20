@@ -30,15 +30,17 @@
                         <span class="item"><span class="{{$currency['currency']}}">{{round($tour['basic_price_infant']/$currency[$currency['currency']], 2)}}</span>{{trans('messages.infants')}} (0-4)</span>
                     </div>
                     <h3 class="frequency">Frequency</h3>
-                    <div class="frequency">
-                        @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
-                            @if(strpos($tour['basic_frequency'], $wd) !== false)
-                                <span class="freq-day available">{{$short}}</span>
-                            @else
-                                <span class="freq-day">{{$short}}</span>
-                            @endif
-                        @endforeach
-                    </div>
+                    @if($tour->isBasic)
+                        <div class="frequency">
+                            @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
+                                @if(strpos($tour['basic_frequency'], $wd) !== false)
+                                    <span class="freq-day available">{{$short}}</span>
+                                @else
+                                    <span class="freq-day">{{$short}}</span>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

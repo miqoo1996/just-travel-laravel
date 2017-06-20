@@ -80,8 +80,6 @@ class TourController extends Controller
                         $BFChecker = false;
                     }
                 }
-            } else {
-                unset($fields['basic_frequency']);
             }
 
             $fields['visibility'] = $request->get('visibility', 'off');

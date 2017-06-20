@@ -74,15 +74,17 @@
                                     </a>
                                     <div class="shortdescr">{{$tour['short_desc_'.app()->getLocale()]}}</div>
                                     <div class="tour-data">
-                                        <div class="frequency">
-                                            @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
-                                                @if(strpos($tour['basic_frequency'], $wd) !== false)
-                                                    <span class="freq-day available">{{$short}}</span>
-                                                @else
-                                                    <span class="freq-day">{{$short}}</span>
-                                                @endif
-                                            @endforeach
-                                        </div>
+                                        @if($tour->isBasic)
+                                            <div class="frequency">
+                                                @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
+                                                    @if(strpos($tour['basic_frequency'], $wd) !== false)
+                                                        <span class="freq-day available">{{$short}}</span>
+                                                    @else
+                                                        <span class="freq-day">{{$short}}</span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <div class="price {{$currency['currency']}}">{{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
                                     </div>
                                 </div>
