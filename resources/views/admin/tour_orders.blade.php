@@ -28,7 +28,7 @@
                                         <span class="tour-title">{{$tour['tour_name_en']}}</span>
                                     </a>
                                     <div class="tour-data">
-                                        @if($tour->isBasic)
+                                        @if($tour['basic_frequency'])
                                             <div class="frequency">
                                                 @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
                                                     @if(strpos($tour['basic_frequency'], $wd) !== false)
