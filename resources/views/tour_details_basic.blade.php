@@ -56,17 +56,17 @@
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.adults')}}
                                 (12-99)</label>
-                            <input class="" type="number" name="adults_count" id="adult" placeholder="" value="2">
+                            <input class="" type="number" name="adults_count" id="adult" placeholder="" min="0" value="2">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.children')}}
                                 (5-11)</label>
-                            <input class="" type="number" name="children_count" id="child" placeholder="">
+                            <input class="" type="number" name="children_count" id="child" placeholder="" min="0">
                         </div>
                         <div class="col-md-2 col-sm-6 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.infants')}}
                                 (0-4)</label>
-                            <input class="" type="number" name="infants_count" id="infant" placeholder="">
+                            <input class="" type="number" name="infants_count" id="infant" placeholder="" min="0">
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
                             <label for="example-text-input" class="col-form-label">&nbsp;</label>

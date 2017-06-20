@@ -22,6 +22,13 @@ $(document).ready(function () {
         });
     });
 
+    $('#adult, #child, #infant').on('input', function () {
+        var value = parseInt(this.value);
+        if (value < 0) {
+            value = 0;
+        }
+        this.value = value;
+    });
 });
 
 function tourCategoryViewer() {
