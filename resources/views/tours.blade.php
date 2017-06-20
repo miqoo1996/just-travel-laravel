@@ -66,10 +66,10 @@
                 @endif
                 @if(isset($tours['tours']))
                         @foreach($tours['tours'] as $tour)
-                            @if(null !== $tour['basic_frequency'])
+                            @if($tour->isDaily())
                                 <div class="item">
                                     <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                                        <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
+                                        <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                                         <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                                     </a>
                                     <div class="shortdescr">{{$tour['short_desc_'.app()->getLocale()]}}</div>
@@ -84,8 +84,10 @@
                                                     @endif
                                                 @endforeach
                                             </div>
+                                            <div class="price {{$currency['currency']}}"> {{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
+                                        @else
+                                            <div class="price {{$currency['currency']}}">{{round($tour['double_adult'] / $currency[$currency['currency']], 2)}}</div>
                                         @endif
-                                        <div class="price {{$currency['currency']}}">{{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
                                     </div>
                                 </div>
                             @else

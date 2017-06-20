@@ -1,7 +1,7 @@
 <div class="container">
     <h2>{{$currentCategory['category_name_' . app()->getLocale()]}}</h2>
     @foreach($tours as $tour)
-        @if(null !== $tour['basic_frequency'])
+        @if($tour->isDaily())
             <div class="item">
                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                     <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
@@ -18,8 +18,10 @@
                                 @endif
                             @endforeach
                         </div>
+                        <div class="price {{$currency['currency']}}"> {{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
+                    @else
+                        <div class="price {{$currency['currency']}}">{{round($tour['double_adult'] / $currency[$currency['currency']], 2)}}</div>
                     @endif
-                    <div class="price {{$currency['currency']}}">{{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
                 </div>
             </div>
         @else

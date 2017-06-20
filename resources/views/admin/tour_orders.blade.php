@@ -21,10 +21,10 @@
                 <div id="sortables" class="col-md-10 col-md-offset-1 tours">
                     <ul data-ajax="{{route('admin-tour-items-orders')}}" id="sortable-tour" class="col-md-12">
                         @foreach($tours as $tour)
-                            @if(null !== $tour['basic_frequency'])
+                            @if($tour->isDaily())
                                 <li data-page-id="{{ $tour['tour_id'] }}" class="item">
                                     <a href="javascript:void(0)">
-                                        <img src="{{ asset($tour['main_image']) }}" alt="{{ $tour['gallery_name_en'] }}">
+                                        <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                                         <span class="tour-title">{{$tour['tour_name_en']}}</span>
                                     </a>
                                     <div class="tour-data">
@@ -38,8 +38,10 @@
                                                     @endif
                                                 @endforeach
                                             </div>
+                                            <div class="price {{$currency['currency']}}"> {{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
+                                        @else
+                                            <div class="price {{$currency['currency']}}">{{round($tour['double_adult'] / $currency[$currency['currency']], 2)}}</div>
                                         @endif
-                                        <div class="price {{$currency['currency']}}"> {{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
                                     </div>
                                 </li>
                             @else
