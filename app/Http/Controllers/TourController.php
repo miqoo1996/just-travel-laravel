@@ -100,13 +100,13 @@ class TourController extends Controller
             TourCatRel::where('tour_id', $tour->id)->delete();
             if (!empty($tourCats)) TourCatRel::insert($tourCats);
 
-            if($isBasic && !empty($request->specific_days)){
+            if ($isBasic && !empty($request->specific_days)) {
                 $dates = explode(',', $request->specific_days);
 
-            } elseif(!empty($request->custom_dates)){
+            } elseif (!empty($request->custom_dates)) {
                 $dates = explode(',', $request->custom_dates);
             }
-            if(isset($dates)) {
+            if (isset($dates)) {
                 foreach ($dates as $date) {
                     $tourDate['tour_id'] = $tour->id;
                     $tourDate['date'] = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
@@ -149,7 +149,7 @@ class TourController extends Controller
 
     public function adminGetEditTour($tour_id)
     {
-        $tour = Tour::with(['categories', 'hotels', 'customDays','adminTourDates'])->find($tour_id);
+        $tour = Tour::with(['categories', 'hotels', 'customDays', 'adminTourDates'])->find($tour_id);
         $data = $this->getEditTour($tour);
         return view('admin.edit_tour', $data);
     }
@@ -243,18 +243,18 @@ class TourController extends Controller
         }
         $tour->tour_images = explode(',', $tour->tour_images);
         $data['tour'] = $tour->toArray();
-        if($tour['property'] !== 'basic'){
+        if ($tour['property'] !== 'basic') {
             $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
                 ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->groupBy('hotels.id')->get()->toArray();
             $data['days'] = TourCustomDay::where('tour_id', $tour['tour_id'])->get()->toArray();
 
             return view('tour_details_custom', $data);
         }
-        $data['datesDisabled'] = explode(',',$tour->specific_days);
+        $data['datesDisabled'] = explode(',', $tour->specific_days);
         $daysOfWeekDisabled = explode(',', $tour->basic_frequency);
         $bootstrapWeekDays = array_flip(config('const.bootstrap_week_days'));
         $difference = array_diff($bootstrapWeekDays, $daysOfWeekDisabled);
-        $data['daysOfWeekDisabled'] = implode(",",array_flip($difference));
+        $data['daysOfWeekDisabled'] = implode(",", array_flip($difference));
 
         return view('tour_details_basic', $data);
     }
@@ -267,12 +267,11 @@ class TourController extends Controller
 
     public function postSearchCustomTour(Request $request)
     {
-
-        $adult = (intval($request->adult) < 1)? 1 : intval($request->adult);
-        $child = (intval($request->child) < 0)? 0 : intval($request->child);
-        $infant = (intval($request->infant) < 0)? 0 : intval($request->infant);
+        $adult = (intval($request->adult) < 1) ? 1 : intval($request->adult);
+        $child = (intval($request->child) < 0) ? 0 : intval($request->child);
+        $infant = (intval($request->infant) < 0) ? 0 : intval($request->infant);
         $hotelCalculator = HotelCalculator::calc($adult, $child, $infant);
-        if(null == $hotelCalculator){
+        if (null == $hotelCalculator) {
             return View::make('ajax_views.many_adults_form');
         }
         $data['adult'] = $adult;
@@ -284,7 +283,7 @@ class TourController extends Controller
             ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')
             ->get()
             ->toArray();
-        foreach ($hotels as $key => $hotel){
+        foreach ($hotels as $key => $hotel) {
             $hotels[$key]['price'] = HotelCalculator::calcHotelPrice($hotel, $adult, $child, $infant);
         }
         $data['hotels'] = $hotels;

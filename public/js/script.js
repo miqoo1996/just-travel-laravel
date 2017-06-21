@@ -81,6 +81,10 @@ function tourDetailSearch() {
     var par = $('#custom_deatils_search');
     $(par).find('#detail_search').on("click", function () {
         date_from = $(par).find('#date_from').val();
+        if (!date_from) {
+            $(par).find('#date_from').focus();
+            return false;
+        }
         adult = $(par).find('#adult').val();
         if (adult < 1) {
             $(par).find('#adult').val('1');
