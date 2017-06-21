@@ -6,9 +6,18 @@ use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class Tour extends Model
 {
+    public $scenario = 'insert';
+
+    public $isBasic = false;
+
+    private $isCustom = false;
+
+    private $validator;
+
     protected $fillable = [
         'tour_url',
         'tour_category',
@@ -32,8 +41,146 @@ class Tour extends Model
         'hot',
         'traveler_email',
         'tour_price',
-        'tour_day'
+        'tour_day',
+        'hotel',
+        'custom_day_title_en',
+        'custom_day_title_ru',
+        'custom_day_desc_en',
+        'custom_day_desc_ru',
+        'tour_dates',
     ];
+
+    /**
+     * Validation rules.
+     *
+     * @var array
+     */
+    private $rules = [
+        'tour_url' => 'max:255',
+        'tour_name_en' => 'required|max:255',
+        'desc_en' => 'required|max:500000',
+        'short_desc_en' => 'max:500000',
+        'tags_en' => 'max:255',
+        'tour_images' => 'max:255',
+        'hot_image' => 'max:255',
+        'traveler_email' => 'email|max:255',
+        'hotel.single_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+        'hotel.double_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+        'hotel.triple_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+        'hotel.child.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+        'hotel.infant.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+    ];
+
+    public function getRules()
+    {
+        if (!$this->isCustom()) {
+            $this->rules['tour_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id);
+            $this->rules += [
+                'tour_name_ru' => 'required|max:255',
+                'desc_ru' => 'required|max:500000',
+                'short_desc_ru' => 'max:500000',
+                'tags_ru' => 'max:255',
+                'tour_main_image' => 'required|max:255',
+                'custom_day_title_en.*' => 'max:500000',
+                'custom_day_title_ru.*' => 'max:500000',
+                'custom_day_desc_en.*' => 'max:500000',
+                'custom_day_desc_ru.*' => 'max:500000',
+                'basic_price_adult' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'basic_price_child' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'basic_price_infant' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'tour_dates' => 'max:255',
+            ];
+        }
+
+        return $this->rules;
+    }
+
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    public static function boot()
+    {
+        // Saving event
+        static::saving(function ($model) {
+            if ($model->isDaily()) {
+                if (isset($model->hotel)) {
+                    unset($model->hotel);
+                }
+                $model->rules += [
+                    'basic_price_adult' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'basic_price_child' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'basic_price_infant' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                ];
+            }
+            // Make a new validator object
+            $v = Validator::make($model->getAttributes(), $model->getRules());
+            // Optionally customize this version using new ->after()
+            $v->after(function() use ($v, $model) {
+                // Do more validation
+                if (isset($model->visibility)) {
+                    if (!in_array($model->visibility, ['on', 'off'])) {
+                        $v->errors()->add('error:visibility', 'Error');
+                    }
+                }
+                $unsetDateValidationRule = false;
+                if ((isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') || $model->isBasic) {
+                    if($unsetDateValidationRule = !isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) {
+                        $v->errors()->add('error:tour_dates', 'The calendar field is required');
+                    }
+                    if (!$unsetDateValidationRule) {
+                        unset($model->tour_dates);
+                    }
+                }
+                if (isset($model->hotel)) {
+                    unset($model->hotel);
+                }
+                if (isset($model->custom_day_title_en)) {
+                    unset($model->custom_day_title_en);
+                }
+                if (isset($model->custom_day_title_ru)) {
+                    unset($model->custom_day_title_ru);
+                }
+                if (isset($model->custom_day_desc_en)) {
+                    unset($model->custom_day_desc_en);
+                }
+                if (isset($model->custom_day_desc_ru)) {
+                    unset($model->custom_day_desc_ru);
+                }
+                if (!$model->isBasic) {
+                    if (isset($model->basic_price_adult)) {
+                        unset($model->basic_price_adult);
+                    }
+                    if (isset($model->basic_price_child)) {
+                        unset($model->basic_price_child);
+                    }
+                    if (isset($model->basic_price_infant)) {
+                        unset($model->basic_price_infant);
+                    }
+                }
+            });
+            $model->validator = $v;
+            return !$v->fails();
+        });
+        parent::boot();
+    }
+
+    public function setIsCustom($custom)
+    {
+        $this->isCustom = (bool)$custom;
+    }
+
+    public function isCustom()
+    {
+        return (bool)$this->isCustom;
+    }
+
+    public function isDaily()
+    {
+        $isDaily = (bool)isset($this->tour_category) && ($this->tour_category == 'Daily Tours' || $this->tour_category == 'daily');
+        return $isDaily;
+    }
 
     /**
      * @return mixed
@@ -59,6 +206,9 @@ class Tour extends Model
         return $this->hasMany('App\TourHotel', 'tour_id', 'id');
     }
 
+    /**
+     * @return mixed
+     */
     public function getFirstHotel()
     {
         return $this->hasOne('App\TourHotel', 'tour_id', 'id')->first();
@@ -73,15 +223,22 @@ class Tour extends Model
 
     }
 
+    /**
+     * @return mixed
+     */
     public function tourDates()
     {
         return $this->hasMany('App\TourDate', 'tour_id', 'id')->where('date', '>=', date('Y-m-d'))->select('date');
     }
 
+    /**
+     * @return mixed
+     */
     public function adminTourDates()
     {
         return $this->hasMany('App\TourDate', 'tour_id', 'id');
     }
+
     public static function rewriteDates($dates)
     {
         $result = '';
@@ -96,16 +253,17 @@ class Tour extends Model
     }
 
     /**
-     * @param $category_id
-     * @param $limit
+     * @param null $category_id
+     * @param bool $limit
+     * @param bool $order
      * @return mixed
      */
-    public static function toursByCategory($category_id, $limit = false)
+    public static function toursByCategory($category_id, $limit = false, $order = true)
     {
         $tz = (Session::has('tz'))? Session::get('tz'): 4;
         $tours = self::rightJoin('tour_cat_rels', function ($query) use ($category_id){
             $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
-            ->where('tour_cat_rels.cat_id', '=' , $category_id);
+                ->where('tour_cat_rels.cat_id', '=' , $category_id);
         })->leftJoin('tour_dates', function ($query) use ($tz){
             $query->on('tour_dates.tour_id', '=', 'tours.id')
                 ->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3));
@@ -113,10 +271,14 @@ class Tour extends Model
             $query->on('tour_hotels.tour_id', '=', 'tours.id');
         })
             ->whereNotNull('tours.id')
-        ->orWhereNotNull('tours.basic_frequency')
-        ->groupBy('tours.id')->get();
+            ->orWhereNotNull('tours.basic_frequency')
+            ->groupBy('tours.id');
+        if ($order) {
+            $tours = $tours->orderBy('tours.order', 'ASC')->get();
+        }
         return $tours;
     }
+
     public static function generateDateWeekDays(Carbon $start_date, Carbon $end_date)
     {
         $dates = [];
@@ -139,13 +301,6 @@ class Tour extends Model
             $dates[] = $date->format('Y-m-d');
             $date->addDay();
         }
-
-//        $period = new \DatePeriod(
-//            new \DateTime($start_date),
-//            new \DateInterval('P1D'),
-//            new \DateTime($end_date)
-//        );
-//        return $period;
     }
 
     public static function searchTours($request)
@@ -203,12 +358,6 @@ class Tour extends Model
             }
         });
 
-//        $tours = $tours->where(function ($query) use ($tourDates) {
-//            foreach ($tourDates as $tourDate) {
-//                $query = $query->whereNot('tour_dates.date', $tourDate);
-//            }
-//        });
-
         if($category){
             $tours = $tours->where('tour_categories.id', intval($category[0]));
         }
@@ -265,6 +414,33 @@ class Tour extends Model
         }
         return $tours;
     }
+
+    public function getTours($order = false)
+    {
+        if ($order) {
+            $tours = $this->where('type', '!=', 'custom')->orderBy('tours.order', 'ASC')->get();
+        } else {
+            $tours = $this->all()->toArray();
+        }
+        return $tours;
+    }
+
+    public function saveData(array $attributes)
+    {
+        if (is_array($attributes) && !empty($attributes)) {
+            foreach ($attributes as $attribute) {
+                if (isset($attribute['page_id'], $attribute['order'])) {
+                    $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
+                    if ($model) {
+                        $model->order = intval($attribute['order']);
+                        $model->save();
+                    }
+                }
+            }
+        };
+        return $this;
+    }
+
 }
 
 

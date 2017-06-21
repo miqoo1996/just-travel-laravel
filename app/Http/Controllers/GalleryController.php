@@ -6,8 +6,6 @@ use App\Gallery;
 use App\GalleryPhotos;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class GalleryController extends Controller
 {
     public function adminGetGalleries()
@@ -23,7 +21,7 @@ class GalleryController extends Controller
 
     public function adminPostNewGallery(Request $request)
     {
-        if(isset($request->gallery_id)){
+        if($request->get('gallery_id')){
             $gallery = Gallery::find($request->gallery_id);
             if(!$request->has('gallery')){
                 $gallery->gallery = 'off';
@@ -31,54 +29,56 @@ class GalleryController extends Controller
             if(!$request->has('portfolio')){
                 $gallery->portfolio = 'off';
             }
-            $gallery->fill($request->input());
             $gallery->save();
         } else {
             $gallery = new Gallery();
-            $gallery->fill($request->input());
-            $gallery->save();
         }
 
-        if($request->hasFile('main_image')){
+        $gallery->fill($request->input());
+
+        if ($gallery->save()) {
+            if($request->hasFile('main_image')){
                 $image = $request->file('main_image');
                 $image_name = uniqid() . config('const.' . $image->getMimeType());
                 $image_path = 'images/gallery/' . $gallery->id. '/' . $image_name;
                 $image->move('images/gallery/'. $gallery->id, $image_name);
                 $gallery->main_image = $image_path;
-        }
-        $gallery->fill($request->input());
-        if(isset($image_path)) $gallery->main_image = $image_path;
-        $gallery->save();
-        if($request->hasFile('files')){
-            foreach($request->file('files') as $item){
-                $image = $item;
-                $image_name = uniqid() . config('const.' . $image->getMimeType());
-                $image_path = 'images/gallery/' . $gallery->id. '/content/' . $image_name;
-                $image->move('images/gallery/'. $gallery->id .'/content', $image_name);
-                $images['image_name'] = $image_name;
-                $images['image_path'] = $image_path;
-                $images['gallery_id'] = $gallery->id;
-                $data[] = $images;
             }
+            if(isset($image_path)) $gallery->main_image = $image_path;
+
+
+            if($request->hasFile('files')){
+                foreach($request->file('files') as $item){
+                    $image = $item;
+                    $image_name = uniqid() . config('const.' . $image->getMimeType());
+                    $image_path = 'images/gallery/' . $gallery->id. '/content/' . $image_name;
+                    $image->move('images/gallery/'. $gallery->id .'/content', $image_name);
+                    $images['image_name'] = $image_name;
+                    $images['image_path'] = $image_path;
+                    $images['gallery_id'] = $gallery->id;
+                    $data[] = $images;
+                }
+            }
+
+            if (isset($data)) GalleryPhotos::insert($data);
+            return redirect()->route('admin-get-galleries');
         }
 
-
-
-        if (isset($data)) GalleryPhotos::insert($data);
-        return redirect()->route('admin-get-galleries');
+        $gallery['images'] = $gallery->images();
+        return view('admin.edit_gallery', ['gallery' => $gallery, 'errors' => $gallery->getValidator()->errors()]);
     }
 
     public function adminGetEditGallery($gallery_id)
     {
         $gallery = Gallery::find($gallery_id);
         $gallery['images'] = $gallery->images();
-//        $gallery->images();
         return view('admin.edit_gallery', ['gallery' => $gallery]);
     }
 
     public function getGalleries()
     {
-        $galleries = Gallery::where('gallery', 'on')->get()->toArray();
+        $model = new Gallery();
+        $galleries = $model->getImages(true, ['gallery', 'on']);
         $type = 'gallery';
         return view('galleries', compact('galleries', 'type'));
     }

@@ -14,7 +14,7 @@
                         <div class="form-horizontal form-label-left">
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label>Tour Name</label>
+                                    <label>Tour Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" placeholder="Tour Name" name="tour_name_en">
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -30,7 +30,7 @@
                 <!--tab content start-->
                 <div class="x_panel">
                     <div class="x_title no_border">
-                        <h2>Tour Description</h2>
+                        <h2>Tour Description <span class="required">*</span></h2>
                         <div class="clearfix"></div>
                     </div>
                     <textarea class="tinymce" name="desc_en" id="desc_en"></textarea>
@@ -46,14 +46,26 @@
                                     <div class="custom_day">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Day 1</label>
                                         <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                            <textarea class="resizable_textarea form-control" placeholder="" name="custom_day_desc_en[]"></textarea>
+                                            <input type="text" class="form-control input-medium"
+                                                   name="custom_day_title_en[]"
+                                                   placeholder="title">
+                                        </div>
+                                        <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+                                            <textarea rows="4" class="resizable_textarea form-control" placeholder="description" name=custom_day_desc_en[]"></textarea>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="custom_day">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Day 2</label>
                                         <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                            <textarea class="resizable_textarea form-control" placeholder=""  name="custom_day_desc_en[]"></textarea>
+                                            <input type="text" class="form-control input-medium"
+                                                   name="custom_day_title_en[]"
+                                                   placeholder="title">
+                                        </div>
+                                        <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+              <textarea class="resizable_textarea form-control"
+                        placeholder="description"
+                        name="custom_day_desc_en[]"></textarea>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
@@ -111,16 +123,16 @@
                                                                 </select>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
-                                                            Single Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]">
+                                                            Single Adult (12-99) <span class="required">*</span>
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[single_adult][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
-                                                            Double Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]">
+                                                            Double Adult (12-99) <span class="required">*</span>
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[double_adult][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
-                                                            Tripple Adult (12-99)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
+                                                            Tripple Adult (12-99) <span class="required">*</span>
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
                                                         </div>
 
 
@@ -129,12 +141,12 @@
 
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
-                                                            Child (4-11)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[child][]">
+                                                            Child (4-11) <span class="required">*</span>
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[child][]">
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12">
-                                                            Infant (0-4)
-                                                            <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]">
+                                                            Infant (0-4) <span class="required">*</span>
+                                                            <input type="number" class="form-control" placeholder="Price" name="hotel[infant][]">
                                                         </div>
                                                         <div class="clearfix margin-b-10"></div>
                                                     </div>

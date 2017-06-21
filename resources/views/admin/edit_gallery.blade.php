@@ -3,13 +3,24 @@
     <div class="right_col" role="main">
         <div class="x_content">
             <form action="{{route('admin-post-new-gallery')}}" method="post" enctype="multipart/form-data">
+                @if ($errors->has())
+                    <div class="alert alert-danger">
+                        <strong>Whoops!</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <input type="hidden" name="gallery_id" value="{{$gallery->id}}">
                 <div class="x_panel">
                     <div class="row">
                         <div class="form-horizontal form-label-left">
                             <div class="form-group">
                                 <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <label>Gallery URL</label>
+                                    <label>Gallery URL <span class="required">*</span></label>
                                     <input type="text" class="form-control" placeholder="Gallry URL" name="gallery_url"
                                            value="{{$gallery->gallery_url}}">
                                 </div>
@@ -35,14 +46,14 @@
                             <div class="x_panel">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 col-xs-4">
-                                        <label>Gallery Name</label>
+                                        <label>Gallery Name <span class="required">*</span></label>
                                         <input type="text" class="form-control" placeholder="Gallery Name"
                                                name="gallery_name_en" value="{{$gallery->gallery_name_en}}">
                                     </div>
                                 </div>
                                 <div class="x_title no_border">
                                     <h2>Gallery Description
-                                        <small>(English Version)</small>
+                                        <small>(English Version)</small> <span class="required">*</span>
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>
@@ -60,21 +71,21 @@
                             <div class="x_panel">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4 col-xs-4">
-                                        <label>Gallery Name</label>
+                                        <label>Gallery Name <span class="required">*</span></label>
                                         <input type="text" class="form-control" placeholder="Gallery Name"
                                                name="gallery_name_ru" value="{{$gallery->gallery_name_ru}}">
                                     </div>
                                 </div>
                                 <div class="x_title no_border">
                                     <h2>Gallery Description
-                                        <small>(Russian Version)</small>
+                                        <small>(Russian Version)</small> <span class="required">*</span>
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>
 
                                 <div class="x-content">
                                     <div class="x-content">
-                                        <textarea class="tinymce" name="gallery_desc_ru" id="desc_en">{{$gallery->gallery_desc_ru}}</textarea>
+                                        <textarea class="tinymce" name="gallery_desc_ru" id="desc_ru">{{$gallery->gallery_desc_ru}}</textarea>
                                     </div>
 
                                 </div>

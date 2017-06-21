@@ -1,18 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 14-Apr-17
- * Time: 20:17
- */
 
 namespace App\Http\ViewComposers;
-
 
 use App\Currency;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Session;
 
 class CurrencyComposer
 {
@@ -33,4 +25,5 @@ class CurrencyComposer
     {
         $view->with('currency', $this->currency);
     }
+
 }

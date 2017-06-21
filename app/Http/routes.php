@@ -6,6 +6,8 @@ Route::post('/admin/panel', 'AdminController@postLogin')->name('login');
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('/admin/dashboard', 'AdminController@getDashboard')->name('admin-dashboard');
 	Route::get('/admin/tours-categories', 'TourCategoryController@adminGetTourCategories')->name('admin-tours-categories');
+    Route::get('/admin/tours-orders', 'TourController@adminTourOrders')->name('admin-tour-orders');
+    Route::post('/admin/tour-orders-save', 'TourController@adminTourOrdersSave')->name('admin-tour-items-orders');
     Route::get('/admin/tours-list', 'TourController@adminGetToursList')->name('admin-tours-list');
 	Route::get('/admin/new-category', 'TourCategoryController@adminGetNewCategory')->name('admin-new-category');
 	Route::get('/admin/edit-category/{category_id}', 'TourCategoryController@adminGetEditCategory');
@@ -27,8 +29,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/admin/new-gallery', 'GalleryController@adminPostNewGallery')->name('admin-post-new-gallery');
 
     Route::get('/admin/photo-gallery', 'PhotoGalleryController@adminGetPhotoGallery')->name('admin-photo-gallery');
+    Route::get('/admin/photo-orders', 'PhotoGalleryController@adminPhotoGalleryOrders')->name('admin-photo-gallery-orders');
+    Route::get('/admin/portfolio-orders', 'PhotoGalleryController@adminPortfolioOrders')->name('admin-portfolio-orders');
+    Route::post('/admin/photo-orders-save', 'PhotoGalleryController@adminPhotoOrdersSave')->name('admin-photo-gallery-items-orders');
     Route::post('/admin/photo-gallery', 'PhotoGalleryController@adminPostPhotoGallery')->name('admin-post-photo-gallery');
     Route::get('/admin/video-gallery', 'VideoGalleryController@adminGetVideoGallery')->name('admin-video-gallery');
+    Route::get('/admin/video-orders', 'VideoGalleryController@adminVideoOrders')->name('admin-video-orders');
+    Route::post('/admin/video-orders-save', 'VideoGalleryController@adminVideoOrdersSave')->name('admin-video-gallery-items-orders');
     Route::get('/admin/new-video', 'VideoGalleryController@adminGetNewVideo')->name('admin-new-video');
     Route::post('/admin/new-video', 'VideoGalleryController@adminPostNewVideo')->name('admin-post-new-video');
     Route::get('/admin/edit-video/{video_id}', 'VideoGalleryController@adminGetEditVideo');

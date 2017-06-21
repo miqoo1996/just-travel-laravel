@@ -10,12 +10,22 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
+                @if ($errors->has())
+                    <div class="alert alert-danger">
+                        <strong>Whoops!</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="x_panel">
                     <div class="row">
                         <div class="form-horizontal form-label-left">
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label>Tour Name</label>
+                                    <label>Tour Name <span class="required">*</span></label>
                                     <input type="text" class="form-control" placeholder="Tour Name" name="tour_name_en" value="{{$tour->tour_name_en}}">
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -31,7 +41,7 @@
                 <!--tab content start-->
                 <div class="x_panel">
                     <div class="x_title no_border">
-                        <h2>Tour Description</h2>
+                        <h2>Tour Description <span class="required">*</span></h2>
                         <div class="clearfix"></div>
                     </div>
                     <textarea class="tinymce" name="desc_en" id="desc_en">{{$tour->desc_en}}</textarea>
@@ -44,15 +54,41 @@
                         <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
                             <div class="form-group">
                                 <div id="custom_day_container_en">
-                                    @foreach($tour->custom_days as $key => $custom_day)
-                                        <div class="custom_day">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
-                                            <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
-                                                <textarea class="resizable_textarea form-control" placeholder="" name=custom_day_desc_en[]">{{$custom_day->desc_en}}</textarea>
+                                    @if(isset($tourDays) && !empty($tourDays))
+                                        @foreach($tourDays as $key => $custom_day)
+                                            <div class="custom_day">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                                                    <input type="text" class="form-control input-medium"
+                                                           name="custom_day_title_en[]"
+                                                           placeholder="title" value="{{$custom_day['title_en']}}">
+                                                </div>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+              <textarea rows="4" class="resizable_textarea form-control"
+                        placeholder="description"
+                        name=custom_day_desc_en[]">{{$custom_day['desc_en']}}</textarea>
+                                                </div>
+                                                <div class="clearfix"></div>
                                             </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    @elseif(isset($tour->customDays) && !empty($tour->customDays))
+                                        @foreach($tour->customDays as $key => $custom_day)
+                                            <div class="custom_day">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Day {{$key+1}}</label>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10">
+                                                    <input type="text" class="form-control input-medium"
+                                                           name="custom_day_title_en[]"
+                                                           placeholder="title" value="{{$custom_day->title_en}}">
+                                                </div>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 margin-b-10 col-md-offset-3 col-sm-offset-3">
+          <textarea rows="4" class="resizable_textarea form-control"
+                    placeholder="description"
+                    name=custom_day_desc_en[]">{{$custom_day->desc_en}}</textarea>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <a class="btn add_day"><span><i class="fa fa-plus"></i> Add Day</span></a>
@@ -97,7 +133,56 @@
                                     <div class="col-md-12 col-sm-12 col-xs-12 margin-b-10">
                                         <div class="form-group">
                                             <div class="custom_day">
-                                                @if($tour->hotels)
+                                                @if(isset($tourHotels) && !empty($tourHotels))
+                                                    @foreach($tourHotels as $tourHotel)
+                                                        <div class="hotel-container">
+                                                            <div class="new_hotel">
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Hotel
+                                                                    <select class="form-control" name="hotel[hotel_id][]">
+                                                                        @foreach($hotels as $hotel)
+                                                                            @if($tourHotel['hotel_id'] == $hotel->id)
+                                                                                <option value="{{$hotel->id}}" selected>{{$hotel->hotel_name_en}}</option>
+                                                                            @else
+                                                                                <option value="{{$hotel->id}}">{{$hotel->hotel_name_en}}</option>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Single Adult (12-99) <span class="required">*</span>
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel['single_adult']}}">
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Double Adult (12-99) <span class="required">*</span>
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel['double_adult']}}">
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Tripple Adult (12-99) <span class="required">*</span>
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel['triple_adult']}}">
+                                                                </div>
+
+
+
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Child (4-11) <span class="required">*</span>
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel['child']}}">
+                                                                </div>
+                                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                                    Infant (0-4) <span class="required">*</span>
+                                                                    <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel['infant']}}">
+                                                                </div>
+
+
+
+                                                                <div class="clearfix margin-b-10"></div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @elseif($tour->hotels)
                                                     @foreach($tour->hotels as $tourHotel)
                                                         <div class="hotel-container">
                                                             <div class="new_hotel">
@@ -114,15 +199,15 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Single Adult (12-99)
+                                                                    Single Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]" value="{{$tourHotel->single_adult}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Double Adult (12-99)
+                                                                    Double Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]" value="{{$tourHotel->double_adult}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Tripple Adult (12-99)
+                                                                    Tripple Adult (12-99) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]" value="{{$tourHotel->triple_adult}}">
                                                                 </div>
 
@@ -132,11 +217,11 @@
 
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Child (4-11)
+                                                                    Child (4-11) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[child][]" value="{{$tourHotel->child}}">
                                                                 </div>
                                                                 <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                    Infant (0-4)
+                                                                    Infant (0-4) <span class="required">*</span>
                                                                     <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]" value="{{$tourHotel->infant}}">
                                                                 </div>
 
@@ -158,15 +243,15 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Single Adult (12-99)
+                                                                Single Adult (12-99) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[single_adult][]">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Double Adult (12-99)
+                                                                Double Adult (12-99) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[double_adult][]">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Tripple Adult (12-99)
+                                                                Tripple Adult (12-99) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[triple_adult][]">
                                                             </div>
 
@@ -176,11 +261,11 @@
 
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Child (4-11)
+                                                                Child (4-11) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[child][]">
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-                                                                Infant (0-4)
+                                                                Infant (0-4) <span class="required">*</span>
                                                                 <input type="text" class="form-control" placeholder="Price" name="hotel[infant][]">
                                                             </div>
 

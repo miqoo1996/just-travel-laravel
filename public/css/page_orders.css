@@ -2,7 +2,10 @@
     margin-top: 30px;
 }
 
-#sortable-footer-pages, #sortable-right-menu-pages {
+#sortable-footer-pages,
+#sortable-right-menu-pages,
+#sortable-video-gallery,
+#sortable-photo-gallery {
     border: 1px solid #eee;
     min-height: 20px;
     list-style-type: none;
@@ -11,7 +14,10 @@
     float: left;
 }
 
-#sortable-footer-pages li, #sortable-right-menu-pages li {
+#sortable-footer-pages li,
+#sortable-right-menu-pages li,
+#sortable-video-gallery,
+#sortable-photo-gallery li {
     cursor: pointer;
     margin: 0 5px 5px 5px;
     padding: 5px;
@@ -22,3 +28,33 @@
     padding: 0;
     margin: 0;
 }
+
+/*Gallery*/
+.gallery-container{ text-align:center; padding:30px 0;}
+.gallery-container .item{ display:inline-block; margin:6px; width:100%; max-width:300px; padding:10px; background:#FFF;}
+.gallery-container .item img{ width:100%;}
+.gallery-container .item:hover{ box-shadow:0 0 10px #666;}
+.gallery-container h1{ margin:0 0 20px;}
+
+.main-gallery ul{border: none !important;}
+.main-gallery .item{ display:inline-block; margin:6px; width:100%; max-width:300px; padding:10px; background:#FFF; position:relative;}
+.main-gallery .item img{ width:100%;}
+.main-gallery .item:hover{ box-shadow:0 0 10px #666;}
+.main-gallery h4{ margin:10px 0 3px; font-size:14px;}
+
+/*Popular Tours*/
+.tours ul {list-style: none; margin: 0; padding: 0;}
+.tours{ background:#F1F1F1; text-align:center;}
+.tours h2{ text-align:center; margin:40px 0; font-size:36px;}
+.tours .item{ display:inline-block; width:100%; max-width:350px; height:250px; margin:0 10px 20px; background:#FFF;}
+
+.tours .item:hover{ box-shadow:0 0 6px #999;}
+.tours .item .tour-photo{ height:200px; position:relative; display:block;}
+.tours .item .tour-photo img{width:100%;display:block;}
+.tours .item .tour-photo .tour-title{background-color:rgba(0, 0, 0, 0.5); position:absolute; bottom:0px; left:0px; padding:5px 8px; color:#FFF;}
+.tours .item .tour-data .frequency{ float:left; margin:13px 0 0 13px;}
+.frequency .freq-day{ display:inline-block; float:left; margin:0 1px 0 0; background:#F1F1F1; width:24px; height:24px; line-height:24px; text-align:center;}
+.frequency .freq-day.available{ background:#FFA300; color:#FFF;}
+.tours .item .tour-data .price{ float:right; margin:13px 13px 0 0; font-size:25px; line-height:25px;}
+.tourdate{ float:left; font-size:18px;margin:13px 0 0 13px; color:#999;}
+h3.frequency{font-family: 'Roboto', sans-serif; margin:0 0 10px; font-size:20px; font-weight:normal;}

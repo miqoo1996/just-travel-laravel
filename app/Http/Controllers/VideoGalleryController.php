@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\VideoGalleryTrait;
 use App\VideoGallery;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use Illuminate\Support\Facades\Validator;
-
 class VideoGalleryController extends Controller
 {
+    use VideoGalleryTrait;
+
     public function adminGetVideoGallery()
     {
         $videos = VideoGallery::all();
@@ -30,45 +30,32 @@ class VideoGalleryController extends Controller
         ];
         foreach ($change as $key => $item){
             $video = explode('watch?v=', $fields[$item]);
-            $fields[$key] = $video[0]. 'embed/' . $video[1];
+            $fields[$key] = count($video) > 1 ? $video[0]. 'embed/' . $video[1] : $video[0];
         }
        return $fields;
     }
     public function adminPostNewVideo(Request $request)
     {
-        $rules = [
-            'video_url_en' => 'required',
-            'video_url_ru' => 'required',
-            'video_title_en' => 'required',
-            'video_title_ru' => 'required',
-        ];
-        $this->validate($request, $rules);
-        $fields = $request->input();
-        $fields = self::videoUrlOptimize($fields);
-        if(isset($request->video_id)){
-            $video = VideoGallery::find($request->video_id);
+        if($request->get('video_id')){
+            $video = VideoGallery::find($request->get('video_id'));
         } else {
             $video = new VideoGallery();
         }
-        if($request->hasFile('video_thumbnail_en')){
-            $image = $request->file('video_thumbnail_en');
-            $image_name = uniqid() . config('const.' . $image->getMimeType());
-            $image_path = 'images/video_thumbnails/en/' . $image_name;
-            $image->move('images/video_thumbnails/en', $image_name);
-            $fields['video_thumbnail_en'] = $image_path;
+
+        if ($fields = $request->input()) {
+            $fields = self::videoUrlOptimize($fields);
+            $this->setFile($request, $fields, 'video_thumbnail_en');
+            $this->setFile($request, $fields, 'video_thumbnail_ru');
+            $video->fill($fields);
         }
 
-        if($request->hasFile('video_thumbnail_ru')){
-            $image = $request->file('video_thumbnail_ru');
-            $image_name = uniqid() . config('const.' . $image->getMimeType());
-            $image_path = 'images/video_thumbnails/ru/' . $image_name;
-            $image->move('images/video_thumbnails/ru', $image_name);
-            $fields['video_thumbnail_ru'] = $image_path;
+        if ($video->save()) {
+            $this->setFile($request, $fields, 'video_thumbnail_en', true);
+            $this->setFile($request, $fields, 'video_thumbnail_ru', true);
+            return redirect()->route('admin-video-gallery');
         }
 
-        $video->fill($fields);
-        $video->save();
-        return redirect()->route('admin-video-gallery');
+        return view('admin.edit_video', ['video' => $video, 'errors' => $video->getValidator()->errors()]);
     }
 
     public function adminGetEditVideo($video_id)
@@ -79,8 +66,23 @@ class VideoGalleryController extends Controller
 
     public function getVideoGallery()
     {
-        $videos = VideoGallery::all()->toArray();
+        $model = new VideoGallery();
+        $videos = $model->getVideos(true);
         return view('video_gallery', compact('videos'));
+    }
+
+    public function adminVideoOrders()
+    {
+        $model = new VideoGallery();
+        $videos = $model->getVideos(true);
+        return view('admin.video_orders', compact('videos'));
+    }
+
+    public function adminVideoOrdersSave(Request $request)
+    {
+        $model = new VideoGallery();
+        $items = $request->get('items');
+        $model->saveData($items);
     }
 
 }

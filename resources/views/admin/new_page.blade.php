@@ -14,7 +14,7 @@
                         <div class="form-horizontal form-label-left">
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label>Page URL</label>
+                                    <label>Page URL <span class="required">*</span></label>
                                     <input type="text" class="form-control" placeholder="Page URL" name="page_url">
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
 
                                 <div class="x_title no_border">
                                     <h2>Page Name
-                                        <small>(English Version)</small>
+                                        <small>(English Version)</small> <span class="required">*</span>
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>
@@ -52,7 +52,7 @@
 
                                 <div class="x_title no_border">
                                     <h2>Tour Description
-                                        <small>(English Version)</small>
+                                        <small>(English Version)</small> <span class="required">*</span>
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>
@@ -70,7 +70,7 @@
 
                                 <div class="x_title no_border">
                                     <h2>Page Name
-                                        <small>(Russian Version)</small>
+                                        <small>(Russian Version)</small> <span class="required">*</span>
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>
@@ -81,7 +81,7 @@
 
                                 <div class="x_title no_border">
                                     <h2>Tour Description
-                                        <small>(Russian Version)</small>
+                                        <small>(Russian Version)</small> <span class="required">*</span>
                                     </h2>
                                     <div class="clearfix"></div>
                                 </div>
