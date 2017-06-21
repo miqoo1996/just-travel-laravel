@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\OrderMember;
 use App\Payment;
+use App\TourDate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -26,15 +28,25 @@ class OrderTourController extends Controller
         } else {
             Session::set('order_tour',  $uniqId);
         }
-        $newOrder = new OrderTour();
-        $newOrder->fill($request->input());
-        $newOrder->hotel_id = $request->htdata;
-        $newOrder->order_id = $uniqId;
-        $newOrder->save();
-        if($request->ajax()) {
-            return $uniqId;
+
+        $date = $request->get('date_from');
+        $tour_id = intval($request->get('tour_id', 0));
+        if ($date && $tour_id) {
+            $date = Carbon::parse(strtotime($date))->format('Y-m-d');
+            $isTourDate = (bool) TourDate::where('tour_id', $tour_id)->where('date', $date)->get()->count();
+            if (!$isTourDate) {
+                $newOrder = new OrderTour();
+                $newOrder->fill($request->input());
+                $newOrder->hotel_id = $request->htdata;
+                $newOrder->order_id = $uniqId;
+                $newOrder->save();
+                if($request->ajax()) {
+                    return $uniqId;
+                }
+                return redirect('order_tour/'.$uniqId);
+            }
         }
-        return redirect('order_tour/'.$uniqId);
+        return back();
     }
 
     public function getOrderTour($order_id){
