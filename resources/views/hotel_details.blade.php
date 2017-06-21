@@ -31,7 +31,7 @@
                 <h1>{{trans('messages.gallery')}}</h1>
                 @foreach($hotel['images'] as $image)
                     <div class="item">
-                        <a href="{{App\SimpleImage::image(trim($image) ? $image : '-', true)}}" data-lightbox="gallery_trip"><img src="{{App\SimpleImage::image(trim($image) ? $image : '-', true)}}"alt="Tour Name"></a>
+                        <a href="{{App\SimpleImage::image(trim($image) ? $image : '-')}}" data-lightbox="gallery_trip"><img src="{{App\SimpleImage::image(trim($image) ? $image : '-', true)}}"alt="Tour Name"></a>
                     </div>
                 @endforeach
             </div>
