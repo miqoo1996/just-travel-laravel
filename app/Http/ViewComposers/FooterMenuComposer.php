@@ -4,7 +4,6 @@ namespace App\Http\ViewComposers;
 
 use App\Page;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Session;
 
 class FooterMenuComposer
 {

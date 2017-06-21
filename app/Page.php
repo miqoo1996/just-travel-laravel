@@ -118,17 +118,18 @@ class Page extends Model
         }
         $items = [];
         foreach ($pages as $page) {
-            if ($page->visibility == 'on' && $_data['right_menu'] == 1 && $page->right_menu == 1) {
+            if ($page->visibility == 'on' && $_data['right_menu'] == 1 && ($page->right_menu == 1 || $page->o_footer == 0 || is_null($page->right_menu))) {
                 $items[$page->id] = $page->toArray();
-            } elseif ($page->footer == 'on' && $_data['footer'] == 1 && $page->o_footer == 1) {
+            }
+            if ($page->footer == 'on' && $_data['footer'] == 1 && ($page->o_footer == 1 || $page->right_menu == 0 || is_null($page->o_footer))) {
                 $items[$page->id] = $page->toArray();
             }
         }
-        if ($_data['right_menu'] == 1 && empty($items)) {
-            $items = $this->getRightMenuPages();
+        if ($_data['right_menu'] == 1) {
+            $items += $this->getRightMenuPages();
         }
-        if ($_data['footer'] == 1 && empty($items)) {
-            $items = $this->getFooterPages();
+        if ($_data['footer'] == 1) {
+            $items += $this->getFooterPages();
         }
         return $items;
     }
