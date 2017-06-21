@@ -572,7 +572,7 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 
 .disabled-date.day{background: none !important; color: #999 !important; cursor: default !important; font-weight: inherit !important;}
 
-.enter-travelers-data .error {border-color: red;}
+.enter-travelers-data .error, .comments-and-contact .error {border-color: red;}
 
 
 /*MOBILE VERSION*/
