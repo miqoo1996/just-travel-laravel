@@ -570,7 +570,7 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 .collapse-item{padding:10px;line-height:2.4}
 .payment-method{ float:right;}
 
-
+.disabled-date.day{background: none !important; color: #999 !important; cursor: default !important; font-weight: inherit !important;}
 
 
 
