@@ -5,7 +5,7 @@
         @if($tour->isDaily())
         <div class="item">
             <a href="{{url('tours/'.$tour['tour_url'])}}" class="tour-photo">
-                <img src="{{App\SimpleImage::image($tour['tour_main_image'])}}">
+                <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                 <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
             </a>
             <div class="tour-data">
