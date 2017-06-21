@@ -78,7 +78,7 @@ class PageController extends Controller
     {
         $tourCategory = TourCategory::where('url', $page_url)->first();
         if(null == $tourCategory){
-            $page = Page::where('page_url', $page_url)->first();
+            $page = Page::where('page_url', $page_url)->orWhere('page_url', '/'.$page_url)->first();
             if(null == $page){
                 return view('errors.404');
             }
