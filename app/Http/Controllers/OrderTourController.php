@@ -130,39 +130,43 @@ class OrderTourController extends Controller
         $orderTour->lead_surname = $request->adult_surname[1];
         $orderTour->comment = $request->comment;
         $orderTour->save();
-        foreach ($request->adult_name as $key => $value){
-            $member['member_name'] = $value;
-            $member['member_surname'] = $request->adult_surname[$key];
-            $member['member_dob'] = $request->adult_birth_date[$key];
-            $member['member_prp'] = 'adult';
-            $member['order_tour_id'] = $orderTour->id;
-            $data[] = $member;
-        }
-        if(count($request->child_name)){
-            foreach ($request->child_name as $key => $value){
+        if (isset($request->adult_name) && is_array($request->adult_name)) {
+            foreach ($request->adult_name as $key => $value){
                 $member['member_name'] = $value;
-                $member['member_surname'] = $request->child_surname[$key];
-                $member['member_dob'] = $request->child_birth_date[$key];
-                $member['member_prp'] = 'child';
+                $member['member_surname'] = $request->adult_surname[$key];
+                $member['member_dob'] = $request->adult_birth_date[$key];
+                $member['member_prp'] = 'adult';
                 $member['order_tour_id'] = $orderTour->id;
                 $data[] = $member;
             }
         }
-        if(count($request->infant_name)) {
-
-            foreach ($request->infant_name as $key => $value) {
-                $member['member_name'] = $value;
-                $member['member_surname'] = $request->infant_surname[$key];
-                $member['member_dob'] = $request->infant_birth_date[$key];
-                $member['member_prp'] = 'infant';
-                $member['order_tour_id'] = $orderTour->id;
-                $data[] = $member;
+        if (isset($request->child_name) && is_array($request->child_name)) {
+            if(count($request->child_name)){
+                foreach ($request->child_name as $key => $value){
+                    $member['member_name'] = $value;
+                    $member['member_surname'] = $request->child_surname[$key];
+                    $member['member_dob'] = $request->child_birth_date[$key];
+                    $member['member_prp'] = 'child';
+                    $member['order_tour_id'] = $orderTour->id;
+                    $data[] = $member;
+                }
+            }
+        }
+        if (isset($request->infant_name) && is_array($request->infant_name)) {
+            if(count($request->infant_name)) {
+                foreach ($request->infant_name as $key => $value) {
+                    $member['member_name'] = $value;
+                    $member['member_surname'] = $request->infant_surname[$key];
+                    $member['member_dob'] = $request->infant_birth_date[$key];
+                    $member['member_prp'] = 'infant';
+                    $member['order_tour_id'] = $orderTour->id;
+                    $data[] = $member;
+                }
             }
         }
         OrderMember::where('order_tour_id', $orderTour->id)->delete();
         if(isset($data)){ OrderMember::insert($data);}
         return redirect('/payment/'. $orderTour->order_id);
-//
     }
 
     public function getPaymentByOrderId($order_id)

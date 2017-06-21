@@ -116,6 +116,13 @@ function tourDetailSearch() {
             }
         });
     });
+    $('.filter-details form').submit(function () {
+        var $date_from = $("#date_from");
+        if (!$date_from.val()) {
+            $date_from.focus();
+            return false;
+        }
+    })
 }
 
 

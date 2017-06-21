@@ -11,17 +11,17 @@ page-tours-details
                     <img src="{{App\SimpleImage::image($order['tour']['tour_main_image'])}}">
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-12">
-                    <h1>{{$order['tour_name_'.app()->getLocale()]}}</h1>
+                    <h1>{{$order['tour']['tour_name_'.app()->getLocale()]}}</h1>
                     <span class="tour-id">{{trans('messages.tour_code') . ' : ' . $order['tour']['code'] }}</span>
                     <div class="col-1">
                         <span class="hint">{{trans('messages.total_price')}}</span>
-                        <span class="{{$currency['currency']}}">
+                        <span class="price {{$currency['currency']}}">
                         {{round($totalPrice / $currency[$currency['currency']], 2)}}
                         </span>
                 <span class="othercurrency">
                     @foreach ($currency as $key => $value)
                         @if (($key !== 'currency') && ($key !== $currency['currency']))
-                            <span class="{{$key}}">{{round($totalPrice / $value, 2)}}</span>
+                            <span class="{{$key}}">{{round($totalPrice / $value, 2)}}{{$key!='rur' ? ' &nbsp; /' : ''}}</span>
                         @endif
                     @endforeach
                 </span>
@@ -30,10 +30,10 @@ page-tours-details
                         <span class="hint">{{trans('messages.travel_date')}}</span>
                         <span class="price">{{str_replace('/', '.', $order['date_from'])}}</span>
                     </div>
-                    <span class="choosedhotel">{{$order['hotel_name_' . app()->getLocale()] .
-                    ' ' . str_replace('_star', '*', $order['type']) .
+                    <span class="choosedhotel">{{$order['tour']['hotel_name_' . app()->getLocale()] .
+                    ' ' . str_replace('_star', '*', $order['tour']['type']) .
                     ' (' . trans('messages.room_' . config('const.adult_key_' . $rooms)) . ' ' . trans('messages.standard') . '), '.
-                    trans('messages.travelers') . ' - ' . ($order['adults_count'] + $order['children_count'] + $order['infants_count'])}}</span>
+                    trans('messages.travelers') . ' - ' . ($order['tour']['adults_count'] + $order['tour']['children_count'] + $order['tour']['infants_count'])}}</span>
                 </div>
             </div>
         </div>
