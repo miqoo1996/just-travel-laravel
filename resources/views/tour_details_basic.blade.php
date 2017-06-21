@@ -17,7 +17,7 @@
                         <span class="othercurrency">
                             @foreach($currency  as $key => $value)
                                 @if(($key !== 'currency') && ($key !== $currency['currency']))
-                                    <span class="{{$key}}">{{round($tour['basic_price_adult']/$value * 2, 2)}}</span>
+                                    <span class="{{$key}}">{{round($tour['basic_price_adult']/$value * 2, 2)}}{{$key!='rur' ? ' &nbsp; /' : ''}}</span>
                                 @endif
                             @endforeach
                         </span>

@@ -23,7 +23,7 @@
                             @foreach($currency  as $key => $value)
                                 @if(($key !== 'currency') && ($key !== $currency['currency']))
                                     @if(isset($hotels[0]['double_adult']))
-                                        <span class="{{$key}}">{{round($hotels[0]['double_adult']/$value, 2)}}</span>
+                                        <span class="{{$key}}">{{round($hotels[0]['double_adult']/$value, 2)}}{{$key!='rur' ? ' &nbsp; /' : ''}}</span>
                                     @else
                                         <span class="{{$currency['currency']}}">0</span>
                                     @endif
