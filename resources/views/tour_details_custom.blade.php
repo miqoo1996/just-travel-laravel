@@ -173,6 +173,10 @@
 @section('script')
     <script>
         $(document).ready(function () {
+            $('#date_from').on('input', function () {
+                this.value = '';
+                return false
+            });
             $('#date_from').datepicker({
                 format: "dd/mm/yyyy",
                 startDate: "+3d",

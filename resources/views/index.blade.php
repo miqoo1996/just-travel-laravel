@@ -170,6 +170,10 @@
 @endsection
 @section('script')
     <script>
+        $('.input-daterange').on('input', function () {
+            this.value = '';
+            return false
+        });
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
             startDate: "+3d",

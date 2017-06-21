@@ -116,6 +116,10 @@
 
 @section('script')
     <script type="text/javascript">
+        $('.datepicker').on('input', function () {
+            this.value = '';
+            return false
+        });
         $('.datepicker').datepicker({
             startDate: '+3d',
             daysOfWeekDisabled: "{{$daysOfWeekDisabled}}",

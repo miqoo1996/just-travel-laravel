@@ -161,6 +161,10 @@ page-tours-details
 @section('script')
     <script>
         $(document).ready(function(){
+            $('.dob.adult,.dob.child,.dob.infant').on('input', function () {
+                this.value = '';
+                return false
+            });
             $('.dob.adult').datepicker({
                 format: "dd/mm/yyyy",
                 startDate: "-100y",
