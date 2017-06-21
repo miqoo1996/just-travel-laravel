@@ -120,7 +120,7 @@ class TourController extends Controller
 
             $this->makeDirectory($path);
 
-            //TourHotel::where('tour_id', $tour->id)->delete();
+            TourHotel::where('tour_id', $tour->id)->delete();
             if (!$isBasic) {
                 if (!empty($tourHotels)) TourHotel::insert($tourHotels);
             }
