@@ -273,6 +273,9 @@ class TourController extends Controller
             ->join('tour_cat_rels', 'tours.id', '=', 'tour_cat_rels.tour_id')
             ->join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
             ->first();
+        if (!$tour) {
+            return redirect('/404');
+        }
         $tour->tour_images = explode(',', $tour->tour_images);
         $data['tour'] = $tour->toArray();
         if($tour['property'] !== 'basic'){
