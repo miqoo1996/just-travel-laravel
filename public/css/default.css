@@ -213,17 +213,16 @@ select.form-control{padding:10px; border:0px; height:40px; box-shadow:none;}
 .tourdate{ float:left; font-size:18px;margin:13px 0 0 13px; color:#999;}
 h3.frequency{font-family: 'Roboto', sans-serif; margin:0 0 10px; font-size:20px; font-weight:normal;}
 
-.price.usd:before{content:"$"; float:left;}
-.price.rur:before{content:"₽"; float:left;}
-.price.eur:before{content:"€"; float:left;}
-.price.amd:before{content:"֏"; float:left;}
+.mainprice.price{float:left; clear:both;}
+.price.usd:before, .date.usd:before, .price.hotelprice span.usd:before{content:"$"; float:left;}
+.price.rur:before, .date.rur:before, .price.hotelprice span.rur:before{content:"₽"; float:right;}
+.price.eur:before, .date.eur:before, .price.hotelprice span.eur:before{content:"€"; float:left;}
+.price.amd:before, .date.amd:before, .price.hotelprice span.amd:before{content:"֏"; float:right;}
 .othercurrency .usd:before{content:"$"; float:left;}
-.othercurrency .rur:before{content:"₽"; float:left;}
+.othercurrency .rur:before{content:"₽"; float:right;}
 .othercurrency .eur:before{content:"€"; float:left;}
-.othercurrency .amd:before{content:"֏"; float:left;}
+.othercurrency .amd:before{content:"֏"; float:right;}
 .othercurrency span{float:left; margin:0 10px 0 0;}
-
-.date.amd:before{content:"֏"; float:right;}
 
 .popular-tours.hotels{ background:#4C5B5C; padding:0 0 30px; border-top:#F00 solid 3px;}
 .popular-tours.hotels h2{ color:#FFF;}
@@ -263,6 +262,8 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 /*---------------*/
 
 .page-inside{padding:70px 0 0;}
+.page-inside .greybg.tour-details{padding:30px 15px;}
+
 .dropdown-menu{ max-height:221px; overflow:auto;}
 
 /*Tours*/
@@ -299,8 +300,8 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .tour-details{padding:0 15px 30px;}
 .tour-details h1{ margin:0 0 10px;}
 .tour-description-container h3{font-family: 'Roboto', sans-serif;}
-.tour-details .tour-id{ display:block; font-size:12px; margin:0 0 15px;}
-.tour-details .price{ display:block; font-size:25px;}
+.tour-details .tour-id{float:left; font-size:12px; margin:0 0 15px;}
+.tour-details .price{float:left; font-size:25px;}
 .tour-description-container{ margin:0 auto 30px;}
 .tour-description-container h4{ margin:20px 0;}
 .tour-details-image img{ width:100%;}
@@ -353,7 +354,8 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .filter-details { background:#F1F1F1; padding:15px;}
 .filter-details input, .filter-details label{ display:inherit; float:none;}
 .filter-details input{ padding:10px; margin:0px; border-radius:4px; border:solid 1px #e3e3e3;}
-.filter-details input[type="button"]{ float:right; padding:10px; width:140px; border-radius:4px;}
+.filter-details input[type="button"],
+.filter-details input[type="submit"]{ float:right; padding:10px; width:140px; border-radius:4px;}
 
 .feedback{ padding:10px 20px 20px; background:#F1F1F1; margin:20px 0 0;}
 .feedback input[type="text"],
@@ -378,7 +380,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 .preview .tourstatement span{ display:block; text-align:left; line-height:26px;} 
 .preview .tourstatement span span{float:right; color:#666;font-size:20px; text-align:right; color:#000;}
 .hint{ margin:0 0 30px;}
-
+.col-1 .hint, .col .hint{margin:0px;}
 
 /*Congratulations*/
 .congratulations{ padding:130px 0 0; text-align:center; text-shadow:1px 1px #FFF;}

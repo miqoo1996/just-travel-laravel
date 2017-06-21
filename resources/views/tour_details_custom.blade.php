@@ -13,23 +13,24 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h1>{{$tour['tour_name_'.app()->getLocale()]}}</h1>
                     <span class="tour-id">{{trans('messages.tour_code')}}: {{$tour['code']}}</span>
-                    <span class="price {{$currency['currency']}}">
+                    <span class="mainprice price {{$currency['currency']}}">
                         @if(isset($hotels[0]['double_adult']))
                             <span class="{{$currency['currency']}}">{{round($hotels[0]['double_adult']/$currency[$currency['currency']])}}</span>
                         @else
                             <span class="{{$currency['currency']}}">0</span>
                         @endif
-                        <span class="othercurrency">
+                    </span>
+                    <div class="clearfix"></div>
+                    <span class="othercurrency">
                             @foreach($currency  as $key => $value)
                                 @if(($key !== 'currency') && ($key !== $currency['currency']))
                                     @if(isset($hotels[0]['double_adult']))
-                                        <span class="{{$key}}">{{round($hotels[0]['double_adult']/$value, 2)}}{{$key!='rur' ? ' &nbsp; /' : ''}}</span>
+                                        <span class="{{$key}}">{{round($hotels[0]['double_adult']/$value, 2)}}{{$key!='rur' ?: ''}}</span>
                                     @else
                                         <span class="{{$currency['currency']}}">0</span>
                                     @endif
                                 @endif
                             @endforeach
-                        </span>
                     </span>
                     <div class="clearfix"></div>
                     <h3>Tour Description</h3>

@@ -12,22 +12,24 @@ page-tours-details
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-12">
                     <h1>{{$order['tour']['tour_name_'.app()->getLocale()]}}</h1>
-                    <span class="tour-id">{{trans('messages.tour_code') . ' : ' . $order['tour']['code'] }}</span>
+                    <div class="tour-id">{{trans('messages.tour_code') . ' : ' . $order['tour']['code'] }}</div>
+                    <div class="clearfix"></div>
                     <div class="col-1">
-                        <span class="hint">{{trans('messages.total_price')}}</span>
+                        <div class="hint">{{trans('messages.total_price')}}</div>
                         <span class="price {{$currency['currency']}}">
                         {{round($totalPrice / $currency[$currency['currency']], 2)}}
                         </span>
-                <span class="othercurrency">
-                    @foreach ($currency as $key => $value)
-                        @if (($key !== 'currency') && ($key !== $currency['currency']))
-                            <span class="{{$key}}">{{round($totalPrice / $value, 2)}}{{$key!='rur' ? ' &nbsp; /' : ''}}</span>
-                        @endif
-                    @endforeach
-                </span>
+                        <div class="clearfix"></div>
+                        <span class="othercurrency">
+                            @foreach ($currency as $key => $value)
+                                @if (($key !== 'currency') && ($key !== $currency['currency']))
+                                    <span class="{{$key}}">{{round($totalPrice / $value, 2)}}{{$key!='rur' ? ' &nbsp; /' : ''}}</span>
+                                @endif
+                            @endforeach
+                        </span>
                     </div>
                     <div class="col">
-                        <span class="hint">{{trans('messages.travel_date')}}</span>
+                        <div class="hint">{{trans('messages.travel_date')}}</div>
                         <span class="price">{{str_replace('/', '.', $order['date_from'])}}</span>
                     </div>
                     <span class="choosedhotel">{{$order['tour']['hotel_name_' . app()->getLocale()] .

@@ -74,7 +74,7 @@
                             <label for="example-text-input" class="col-form-label">&nbsp;</label>
                             <input type="hidden" id="tour_id" name="tour_id" value="{{$tour['tour_id']}}">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <input type="submit" value="Book">
+                            <input type="submit" value="Book" class="btn btn-warning">
                         </div>
                     </div>
                 </form>
