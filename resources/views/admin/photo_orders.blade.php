@@ -23,7 +23,7 @@
                         @foreach($images as $image)
                             <li data-page-id="{{ $image['id'] }}" class="item">
                                 <a href="javascript:void(0)">
-                                    <img src="{{ asset($image['main_image']) }}" alt="{{ $image['gallery_name_en'] }}">
+                                    <img src="{{App\SimpleImage::image($image['main_image'], true)}}" alt="{{ $image['gallery_name_en'] }}">
                                 </a>
                                 <h4>{{ $image['gallery_name_en'] }}</h4>
                             </li>

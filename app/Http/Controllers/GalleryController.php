@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Gallery;
 use App\GalleryPhotos;
+use App\SimpleImage;
 use Illuminate\Http\Request;
 
 class GalleryController extends Controller
@@ -21,6 +22,7 @@ class GalleryController extends Controller
 
     public function adminPostNewGallery(Request $request)
     {
+        $oldImg = '';
         if($request->get('gallery_id')){
             $gallery = Gallery::find($request->gallery_id);
             if(!$request->has('gallery')){
@@ -29,38 +31,52 @@ class GalleryController extends Controller
             if(!$request->has('portfolio')){
                 $gallery->portfolio = 'off';
             }
+            $oldImg = $gallery->main_image;
             $gallery->save();
+
         } else {
             $gallery = new Gallery();
         }
 
         $gallery->fill($request->input());
 
-        if ($gallery->save()) {
-            if($request->hasFile('main_image')){
-                $image = $request->file('main_image');
-                $image_name = uniqid() . config('const.' . $image->getMimeType());
-                $image_path = 'images/gallery/' . $gallery->id. '/' . $image_name;
-                $image->move('images/gallery/'. $gallery->id, $image_name);
-                $gallery->main_image = $image_path;
+        $uniqid = uniqid();
+        if($request->hasFile('main_image')){
+            $image = $request->file('main_image');
+            if (in_array($image->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                $image_name = $uniqid . config('const.' . $image->getMimeType());
+                $image_path = 'images/gallery/main_image/';
+                $gallery->main_image = $image_path . $image_name;
             }
-            if(isset($image_path)) $gallery->main_image = $image_path;
+        }
 
+        if ($gallery->save()) {
+            $delImages = [];
+            if (isset($image, $image_path, $image_name)) {
+                $delImages[] = $oldImg;
+                $image->move($image_path, $image_name);
+                SimpleImage::resize($image_path . $image_name, $image_path . 'thumbnail-' . $image_name, 500, 350, 280, 160);
+            }
 
             if($request->hasFile('files')){
                 foreach($request->file('files') as $item){
                     $image = $item;
-                    $image_name = uniqid() . config('const.' . $image->getMimeType());
-                    $image_path = 'images/gallery/' . $gallery->id. '/content/' . $image_name;
-                    $image->move('images/gallery/'. $gallery->id .'/content', $image_name);
-                    $images['image_name'] = $image_name;
-                    $images['image_path'] = $image_path;
-                    $images['gallery_id'] = $gallery->id;
-                    $data[] = $images;
+                    if (in_array($image->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                        $uniqid = uniqid();
+                        $image_name = $uniqid . config('const.' . $image->getMimeType());
+                        $image_path = 'images/gallery/' . $gallery->id. '/content/' . $image_name;
+                        $image->move('images/gallery/'. $gallery->id .'/content', $image_name);
+                        $images['image_name'] = $image_name;
+                        $images['image_path'] = $image_path;
+                        $images['gallery_id'] = $gallery->id;
+                        $data[] = $images;
+                        SimpleImage::resize($image_path, 'images/gallery/' . $gallery->id. '/content/thumbnail-' . $image_name, 570, 326, 280, 160);
+                    }
                 }
             }
 
             if (isset($data)) GalleryPhotos::insert($data);
+            SimpleImage::deleteImages($delImages);
             return redirect()->route('admin-get-galleries');
         }
 

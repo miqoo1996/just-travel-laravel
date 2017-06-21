@@ -24,7 +24,7 @@
                             @if($video['video_thumbnail_en'])
                             <li data-page-id="{{ $video['id'] }}" class="item">
                                 <a href="javascript:void(0)">
-                                    <img src="{{ asset($video['video_thumbnail_en']) }}" alt="{{ $video['video_title_en'] }}">
+                                    <img src="{{ App\SimpleImage::image($video['video_thumbnail_en'], true) }}" alt="{{ $video['video_title_en'] }}">
                                 </a>
                                 <h4>{{ $video['video_title_en'] }}</h4>
                             </li>

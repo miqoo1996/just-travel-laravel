@@ -14,7 +14,7 @@
             <div class="carousel-inner" role="listbox">
                 @foreach($hotTours as $key => $hotTour)
                     <div class="item @if($key == 0) active @endif"
-                         style="background:url({{asset($hotTour['hot_image'])}}) top center no-repeat; ">
+                         style="background:url({{App\SimpleImage::image($hotTour['hot_image'], true, 'slide', false)}}) top center no-repeat; ">
                         <div class="hottour">
                             <h1>{{$hotTour['tour_name_'.app()->getLocale()]}}</h1>
                             <div class="hotdescr">{{$hotTour['short_desc_'.app()->getLocale()]}}</div>
@@ -109,31 +109,33 @@
             <div class="popular-tours" id="tours_area">
                 <div class="container">
                     <h2>{{$tourCategories->find($currentCatId)['category_name_'.app()->getLocale()]}}</h2>
-                    <!--Tour Itwm-->
+                    <!--Tour Item-->
                     @foreach($indexTours as $tour)
-                        @if($currentCatId == 1)
+                        @if($tour->isDaily())
                             <div class="item">
                                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                                    <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
+                                    <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                                     <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                                 </a>
                                 <div class="tour-data">
-                                    <div class="frequency">
-                                        @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
-                                            @if(strpos($tour['basic_frequency'], $wd) !== false)
-                                                <span class="freq-day available">{{$short}}</span>
-                                            @else
-                                                <span class="freq-day">{{$short}}</span>
-                                            @endif
-                                        @endforeach
-                                    </div>
+                                    @if($tour['basic_frequency'])
+                                        <div class="frequency">
+                                            @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
+                                                @if(strpos($tour['basic_frequency'], $wd) !== false)
+                                                    <span class="freq-day available">{{$short}}</span>
+                                                @else
+                                                    <span class="freq-day">{{$short}}</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <div class="price {{$currency['currency']}}"> {{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
                                 </div>
                             </div>
                         @else
                             <div class="item">
                                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
-                                    <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
+                                    <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                                     <span class="tour-title">{{$tour['tour_name_'.app()->getLocale()]}}</span>
                                 </a>
                                 <div class="tour-data">
@@ -152,10 +154,10 @@
                 <div class="container">
                     <h2>{{trans('messages.top_hotels_in_armenia')}}</h2>
                 @foreach($topHotels as $hotel)
-                    <!--Tour Itwm-->
+                    <!--Tour Item-->
                         <div class="item">
                             <a href="{{url('/hotels/'.$hotel['hotel_url'])}}" class="tour-photo">
-                                <img src="{{asset(isset($hotel['hotel_main_image']) ? $hotel['hotel_main_image'] : '/images/no_image.png')}}">
+                                <img src="{{App\SimpleImage::image($hotel['hotel_main_image'], true)}}">
                                 <span class="tour-title">{{$hotel['hotel_name_'.app()->getLocale()]}}</span>
                             </a>
                             <div class="tour-data">

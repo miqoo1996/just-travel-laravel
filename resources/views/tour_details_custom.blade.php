@@ -8,7 +8,7 @@
         <div class="container tour-details">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12 tour-details-image">
-                    <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
+                    <img src="{{App\SimpleImage::image($tour['tour_main_image'])}}">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h1>{{$tour['tour_name_'.app()->getLocale()]}}</h1>
@@ -91,7 +91,7 @@
                             <div class="choosehotel @if($key == 0) selected @endif">
                                 <div class="hotels-c">
                                     <a href="{{url('hotels/'.$hotel['hotel_url'])}}" target="_blank" class="hotelavatar"
-                                       style="background:url({{asset(isset($hotel['hotel_main_image']) ? $hotel['hotel_main_image'] : '/images/no_image.png')}}) top center no-repeat;"></a>
+                                       style="background:url({{App\SimpleImage::image($hotel['hotel_main_image'], true)}}) top center no-repeat;"></a>
                                     <a href="{{url('hotels/'.$hotel['hotel_url'])}}" target="_blank"
                                        class="hotelname">{{$hotel['hotel_name_'.app()->getLocale()]}}</a>
                                 </div>
@@ -153,8 +153,8 @@
                             @endif
                             <?php $isImage=true; ?>
                             <div class="item">
-                                <a href="{{url($image)}}" data-lightbox="gallery_trip">
-                                    <img src="{{'/'.$image}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300"
+                                <a href="{{App\SimpleImage::image($image)}}" data-lightbox="gallery_trip">
+                                    <img src="{{App\SimpleImage::image($image, true)}}" alt="{{$tour['tour_name_' . app()->getLocale()]}}" width="300"
                                          height="190">
                                 </a>
                             </div>

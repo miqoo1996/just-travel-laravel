@@ -17,11 +17,11 @@ trait DownloadPDFTrait
             }
             $data = $request->file($_file);
             $data_name = uniqid() . config('const.' . $data->getMimeType());
-            $data_path = 'files/pdf/'.($file->id ? $file->id : '0'). '/' . $data_name;
+            $data_path = 'files/pdf/'.($file->id ? $file->id : '0'). '/';
             if ($move) {
-                $data->move('files/pdf/'.$file->id , $data_name);
+                $data->move($data_path , $data_name);
             }
-            $fields[$_file] = $data_path;
+            $fields[$_file] = $data_path . $data_name;
         }
     }
 }

@@ -64,11 +64,6 @@ class Tour extends Model
         'tour_images' => 'max:255',
         'hot_image' => 'max:255',
         'traveler_email' => 'email|max:255',
-        'hotel.single_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-        'hotel.double_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-        'hotel.triple_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-        'hotel.child.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-        'hotel.infant.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
     ];
 
     public function getRules()
@@ -105,14 +100,24 @@ class Tour extends Model
         // Saving event
         static::saving(function ($model) {
             if ($model->isDaily()) {
-                if (isset($model->hotel)) {
-                    unset($model->hotel);
-                }
                 $model->rules += [
                     'basic_price_adult' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                     'basic_price_child' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                     'basic_price_infant' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 ];
+            } else {
+                $model->rules += [
+                    'hotel.single_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'hotel.double_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'hotel.triple_adult.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'hotel.child.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'hotel.infant.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                ];
+            }
+            if ($model->scenario == 'update_order') {
+                $model->rules = [];
+                parent::boot();
+                return;
             }
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->getRules());
@@ -132,6 +137,9 @@ class Tour extends Model
                     if (!$unsetDateValidationRule) {
                         unset($model->tour_dates);
                     }
+                }
+                if (!$model->isBasic && isset($model->tour_dates)) {
+                    unset($model->tour_dates);
                 }
                 if (isset($model->hotel)) {
                     unset($model->hotel);
@@ -263,7 +271,7 @@ class Tour extends Model
         $tz = (Session::has('tz'))? Session::get('tz'): 4;
         $tours = self::rightJoin('tour_cat_rels', function ($query) use ($category_id){
             $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
-                ->where('tour_cat_rels.cat_id', '=' , $category_id);
+            ->where('tour_cat_rels.cat_id', '=' , $category_id);
         })->leftJoin('tour_dates', function ($query) use ($tz){
             $query->on('tour_dates.tour_id', '=', 'tours.id')
                 ->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3));
@@ -271,11 +279,11 @@ class Tour extends Model
             $query->on('tour_hotels.tour_id', '=', 'tours.id');
         })
             ->whereNotNull('tours.id')
-            ->orWhereNotNull('tours.basic_frequency')
-            ->groupBy('tours.id');
-        if ($order) {
-            $tours = $tours->orderBy('tours.order', 'ASC')->get();
-        }
+        ->orWhereNotNull('tours.basic_frequency')
+                ->groupBy('tours.id');
+            if ($order) {
+                $tours = $tours->orderBy('tours.order', 'ASC')->get();
+            }
         return $tours;
     }
 
@@ -430,8 +438,9 @@ class Tour extends Model
         if (is_array($attributes) && !empty($attributes)) {
             foreach ($attributes as $attribute) {
                 if (isset($attribute['page_id'], $attribute['order'])) {
-                    $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
+                    $model = (new self())->where('id', intval($attribute['page_id']))->get()->first();
                     if ($model) {
+                        $model->scenario = 'update_order';
                         $model->order = intval($attribute['order']);
                         $model->save();
                     }

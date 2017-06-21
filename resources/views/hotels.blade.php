@@ -10,7 +10,7 @@
                 @foreach($hotels as $hotel)
                     <div class="item">
                         <a href="{{url('hotels/'. $hotel['hotel_url'])}}" class="tour-photo">
-                            <img src="{{asset($hotel['main_image'])}}">
+                            <img src="{{App\SimpleImage::image($hotel['main_image'], true)}}">
                             <span class="tour-title">{{$hotel['hotel_name_'.app()->getLocale()]}}</span>
                         </a>
                         <div class="tour-data">

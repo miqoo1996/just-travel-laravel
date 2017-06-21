@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SimpleImage;
 use App\Tour;
 use App\Hotel;
 use App\TourDate;
@@ -14,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Traits\TourTrait;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class TourController extends Controller
@@ -49,6 +49,7 @@ class TourController extends Controller
         $isBasic = false;
         if ($request->get('tour_id')) {
             $tour = Tour::find($request->get('tour_id'));
+            SimpleImage::setModel(clone $tour);
         } else {
             $tour = new Tour();
             $tour->code = substr(strtoupper(uniqid()), -7);
@@ -79,8 +80,6 @@ class TourController extends Controller
                         $BFChecker = false;
                     }
                 }
-            } else {
-                unset($fields['basic_frequency']);
             }
 
             $fields['visibility'] = $request->get('visibility', 'off');
@@ -121,7 +120,7 @@ class TourController extends Controller
 
             $this->makeDirectory($path);
 
-            TourHotel::where('tour_id', $tour->id)->delete();
+            //TourHotel::where('tour_id', $tour->id)->delete();
             if (!$isBasic) {
                 if (!empty($tourHotels)) TourHotel::insert($tourHotels);
             }

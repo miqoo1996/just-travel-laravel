@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Traits;
 
+use App\SimpleImage;
 use App\Tour;
 use App\Hotel;
 use App\TourCategory;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 
 trait TourTrait
 {
+    private $images = [];
     private $imageName = '';
 
     public function __construct()
@@ -32,6 +34,16 @@ trait TourTrait
         $tour['basic_frequency'] = $basic_frequency;
         if ($tour->id) {
             $data['tourHotels'] = TourHotel::where('tour_id', $tour->id)->get();
+        }
+        if (isset($data['tourHotels']) && !count($data['tourHotels'])) {
+            $hotel['hotel_id'] = null;
+            $hotel['tour_id'] = isset($tour->id) ? $tour->id : null;
+            $hotel['single_adult'] = 0;
+            $hotel['double_adult'] = 0;
+            $hotel['triple_adult'] = 0;
+            $hotel['child'] = 0;
+            $hotel['infant'] = 0;
+            $data['tourHotels'] = [$hotel];
         }
         $data['tour'] = $tour;
         return $data;
@@ -95,17 +107,27 @@ trait TourTrait
 
     public function setTourFile(Request $request, &$fields, $_file, $imagePathName = '', $move = false)
     {
+        $images = [];
         if ($_file == 'tour_images') {
             if ($request->hasFile('tour_images')) {
+//                if ($move) {
+//                    if (strpos(',', SimpleImage::$model->tour_images) !== false) {
+//                        $images += explode(',', SimpleImage::$model->tour_images);
+//                    } else {
+//                        $images[] = SimpleImage::$model->tour_images;
+//                    }
+//                }
                 $fieldsImages = $request->get('tour_images');
-
                 $imageChecker = $fieldsImages == '' ? true : false;
-                foreach ($request->file('tour_images') as $item) {
+                foreach ($request->file('tour_images') as $key => $item) {
                     $image = $item;
-                    if (null !== $image) {
-                        $image_name = $this->imageName . config('const.' . $item->getMimeType());
+                    if (null !== $image && in_array($item->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                        $this->imageName = uniqid();
+                        $this->images[$key] = isset($this->images[$key]) ? $this->images[$key] : $this->imageName  . config('const.' . $item->getMimeType());
+                        $image_name = $this->images[$key];
                         if ($move) {
                             $image->move($imagePathName, $image_name);
+                            SimpleImage::resize($imagePathName . $image_name, $imagePathName . 'thumbnail-' . $image_name, 754, 481, 280, 190);
                         }
                         $fieldsImages .= $imageChecker ? $imagePathName . $image_name : ',' . $imagePathName . $image_name;
                         $imageChecker = false;
@@ -115,12 +137,30 @@ trait TourTrait
             }
         } elseif ($request->hasFile($_file)) {
             $file = $request->file($_file);
-            $file_name = $this->imageName . config('const.' . $file->getMimeType());
-            if ($move) {
-                $file->move($imagePathName, $file_name);
+            if (in_array($file->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                $this->imageName = uniqid();
+                $this->images[$_file] = isset($this->images[$_file]) ? $this->images[$_file] : $this->imageName . config('const.' . $file->getMimeType());
+                $file_name = $this->images[$_file];
+                if ($move) {
+                    if (isset(SimpleImage::$model->$_file)) {
+                        $images[] = SimpleImage::$model->$_file;
+                    }
+                    $file->move($imagePathName, $file_name);
+                    if ($_file == 'hot_image') {
+                        SimpleImage::setImages([
+                            [
+                                'path' => $imagePathName . 'slide-' . $file_name,
+                                'width' => 1676,
+                                'height' => 550
+                            ]
+                        ]);
+                    }
+                    SimpleImage::resize($imagePathName . $file_name, $imagePathName . 'thumbnail-' . $file_name, 570, 326, 450, 257);
+                }
+                $fields[$_file] = $imagePathName . $file_name;
             }
-            $fields[$_file] = $imagePathName . $file_name;
         }
+        SimpleImage::deleteImages($images);
         return isset($fields[$_file]) ? $fields[$_file] : null;
     }
 

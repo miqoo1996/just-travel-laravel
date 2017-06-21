@@ -4,7 +4,7 @@
         <div class="container tour-details">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12 tour-details-image">
-                    <img src="{{asset(isset($tour['tour_main_image']) ? $tour['tour_main_image'] : '/images/no_image.png')}}">
+                    <img src="{{App\SimpleImage::image($tour['tour_main_image'])}}">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h1>{{$tour['tour_name_'.app()->getLocale()]}}</h1>
@@ -40,15 +40,17 @@
 
 
                         <h3 class="frequency">Frequency</h3>
-                        <div class="frequency">
-                            @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
-                                @if(strpos($tour['basic_frequency'], $wd) !== false)
-                                    <span class="freq-day available">{{$short}}</span>
-                                @else
-                                    <span class="freq-day">{{$short}}</span>
-                                @endif
-                            @endforeach
-                        </div>
+                        @if($tour['basic_frequency'])
+                            <div class="frequency">
+                                @foreach(config('const.week_days_'.app()->getLocale()) as $wd => $short)
+                                    @if(strpos($tour['basic_frequency'], $wd) !== false)
+                                        <span class="freq-day available">{{$short}}</span>
+                                    @else
+                                        <span class="freq-day">{{$short}}</span>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>
