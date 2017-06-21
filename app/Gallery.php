@@ -29,8 +29,8 @@ class Gallery extends Model
         'gallery_url' => 'required|max:255',
         'gallery_name_en' => 'required|max:255',
         'gallery_name_ru' => 'required|max:255',
-        'gallery_desc_en' => 'required|max:50000',
-        'gallery_desc_ru' => 'required|max:50000'
+        'gallery_desc_en' => 'required',
+        'gallery_desc_ru' => 'required'
     ];
 
     public function getValidator()

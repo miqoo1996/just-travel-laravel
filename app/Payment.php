@@ -3,11 +3,9 @@
 namespace App;
 
 use Barryvdh\DomPDF\Facade as PDF;
-use FontLib\EOT\File;
 use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
 use Endroid\QrCode\QrCode;
-use Illuminate\Support\Facades\File as Files;
 use Illuminate\Support\Facades\Session;
 
 
@@ -85,7 +83,6 @@ class Payment extends Model
         $qrCode->writeFile('images/qr/'.$order->id.'_qrcode.png');
         $generatedFile = PDF::loadView('pdf.voucher', compact('order'));
         $generatedFile->save($storePath.'/'.$order->id.'.pdf');
-//        Files::delete('images/qr/'.$order->id.'_qrcode.png');
     }
 
     public static function generateQrText($order)

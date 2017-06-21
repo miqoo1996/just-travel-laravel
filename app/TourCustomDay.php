@@ -22,8 +22,7 @@ class TourCustomDay extends Model
     private $rules = [
         'tour_id' => 'required|numeric|exists:tours,tour_id',
         'tour_name_en' => 'required|max:255',
-        'desc_en' => 'required|max:500000',
-        'short_desc_en' => 'max:500000',
+        'desc_en' => 'required',
         'tags_en' => 'max:255',
         'tour_images' => 'max:255',
         'hot_image' => 'max:255',

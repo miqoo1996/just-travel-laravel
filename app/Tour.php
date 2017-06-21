@@ -58,8 +58,7 @@ class Tour extends Model
     private $rules = [
         'tour_url' => 'max:255',
         'tour_name_en' => 'required|max:255',
-        'desc_en' => 'required|max:500000',
-        'short_desc_en' => 'max:500000',
+        'desc_en' => 'required',
         'tags_en' => 'max:255',
         'tour_images' => 'max:255',
         'hot_image' => 'max:255',
@@ -72,14 +71,9 @@ class Tour extends Model
             $this->rules['tour_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id);
             $this->rules += [
                 'tour_name_ru' => 'required|max:255',
-                'desc_ru' => 'required|max:500000',
-                'short_desc_ru' => 'max:500000',
+                'desc_ru' => 'required',
                 'tags_ru' => 'max:255',
                 'tour_main_image' => 'required|max:255',
-                'custom_day_title_en.*' => 'max:500000',
-                'custom_day_title_ru.*' => 'max:500000',
-                'custom_day_desc_en.*' => 'max:500000',
-                'custom_day_desc_ru.*' => 'max:500000',
                 'basic_price_adult' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'basic_price_child' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'basic_price_infant' => ['max:100000000000', 'integer', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],

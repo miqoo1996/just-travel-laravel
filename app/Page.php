@@ -29,8 +29,8 @@ class Page extends Model
         'page_url' => 'max:255',
         'page_name_en' => 'required|max:255',
         'page_name_ru' => 'required|max:255',
-        'desc_en' => 'required|max:50000',
-        'desc_ru' => 'required|max:50000'
+        'desc_en' => 'required',
+        'desc_ru' => 'required'
     ];
 
     public function getValidator()
