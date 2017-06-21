@@ -114,6 +114,11 @@ class Tour extends Model
                     'hotel.infant.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 ];
             }
+            if ($model->scenario == 'update_order') {
+                $model->rules = [];
+                parent::boot();
+                return;
+            }
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->getRules());
             // Optionally customize this version using new ->after()
@@ -433,8 +438,9 @@ class Tour extends Model
         if (is_array($attributes) && !empty($attributes)) {
             foreach ($attributes as $attribute) {
                 if (isset($attribute['page_id'], $attribute['order'])) {
-                    $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
+                    $model = (new self())->where('id', intval($attribute['page_id']))->get()->first();
                     if ($model) {
+                        $model->scenario = 'update_order';
                         $model->order = intval($attribute['order']);
                         $model->save();
                     }

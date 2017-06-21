@@ -21,7 +21,7 @@
                 <div id="sortables" class="col-md-10 col-md-offset-1 tours">
                     <ul data-ajax="{{route('admin-tour-items-orders')}}" id="sortable-tour" class="col-md-12">
                         @foreach($tours as $tour)
-                            <li data-page-id="{{ $tour['tour_id'] }}" class="item">
+                            <li data-page-id="{{ $tour['id'] }}" class="item">
                                 <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
                                     <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                                     <span class="tour-title">{{$tour['tour_name_en']}}</span>
