@@ -35,7 +35,7 @@ trait TourTrait
         if ($tour->id) {
             $data['tourHotels'] = TourHotel::where('tour_id', $tour->id)->get();
         }
-        if (!count($data['tourHotels'])) {
+        if (isset($data['tourHotels']) && !count($data['tourHotels'])) {
             $hotel['hotel_id'] = null;
             $hotel['tour_id'] = isset($tour->id) ? $tour->id : null;
             $hotel['single_adult'] = 0;
