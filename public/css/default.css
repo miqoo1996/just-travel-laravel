@@ -223,6 +223,8 @@ h3.frequency{font-family: 'Roboto', sans-serif; margin:0 0 10px; font-size:20px;
 .othercurrency .amd:before{content:"֏"; float:left;}
 .othercurrency span{float:left; margin:0 10px 0 0;}
 
+.date.amd:before{content:"֏"; float:right;}
+
 .popular-tours.hotels{ background:#4C5B5C; padding:0 0 30px; border-top:#F00 solid 3px;}
 .popular-tours.hotels h2{ color:#FFF;}
 .popular-tours.hotels .stars{float:left; width:100px; height:16px; margin:16px 0 0 13px; background:url(../images/stars.svg) 0 0 no-repeat; background-size:100%;}
@@ -294,7 +296,7 @@ footer p.copyright{ padding:20px 0 0; font-size:12px; color:#999; opacity:0.5;}
 /*Tour Details*/
 .page-tours-details{padding:70px 0 0;}
 .page-inside .whitebg{padding:30px 0 0;}
-.tour-details{padding: 30px 0;}
+.tour-details{padding:0 15px 30px;}
 .tour-details h1{ margin:0 0 10px;}
 .tour-description-container h3{font-family: 'Roboto', sans-serif;}
 .tour-details .tour-id{ display:block; font-size:12px; margin:0 0 15px;}

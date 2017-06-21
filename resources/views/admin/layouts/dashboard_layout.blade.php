@@ -87,20 +87,14 @@
                             <li>
                                 <a href="{{route('admin-pdf-list')}}"><i class="fa fa-file-pdf-o"></i>Download PDF's</a>
                             </li>
-                            <li>
-                                <a href="{{route('admin-tour-orders')}}"><i class="fa fa-circle"></i>Tour Orders</a>
-                            </li>
-                            <li>
-                                <a href="{{route('admin-photo-gallery-orders')}}"><i class="fa fa-circle"></i>Photo Gallery Orders</a>
-                            </li>
-                            <li>
-                                <a href="{{route('admin-portfolio-orders')}}"><i class="fa fa-circle"></i>Portfolio Orders</a>
-                            </li>
-                            <li>
-                                <a href="{{route('admin-video-orders')}}"><i class="fa fa-circle"></i>Video Orders</a>
-                            </li>
-                            <li>
-                                <a href="{{route('admin-page-orders')}}"><i class="fa fa-list-ol"></i>Menu Orders</a>
+                            <li><a><i class="fa fa-list-ol"></i>Ordering<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{route('admin-tour-orders')}}"><i class="fa fa-list-ol"></i>Tour Orders</a></li>
+                                    <li><a href="{{route('admin-photo-gallery-orders')}}"><i class="fa fa-list-ol"></i>Photo Gallery Orders</a></li>
+                                    <li><a href="{{route('admin-portfolio-orders')}}"><i class="fa fa-list-ol"></i>Portfolio Orders</a></li>
+                                    <li><a href="{{route('admin-video-orders')}}"><i class="fa fa-list-ol"></i>Video Orders</a></li>
+                                    <li><a href="{{route('admin-page-orders')}}"><i class="fa fa-list-ol"></i>Menu Orders</a></li>
+                                </ul>
                             </li>
                             <li>
                                 <a href="{{route('admin-settings')}}"><i class="fa fa-gears"></i>Settings</a>
