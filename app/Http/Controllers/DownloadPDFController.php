@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DownloadPDF;
 use App\Http\Controllers\Traits\DownloadPDFTrait;
+use App\SimpleImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 
 class DownloadPDFController extends Controller
 {
@@ -26,23 +26,24 @@ class DownloadPDFController extends Controller
     {
         if ($request->get('file_id')){
             $file = DownloadPDF::find($request->get('file_id'));
+            SimpleImage::setModel(clone $file);
         } else {
             $file = new DownloadPDF();
         }
 
         if ($fields = $request->input()) {
-            $this->setFile($request, $file, $fields, 'pdf_file_en');
-            $this->setFile($request, $file, $fields, 'pdf_file_ru');
-            $this->setFile($request, $file, $fields, 'pdf_thumbnail_en');
-            $this->setFile($request, $file, $fields, 'pdf_thumbnail_ru');
+            $this->setFile($request, $fields, 'pdf_file_en');
+            $this->setFile($request, $fields, 'pdf_file_ru');
+            $this->setFile($request, $fields, 'pdf_thumbnail_en');
+            $this->setFile($request, $fields, 'pdf_thumbnail_ru');
             $file->fill($fields);
         }
 
         if ($file->save()) {
-            $this->setFile($request, $file, $fields, 'pdf_file_en', true);
-            $this->setFile($request, $file, $fields, 'pdf_file_ru', true);
-            $this->setFile($request, $file, $fields, 'pdf_thumbnail_en', true);
-            $this->setFile($request, $file, $fields, 'pdf_thumbnail_ru', true);
+            $this->setFile($request, $fields, 'pdf_file_en', true);
+            $this->setFile($request, $fields, 'pdf_file_ru', true);
+            $this->setFile($request, $fields, 'pdf_thumbnail_en', true);
+            $this->setFile($request, $fields, 'pdf_thumbnail_ru', true);
             return redirect()->route('admin-pdf-list');
         }
 

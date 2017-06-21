@@ -13,7 +13,7 @@
                             @foreach($catalogs as $catalog)
                             <div class="item">
                                 <h4>{{$catalog['pdf_name_'.app()->getLocale()]}}</h4>
-                                <span class="poster"><img src="{{asset($catalog['pdf_thumbnail_'.app()->getLocale()])}}"></span>
+                                <span class="poster"><img src="{{App\SimpleImage::image($catalog['pdf_thumbnail_'.app()->getLocale()], true)}}"></span>
                                 <a href="{{url('/'.$catalog['pdf_file_'.app()->getLocale()])}}" target="_blank" class="btn btn-warning" role="button">{{trans('messages.download')}}</a>
                             </div>
                             @endforeach
