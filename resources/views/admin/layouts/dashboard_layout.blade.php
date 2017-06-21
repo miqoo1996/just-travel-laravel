@@ -100,7 +100,7 @@
                                 <a href="{{route('admin-video-orders')}}"><i class="fa fa-circle"></i>Video Orders</a>
                             </li>
                             <li>
-                                <a href="{{route('admin-page-orders')}}"><i class="fa fa-circle"></i>Menu Orders</a>
+                                <a href="{{route('admin-page-orders')}}"><i class="fa fa-list-ol"></i>Menu Orders</a>
                             </li>
                             <li>
                                 <a href="{{route('admin-settings')}}"><i class="fa fa-gears"></i>Settings</a>
