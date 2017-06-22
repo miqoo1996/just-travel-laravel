@@ -63,6 +63,7 @@ class VideoGallery extends Model
         });
         parent::boot();
     }
+
     public function saveData(array $attributes)
     {
         if (is_array($attributes) && !empty($attributes)) {

@@ -52,4 +52,30 @@ class DownloadPDF extends Model
         });
         parent::boot();
     }
+
+    public function getPdfs($order = false)
+    {
+        if ($order) {
+            $data =  $this->orderBy('order', 'ASC')->get()->toArray();
+        } else {
+            $data = $this->all()->toArray();
+        }
+        return $data;
+    }
+
+    public function saveData(array $attributes)
+    {
+        if (is_array($attributes) && !empty($attributes)) {
+            foreach ($attributes as $attribute) {
+                if (isset($attribute['page_id'], $attribute['order'])) {
+                    $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
+                    if ($model) {
+                        $model->order = intval($attribute['order']);
+                        $model->save();
+                    }
+                }
+            }
+        };
+        return $this;
+    }
 }

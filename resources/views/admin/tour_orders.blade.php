@@ -17,12 +17,12 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12 pdf">
                 <div id="sortables" class="col-md-10 col-md-offset-1 tours">
                     <ul data-ajax="{{route('admin-tour-items-orders')}}" id="sortable-tour" class="col-md-12">
                         @foreach($tours as $tour)
                             <li data-page-id="{{ $tour['id'] }}" class="item">
-                                <a href="tours/{{$tour['tour_url']}}" class="tour-photo">
+                                <a href="/tours/{{$tour['tour_url']}}" class="tour-photo">
                                     <img src="{{App\SimpleImage::image($tour['tour_main_image'], true)}}">
                                     <span class="tour-title">{{$tour['tour_name_en']}}</span>
                                 </a>

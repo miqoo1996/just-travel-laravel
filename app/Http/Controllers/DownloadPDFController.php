@@ -58,8 +58,23 @@ class DownloadPDFController extends Controller
 
     public function getCatalogs()
     {
-        $catalogs = DownloadPDF::all()->toArray();
+        $model = new DownloadPDF();
+        $catalogs = $model->getPdfs(true);
         return view('catalogue', compact('catalogs'));
+    }
+
+    public function adminPdfOrders()
+    {
+        $model = new DownloadPDF();
+        $pdfs = $model->getPdfs(true);
+        return view('admin.pdf_orders', compact('pdfs'));
+    }
+
+    public function adminPdfOrdersSave(Request $request)
+    {
+        $model = new DownloadPDF();
+        $items = $request->get('items');
+        $model->saveData($items);
     }
 
 }

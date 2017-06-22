@@ -77,7 +77,7 @@
                                         </td>
                                         <td align="right">
                                             <a href="{{url('/admin/voucher/'.$order->order_tour_id)}}" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Vaucher</a>
-                                            <a href="{{url('admin/edit-custom-tour/'.$order->order_tour_id)}}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
+                                            <a href="{{url('admin/voucher/'.$order->order_tour_id)}}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
                                             <a href="#" class="btn btn-danger btn-xs remove" data-name="{{$order->tour_name_en}}" id="{{$order->order_tour_id}}/tour" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i> Delete </a>
                                         </td>
                                     </tr>

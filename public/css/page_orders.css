@@ -58,3 +58,16 @@
 .tours .item .tour-data .price{ float:right; margin:13px 13px 0 0; font-size:25px; line-height:25px;}
 .tourdate{ float:left; font-size:18px;margin:13px 0 0 13px; color:#999;}
 h3.frequency{font-family: 'Roboto', sans-serif; margin:0 0 10px; font-size:20px; font-weight:normal;}
+
+/*PDF*/
+.pdf .navbar{background:rgba(0,0,0, 1);}
+.pdf .dark-header{background:rgba(0,0,0, 0.7);}
+
+.pdf{ padding:90px 0 0;text-align:center;}
+.pdf h1{ margin:20px 0 30px;}
+.pdf-container{ text-align:center; padding:0 0 40px;}
+.pdf-container .item{ width:230px; height:335px; background:#FFF; display:inline-block; margin:10px; padding:10px; text-align:center;}
+.pdf-container .poster{ width:100%; max-width:150px; margin:0 auto 15px; display:block;}
+.pdf-container .poster img{ width:100%; display:block; max-height:225px;}
+.pdf-container .item h4{ font-size:16px;}
+.pdf-container .btn{ width:100%; max-width:150px;}

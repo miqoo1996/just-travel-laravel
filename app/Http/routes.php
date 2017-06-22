@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/admin/new-page', 'PageController@adminPostNewPage')->name('admin-post-new-page');
     Route::get('/admin/edit-page/{page_id}', 'PageController@adminGetEditPage')->name('admin-edit-page');
     Route::get('/admin/pdf', 'DownloadPDFController@adminGetPDFListPage')->name('admin-pdf-list');
+    Route::get('/admin/pdf-orders', 'DownloadPDFController@adminPdfOrders')->name('admin-pdf-orders');
+    Route::post('/admin/pdf-orders-save', 'DownloadPDFController@adminPdfOrdersSave')->name('admin-pdf-items-orders');
     Route::get('/admin/new-pdf', 'DownloadPDFController@adminGetNewPDF')->name('admin-new-pdf');
     Route::post('/admin/new-pdf', 'DownloadPDFController@adminPostNewPDF')->name('admin-post-new-pdf');
     Route::get('/admin/edit-pdf/{file_id}', 'DownloadPDFController@adminGetEditPDF')->name('admin-edit-pdf');

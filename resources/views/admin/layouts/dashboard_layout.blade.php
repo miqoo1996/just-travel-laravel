@@ -93,6 +93,7 @@
                                     <li><a href="{{route('admin-photo-gallery-orders')}}"><i class="fa fa-list-ol"></i>Photo Gallery Orders</a></li>
                                     <li><a href="{{route('admin-portfolio-orders')}}"><i class="fa fa-list-ol"></i>Portfolio Orders</a></li>
                                     <li><a href="{{route('admin-video-orders')}}"><i class="fa fa-list-ol"></i>Video Orders</a></li>
+                                    <li><a href="{{route('admin-pdf-orders')}}"><i class="fa fa-list-ol"></i>Pdf Orders</a></li>
                                     <li><a href="{{route('admin-page-orders')}}"><i class="fa fa-list-ol"></i>Menu Orders</a></li>
                                 </ul>
                             </li>
