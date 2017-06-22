@@ -8,7 +8,6 @@ use GuzzleHttp\Client;
 use Endroid\QrCode\QrCode;
 use Illuminate\Support\Facades\Session;
 
-
 class Payment extends Model
 {
     private static $userName = 'converse_test';
