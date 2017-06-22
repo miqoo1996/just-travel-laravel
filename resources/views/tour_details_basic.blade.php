@@ -15,9 +15,11 @@
                     <span class="price {{$currency['currency']}}">
             	        <span class="{{$currency['currency']}}">{{round($tour['basic_price_adult']/$currency[$currency['currency']] * 2, 2) }}</span>
                         <span class="othercurrency">
-                            @foreach($currency  as $key => $value)
+                            <?php $n=0; ?>
+                            @foreach($currency as $key => $value)
                                 @if(($key !== 'currency') && ($key !== $currency['currency']))
-                                    <span class="{{$key}}">{{round($tour['basic_price_adult']/$value * 2, 2)}}{{$key!='rur' ? ' &nbsp; /' : ''}}</span>
+                                    <span class="{{$key}}">{{round($tour['basic_price_adult']/$value * 2, 2)}}{{$n!=2 ? ' &nbsp; /' : ''}}}</span>
+                                    <?php $n++ ?>
                                 @endif
                             @endforeach
                         </span>

@@ -22,13 +22,15 @@
                     </span>
                     <div class="clearfix"></div>
                     <span class="othercurrency">
+                            <?php $n=0; ?>
                             @foreach($currency  as $key => $value)
                                 @if(($key !== 'currency') && ($key !== $currency['currency']))
                                     @if(isset($hotels[0]['double_adult']))
-                                        <span class="{{$key}}">{{round($hotels[0]['double_adult']/$value, 2)}}{{$key!='rur' ?: ''}}</span>
+                                        <span class="{{$key}}">{{round($hotels[0]['double_adult']/$value, 2)}}{{$n!=2 ? ' &nbsp; /' : ''}}</span>
                                     @else
                                         <span class="{{$currency['currency']}}">0</span>
                                     @endif
+                                    <?php $n++; ?>
                                 @endif
                             @endforeach
                     </span>

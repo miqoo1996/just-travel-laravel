@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
-
 class OrderTourController extends Controller
 {
     public function postOrderTour(Request $request)
