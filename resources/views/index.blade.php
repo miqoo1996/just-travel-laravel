@@ -104,8 +104,8 @@
                                        class="tc-viewer {{strtolower(str_replace(' ', '_', trim($tc['category_name_en'])))}}">{{$tc['category_name_'.app()->getLocale()]}}</a>
                                 </li>
                         @endforeach
-                    </ul>
                     <div class="clear"></div>
+                    </ul>
                 </div>
             </div>
         @endif
