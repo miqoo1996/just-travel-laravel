@@ -88,20 +88,24 @@
             <div class="mp-categories fixme">
                 <div class="container">
                     <ul>
+                        <?php
+                        $selectedCat = $tourCategories[count($tourCategories) - 1]['id'];
+                        if (count($indexTours)) {
+                            $selectedCat = $indexTours[0]['cat_id'];
+                        }
+                        ?>
                         @foreach($tourCategories as $tc)
-                            @if(isset($indexTours[0]['cat_id']) && $indexTours[0]['cat_id'] == $tc['id'])
+                            @if($selectedCat == $tc['id'])
                                 <li class="active" id="cat_list_{{$currentCatId}}">
                             @else
                                 <li id="cat_list_{{$currentCatId}}">
-                                    @endif
+                            @endif
                                     <a id="{{'x_cat/' . $tc['id']}}"
                                        class="tc-viewer {{strtolower(str_replace(' ', '_', trim($tc['category_name_en'])))}}">{{$tc['category_name_'.app()->getLocale()]}}</a>
                                 </li>
-
-                                @endforeach
-                                <div class="clear"></div>
+                        @endforeach
                     </ul>
-
+                    <div class="clear"></div>
                 </div>
             </div>
         @endif

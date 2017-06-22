@@ -14,8 +14,6 @@ class Tour extends Model
 
     public $isBasic = false;
 
-    public $isBasicFrequency = false;
-
     private $isCustom = false;
 
     private $validator;
