@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
-use App\OrderMember;
 use App\Payment;
 use App\TourDate;
+use App\OrderTour;
+use App\OrderMember;
+use App\HotelCalculator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use Illuminate\Support\Facades\Session;
-use App\HotelCalculator;
-use App\OrderTour;
 use Illuminate\Support\Facades\Validator;
 
 
