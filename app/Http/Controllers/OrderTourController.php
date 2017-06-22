@@ -26,31 +26,32 @@ class OrderTourController extends Controller
             Session::flush('order_tour');
             Session::set('order_tour', $orderTour . '/' . $uniqId);
         } else {
-            Session::set('order_tour',  $uniqId);
+            Session::set('order_tour', $uniqId);
         }
 
         $date = $request->get('date_from');
         $tour_id = intval($request->get('tour_id', 0));
         if ($date && $tour_id) {
             $date = Carbon::parse(strtotime($date))->format('Y-m-d');
-            $isTourDate = (bool) TourDate::where('tour_id', $tour_id)->where('date', $date)->get()->count();
+            $isTourDate = (bool)TourDate::where('tour_id', $tour_id)->where('date', $date)->get()->count();
             if (!$isTourDate) {
                 $newOrder = new OrderTour();
                 $newOrder->fill($request->input());
                 $newOrder->hotel_id = $request->htdata;
                 $newOrder->order_id = $uniqId;
                 $newOrder->save();
-                if($request->ajax()) {
+                if ($request->ajax()) {
                     return $uniqId;
                 }
-                return redirect('order_tour/'.$uniqId);
+                return redirect('order_tour/' . $uniqId);
             }
         }
         return back();
     }
 
-    public function getOrderTour($order_id){
-        if(Session::has('order_tour')) {
+    public function getOrderTour($order_id)
+    {
+        if (Session::has('order_tour')) {
 
             $orderTour = Session::get('order_tour');
             $orderTour = array_flip(explode('/', $orderTour));
@@ -103,24 +104,24 @@ class OrderTourController extends Controller
         ];
         $lang = app()->getLocale();
         $messages = [
-            'adult_name.*.required' => config('validation.'.$lang.'.adult_name_required'),
-            'child_name.*.required' => config('validation.'.$lang.'.child_name_required'),
-            'infant_name.*.required' => config('validation.'.$lang.'.infant_name_required'),
-            'adult_surname.*.required' => config('validation.'.$lang.'.adult_surname_required'),
-            'child_surname.*.required' => config('validation.'.$lang.'.child_surname_required'),
-            'infant_surname.*.required' => config('validation.'.$lang.'.infant_surname_required'),
-            'adult_birth_date.*.required' => config('validation.'.$lang.'.adult_birth_date_required'),
-            'adult_birth_date.*.date' => config('validation.'.$lang.'.adult_birth_date_date'),
-            'child_birth_date.*.required' => config('validation.'.$lang.'.child_birth_date_required'),
-            'child_birth_date.*.date' => config('validation.'.$lang.'.child_birth_date_date'),
-            'infant_birth_date.*.required' => config('validation.'.$lang.'.infant_birth_date_required'),
-            'infant_birth_date.*.date' => config('validation.'.$lang.'.infant_birth_date_date'),
-            'lead_email.required' => config('validation.'.$lang.'.lead_email_required'),
-            'lead_email.email' => config('validation.'.$lang.'.lead_email_email'),
+            'adult_name.*.required' => config('validation.' . $lang . '.adult_name_required'),
+            'child_name.*.required' => config('validation.' . $lang . '.child_name_required'),
+            'infant_name.*.required' => config('validation.' . $lang . '.infant_name_required'),
+            'adult_surname.*.required' => config('validation.' . $lang . '.adult_surname_required'),
+            'child_surname.*.required' => config('validation.' . $lang . '.child_surname_required'),
+            'infant_surname.*.required' => config('validation.' . $lang . '.infant_surname_required'),
+            'adult_birth_date.*.required' => config('validation.' . $lang . '.adult_birth_date_required'),
+            'adult_birth_date.*.date' => config('validation.' . $lang . '.adult_birth_date_date'),
+            'child_birth_date.*.required' => config('validation.' . $lang . '.child_birth_date_required'),
+            'child_birth_date.*.date' => config('validation.' . $lang . '.child_birth_date_date'),
+            'infant_birth_date.*.required' => config('validation.' . $lang . '.infant_birth_date_required'),
+            'infant_birth_date.*.date' => config('validation.' . $lang . '.infant_birth_date_date'),
+            'lead_email.required' => config('validation.' . $lang . '.lead_email_required'),
+            'lead_email.email' => config('validation.' . $lang . '.lead_email_email'),
         ];
 
         $validator = Validator::make($request->input(), $rules, $messages);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()->withInput()->withErrors($validator);
         }
 
@@ -131,7 +132,7 @@ class OrderTourController extends Controller
         $orderTour->comment = $request->comment;
         $orderTour->save();
         if (isset($request->adult_name) && is_array($request->adult_name)) {
-            foreach ($request->adult_name as $key => $value){
+            foreach ($request->adult_name as $key => $value) {
                 $member['member_name'] = $value;
                 $member['member_surname'] = $request->adult_surname[$key];
                 $member['member_dob'] = $request->adult_birth_date[$key];
@@ -141,8 +142,8 @@ class OrderTourController extends Controller
             }
         }
         if (isset($request->child_name) && is_array($request->child_name)) {
-            if(count($request->child_name)){
-                foreach ($request->child_name as $key => $value){
+            if (count($request->child_name)) {
+                foreach ($request->child_name as $key => $value) {
                     $member['member_name'] = $value;
                     $member['member_surname'] = $request->child_surname[$key];
                     $member['member_dob'] = $request->child_birth_date[$key];
@@ -153,7 +154,7 @@ class OrderTourController extends Controller
             }
         }
         if (isset($request->infant_name) && is_array($request->infant_name)) {
-            if(count($request->infant_name)) {
+            if (count($request->infant_name)) {
                 foreach ($request->infant_name as $key => $value) {
                     $member['member_name'] = $value;
                     $member['member_surname'] = $request->infant_surname[$key];
@@ -165,19 +166,20 @@ class OrderTourController extends Controller
             }
         }
         OrderMember::where('order_tour_id', $orderTour->id)->delete();
-        if(isset($data)){ OrderMember::insert($data);}
-        return redirect('/payment/'. $orderTour->order_id);
+        if (isset($data)) {
+            OrderMember::insert($data);
+        }
+        return redirect('/payment/' . $orderTour->order_id);
     }
 
     public function getPaymentByOrderId($order_id)
     {
         $orderTour = OrderTour::with(config('relations.order_tour_all'))->where('order_id', $order_id)->first();
-        if(null == $orderTour) {
+        if (null == $orderTour) {
             return redirect('404');
-        }
-        else {
+        } else {
             $view = 'payment_basic';
-            if(!$orderTour->tourHotel->isEmpty()) {
+            if (!$orderTour->tourHotel->isEmpty()) {
                 $view = 'payment';
             }
             $orderTour->members;
@@ -189,7 +191,7 @@ class OrderTourController extends Controller
     {
         $orderTour = OrderTour::where('order_id', $request->order_id)->first();
         $response = Payment::makeOrder($orderTour);
-        if($response['status']){
+        if ($response['status']) {
             return redirect($response['url']);
         }
         return view('payment_error', compact('response'));
@@ -197,30 +199,31 @@ class OrderTourController extends Controller
 
     public function getCongratulations()
     {
-        if(request()->has('orderId')) {
+        if (request()->has('orderId')) {
             $order = OrderTour::with(['tour', 'members'])->where('md_order', request()->orderId)->first();
-            if(null == $order){
+            if (null == $order) {
                 return redirect('404');
             }
             $orderStatus = Payment::checkOrder(request()->orderId);
-                if (Session::has('order_tour')){
-                    $orderSession = Session::get('order_tour');
-                    $orderSession = str_replace('/'.$order->order_id, '', $orderSession);
-                    $orderSession = str_replace($order->order_id . '/', '', $orderSession);
-                    $orderSession = str_replace($order->order_id, '', $orderSession);
-                    $orderSession = str_replace('//', '/', $orderSession);
-                    Session::put('order_tour', $orderSession);
-                }
+            if (Session::has('order_tour')) {
+                $orderSession = Session::get('order_tour');
+                $orderSession = str_replace('/' . $order->order_id, '', $orderSession);
+                $orderSession = str_replace($order->order_id . '/', '', $orderSession);
+                $orderSession = str_replace($order->order_id, '', $orderSession);
+                $orderSession = str_replace('//', '/', $orderSession);
+                Session::put('order_tour', $orderSession);
+            }
             $payment = new Payment();
             $payment->fill($orderStatus);
-            $payment->order_tour_id =  $order->id;
+            $payment->order_tour_id = $order->id;
             $payment->save();
 
-            if($payment->ErrorCode === '0') {
+            if ($payment->ErrorCode === '0') {
                 Payment::generateAndSendVоucher($order);
                 return view('congratulations', compact('order', 'image'));
             }
         }
         return redirect('404');
     }
+
 }

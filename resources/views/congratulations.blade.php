@@ -12,13 +12,11 @@ congratulations
                     . ' "' . $order->tour['tour_name_' . app()->getLocale()]
                     . '" ' . trans('messages.in') . ' ' . str_replace('/', '.',$order->date_from)}}</h2>
                     <div class="ordered-overview">
-                        {{trans('messages.vaucher_sent_text')}}
+                        {{trans('messages.vaucher_sent_text')}} {{$order->lead_email}}
                     </div>
                     <a href="{{url('/')}}" class="btn btn-warning gotohome" role="button">{{trans('messages.go_to_home_page')}}</a>
                 </div>
             </div>
         </div>
-
-
     </div>
 @endsection()
