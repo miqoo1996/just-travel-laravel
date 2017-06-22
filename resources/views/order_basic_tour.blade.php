@@ -38,7 +38,7 @@ page-tours-details
         <div class="maincont whitebg">
             <div class="container enter-travelers-data">
                 <h3>{{trans('messages.adult_travelers')}}</h3>
-                @for ($i = 1; $i <= $order['tour']['adults_count']; $i++)
+                @for ($i = 1; $i <= $order['adults_count']; $i++)
                     <div class="row">
                         <div class="form-group col-md-5 col-sm-5 col-xs-12">
                             <label for="example-text-input" class="col-form-label">{{trans('messages.traveler_name')}}</label>
@@ -67,10 +67,10 @@ page-tours-details
                     </div>
                 @endfor
             </div>
-            @if($order['tour']['children_count'] > 0)
+            @if($order['children_count'] > 0)
                 <div class="container enter-travelers-data">
                     <h3>{{trans('messages.children')}}</h3>
-                    @for ($i = 1; $i <= $order['tour']['children_count']; $i++)
+                    @for ($i = 1; $i <= $order['children_count']; $i++)
                         <div class="row">
                             <div class="form-group col-md-5 col-sm-5 col-xs-12">
                                 <label for="example-text-input" class="col-form-label">{{trans('messages.traveler_name')}}</label>
@@ -100,10 +100,10 @@ page-tours-details
                     @endfor
                 </div>
             @endif
-            @if($order['tour']['infants_count'] > 0)
+            @if($order['infants_count'] > 0)
                 <div class="container enter-travelers-data">
                     <h3>{{trans('messages.infants')}}</h3>
-                    @for ($i = 1; $i <= $order['tour']['infants_count']; $i++)
+                    @for ($i = 1; $i <= $order['infants_count']; $i++)
                         <div class="row">
                             <div class="form-group col-md-5 col-sm-5 col-xs-12">
                                 <label for="example-text-input" class="col-form-label">{{trans('messages.traveler_name')}}</label>

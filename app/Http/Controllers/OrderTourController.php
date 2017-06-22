@@ -52,7 +52,6 @@ class OrderTourController extends Controller
     public function getOrderTour($order_id)
     {
         if (Session::has('order_tour')) {
-
             $orderTour = Session::get('order_tour');
             $orderTour = array_flip(explode('/', $orderTour));
             if (isset($orderTour[$order_id])) {
@@ -77,6 +76,7 @@ class OrderTourController extends Controller
                     $saveFields['order_tour.amount'] = $totalPrice;
                     $order->fill($saveFields);
                     $order->save();
+//                    dd($order);
                     return view('order_basic_tour', compact('order', 'totalPrice'));
                 }
             }
@@ -87,16 +87,16 @@ class OrderTourController extends Controller
     public function postOrderedCustomTour(Request $request)
     {
         $rules = [
-            'adult_name.*' => 'required',
+            'adult_name.*' => 'required|max:255',
             'adult_surname.*' => 'required',
 //            'adult_birth_date.*' => 'required|date|date_format:dd/mm/Y|before:12Y',
             'adult_birth_date.*' => 'required',
-            'child_name.*' => 'required',
-            'child_surname.*' => 'required',
+            'child_name.*' => 'required|max:255',
+            'child_surname.*' => 'required|max:255',
 //            'child_birth_date.*' => 'required|date|date_format:dd/mm/Y|before:4Y',
             'child_birth_date.*' => 'required',
-            'infant_name.*' => 'required',
-            'infant_surname.*' => 'required',
+            'infant_name.*' => 'required|max:255',
+            'infant_surname.*' => 'required|max:255',
 //            'infant_birth_date.*' => 'required|date|date_format:dd/mm/Y|before:yesterday',
             'infant_birth_date.*' => 'required',
             'lead_email' => 'required|email'
