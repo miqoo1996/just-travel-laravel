@@ -11,7 +11,7 @@ class TourCategoryController extends Controller
     public function adminGetTourCategories()
     {
         $categories = TourCategory::all();
-        foreach ($categories as $key => $category){
+        foreach ($categories as $key => $category) {
             $categories[$key]['tours_count'] = TourCatRel::where('cat_id', $category->id)->count();
         }
         return view('admin.tour_categories', compact('categories'));
@@ -24,9 +24,11 @@ class TourCategoryController extends Controller
 
     public function adminPostNewCategory(Request $request)
     {
-        $category = TourCategory::makeNewCategory($request);
-        return ($category)? redirect()->route('admin-tours-categories'): redirect()->back();
-
+        $model = new TourCategory();
+        if ($model->makeNewCategory($request)) {
+            return redirect()->route('admin-tours-categories');
+        }
+        return view('admin.edit_category', ['category' => $model, 'errors' => $model->getValidator()->errors()]);
     }
 
     public function adminGetEditCategory($category_id)
@@ -34,6 +36,5 @@ class TourCategoryController extends Controller
         $cat = TourCategory::find($category_id);
         return view('admin.edit_category', ['category' => $cat]);
     }
-
 
 }

@@ -61,4 +61,5 @@ class DownloadPDFController extends Controller
         $catalogs = DownloadPDF::all()->toArray();
         return view('catalogue', compact('catalogs'));
     }
+
 }

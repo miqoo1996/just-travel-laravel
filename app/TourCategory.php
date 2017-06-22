@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class TourCategory extends Model
 {
+    private $validator;
+
     protected $fillable = [
         'category_name_en',
         'category_name_ru',
@@ -22,21 +24,27 @@ class TourCategory extends Model
      * @var array
      */
     private $rules = [
-        'category_name_en' =>  'required|max:255',
+        'category_name_en' => 'required|max:255',
         'category_name_ru' => 'required|max:255',
     ];
+
+    public function getValidator()
+    {
+        return $this->validator;
+    }
 
     public static function boot()
     {
         // Saving event
         static::saving(function ($model) {
-            $model->rules['hotel_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,id|unique:galleries,gallery_url|unique:tour_categories,url,%d,id|max:255', $model->id);
+            $model->rules['url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,id|unique:galleries,gallery_url|unique:tour_categories,url,%d,id|max:255', $model->id);
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->rules);
             // Optionally customize this version using new ->after()
-            $v->after(function() use ($v, $model) {
+            $v->after(function () use ($v, $model) {
                 // Do more validation
             });
+            $model->validator = $v;
             return !$v->fails();
         });
         parent::boot();
@@ -50,20 +58,20 @@ class TourCategory extends Model
      * @return boolean
      *
      */
-    public static function makeNewCategory(Request $request)
+    public function makeNewCategory(Request $request)
     {
-        if (isset($request->category_id)){
-            $category = TourCategory::find($request->category_id);
+        if (isset($request->category_id) && $request->category_id) {
+            $category = $this->find($request->category_id);
         } else {
-            $category = new TourCategory();
+            $category = $this;
         }
         $category->fill($request->input());
-        return ($category->save())? true: false;
+        return $category->save();
     }
 
     public static function getAvailableCategories()
     {
-        $tz = (Session::has('tz'))? Session::get('tz'): 4;
+        $tz = Session::has('tz') ? Session::get('tz') : 4;
         $availableCategories = self::rightJoin('tour_cat_rels', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
             ->rightJoin('tours', 'tours.id', '=', 'tour_cat_rels.tour_id')
             ->leftJoin('tour_dates', 'tour_dates.tour_id', '=', 'tours.id')

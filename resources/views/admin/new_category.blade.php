@@ -6,8 +6,6 @@
     <div class="right_col" role="main">
         <div class="">
             <div class="clearfix"></div>
-
-
             <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="{{route('admin-post-new-category')}}" method="post">
 
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
@@ -34,7 +32,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Category Name<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="cat_name_en" name="category_name_en" required="required" class="form-control col-md-7 col-xs-12 category-holder" placeholder="Category Name (English)">
+                                            <input type="text" id="cat_name_en" name="category_name_en" class="form-control col-md-7 col-xs-12 category-holder" placeholder="Category Name (English)">
                                         </div>
                                     </div>
 
@@ -60,7 +58,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Category Name<span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="cat_name_ru" name="category_name_ru" required="required" class="form-control col-md-7 col-xs-12 category-holder" placeholder="Category Name (Russian)">
+                                            <input type="text" id="cat_name_ru" name="category_name_ru" class="form-control col-md-7 col-xs-12 category-holder" placeholder="Category Name (Russian)">
                                         </div>
                                     </div>
 
@@ -80,7 +78,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="cat_name_en" name="url" required="required" class="form-control col-md-7 col-xs-12 category-holder">
+                                    <input type="text" id="cat_name_en" name="url" class="form-control col-md-7 col-xs-12 category-holder">
                                 </div>
                             </div>
 
