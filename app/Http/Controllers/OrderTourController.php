@@ -190,7 +190,8 @@ class OrderTourController extends Controller
         if ($response['status']) {
             return redirect($response['url']);
         }
-        return view('payment_error', compact('response'));
+        $message = isset($response['content']['errorMessage']) ? $response['content']['errorMessage'] : 'Error';
+        return view('payment_error', compact('message'));
     }
 
     public function getCongratulations()
@@ -213,11 +214,12 @@ class OrderTourController extends Controller
             $payment->fill($orderStatus);
             $payment->order_tour_id = $order->id;
             $payment->save();
-
             if ($payment->ErrorCode === '0') {
                 Payment::generateAndSendVоucher($order);
                 return view('congratulations', compact('order', 'image'));
             }
+            $message = trans(sprintf('messages.ErrorCode.%s', $payment->ErrorCode));
+            return view('payment_error', compact('message'));
         }
         return redirect('404');
     }

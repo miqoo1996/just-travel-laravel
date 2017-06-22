@@ -64,5 +64,8 @@ return [
 	'total_travelers' => 'Total Travelers',
 	'contact_person' => 'Contact Person',
 	'approve_and_pay' => 'Approve and Pay',
-	'accomodation' => 'Accomodation'
+	'accomodation' => 'Accomodation',
+    'ErrorCode.2' => 'Order by default is always enabled in your account',
+    'ErrorCode.5' => 'Ошибка значения параметра запроса',
+    'ErrorCode.6' => 'It is possible to request a parametra request',
 ];

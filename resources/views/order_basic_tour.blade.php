@@ -20,11 +20,13 @@ page-tours-details
                             <span class="price {{$currency['currency']}}">{{round($totalPrice/$currency[$currency['currency']], 2)}}</span>
                             <div class="clearfix"></div>
                             <span class="othercurrency">
-                    @foreach ($currency as $key => $value)
-                                    @if (($key !== 'currency') && ($key !== $currency['currency']))
-                                        <span class="{{$key}}">{{round($totalPrice/$value, 2)}}{{$key!='rur' ? ' &nbsp; /' : ''}}</span>
-                                    @endif
-                                @endforeach
+                                <?php $n=0; ?>
+                            @foreach ($currency as $key => $value)
+                                @if (($key !== 'currency') && ($key !== $currency['currency']))
+                                    <span class="{{$key}}">{{round($totalPrice/$value, 2)}}{{$n<2 ? ' &nbsp; /' : ''}}</span>
+                                            <?php $n++ ?>
+                                @endif
+                            @endforeach
                 </span>
                         </div>
                         <div class="col">
