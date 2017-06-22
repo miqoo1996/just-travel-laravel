@@ -14,6 +14,8 @@ class Tour extends Model
 
     public $isBasic = false;
 
+    public $isBasicFrequency = false;
+
     private $isCustom = false;
 
     private $validator;
@@ -93,6 +95,11 @@ class Tour extends Model
     {
         // Saving event
         static::saving(function ($model) {
+            if ($model->scenario == 'update_order') {
+                $model->rules = [];
+                parent::boot();
+                return;
+            }
             if ($model->isDaily()) {
                 $model->rules += [
                     'basic_price_adult' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
@@ -108,11 +115,6 @@ class Tour extends Model
                     'hotel.infant.*' => ['required', 'integer', 'min:1', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 ];
             }
-            if ($model->scenario == 'update_order') {
-                $model->rules = [];
-                parent::boot();
-                return;
-            }
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->getRules());
             // Optionally customize this version using new ->after()
@@ -125,7 +127,8 @@ class Tour extends Model
                 }
                 $unsetDateValidationRule = false;
                 if ((isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') || $model->isBasic) {
-                    if($unsetDateValidationRule = !isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) {
+                    if((!isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) && !($model->isBasic && isset($model->basic_frequency) && strlen($model->basic_frequency))) {
+                        $unsetDateValidationRule = true;
                         $v->errors()->add('error:tour_dates', 'The calendar field is required');
                     }
                     if (!$unsetDateValidationRule) {
@@ -265,7 +268,7 @@ class Tour extends Model
         $tz = (Session::has('tz'))? Session::get('tz'): 4;
         $tours = self::rightJoin('tour_cat_rels', function ($query) use ($category_id){
             $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
-            ->where('tour_cat_rels.cat_id', '=' , $category_id);
+                ->where('tour_cat_rels.cat_id', '=' , $category_id);
         })->leftJoin('tour_dates', function ($query) use ($tz){
             $query->on('tour_dates.tour_id', '=', 'tours.id')
                 ->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3));
@@ -273,11 +276,11 @@ class Tour extends Model
             $query->on('tour_hotels.tour_id', '=', 'tours.id');
         })
             ->whereNotNull('tours.id')
-        ->orWhereNotNull('tours.basic_frequency')
-                ->groupBy('tours.id');
-            if ($order) {
-                $tours = $tours->orderBy('tours.order', 'ASC')->get();
-            }
+            ->orWhereNotNull('tours.basic_frequency')
+            ->groupBy('tours.id');
+        if ($order) {
+            $tours = $tours->orderBy('tours.order', 'ASC')->get();
+        }
         return $tours;
     }
 
@@ -311,8 +314,8 @@ class Tour extends Model
         $category = (!empty($request->category)) ? explode('/', $request->category) : false;
 
         $tours = Tour::leftJoin('tour_dates', function ($join) {
-                $join->on('tour_dates.tour_id', '=', 'tours.id');
-            })
+            $join->on('tour_dates.tour_id', '=', 'tours.id');
+        })
             ->join('tour_cat_rels', function ($join) {
                 $join->on('tour_cat_rels.tour_id', '=', 'tours.id');
             })
@@ -445,5 +448,3 @@ class Tour extends Model
     }
 
 }
-
-

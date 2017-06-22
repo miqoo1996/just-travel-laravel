@@ -114,7 +114,7 @@ class TourController extends Controller
                 }
             }
             TourDate::where('tour_id', $tour->id)->delete();
-            if (isset($tourDates)) TourDate::insert($tourDates);
+            if (isset($tourDates) && (($isBasic && strlen($tour->basic_frequency)) || !$isBasic)) TourDate::insert($tourDates);
 
             $path = 'images/tours/' . $tour->id;
 
