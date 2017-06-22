@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\SimpleImage;
 use App\Tour;
 use App\Hotel;
 use App\TourDate;
 use App\TourHotel;
 use App\TourCatRel;
+use App\SimpleImage;
 use App\TourCategory;
 use App\TourCustomDay;
 use App\HotelCalculator;
+use App\Http\Controllers\Traits\TourTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use App\Http\Controllers\Traits\TourTrait;
 use Illuminate\Support\Facades\Session;
-use Carbon\Carbon;
 
 class TourController extends Controller
 {
@@ -100,11 +100,11 @@ class TourController extends Controller
             TourCatRel::where('tour_id', $tour->id)->delete();
             if (!empty($tourCats)) TourCatRel::insert($tourCats);
 
-            if ($isBasic && !empty($request->specific_days)) {
-                $dates = explode(',', $request->specific_days);
-
-            } elseif (!empty($request->custom_dates)) {
-                $dates = explode(',', $request->custom_dates);
+            if ($isBasic && isset($request->specific_days) && $request->specific_days) {
+                $dates = strpos($request->specific_days,',') !== false ? explode(',', $request->specific_days) : [$request->specific_days];
+            }
+            if (!$isBasic && isset($request->custom_dates) && $request->custom_dates) {
+                $dates = strpos($request->custom_dates,',') !== false ? explode(',', $request->custom_dates) : [$request->custom_dates];
             }
             if (isset($dates)) {
                 foreach ($dates as $date) {
@@ -114,7 +114,7 @@ class TourController extends Controller
                 }
             }
             TourDate::where('tour_id', $tour->id)->delete();
-            if (isset($tourDates) && (($isBasic && strlen($tour->basic_frequency)) || !$isBasic)) TourDate::insert($tourDates);
+            if (isset($tourDates)) TourDate::insert($tourDates);
 
             $path = 'images/tours/' . $tour->id;
 

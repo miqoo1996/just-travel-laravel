@@ -302,7 +302,8 @@
   <div class="clearfix"></div>
   <div class="form-group" style="margin:15px 0 0;">
     <label class="control-label col-md-3 col-sm-3 col-xs-12" style="margin:8px 0 0;">Calendar (select
-      specific days) <span class="required">*</span></label>
+      specific days)
+    </label>
     <div class="col-md-3 col-sm-3 col-xs-3">
       <input type="text" name="specific_days" class="form-control calendar tour-datepicker"
                                placeholder="DatePicker" name="basic_dates">

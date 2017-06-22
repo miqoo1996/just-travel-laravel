@@ -3,7 +3,6 @@
 namespace App;
 
 use Carbon\Carbon;
-use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
