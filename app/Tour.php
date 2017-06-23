@@ -70,6 +70,7 @@ class Tour extends Model
         $this->rules['tour_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id);
         if (!$this->isCustom()) {
             $this->rules += [
+                'traveler_email' => 'email|max:255',
                 'tour_name_ru' => 'required|max:255',
                 'desc_ru' => 'required',
                 'tags_ru' => 'max:255',

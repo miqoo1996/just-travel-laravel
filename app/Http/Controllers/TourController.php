@@ -201,10 +201,14 @@ class TourController extends Controller
         $data['errors'] = $tour->getValidator()->errors();
 
         if ($tour->id) {
-            $tour['custom_days'] = $tour->getCustomDays();
-            $tour['hotels'] = $tour->getHotels();
-            $tour['hotels'] = ($tour['hotels']->isEmpty()) ? false : $tour['hotels'];
-            $tour['tour_images'] = explode(',', $tour->tour_images);
+            //$tour['custom_days'] = $tour->getCustomDays();
+            $tour['custom_days'] = $tour->customDays;
+            //$tour['hotels'] = $tour->getHotels();
+            $tour['hotels'] = $tour->hotels;
+            $tour['hotels'] = $tour['hotels']->isEmpty() ? false : $tour['hotels'];
+            if (!$tour->isCustom()) {
+                $tour['tour_images'] = explode(',', $tour->tour_images);
+            }
             $data['tour'] = $tour;
         }
 
