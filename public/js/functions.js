@@ -224,16 +224,16 @@ function stopLoading() {
     var hotel =  "<div class='new_hotel'><div class='col-md-3 col-sm-3 col-xs-12'> Hotel" +
         "<select class='form-control qaq' name='hotel[hotel_id][]'>"+
         "</select></div>" +
-        "<div class='col-md-3 col-sm-3 col-xs-12'> Single Adult (12-99)" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Single Adult (12-99) <span class='required'>*</span>" +
         "<input type='text' class='form-control' placeholder='Price' name='hotel[single_adult][]' value=''></div>" +
-        "<div class='col-md-3 col-sm-3 col-xs-12'> Double Adult (12-99)" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Double Adult (12-99) <span class='required'>*</span>" +
         "<input type='text' class='form-control' placeholder='Price' name='hotel[double_adult][]' value=''></div>" +
-        "<div class='col-md-3 col-sm-3 col-xs-12'> Tripple Adult (12-99)" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Tripple Adult (12-99) <span class='required'>*</span>" +
         "<input type='text' class='form-control' placeholder='Price' name='hotel[triple_adult][]' value=''></div>" +
         "<div class='col-md-3 col-sm-3 col-xs-12'> </div>" +
-        "<div class='col-md-3 col-sm-3 col-xs-12'> Child (4-11)" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Child (4-11) <span class='required'>*</span>" +
         "<input type='text' class='form-control' placeholder='Price' name='hotel[child][]' value=''></div>" +
-        "<div class='col-md-3 col-sm-3 col-xs-12'> Infant (0-4)" +
+        "<div class='col-md-3 col-sm-3 col-xs-12'> Infant (0-4) <span class='required'>*</span>" +
         "<input type='text' class='form-control' placeholder='Price' name='hotel[infant][]' value=''></div>" +
         "<div class='clearfix margin-b-10'></div></div>";
 
