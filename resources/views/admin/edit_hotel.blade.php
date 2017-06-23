@@ -102,7 +102,7 @@
                             </div>
                             {{--<form>--}}
                                 <div class="control-group">
-                                    <input id="tags_1" type="text" class="tags form-control" value="{{$hotel->tags_en}}" name="tags_en"/>
+                                    <input id="tags_1" type="text" class="tags form-control" value="{{$hotel->tags_en ? $hotel->tags_en : 'social, adverts, sales'}}" name="tags_en"/>
                                     <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
                                 </div>
                             {{--</form>--}}
@@ -133,7 +133,7 @@
                             </div>
                             {{--<form>--}}
                                 <div class="control-group">
-                                    <input id="tags_1" type="text" class="tags form-control" value={{$hotel->tags_ru}} name="tags_ru"/>
+                                    <input id="tags_2" type="text" class="tags form-control" value="{{$hotel->tags_ru ? $hotel->tags_ru : 'social, adverts, sales'}}" name="tags_ru"/>
                                     <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
                                 </div>
                             {{--</form>--}}

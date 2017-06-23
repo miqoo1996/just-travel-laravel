@@ -1017,7 +1017,7 @@ if (typeof NProgress != 'undefined') {
 				  
 				if(typeof $.fn.tagsInput !== 'undefined'){	
 				 
-				$('#tags_1').tagsInput({
+				$('#tags_1, #tags_2').tagsInput({
 				  width: 'auto'
 				});
 				
