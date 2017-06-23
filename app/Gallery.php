@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 
 class Gallery extends Model
 {
+    public $scenario = 'insert';
+
     private $validator;
 
     protected $fillable = [
@@ -42,6 +44,11 @@ class Gallery extends Model
     {
         // Saving event
         static::saving(function ($model) {
+            if ($model->scenario == 'update_order') {
+                $model->rules = [];
+                parent::boot();
+                return;
+            }
             $model->rules['gallery_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,id|unique:galleries,gallery_url,%d,id|unique:tour_categories,url|max:255', $model->id);
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->rules);
@@ -73,7 +80,7 @@ class Gallery extends Model
     public function getImages($order = false, array $where = [])
     {
         if ($order) {
-            $images = $this->orderBy('order', 'ASC');
+            $images = $this->orderBy($where[0] == 'portfolio' ? 'portfolio_order' : 'gallery_order', 'ASC');
             if (!empty($where)) {
                 $images->where($where[0], $where[1]);
             }
@@ -84,14 +91,15 @@ class Gallery extends Model
         return $images;
     }
 
-    public function saveData(array $attributes)
+    public function saveData(array $attributes, $order_type)
     {
         if (is_array($attributes) && !empty($attributes)) {
             foreach ($attributes as $attribute) {
                 if (isset($attribute['page_id'], $attribute['order'])) {
                     $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
                     if ($model) {
-                        $model->order = intval($attribute['order']);
+                        $model->scenario = 'update_order';
+                        $model->$order_type = intval($attribute['order']);
                         $model->save();
                     }
                 }

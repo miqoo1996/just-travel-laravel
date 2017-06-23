@@ -101,7 +101,8 @@ class GalleryController extends Controller
 
     public function getPortfolios()
     {
-        $galleries = Gallery::where('portfolio', 'on')->get()->toArray();
+        $model = new Gallery();
+        $galleries = $model->getImages(true, ['portfolio', 'on']);
         $type = 'portfolio';
         return view('galleries', compact('galleries', 'type'));
     }

@@ -38,7 +38,8 @@ class PhotoGalleryController extends Controller
         $model = new Gallery();
         $images = $model->getImages(true, ['gallery', 'on']);
         $title = 'Photo Gallery';
-        return view('admin.photo_orders', compact('images', 'title'));
+        $type = 'gallery_order';
+        return view('admin.photo_orders', compact('images', 'title', 'type'));
     }
 
     public function adminPortfolioOrders()
@@ -46,14 +47,16 @@ class PhotoGalleryController extends Controller
         $model = new Gallery();
         $images = $model->getImages(true, ['portfolio', 'on']);
         $title = 'Portfolio';
-        return view('admin.photo_orders', compact('images', 'title'));
+        $type = 'portfolio_order';
+        return view('admin.photo_orders', compact('images', 'title', 'type'));
     }
 
     public function adminPhotoOrdersSave(Request $request)
     {
+        $order_type = $request->get('type', 'portfolio_order') == 'gallery_order' ? 'gallery_order' : 'portfolio_order';
         $model = new Gallery();
         $items = $request->get('items');
-        $model->saveData($items);
+        $model->saveData($items, $order_type);
     }
 
 }
