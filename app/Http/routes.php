@@ -1,7 +1,9 @@
 <?php
 
-Route::get('/admin', 'AdminController@getLogin');
-Route::post('/admin/panel', 'AdminController@postLogin')->name('login');
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/admin', 'AdminController@getLogin');
+    Route::post('/admin/panel', 'AdminController@postLogin')->name('login');
+});
 
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('/admin/dashboard', 'AdminController@getDashboard')->name('admin-dashboard');
@@ -68,6 +70,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::post('/set_guest_timezone', 'CurrencyController@setGuestTimezone');
+
 Route::group(['middleware' => ['language']], function () {
     Route::get('/', 'PageController@getIndexPage');
     Route::get('set_lang/{lang}', 'LanguageController@setLanguage');

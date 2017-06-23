@@ -116,32 +116,32 @@
                                 @if(empty($image))
                                     <div><p class="alert warning">No images</p></div>
                                 @else
-                                    <li class="col-lg-2 custom-image-viewer-item">
-                                        <div>
-                                            <span class="-remove custom-image-remove-button"
-                                                  id={{'gallery?' .$image->id . '?gallery?' . $image->image_path}}></span>
-                                            <button type="button" class="cropper-modal" id="gallery" data-target="#cropper-modal" data-toggle="modal"></button>
-                                            <img src="{{URL::asset('/' . $image->image_path)}}" alt="profile Pic">
-
-                                        </div>
-                                    </li>
+                                    @if($img = App\SimpleImage::image($image, true, 'thumbnail', false))
+                                        <li class="col-lg-2 custom-image-viewer-item">
+                                            <div>
+                                                <span class="-remove custom-image-remove-button"
+                                                      id={{'gallery?' .$image->id . '?gallery?' . $image->image_path}}></span>
+                                                <button type="button" class="cropper-modal" id="gallery" data-target="#cropper-modal" data-toggle="modal"></button>
+                                                <img src="{{$img}}" alt="profile Pic">
+                                            </div>
+                                        </li>
+                                    @endif
                                 @endif
 
                             @endforeach
                         </ul>
                     </div>
-                    @if(!empty($gallery['main_image']))
+                    @if($image = App\SimpleImage::image($gallery['main_image'], true, 'thumbnail', false))
                         <div>
                             <h2>Main Image</h2>
                             <div class="custom-image-viewer">
                                 <div class="custom-image-viewer-item">
                                     <button type="button" class="cropper-modal" id="main-image" data-target="#cropper-modal" data-toggle="modal"></button>
-                                    <img src="{{asset($gallery['main_image'])}}" alt="">
+                                    <img src="{{$image}}" alt="">
                                 </div>
                             </div>
                         </div>
                     @endif
-
                     <p>
                         <input type="file" name="main_image" size="chars" id="main_image">
                     </p>

@@ -640,10 +640,13 @@
             </div>
             @else
             <li class="col-lg-2 custom-image-viewer-item">
-              <div> <span class="-remove custom-image-remove-button"
-                                                          id="{{'tours?' .$tour->id . '?tour_images?' . $tour_image}}"></span>
+              <div>
+                <span class="-remove custom-image-remove-button" id="{{'tours?' .$tour->id . '?tour_images?' . $tour_image}}"></span>
                 <button type="button" class="cropper-modal" id="gallery" data-target="#cropper-modal" data-toggle="modal"></button>
-                <img src="{{asset($tour_image)}}" alt="profile Pic"> </div>
+                @if($image = App\SimpleImage::image($tour_image, true, 'thumbnail', false))
+                  <img src="{{$image}}" alt="profile Pic">
+                @endif
+              </div>
             </li>
             @endif
             
@@ -654,12 +657,12 @@
         <p>
           <input type="file" name="tour_main_image" size="chars">
         </p>
-        @if(null !== $tour->tour_main_image)
+        @if($image = App\SimpleImage::image($tour->tour_main_image, true, 'thumbnail', false))
         <h2>Main Image</h2>
         <div class="custom-image-viewer">
           <div class="custom-image-viewer-item">
             <button type="button" class="cropper-modal" id="main-image" data-target="#cropper-modal" data-toggle="modal"></button>
-            <img src="{{asset($tour->tour_main_image)}}" alt=""> </div>
+            <img src="{{$image}}" alt=""> </div>
         </div>
         @else
         <div>
@@ -670,7 +673,7 @@
         <p>
           <input type="file" name="hot_image" size="chars">
         </p>
-        @if(null !== $tour->hot_image)
+        @if($image = App\SimpleImage::image($tour->hot_image, true, 'thumbnail', false))
         <div>
           <h2>Uploaded Hot Tour Image</h2>
           <div class="clearfix"></div>
@@ -678,7 +681,7 @@
         <div class="custom-image-viewer">
           <div class="custom-image-viewer-item">
             <button type="button" class="cropper-modal" id="hot" data-target="#cropper-modal" data-toggle="modal"></button>
-            <img src="{{asset($tour->hot_image)}}" alt=""> </div>
+            <img src="{{$image}}" alt=""> </div>
         </div>
         @else
         <div>

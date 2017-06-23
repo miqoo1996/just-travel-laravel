@@ -249,7 +249,7 @@ class AdminController extends Controller
                 break;
         }
 
-        return ($status) ? 'true' : 'false';
+        return $status ? 'true' : 'false';
     }
 
     public function adminGetSettings()

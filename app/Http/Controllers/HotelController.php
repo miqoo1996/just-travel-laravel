@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Hotel;
-use App\Http\Controllers\Traits\HotelTrait;
 use App\SimpleImage;
-use App\TourDay;
-use App\TourHolel;
+use App\Http\Controllers\Traits\HotelTrait;
 use Illuminate\Http\Request;
 
 class HotelController extends Controller
@@ -33,19 +31,19 @@ class HotelController extends Controller
     public function adminPostNewHotel(Request $request)
     {
         $imageChecker = true;
-        if($request->get('hotel_id')){
+        if ($request->get('hotel_id')) {
             $hotel = Hotel::find($request->get('hotel_id'));
             SimpleImage::setModel(clone $hotel);
-            if(null !== $hotel->images) $imageChecker = false;
+            if ($hotel->images) $imageChecker = false;
         } else {
             $hotel = new Hotel();
         }
 
         $checker = true;
         $fieldsRegions = '';
-        foreach (config('regions.fields') as $region){
-            if(isset($request->$region)){
-                $fieldsRegions .= ($checker)? $region: ','.$region;
+        foreach (config('regions.fields') as $region) {
+            if (isset($request->$region)) {
+                $fieldsRegions .= ($checker) ? $region : ',' . $region;
                 $checker = false;
             }
         }
@@ -59,13 +57,13 @@ class HotelController extends Controller
             $this->setFile($request, $fields, 'images/hotels/hotel_main_image/', 'hotel_main_image');
 
             $fieldsImages = $hotel->images;
-            if($request->hasFile('files')){
-                foreach($request->file('files') as $key => $item){
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $key => $item) {
                     if (in_array($item->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
                         $imageName = uniqid();
                         $images[$key] = isset($images[$key]) ? $images[$key] : $imageName . config('const.' . $item->getMimeType());
                         $image_name = $images[$key];
-                        $fieldsImages .=  ($imageChecker)? 'images/hotels/'.$image_name: ',images/hotels/'.$image_name;
+                        $fieldsImages .= $imageChecker ? 'images/hotels/' . $image_name : ',images/hotels/' . $image_name;
                         $imageChecker = false;
                     }
                 }
@@ -77,8 +75,8 @@ class HotelController extends Controller
 
         if ($hotel->save()) {
             $this->setFile($request, $fields, 'images/hotels/hotel_main_image/', 'hotel_main_image', true);
-            if($request->hasFile('files')){
-                foreach($request->file('files') as $key => $item){
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $key => $item) {
                     if (in_array($item->getMimeType(), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
                         if (isset($image_name)) {
                             $imageName = uniqid();
@@ -90,7 +88,7 @@ class HotelController extends Controller
                     }
                 }
             }
-            return ($request->ajax())? route('admin-hotels') : redirect()->route('admin-hotels');
+            return ($request->ajax()) ? route('admin-hotels') : redirect()->route('admin-hotels');
         }
         if (!$request->ajax()) {
             $hotel['images'] = explode(',', $hotel->images);
@@ -117,11 +115,11 @@ class HotelController extends Controller
     public function getHotelByUrl($hotel_url)
     {
         $hotel = Hotel::where('hotel_url', $hotel_url)->first();
-            if(null == $hotel){
+        if (null == $hotel) {
             return view('errors.404');
-            }
-            $hotel = $hotel->toArray();
-            $hotel['images'] = explode(',', $hotel['images']);
+        }
+        $hotel = $hotel->toArray();
+        $hotel['images'] = explode(',', $hotel['images']);
         return view('hotel_details', compact('hotel', 'hotTours'));
     }
 }

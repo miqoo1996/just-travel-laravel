@@ -77,10 +77,14 @@ class Hotel extends Model
                         $v->errors()->add('error:type', 'Error');
                     }
                 }
+                if (is_null($model->images)) {
+                    $model->images = '';
+                }
             });
             $model->validator = $v;
             return !$v->fails();
         });
         parent::boot();
     }
+
 }

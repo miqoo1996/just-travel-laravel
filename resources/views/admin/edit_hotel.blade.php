@@ -188,13 +188,15 @@
                             @else
                             <ul class="list-unstyled custom-image-viewer">
                                 @foreach($hotel->images as $image)
+                                    @if($img = App\SimpleImage::image($image, true, 'thumbnail', false))
                                         <li class="col-lg-2 custom-image-viewer-item">
                                             <div>
                                                 <span class="-remove custom-image-remove-button" id="{{'hotels?' .$hotel->id . '?hotels?' . $image}}"></span>
                                                 <button type="button" class="cropper-modal" id="gallery" data-target="#cropper-modal" data-toggle="modal"></button>
-                                                <img src="{{URL::asset('/' . $image)}}" alt="profile Pic">
+                                                <img src="{{$img}}" alt="profile Pic">
                                             </div>
                                         </li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @endif
@@ -203,12 +205,12 @@
                         <p>
                             <input type="file" name="hotel_main_image" size="chars" id="main_image">
                         </p>
-                        @if(null !== $hotel->hotel_main_image)
+                            @if($image = App\SimpleImage::image($hotel->hotel_main_image, true, 'thumbnail', false))
                             <h2>Main Image</h2>
                             <div class="custom-image-viewer">
                                 <div class="custom-image-viewer-item">
                                     <button type="button" class="cropper-modal" id="main-image" data-target="#cropper-modal" data-toggle="modal"></button>
-                                    <img src="{{asset($hotel->hotel_main_image)}}" alt="">
+                                    <img src="{{$image}}" alt="">
                                 </div>
                             </div>
                         @else
