@@ -29,7 +29,7 @@
 
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Category Name<span class="required">*</span>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Category Name <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id="cat_name_en" name="category_name_en" class="form-control col-md-7 col-xs-12 category-holder" placeholder="Category Name (English)">
@@ -55,7 +55,7 @@
                             <div class="x_content">
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Category Name<span class="required">*</span>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Category Name <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id="cat_name_ru" name="category_name_ru" class="form-control col-md-7 col-xs-12 category-holder" placeholder="Category Name (Russian)">
@@ -70,7 +70,7 @@
                     <div class="x_panel">
 
                         <div class="x_title">
-                            <h2>Tour Category URL</h2>
+                            <h2>Tour Category URL <span class="required">*</span></h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
