@@ -25,6 +25,9 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer(
             'includes.hot_tours', 'App\Http\ViewComposers\HotToursComposer'
         );
+        view()->composer(
+            'admin.layouts.dashboard_layout', 'App\Http\ViewComposers\OrderTourNotificationsComposer'
+        );
     }
 
     /**

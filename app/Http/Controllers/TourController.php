@@ -225,10 +225,10 @@ class TourController extends Controller
 
     public function ajaxGetToursByCategory($category_id)
     {
-        $data['tours'] = Tour::toursByCategory($category_id);
+        $data['tours'] = Tour::toursByCategory($category_id, 6);
         $data['currentCategory'] = TourCategory::find($category_id);
+        $data['countTours'] = Tour::getTourCountByCategory($category_id);
         $data['currentCatId'] = $category_id;
-        $data['countTours'] = count($data['tours']);
         Session::set('cat_id', $category_id);
         return view('ajax_views.index_tours', $data);
     }

@@ -33,4 +33,18 @@ class OrderTour extends Model
     {
         return $this->hasMany('App\OrderMember', 'order_tour_id', 'id');
     }
+
+    public function getNotReadedOrders(&$count = 0, $limit = 20)
+    {
+        $query = $this
+            ->rightJoin('payments', 'payments.order_tour_id', '=', 'order_tours.id')
+            ->leftJoin('tours', 'tours.id', '=', 'order_tours.tour_id')
+            ->where('read', 0)
+            ->get();
+
+        $count = $query->count();
+        $items = $query->take($limit)->all();
+        return $items;
+    }
+
 }

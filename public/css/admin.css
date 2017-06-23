@@ -157,3 +157,5 @@ label.admin-image-label:after{
 .select select:hover ~ .select_arrow,
 .select select:focus ~ .select_arrow {border-top-color: #000;}
 .select select:disabled ~ .select_arrow {border-top-color: #ccc;}
+
+table tr.nots-show, .table-striped>tbody>tr.nots-show:nth-of-type(odd) {background: #eea42d !important;}

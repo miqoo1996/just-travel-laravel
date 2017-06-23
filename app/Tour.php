@@ -288,6 +288,26 @@ class Tour extends Model
         return $tours;
     }
 
+    public static function getTourCountByCategory($category_id)
+    {
+        $tz = Session::has('tz') ? Session::get('tz') : 4;
+
+        $query = self::rightJoin('tour_cat_rels', function ($query) use ($category_id) {
+            $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
+                ->where('tour_cat_rels.cat_id', '=', $category_id);
+        })->leftJoin('tour_dates', function ($query) use ($tz) {
+            $query->on('tour_dates.tour_id', '=', 'tours.id')
+                ->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3));
+        })->leftJoin('tour_hotels', function ($query) use ($tz) {
+            $query->on('tour_hotels.tour_id', '=', 'tours.id');
+        })->whereNotNull('tours.id')
+            ->orWhereNotNull('tours.basic_frequency')
+            ->groupBy('tours.id');
+
+        $count = $query->get()->count();
+        return $count;
+    }
+
     public static function generateDateWeekDays(Carbon $start_date, Carbon $end_date)
     {
         $dates = [];

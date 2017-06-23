@@ -27,12 +27,12 @@
     <link rel="stylesheet" href={{asset("vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css")}} >
     <link rel="stylesheet" href={{asset("vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css")}} >
     <link rel="stylesheet" href={{asset("vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css")}} >
-{{--    <link rel="stylesheet" href={{asset("vendors/crop/dist/cropper.css")}}>--}}
-    <link rel="stylesheet" href="{{asset('vendors/croppie/croppie.css')}}" />
+    {{--    <link rel="stylesheet" href={{asset("vendors/crop/dist/cropper.css")}}>--}}
+    <link rel="stylesheet" href="{{asset('vendors/croppie/croppie.css')}}"/>
 
 
 @yield('css')
-    <!-- Custom Theme Style -->
+<!-- Custom Theme Style -->
     <link href={{asset("build/css/custom.min.css")}} rel="stylesheet">
 </head>
 
@@ -56,7 +56,7 @@
                 </div>
                 <!-- /menu profile quick info -->
 
-                <br />
+                <br/>
 
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -82,19 +82,26 @@
                                 <a href="{{route('admin-get-galleries')}}"><i class="fa fa-photo"></i>Photo Gallery</a>
                             </li>
                             <li>
-                                <a href="{{route('admin-video-gallery')}}"><i class="fa fa-video-camera"></i>Video Gallery</a>
+                                <a href="{{route('admin-video-gallery')}}"><i class="fa fa-video-camera"></i>Video
+                                    Gallery</a>
                             </li>
                             <li>
                                 <a href="{{route('admin-pdf-list')}}"><i class="fa fa-file-pdf-o"></i>Download PDF's</a>
                             </li>
                             <li><a><i class="fa fa-list-ol"></i>Ordering<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{route('admin-tour-orders')}}"><i class="fa fa-list-ol"></i>Tour Orders</a></li>
-                                    <li><a href="{{route('admin-photo-gallery-orders')}}"><i class="fa fa-list-ol"></i>Photo Gallery Orders</a></li>
-                                    <li><a href="{{route('admin-portfolio-orders')}}"><i class="fa fa-list-ol"></i>Portfolio Orders</a></li>
-                                    <li><a href="{{route('admin-video-orders')}}"><i class="fa fa-list-ol"></i>Video Orders</a></li>
-                                    <li><a href="{{route('admin-pdf-orders')}}"><i class="fa fa-list-ol"></i>Pdf Orders</a></li>
-                                    <li><a href="{{route('admin-page-orders')}}"><i class="fa fa-list-ol"></i>Menu Orders</a></li>
+                                    <li><a href="{{route('admin-tour-orders')}}"><i class="fa fa-list-ol"></i>Tour
+                                            Orders</a></li>
+                                    <li><a href="{{route('admin-photo-gallery-orders')}}"><i class="fa fa-list-ol"></i>Photo
+                                            Gallery Orders</a></li>
+                                    <li><a href="{{route('admin-portfolio-orders')}}"><i class="fa fa-list-ol"></i>Portfolio
+                                            Orders</a></li>
+                                    <li><a href="{{route('admin-video-orders')}}"><i class="fa fa-list-ol"></i>Video
+                                            Orders</a></li>
+                                    <li><a href="{{route('admin-pdf-orders')}}"><i class="fa fa-list-ol"></i>Pdf Orders</a>
+                                    </li>
+                                    <li><a href="{{route('admin-page-orders')}}"><i class="fa fa-list-ol"></i>Menu
+                                            Orders</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -117,7 +124,8 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                               aria-expanded="false">
                                 <img src={{asset("images/jt_logo.png")}} alt="">{{Auth::user()->first_name}} {{Auth::user()->last_name}}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
@@ -125,61 +133,39 @@
                                 <li>
                                     <a href="{{route('admin-settings')}}"><span><i class="fa fa-gears pull-right"></i>Settings</span></a>
                                 </li>
-                                <li><a href={{route('admin-logout')}}><i class="fa fa-sign-out pull-right"></i>Log Out</a></li>
+                                <li><a href={{route('admin-logout')}}><i class="fa fa-sign-out pull-right"></i>Log
+                                        Out</a></li>
                             </ul>
                         </li>
 
                         <li role="presentation" class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
+                               aria-expanded="false">
                                 <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
+                                <span class="badge bg-green">{{$orderNotificationsCount}}</span>
                             </a>
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                <li>
-                                    <a>
-
-                        <span>
-                          <span>Edgar Smith</span>
-                          <span class="time">Today</span>
-                        </span>
-                                        <span class="message">
-                          Tour Name...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                        <span>
-                          <span>Edgar Smith</span>
-                          <span class="time">Today</span>
-                        </span>
-                                        <span class="message">
-                          Tour Name...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                        <span>
-                          <span>Edgar Smith</span>
-                          <span class="time">Today</span>
-                        </span>
-                                        <span class="message">
-                          Tour Name...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                        <span>
-                          <span>Edgar Smith</span>
-                          <span class="time">Today</span>
-                        </span>
-                                        <span class="message">
-                          Tour Name...
-                        </span>
-                                    </a>
-                                </li>
+                                @if($orderNotificationsCount)
+                                    @foreach($orderNotifications as $orderNotification)
+                                        <li>
+                                            <a href="{{ url('/admin/dashboard?nots=show') }}">
+                                                <span>
+                                                  <span>{{$orderNotification->lead_name . ' ' . $orderNotification->lead_surname}}</span>
+                                                  <span class="time">{{$orderNotification->date_from}}</span>
+                                                </span>
+                                                    <span class="message">
+                                                    {!! isset($orderNotification->tour->tour_name_en) ? '<span style="color:#398439">' . htmlentities($orderNotification->tour->tour_name_en) . '</span>' : '<span style="color:#ac2925">the tour deleted.</span>' !!}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li>
+                                        <a>
+                                            No Order Found
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     </ul>
@@ -189,18 +175,16 @@
         <!-- /top navigation -->
 
 
-
-
-
         <!-- page content -->
-        @yield('content')
-        <!-- /page content -->
+    @yield('content')
+    <!-- /page content -->
         <div class="modal fade" id="cropper-modal" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLabel">Crop the image</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <div class="image-container">
@@ -208,22 +192,23 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel_croppie">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel_croppie">Close
+                        </button>
                         <button type="button" class="btn btn-success" id="save_cropped">Save</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-        <!-- footer content -->
-        <footer>
-            <div class="pull-right">
-                Admin Panel by <a href="https://colorlib.com">JustTravel</a>
-            </div>
-            <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
-    </div>
+    <!-- footer content -->
+    <footer>
+        <div class="pull-right">
+            Admin Panel by <a href="https://colorlib.com">JustTravel</a>
+        </div>
+        <div class="clearfix"></div>
+    </footer>
+    <!-- /footer content -->
+</div>
 </div>
 
 <!-- jQuery -->

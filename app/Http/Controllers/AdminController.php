@@ -47,7 +47,11 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-    public function getDashboard()
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getDashboard(Request $request)
     {
         $orders = OrderTour::rightJoin('payments', 'payments.order_tour_id', '=', 'order_tours.id')
             ->leftJoin('tours', 'tours.id', '=', 'order_tours.tour_id')
@@ -62,6 +66,7 @@ class AdminController extends Controller
         $data['orders'] = $orders;
         $data['success_orders'] = $successOrders;
         $data['total_amount'] = $totalAmount / 100;
+        $data['nots'] = $request->get('nots');
         return view('admin.dashboard', $data);
     }
 

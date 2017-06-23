@@ -60,7 +60,7 @@
 
                                 <tbody>
                                 @foreach($orders as $order)
-                                    <tr>
+                                    <tr @if($nots == 'show' && !$order->read) class="nots-show"@endif>
                                         <td>{{$order->lead_name . ' ' . $order->lead_surname}}</td>
                                         <td>{{$order->tour_name_en}}</td>
                                         <td>{{$order->date_from}}</td>
