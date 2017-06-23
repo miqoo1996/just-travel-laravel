@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -61,13 +62,13 @@ class Tour extends Model
         'tags_en' => 'max:255',
         'tour_images' => 'max:255',
         'hot_image' => 'max:255',
-        'traveler_email' => 'email|max:255',
+        'traveler_email' => 'required|email|max:255',
     ];
 
     public function getRules()
     {
+        $this->rules['tour_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id);
         if (!$this->isCustom()) {
-            $this->rules['tour_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id);
             $this->rules += [
                 'tour_name_ru' => 'required|max:255',
                 'desc_ru' => 'required',
@@ -166,6 +167,21 @@ class Tour extends Model
             return !$v->fails();
         });
         parent::boot();
+    }
+
+    public function save(array $options = [])
+    {
+        if ($saved = parent::save($options)) {
+            if ($this->isCustom() && $this->scenario == 'insert') {
+                $tour_name = $this->tour_name_en;
+                $traveler_email = $this->traveler_email;
+                Mail::send('emails.custom_tour', ['model' => $this], function($message) use ($traveler_email, $tour_name)
+                {
+                    $message->to($traveler_email, env('ADMIN_NAME') . ' ' . env('ADMIN_FIRSTNAME'))->from(env('ADMIN_EMAIL'))->subject($tour_name);
+                });
+            }
+        }
+        return $saved;
     }
 
     public function setIsCustom($custom)

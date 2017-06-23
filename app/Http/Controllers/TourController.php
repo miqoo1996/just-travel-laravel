@@ -164,8 +164,10 @@ class TourController extends Controller
     {
         if ($request->get('tour_id')) {
             $tour = Tour::find($request->tour_id);
+            $tour->scenario = 'update';
         } else {
             $tour = new Tour();
+            $tour->scenario = 'insert';
             $tour->type = 'custom';
         }
 
@@ -176,6 +178,7 @@ class TourController extends Controller
             $tourDays = $this->setTourDays($request, $tour, $isBasic);
             $tourHotels = $this->setTourHotels($tour, $fields);
             $tour->fill($fields);
+            $tour->tour_url = uniqid();
         }
 
         if ($tour->save()) {
@@ -235,9 +238,9 @@ class TourController extends Controller
 
     public function getTourByUrl($tour_url)
     {
-        $tour = Tour::where('tour_url', $tour_url)
-            ->join('tour_cat_rels', 'tours.id', '=', 'tour_cat_rels.tour_id')
-            ->join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
+        $tour = Tour::select(['*', 'id as tour_id'])->where('tour_url', $tour_url)
+            //->join('tour_cat_rels', 'tours.id', '=', 'tour_cat_rels.tour_id')
+            //->join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
             ->first();
         if (!$tour) {
             return redirect('/404');
