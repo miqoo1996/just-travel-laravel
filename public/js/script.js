@@ -31,6 +31,12 @@ $(document).ready(function () {
     });
 });
 
+var date_from = null,
+    adult = 1,
+    child = 0,
+    infant = 0,
+    tour_id = null;
+
 function tourCategoryViewer() {
     $('.tc-viewer').on('click', function () {
         var path = $(this).attr('id');
@@ -47,8 +53,9 @@ function tourCategoryViewer() {
                 $('body').html(error);
             }
         });
-    })
+    });
 }
+
 function searchTours() {
     $('#search_tours').on("click", function () {
         var par = $('form');
@@ -68,15 +75,12 @@ function searchTours() {
             ,
             success: function (data) {
                 $('#tours_area').html(data);
+                $('.mp-categories ul li.active').removeClass('active');
             }
         });
     })
 }
-var date_from = null,
-    adult = 1,
-    child = 0,
-    infant = 0,
-    tour_id = null;
+
 function tourDetailSearch() {
     var par = $('#custom_deatils_search');
     $(par).find('#detail_search').on("click", function () {
@@ -125,17 +129,16 @@ function tourDetailSearch() {
     })
 }
 
-
-function tourHotelPay(){
-    $('#search_res_container').on('click', 'button.hotel-payment-button',function () {
-        if(('' !== date_from) && (typeof tour_id !== 'undefined')){
+function tourHotelPay() {
+    $('#search_res_container').on('click', 'button.hotel-payment-button', function () {
+        if (('' !== date_from) && (typeof tour_id !== 'undefined')) {
             console.log(date_from);
             var htdata = $(this).attr('htdata');
-             $.ajax({
+            $.ajax({
                 url: '/order_tour',
                 type: 'POST',
                 data: {
-                    'htdata' : htdata,
+                    'htdata': htdata,
                     'date_from': date_from,
                     'adults_count': adult,
                     'children_count': child,
@@ -143,7 +146,7 @@ function tourHotelPay(){
                     'tour_id': tour_id
                 },
                 success: function (data) {
-                    window.location.href = 'http://'+ document.location.hostname + "/order_tour/" + data;
+                    window.location.href = 'http://' + document.location.hostname + "/order_tour/" + data;
 
                 },
                 error: function (data) {
@@ -154,6 +157,7 @@ function tourHotelPay(){
 
     });
 }
+
 function setTimeZone() {
     var tz = new Date().getTimezoneOffset();
     $.ajax({
@@ -164,7 +168,7 @@ function setTimeZone() {
         },
         success: function (data) {
             var show;
-            if(data > 0) {
+            if (data > 0) {
                 show = '+ ' + data;
             } else {
                 show = data;
