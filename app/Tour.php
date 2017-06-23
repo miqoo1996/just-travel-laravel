@@ -69,8 +69,8 @@ class Tour extends Model
     {
         $this->rules['tour_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id);
         if (!$this->isCustom()) {
+            $this->rules['traveler_email'] = 'email|max:255';
             $this->rules += [
-                'traveler_email' => 'email|max:255',
                 'tour_name_ru' => 'required|max:255',
                 'desc_ru' => 'required',
                 'tags_ru' => 'max:255',
@@ -349,7 +349,7 @@ class Tour extends Model
         }
     }
 
-    public static function searchTours($request)
+    public static function searchTours($request, $order = false)
     {
 
         $category = (!empty($request->category)) ? explode('/', $request->category) : false;
@@ -363,6 +363,10 @@ class Tour extends Model
             ->join('tour_categories', function ($join) {
                 $join->on('tour_categories.id', '=', 'tour_cat_rels.cat_id');
             });
+
+        if ($order) {
+            $tours = $tours->orderBy('tours.order', 'ASC');
+        }
 
         $dateStart = (!empty($request->date_start)) ? Carbon::createFromFormat('d/m/Y', $request->date_start) : Carbon::today();
         $dateEnd = (!empty($request->date_end)) ? Carbon::createFromFormat('d/m/Y', $request->date_end) : Carbon::today()->addDays(7);

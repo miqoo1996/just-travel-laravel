@@ -300,7 +300,7 @@ class TourController extends Controller
 
     public function postSearchTours(Request $request)
     {
-        $searchTours = Tour::searchTours($request);
+        $searchTours = Tour::searchTours($request, true);
         return View::make('ajax_views.search_tours', compact('searchTours'));
     }
 
