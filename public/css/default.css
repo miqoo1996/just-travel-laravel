@@ -578,6 +578,8 @@ a.year.current, a.year:hover{ text-decoration:none; background:#333; color:#FFF;
 
 .enter-travelers-data .error, .comments-and-contact .error {border-color: red;}
 
+.see-more-tours{margin-bottom: 25px;}
+
 
 /*MOBILE VERSION*/
 @media only screen and (max-width:720px){

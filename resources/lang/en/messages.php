@@ -11,6 +11,7 @@ return [
     'top_hotels_in_armenia' => 'Top Hotels in Armenia',
     'page_not_found' => 'Page Not Found',
     'go_to_home_page' => 'GO TO HOME PAGE',
+    'see_more' => 'SEE MORE',
     'hotels_in_armenia' => 'Hotels in Armenia',
     'hotel_description' => 'Hotel Description',
     'gallery' => 'Gallery',

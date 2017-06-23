@@ -90,8 +90,10 @@
                     <ul>
                         <?php
                         $selectedCat = $tourCategories[count($tourCategories) - 1]['id'];
+                        $selectedCatUrl = $tourCategories[count($tourCategories) - 1]['url'];
                         if (count($indexTours)) {
                             $selectedCat = $indexTours[0]['cat_id'];
+                            $selectedCatUrl = $indexTours[0]['tour_category'];
                         }
                         ?>
                         @foreach($tourCategories as $tc)
@@ -150,6 +152,12 @@
                             </div>
                         @endif
                     @endforeach
+
+                    @if($countTours > 6)
+                        <div class="see-more-tours">
+                            <a href="{{url('/' . $selectedCatUrl)}}" class="btn btn-warning" role="button">{{trans('messages.see_more')}}</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         @endif

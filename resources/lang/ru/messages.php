@@ -11,6 +11,7 @@ return [
     'top_hotels_in_armenia' => 'Популярные Отели в Армения',
     'page_not_found' => 'Страница не найдена',
     'go_to_home_page' => 'ВЕРНУТЬСЯ НА ДОМАШНЮЮ СТРАНИЦУ',
+    'see_more' => 'SEE MORE',
     'hotels_in_armenia' => 'Отели в Армении',
     'hotel_description' => 'Описание Отеля',
     'gallery' => 'Галлерея',

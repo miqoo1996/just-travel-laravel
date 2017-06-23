@@ -115,7 +115,7 @@ class Tour extends Model
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->getRules());
             // Optionally customize this version using new ->after()
-            $v->after(function() use ($v, $model) {
+            $v->after(function () use ($v, $model) {
                 // Do more validation
                 if (isset($model->visibility)) {
                     if (!in_array($model->visibility, ['on', 'off'])) {
@@ -124,7 +124,7 @@ class Tour extends Model
                 }
                 $unsetDateValidationRule = false;
                 if ((isset($model->custom_day_prp) && $model->custom_day_prp == 'custom') || $model->isBasic) {
-                    if((!isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) && !($model->isBasic && isset($model->basic_frequency) && strlen($model->basic_frequency))) {
+                    if ((!isset($model->tour_dates) || (isset($model->tour_dates) && !$model->tour_dates)) && !($model->isBasic && isset($model->basic_frequency) && strlen($model->basic_frequency))) {
                         $unsetDateValidationRule = true;
                         $v->errors()->add('error:tour_dates', 'The calendar field is required');
                     }
@@ -256,28 +256,35 @@ class Tour extends Model
 
     /**
      * @param null $category_id
-     * @param bool $limit
+     * @param int $limit
      * @param bool $order
      * @return mixed
      */
-    public static function toursByCategory($category_id, $limit = false, $order = true)
+    public static function toursByCategory($category_id, $limit = 0, $order = true)
     {
-        $tz = (Session::has('tz'))? Session::get('tz'): 4;
-        $tours = self::rightJoin('tour_cat_rels', function ($query) use ($category_id){
+        $tz = Session::has('tz') ? Session::get('tz') : 4;
+
+        $query = self::rightJoin('tour_cat_rels', function ($query) use ($category_id) {
             $query->on('tour_cat_rels.tour_id', '=', 'tours.id')
-                ->where('tour_cat_rels.cat_id', '=' , $category_id);
-        })->leftJoin('tour_dates', function ($query) use ($tz){
+                ->where('tour_cat_rels.cat_id', '=', $category_id);
+        })->leftJoin('tour_dates', function ($query) use ($tz) {
             $query->on('tour_dates.tour_id', '=', 'tours.id')
                 ->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3));
-        })->leftJoin('tour_hotels', function ($query) use ($tz){
+        })->leftJoin('tour_hotels', function ($query) use ($tz) {
             $query->on('tour_hotels.tour_id', '=', 'tours.id');
-        })
-            ->whereNotNull('tours.id')
+        })->whereNotNull('tours.id')
             ->orWhereNotNull('tours.basic_frequency')
             ->groupBy('tours.id');
+
         if ($order) {
-            $tours = $tours->orderBy('tours.order', 'ASC')->get();
+            $query = $query->orderBy('tours.order', 'ASC');
         }
+
+        if ($limit) {
+            $query = $query->take($limit);
+        }
+
+        $tours = $query->get();
         return $tours;
     }
 
@@ -286,7 +293,7 @@ class Tour extends Model
         $dates = [];
         $localdates = array_flip(config('const.bootstrap_week_days'));
         $date = $start_date;
-        while ($date <= $date->lte($end_date)){
+        while ($date <= $date->lte($end_date)) {
             $dates[] = $localdates[$date->dayOfWeek];
             $date->addDay();
         }
@@ -299,7 +306,7 @@ class Tour extends Model
     {
         $dates = [];
         $date = $start_date;
-        while($date <= $date->lte($end_date)){
+        while ($date <= $date->lte($end_date)) {
             $dates[] = $date->format('Y-m-d');
             $date->addDay();
         }
@@ -316,7 +323,7 @@ class Tour extends Model
             ->join('tour_cat_rels', function ($join) {
                 $join->on('tour_cat_rels.tour_id', '=', 'tours.id');
             })
-            ->join('tour_categories', function ($join){
+            ->join('tour_categories', function ($join) {
                 $join->on('tour_categories.id', '=', 'tour_cat_rels.cat_id');
             });
 
@@ -360,7 +367,7 @@ class Tour extends Model
             }
         });
 
-        if($category){
+        if ($category) {
             $tours = $tours->where('tour_categories.id', intval($category[0]));
         }
         $tours = $tours->where('tours.visibility', 'on');
@@ -392,10 +399,10 @@ class Tour extends Model
                 }
             }
         });
-        $tz = (Session::has('tz'))? Session::get('tz') : 4;
+        $tz = (Session::has('tz')) ? Session::get('tz') : 4;
         $tours = $tours->where('tour_dates.date', '>=', Carbon::now($tz)->addDay(3)->format('Y-m-d'));
 
-        if($category){
+        if ($category) {
             $tours = $tours->where('tour_categories.id', intval($category[0]));
         }
         return $tours;

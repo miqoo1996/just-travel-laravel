@@ -1,5 +1,7 @@
 <?php
 
+Route::post('/set_guest_timezone', 'CurrencyController@setGuestTimezone');
+
 Route::get('/admin', 'AdminController@getLogin');
 Route::post('/admin/panel', 'AdminController@postLogin')->name('login');
 
@@ -67,8 +69,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/voucher/{orderTourId}', 'AdminController@adminGetVoucher');
 });
 
-Route::post('/set_guest_timezone', 'CurrencyController@setGuestTimezone');
-
 Route::group(['middleware' => ['language']], function () {
     Route::get('/', 'PageController@getIndexPage');
     Route::get('set_lang/{lang}', 'LanguageController@setLanguage');
@@ -76,6 +76,7 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('/set_cur/{cur}', 'CurrencyController@setCurrency');
     Route::get('/tours/{tour_url}', 'TourController@getTourByUrl');
     Route::get('/tours', 'TourController@getTours');
+    Route::get('/tour/category/{tour_category_id}', 'TourController@getToursByCategory');
     Route::get('/hotels', 'HotelController@getHotels');
     Route::get('/hotels/{hotel_url}', 'HotelController@getHotelByUrl');
     Route::get('/video_gallery', 'VideoGalleryController@getVideoGallery');

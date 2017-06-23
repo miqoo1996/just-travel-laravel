@@ -18,10 +18,8 @@
                                 @endif
                             @endforeach
                         </div>
-                        <div class="price {{$currency['currency']}}"> {{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
-                    @else
-                        <div class="price {{$currency['currency']}}">{{round($tour['double_adult'] / $currency[$currency['currency']], 2)}}</div>
                     @endif
+                    <div class="price {{$currency['currency']}}"> {{round($tour['basic_price_adult'] / $currency[$currency['currency']], 2)}}</div>
                 </div>
             </div>
         @else
@@ -38,4 +36,10 @@
             </div>
         @endif
     @endforeach
+
+    @if($countTours > 6)
+        <div class="see-more-tours">
+            <a href="{{url('/' . $currentCategory['url'])}}" class="btn btn-warning" role="button">{{trans('messages.see_more')}}</a>
+        </div>
+    @endif
 </div>

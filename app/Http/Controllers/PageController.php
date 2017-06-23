@@ -65,13 +65,16 @@ class PageController extends Controller
         $tourCategories = TourCategory::getAvailableCategories();
         $hotTours = Tour::where('hot', 'on')->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
         $topHotels = Hotel::whereIn('type', config('const.top_hotel_types'))->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
+
         $indexTours = null;
         if (isset($tourCategories[0]['id'])) {
-            $currentCatId = (Session::has('cat_id') && (Session::get('cat_id') !== null)) ? Session::get('cat_id') : $tourCategories[0]['id'];
-            $indexTours = Tour::toursByCategory($currentCatId);
+            $currentCatId = Session::has('cat_id') && Session::get('cat_id') !== null ? Session::get('cat_id') : $tourCategories[0]['id'];
+            $indexTours = Tour::toursByCategory($currentCatId, 6);
         }
 
-        return view('index', compact('tourCategories', 'locale', 'indexTours', 'hotTours', 'topHotels', 'currentCatId'));
+        $countTours = count($indexTours);
+
+        return view('index', compact('tourCategories', 'locale', 'indexTours', 'hotTours', 'topHotels', 'currentCatId', 'countTours'));
     }
 
     public function getPageByUrl($page_url)
