@@ -214,11 +214,20 @@ class OrderTourController extends Controller
             $payment->fill($orderStatus);
             $payment->order_tour_id = $order->id;
             $payment->save();
-            if ($payment->ErrorCode === '0') {
+
+            if (($errorCode = $payment->ErrorCode == '0') && ($orderStatus = $payment->OrderStatus == '2')) {
                 Payment::generateAndSendVоucher($order);
                 return view('congratulations', compact('order', 'image'));
             }
-            $message = trans(sprintf('messages.ErrorCode.%s', $payment->ErrorCode));
+
+            $message = 'Error';
+            if ($errorCode == false) {
+                $message = trans(sprintf('messages.ErrorCode.%s', $payment->ErrorCode));
+            }
+            if ($orderStatus == false) {
+                $message = trans(sprintf('messages.OrderStatus.%s', $payment->OrderStatus));
+            }
+
             return view('payment_error', compact('message'));
         }
         return redirect('404');

@@ -69,4 +69,11 @@ return [
     'ErrorCode.2' => 'Order by default is always enabled in your account',
     'ErrorCode.5' => 'Ошибка значения параметра запроса',
     'ErrorCode.6' => 'It is possible to request a parametra request',
+    'OrderStatus.0' => 'Order registered but not paid for',
+    'OrderStatus.1' => 'Проведена предавторизация суммы заказа',
+    'OrderStatus.2' => 'Pre-authorization of the order amount',
+    'OrderStatus.3' => 'Authorization canceled',
+    'OrderStatus.4' => 'A return operation was performed on the transaction',
+    'OrderStatus.5' => 'Authorization through ACS of the issuing bank was initiated',
+    'OrderStatus.6' => 'Authorization rejected',
 ];
