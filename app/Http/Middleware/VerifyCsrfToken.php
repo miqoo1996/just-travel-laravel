@@ -16,6 +16,7 @@ class VerifyCsrfToken extends BaseVerifier
         'admin/*/*',
         'set_guest_timezone',
         'tours/*',
-        'order_tour'
+        'order_tour',
+        'tour_detail_search'
     ];
 }
