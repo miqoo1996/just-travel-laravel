@@ -60,7 +60,7 @@ class Tour extends Model
         'tour_name_en' => 'required|max:255',
         'desc_en' => 'required',
         'tags_en' => 'max:255',
-        'tour_images' => 'max:255',
+        'tour_images' => 'max:10000',
         'hot_image' => 'max:255',
         'traveler_email' => 'required|email|max:255',
     ];
