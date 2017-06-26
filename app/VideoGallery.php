@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
 class VideoGallery extends Model
 {
+    public $scenario = 'insert';
+
     private $validator;
 
     protected $fillable = [
@@ -52,6 +55,14 @@ class VideoGallery extends Model
     {
         // Saving event
         static::saving(function ($model) {
+            if ($model->scenario == 'update_order') {
+                $model->rules = [];
+                parent::boot();
+                return;
+            } elseif ($model->scenario == 'insert') {
+                $row = self::select(DB::raw('MAX(`order`) + 1 as `max`'))->first();
+                $model->order = intval($row->getAttribute('max'));
+            }
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->rules);
             // Optionally customize this version using new ->after()
@@ -71,6 +82,7 @@ class VideoGallery extends Model
                 if (isset($attribute['page_id'], $attribute['order'])) {
                     $model = (new static())->where('id', intval($attribute['page_id']))->get()->first();
                     if ($model) {
+                        $model->scenario = 'update_order';
                         $model->order = intval($attribute['order']);
                         $model->save();
                     }

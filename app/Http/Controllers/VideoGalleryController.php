@@ -40,8 +40,10 @@ class VideoGalleryController extends Controller
         if($request->get('video_id')){
             $video = VideoGallery::find($request->get('video_id'));
             SimpleImage::setModel(clone $video);
+            $video->scenario = 'update';
         } else {
             $video = new VideoGallery();
+            $video->scenario = 'insert';
         }
 
         if ($fields = $request->input()) {
