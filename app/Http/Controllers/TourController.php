@@ -201,9 +201,7 @@ class TourController extends Controller
         $data['errors'] = $tour->getValidator()->errors();
 
         if ($tour->id) {
-            //$tour['custom_days'] = $tour->getCustomDays();
             $tour['custom_days'] = $tour->customDays;
-            //$tour['hotels'] = $tour->getHotels();
             $tour['hotels'] = $tour->hotels;
             $tour['hotels'] = $tour['hotels']->isEmpty() ? false : $tour['hotels'];
             if (!$tour->isCustom()) {
@@ -219,9 +217,7 @@ class TourController extends Controller
     {
         $data['hotels'] = Hotel::select('id', 'hotel_name_en')->get();
         $tour = Tour::find($tour_id);
-        //$tour['custom_days'] = $tour->getCustomDays();
         $tour['custom_days'] = $tour->customDays;
-        //$tour['hotels'] = $tour->getHotels();
         $tour['hotels'] = $tour->hotels;
         $tour['hotels'] = ($tour['hotels']->isEmpty()) ? false : $tour['hotels'];
         $tour['tour_images'] = explode(',', $tour->tour_images);
@@ -242,9 +238,9 @@ class TourController extends Controller
 
     public function getTourByUrl($tour_url)
     {
-        $tour = Tour::select(['*', 'id as tour_id'])->where('tour_url', $tour_url)
-            //->join('tour_cat_rels', 'tours.id', '=', 'tour_cat_rels.tour_id')
-            //->join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
+        $tour = Tour::where('tour_url', $tour_url)
+            ->join('tour_cat_rels', 'tours.id', '=', 'tour_cat_rels.tour_id')
+            ->join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
             ->first();
         if (!$tour) {
             return redirect('/404');
@@ -265,6 +261,27 @@ class TourController extends Controller
         $data['daysOfWeekDisabled'] = implode(",", array_flip($difference));
 
         return view('tour_details_basic', $data);
+    }
+
+    public function getCustomTourByUrl($tour_url)
+    {
+        $tour = Tour::select(['*', 'id as tour_id'])->where('tour_url', $tour_url)->first();
+        if (!$tour) {
+            return redirect('/404');
+        }
+        $tour->tour_images = explode(',', $tour->tour_images);
+        $data['tour'] = $tour->toArray();
+        $data['datesDisabled'] = explode(',', $tour->specific_days);
+        $daysOfWeekDisabled = explode(',', $tour->basic_frequency);
+        $bootstrapWeekDays = array_flip(config('const.bootstrap_week_days'));
+        $difference = array_diff($bootstrapWeekDays, $daysOfWeekDisabled);
+        $data['daysOfWeekDisabled'] = implode(",", array_flip($difference));
+
+        $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
+            ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->groupBy('hotels.id')->get()->toArray();
+        $data['days'] = TourCustomDay::where('tour_id', $tour['tour_id'])->get()->toArray();
+
+        return view('tour_details_custom', $data);
     }
 
     public function getTours()

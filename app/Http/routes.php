@@ -75,6 +75,7 @@ Route::group(['middleware' => ['language']], function () {
     Route::get('/x_cat/{category_id}', 'TourController@ajaxGetToursByCategory');
     Route::get('/set_cur/{cur}', 'CurrencyController@setCurrency');
     Route::get('/tours/{tour_url}', 'TourController@getTourByUrl');
+    Route::get('/tours/custom/{tour_url}', 'TourController@getCustomTourByUrl');
     Route::get('/tours', 'TourController@getTours');
     Route::get('/tour/category/{tour_category_id}', 'TourController@getToursByCategory');
     Route::get('/hotels', 'HotelController@getHotels');
