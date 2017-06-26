@@ -27,8 +27,10 @@ class DownloadPDFController extends Controller
         if ($request->get('file_id')){
             $file = DownloadPDF::find($request->get('file_id'));
             SimpleImage::setModel(clone $file);
+            $file->scenario = 'update';
         } else {
             $file = new DownloadPDF();
+            $file->scenario = 'insert';
         }
 
         if ($fields = $request->input()) {

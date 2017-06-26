@@ -53,8 +53,10 @@ class AdminController extends Controller
      */
     public function getDashboard(Request $request)
     {
-        $orders = OrderTour::rightJoin('payments', 'payments.order_tour_id', '=', 'order_tours.id')
+        $orders = OrderTour::select(['*', 'order_tours.created_at as created_at'])
+            ->rightJoin('payments', 'payments.order_tour_id', '=', 'order_tours.id')
             ->leftJoin('tours', 'tours.id', '=', 'order_tours.tour_id')
+            ->orderBy('order_tours.created_at', 'asc')
             ->get();
         $successOrders = $orders->where('OrderStatus', '2');
         $totalAmount = 0;

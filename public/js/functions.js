@@ -185,11 +185,6 @@ function dragDrop() {
                 $(this).remove();
             });
         });
-
-    // var par = $form.children('.admin-image-upload');
-    // $(par).on("change", function(){
-    //         readURL(this);
-    // });
 }
 
 function readURL(input) {

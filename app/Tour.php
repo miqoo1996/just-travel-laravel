@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -98,6 +99,9 @@ class Tour extends Model
                 $model->rules = [];
                 parent::boot();
                 return;
+            } elseif ($model->scenario == 'insert') {
+                $row = self::select(DB::raw('MAX(`order`) + 1 as `max`'))->first();
+                $model->order = intval($row->getAttribute('max'));
             }
             if ($model->isDaily()) {
                 $model->rules += [
@@ -473,6 +477,19 @@ class Tour extends Model
             $tours = $this->all()->toArray();
         }
         return $tours;
+    }
+
+    public static function getHotTours($limit = 3, $noShowedTourId = 0)
+    {
+        $hotTours = Tour::join('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'tours.id')
+            ->where('hot', 'on')
+            ->where('visibility', 'on')
+            ->where('tours.id', '!=', $noShowedTourId)
+            ->inRandomOrder()
+            ->limit($limit)
+            ->get();
+
+        return $hotTours;
     }
 
     public function saveData(array $attributes)

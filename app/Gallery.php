@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class Gallery extends Model
@@ -48,6 +49,10 @@ class Gallery extends Model
                 $model->rules = [];
                 parent::boot();
                 return;
+            } elseif ($model->scenario == 'insert') {
+                $row = self::select(DB::raw('MAX(`portfolio_order`) + 1 as `pmax`, MAX(`gallery_order`) + 1 as `gmax`'))->first();
+                $model->portfolio_order = intval($row->getAttribute('pmax'));
+                $model->gallery_order = intval($row->getAttribute('gmax'));
             }
             $model->rules['gallery_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,id|unique:galleries,gallery_url,%d,id|unique:tour_categories,url|max:255', $model->id);
             // Make a new validator object

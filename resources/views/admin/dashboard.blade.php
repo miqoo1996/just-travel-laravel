@@ -49,7 +49,8 @@
                                 <tr>
                                     <th>Traveler Name</th>
                                     <th>Tour Name</th>
-                                    <th>Purchase date</th>
+                                    <th>Tour Date</th>
+                                    <th>Purchase Date</th>
                                     <th>Price</th>
                                     <th>Contact</th>
                                     <th>Status</th>
@@ -64,13 +65,12 @@
                                         <td>{{$order->lead_name . ' ' . $order->lead_surname}}</td>
                                         <td>{{$order->tour_name_en}}</td>
                                         <td>{{$order->date_from}}</td>
+                                        <td>{{$order->created_at->format('d/m/Y')}}</td>
                                         <td>{{$order->Amount / 100}}</td>
                                         <td>{{$order->lead_email}}</td>
                                         <td>
                                         @if($order->OrderStatus == 2)
-
                                             <button type="button" class="btn btn-success btn-xs">Success</button>
-
                                         @else
                                             <button type="button" class="btn btn-danger btn-xs">Error</button>
                                         @endif
@@ -110,4 +110,12 @@
 
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $('#datatable-buttons thead th').eq(3).click().click();
+        });
+    </script>
 @endsection

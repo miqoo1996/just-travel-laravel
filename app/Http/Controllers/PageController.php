@@ -6,12 +6,10 @@ use App\Page;
 use App\SimpleImage;
 use App\Tour;
 use App\Hotel;
-use App\TourCatRel;
 use App\PageOrders;
 use App\TourCategory;
 use App\Http\Controllers\Traits\PageTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
 class PageController extends Controller
@@ -59,12 +57,11 @@ class PageController extends Controller
         return view('admin.pages', ['pages' => $pages]);
     }
 
-
     public function getIndexPage()
     {
         $tourCategories = TourCategory::getAvailableCategories();
-        $hotTours = Tour::where('hot', 'on')->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
         $topHotels = Hotel::whereIn('type', config('const.top_hotel_types'))->where('visibility', 'on')->inRandomOrder()->limit(3)->get()->toArray();
+        $hotTours = Tour::getHotTours()->toArray();
 
         $countTours = 0;
         $indexTours = null;

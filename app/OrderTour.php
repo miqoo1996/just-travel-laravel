@@ -36,7 +36,7 @@ class OrderTour extends Model
 
     public function getNotReadedOrders(&$count = 0, $limit = 20)
     {
-        $query = $this
+        $query = $this::select(['*', 'order_tours.created_at as created_at'])
             ->rightJoin('payments', 'payments.order_tour_id', '=', 'order_tours.id')
             ->leftJoin('tours', 'tours.id', '=', 'order_tours.tour_id')
             ->where('read', 0)

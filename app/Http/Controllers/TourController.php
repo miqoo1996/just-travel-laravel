@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\ViewComposers\HotToursComposer;
 use App\Tour;
 use App\Hotel;
 use App\TourDate;
@@ -50,9 +51,11 @@ class TourController extends Controller
         if ($request->get('tour_id')) {
             $tour = Tour::find($request->get('tour_id'));
             SimpleImage::setModel(clone $tour);
+            $tour->scenario = 'update';
         } else {
             $tour = new Tour();
             $tour->code = substr(strtoupper(uniqid()), -7);
+            $tour->scenario = 'insert';
         }
 
         $tourCats = $tourDays = $tourHotels = [];
@@ -245,6 +248,7 @@ class TourController extends Controller
         if (!$tour) {
             return redirect('/404');
         }
+        HotToursComposer::$noShowedTourId = $tour->tour_id;
         $tour->tour_images = explode(',', $tour->tour_images);
         $data['tour'] = $tour->toArray();
         if ($tour['property'] !== 'basic') {

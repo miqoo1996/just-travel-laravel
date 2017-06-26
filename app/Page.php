@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
@@ -103,11 +104,11 @@ class Page extends Model
         }
         if ($order) {
             $query = $this
-                ->select(['pages.*', 'page_orders.order as order', 'page_orders.footer as o_footer', 'page_orders.right_menu as right_menu'])
+                ->select(['pages.*', DB::raw('IF(page_orders.order IS NULL, 9999999999999999, page_orders.order) as `order`'), 'page_orders.footer as o_footer', 'page_orders.right_menu as right_menu'])
                 ->leftJoin('page_orders', function ($join) use($_data) {
                     $join->on('page_orders.page_id', '=', 'pages.id');
                 })
-                ->orderBy('page_orders.order', 'ASC');
+                ->orderBy('order', 'ASC');
         }
         if ($type) {
             $query->where('pages.type', $type);

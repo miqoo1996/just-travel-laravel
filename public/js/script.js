@@ -26,6 +26,8 @@ $(document).ready(function () {
         var value = parseInt(this.value);
         if (value < 0) {
             value = 0;
+        } else if (value > 999) {
+            value = 999;
         }
         this.value = value;
     });

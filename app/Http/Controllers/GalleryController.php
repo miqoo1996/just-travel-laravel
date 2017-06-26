@@ -33,9 +33,10 @@ class GalleryController extends Controller
             }
             $oldImg = $gallery->main_image;
             $gallery->save();
-
+            $gallery->scenario = 'update';
         } else {
             $gallery = new Gallery();
+            $gallery->scenario = 'insert';
         }
 
         $gallery->fill($request->input());

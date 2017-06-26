@@ -151,7 +151,7 @@
                                             <a href="{{ url('/admin/dashboard?nots=show') }}">
                                                 <span>
                                                   <span>{{$orderNotification->lead_name . ' ' . $orderNotification->lead_surname}}</span>
-                                                  <span class="time">{{$orderNotification->date_from}}</span>
+                                                  <span class="time">{{$orderNotification->created_at->format('d/m/Y')}}</span>
                                                 </span>
                                                     <span class="message">
                                                     {!! isset($orderNotification->tour->tour_name_en) ? '<span style="color:#398439">' . htmlentities($orderNotification->tour->tour_name_en) . '</span>' : '<span style="color:#ac2925">the tour deleted.</span>' !!}
