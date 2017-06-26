@@ -107,7 +107,7 @@
                         <div id="alerts"></div>
                         <div class="form-group">
                             <h2>Page Image (Optimal size is 1920x400px)</h2>
-                            <p><input type="file" name="image" size="chars"></p>
+                            <p><input accept="image/*" type="file" name="image" size="chars"></p>
                         </div>
                     </div>
                 </div>

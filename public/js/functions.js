@@ -240,7 +240,7 @@ function stopLoading() {
 function addHotel() {
     var addHotel = $('#add_hotel');
     $(addHotel).unbind('click').bind('click', function(){
-        var container = $('.hotel-container');
+        var container = $('.hotel-container').first();
         var select = $(container).find('.new_hotel').last().find('select');
         var freeHotels = $(select).children('option');
         $(container).append(hotel);

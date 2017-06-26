@@ -46,7 +46,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_thumbnail_en">PDF Thumbnail<span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <input type="file" name="pdf_thumbnail_en" size="chars" id="pdf_thumbnail_en">
+                                            <input accept="image/*" type="file" name="pdf_thumbnail_en" size="chars" id="pdf_thumbnail_en">
                                         </div>
                                         <div class="col-md-2 col-sm-2 col-xs-12">
                                             (Required size is 200x350px)
@@ -63,7 +63,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_file_en">PDF File<span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <input type="file" name="pdf_file_en" size="chars" id="pdf_file_en">
+                                            <input accept="application/pdf" type="file" name="pdf_file_en" size="chars" id="pdf_file_en">
                                         </div>
                                     </div>
                                     @if($file->pdf_file_en)
@@ -97,7 +97,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_thumbnail_ru">PDF Thumbnail<span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <input type="file" name="pdf_thumbnail_ru" size="chars" id="pdf_thumbnail_ru" value="{{$file->pdf_thumbnail_ru}}">
+                                            <input accept="image/*" type="file" name="pdf_thumbnail_ru" size="chars" id="pdf_thumbnail_ru" value="{{$file->pdf_thumbnail_ru}}">
                                         </div>
                                         <div class="col-md-2 col-sm-2 col-xs-12">
                                             (Required size is 200x350px)
@@ -114,7 +114,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pdf_file_ru">PDF File<span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <input type="file" name="pdf_file_ru" size="chars" id="pdf_file_ru">
+                                            <input accept="application/pdf" type="file" name="pdf_file_ru" size="chars" id="pdf_file_ru">
                                         </div>
                                         @if($file->pdf_file_ru)
                                             <a href="{{asset($file->pdf_file_ru)}}" target="_blank" class="btn btn-default">File</a>

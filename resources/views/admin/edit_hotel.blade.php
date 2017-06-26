@@ -174,7 +174,7 @@
                         <p>Drag multiple images to the box below for multi upload or click to select files. Required maximum with for images should be 1000px.</p>
                         <p>
                             <label for="files" class="admin-image-label">
-                                <input type="file" name="files[]" multiple id="files" class="admin-image-upload">
+                                <input accept="image/*" type="file" name="files[]" multiple id="files" class="admin-image-upload">
                             </label>
                         </p>
                         <br />
@@ -203,7 +203,7 @@
                         </div>
                         <h2>Main Image (Optimal size is 350x200px)</h2>
                         <p>
-                            <input type="file" name="hotel_main_image" size="chars" id="main_image">
+                            <input accept="image/*" type="file" name="hotel_main_image" size="chars" id="main_image">
                         </p>
                             @if($image = App\SimpleImage::image($hotel->hotel_main_image, true, 'thumbnail', false))
                             <h2>Main Image</h2>

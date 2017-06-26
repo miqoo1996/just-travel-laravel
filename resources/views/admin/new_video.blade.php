@@ -51,7 +51,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Video Thumbnail <span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <input type="file" name="video_thumbnail_en">
+                                            <input accept="image/*" type="file" name="video_thumbnail_en">
                                         </div>
                                         <div class="col-md-2 col-sm-2 col-xs-12">
                                             (Required size is 350x200px)
@@ -91,7 +91,7 @@
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Video Thumbnail <span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <input type="file" name="video_thumbnail_ru">
+                                            <input accept="image/*" type="file" name="video_thumbnail_ru">
                                         </div>
                                         <div class="col-md-2 col-sm-2 col-xs-12">
                                             (Required size is 350x200px)

@@ -164,13 +164,13 @@
 
                         <p>
                             <label for="files" class="admin-image-label">
-                                <input type="file" name="files[]" multiple id="files" class="admin-image-upload">
+                                <input accept="image/*" type="file" name="files[]" multiple id="files" class="admin-image-upload">
                             </label>
                         </p>
                         <br />
                         <h2>Main Image (Optimal size is 350x200px)</h2>
                         <p>
-                            <input type="file" name="hotel_main_image" size="chars" id="main_image">
+                            <input accept="image/*" type="file" name="hotel_main_image" size="chars" id="main_image">
                         </p>
                     </div>
                 </div>

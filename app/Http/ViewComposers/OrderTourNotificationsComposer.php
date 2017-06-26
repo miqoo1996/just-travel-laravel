@@ -33,5 +33,8 @@ class OrderTourNotificationsComposer
     {
         $view->with('orderNotificationsCount', $this->orderNotificationsCount);
         $view->with('orderNotifications', $this->orderNotifications);
+        if ($view->readedNots) {
+            OrderTour::where('read', 0)->update(['read' => 1]);
+        }
     }
 }

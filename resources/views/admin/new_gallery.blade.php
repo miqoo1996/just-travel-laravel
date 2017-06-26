@@ -89,7 +89,7 @@
 
                     <p>
                         <label for="files" class="admin-image-label">
-                            <input type="file" name="files[]" multiple id="files" class="admin-image-upload">
+                            <input accept="image/*" type="file" name="files[]" multiple id="files" class="admin-image-upload">
                         </label>
                     </p>
                     <br/>
@@ -105,7 +105,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <p>
-                        <input type="file" name="main_image" size="chars" id="main_image">
+                        <input accept="image/*" type="file" name="main_image" size="chars" id="main_image">
                     </p>
                     <br/>
                     <br/>

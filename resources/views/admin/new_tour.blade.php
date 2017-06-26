@@ -417,16 +417,16 @@
         <p>Drag multiple images to the box below for multi upload or click to select files. Required
           maximum with for images should be 1000px.</p>
         <label for="files" class="admin-image-label">
-          <input type="file" name="tour_images[]" multiple id="files" class="admin-image-upload">
+          <input type="file" accept="image/*" name="tour_images[]" multiple id="files" class="admin-image-upload">
         </label>
         <br/>
         <h2>Main Image (Optimal size is 350x200px) <span class="required">*</span></h2>
         <p>
-          <input type="file" name="tour_main_image" size="chars">
+          <input accept="image/*" type="file" name="tour_main_image" size="chars">
         </p>
         <h2>Hot Tour Image (Optimal size is 1920x400px)</h2>
         <p>
-          <input type="file" name="hot_image" size="chars">
+          <input accept="image/*" type="file" name="hot_image" size="chars">
         </p>
       </div>
     </div>

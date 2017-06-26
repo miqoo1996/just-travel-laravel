@@ -67,6 +67,9 @@ class AdminController extends Controller
         $data['success_orders'] = $successOrders;
         $data['total_amount'] = $totalAmount / 100;
         $data['nots'] = $request->get('nots');
+        if ($data['nots'] == 'show') {
+            $data['readedNots'] = true;
+        }
         return view('admin.dashboard', $data);
     }
 
