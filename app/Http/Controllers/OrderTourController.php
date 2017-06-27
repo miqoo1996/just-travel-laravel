@@ -7,7 +7,6 @@ use App\TourDate;
 use App\OrderTour;
 use App\OrderMember;
 use App\HotelCalculator;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +27,7 @@ class OrderTourController extends Controller
         $date = $request->get('date_from');
         $tour_id = intval($request->get('tour_id', 0));
         if ($date && $tour_id) {
-            $date = Carbon::parse(strtotime($date))->format('Y-m-d');
+            $date = date("Y-m-d", strtotime($date));
             $isTourDate = (bool)TourDate::where('tour_id', $tour_id)->where('date', $date)->get()->count();
             if (!$isTourDate) {
                 $newOrder = new OrderTour();
