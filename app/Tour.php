@@ -66,6 +66,10 @@ class Tour extends Model
         'traveler_email' => 'required|email|max:255',
     ];
 
+    public function dates()
+    {
+        return $this->hasMany('App\TourDate', 'tour_id', 'id');
+    }
     public function getRules()
     {
         $this->rules['tour_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id);

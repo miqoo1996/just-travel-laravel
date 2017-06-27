@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderTour extends Model
@@ -45,6 +46,43 @@ class OrderTour extends Model
         $count = $query->count();
         $items = $query->take($limit)->all();
         return $items;
+    }
+
+    public static function isTourDate($tour_id, $date)
+    {
+        $carbonDate = Carbon::createFromFormat('d/m/Y', $date);
+        $date = $carbonDate->format('Y-m-d');
+        $tour = Tour::with('dates')
+            ->join('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'tours.id')
+            ->join('tour_categories', 'tour_categories.id', '=', 'tour_cat_rels.cat_id')
+            ->find($tour_id);
+        if($tour->property == 'basic'){
+            $localDates = array_flip(config('const.bootstrap_week_days'));
+            $dayOfWeek = $localDates[$carbonDate->dayOfWeek];
+            if(strpos($tour->basic_frequency, $dayOfWeek) !== false) {
+                if (empty($tour['dates'])) {
+                    foreach ($tour['dates'] as $value) {
+                        if ($value['date'] == $date) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+        }
+        if($tour->custom_day_prp == 'any'){
+            return true;
+        }
+        $tour = $tour->toArray();
+        if(!empty($tour['dates'])){
+            foreach ($tour['dates'] as $value){
+                if($value['date'] == $date){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

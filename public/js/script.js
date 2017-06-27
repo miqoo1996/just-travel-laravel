@@ -115,7 +115,11 @@ function tourDetailSearch() {
                 'tour_id': tour_id
             },
             success: function (data) {
-                $('#search_res_container').html(data);
+                if(data['status'] !== 'error'){
+                    $('#search_res_container').html(data);
+                } else if(data['target']){
+                    $(data['target']).attr('disabled', 'disabled');
+                }
             },
             error: function (data) {
                 $('body').html(data);
@@ -128,13 +132,12 @@ function tourDetailSearch() {
             $date_from.focus();
             return false;
         }
-    })
+    });
 }
 
 function tourHotelPay() {
     $('#search_res_container').on('click', 'button.hotel-payment-button', function () {
         if (('' !== date_from) && (typeof tour_id !== 'undefined')) {
-            console.log(date_from);
             var htdata = $(this).attr('htdata');
             $.ajax({
                 url: '/order_tour',
@@ -148,8 +151,8 @@ function tourHotelPay() {
                     'tour_id': tour_id
                 },
                 success: function (data) {
-                    window.location.href = 'http://' + document.location.hostname + "/order_tour/" + data;
-
+                    console.log(data);
+                    window.location.href = 'http://' + document.location.hostname + data;
                 },
                 error: function (data) {
                     $('body').html(data);

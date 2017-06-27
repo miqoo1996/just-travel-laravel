@@ -8,7 +8,7 @@
     <style>
         @font-face {
             font-family: 'Roboto';
-            url({{asset('fonts/Roboto/Roboto-Black.ttf')}}) format('truetype'),
+            src('/fonts/Roboto/Roboto-Regular.ttf')) format('truetype')
         }
         @page { margin: 0px; }
         body { margin: 0px; }

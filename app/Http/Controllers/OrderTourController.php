@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use App\Payment;
 use App\TourDate;
 use App\OrderTour;
@@ -28,19 +29,26 @@ class OrderTourController extends Controller
         $date = $request->get('date_from');
         $tour_id = intval($request->get('tour_id', 0));
         if ($date && $tour_id) {
-            $date = Carbon::parse(strtotime($date))->format('Y-m-d');
-            $isTourDate = (bool)TourDate::where('tour_id', $tour_id)->where('date', $date)->get()->count();
-            if (!$isTourDate) {
+//            $date = Carbon::parse(strtotime($date))->format('Y-m-d');
+//            $date = strval(Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d'));
+            $isTourDate = OrderTour::isTourDate($tour_id, $date);
+//            $isTourDate = (bool)TourDate::where('tour_id', $tour_id)->where('date', $date)->get()->count();
+            if ($isTourDate) {
                 $newOrder = new OrderTour();
                 $newOrder->fill($request->input());
                 $newOrder->hotel_id = $request->htdata;
                 $newOrder->order_id = $uniqId;
                 $newOrder->save();
                 if ($request->ajax()) {
-                    return $uniqId;
+                    $ajaxResponse = "/order_tour/".$uniqId;
+                    return $ajaxResponse;
                 }
                 return redirect('order_tour/' . $uniqId);
             }
+        }
+        if ($request->ajax()) {
+            $ajaxResponse = url()->previous();
+            return $ajaxResponse;
         }
         return back();
     }
@@ -227,7 +235,6 @@ class OrderTourController extends Controller
             if ($orderStatus == false) {
                 $message = trans(sprintf('messages.OrderStatus.%s', $payment->OrderStatus));
             }
-
             return view('payment_error', compact('message'));
         }
         return redirect('404');

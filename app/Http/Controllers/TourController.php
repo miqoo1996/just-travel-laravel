@@ -17,6 +17,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+
 
 class TourController extends Controller
 {
@@ -255,7 +257,10 @@ class TourController extends Controller
             $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
                 ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->groupBy('hotels.id')->get()->toArray();
             $data['days'] = TourCustomDay::where('tour_id', $tour['tour_id'])->get()->toArray();
-
+            foreach ($tour->dates as $date){
+                $data['availableDays'][] = Carbon::createFromFormat('Y-m-d', $date['date'])->format('d/m/Y');
+            }
+            $data['availableDays'] = (isset($data['availableDays']))? json_encode($data['availableDays']): json_encode([]);
             return view('tour_details_custom', $data);
         }
         $data['datesDisabled'] = explode(',', $tour->specific_days);
@@ -296,6 +301,13 @@ class TourController extends Controller
 
     public function postSearchCustomTour(Request $request)
     {
+        $isTourDate = OrderTour::isTourDate($request->tour_id, $request->date_from);
+        if(!$isTourDate && $request->ajax()){
+            $ajaxResponse['status'] = 'error';
+            $ajaxResponse['target'] = '.hotel-payment-button';
+            $ajaxResponse['action'] = 'disable';
+            return response()->json($ajaxResponse);
+        }
         $adult = (intval($request->adult) < 1) ? 1 : intval($request->adult);
         $child = (intval($request->child) < 0) ? 0 : intval($request->child);
         $infant = (intval($request->infant) < 0) ? 0 : intval($request->infant);

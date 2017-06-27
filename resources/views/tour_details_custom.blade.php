@@ -1,3 +1,4 @@
+{{--{{dd($availableDays)}}--}}
 @extends('layouts.regular')
 @section('bodyStyle')
     page-tours-details
@@ -175,20 +176,55 @@
 
 @section('script')
     <script>
+        var availableDates = {!! $availableDays !!};
         $(document).ready(function () {
-            $('#date_from').on('input', function () {
+            var datePicker =  $('#date_from');
+            $(datePicker).on('input', function () {
                 this.value = '';
                 return false
             });
-            $('#date_from').datepicker({
+
+
+
+            $(datePicker).datepicker({
                 format: "dd/mm/yyyy",
                 startDate: "+3d",
                 maxViewMode: 0,
                 weekStart: 1,
                 language: "{{app()->getLocale()}}",
-                multidate: false
+                multidate: false,
+//                daysOfWeekDisabled: "0,1,2,3,4,5,6",
+                beforeShowDay: function (date){
+                    var dDay = [];
+                    var dMonth = [];
+                    var dYear = [];
+                    var count = 0;
+                    $.each(availableDates, function (a) {
+                        var dd = this.split('/');
+                        dDay[count] = parseInt(dd[0]);
+                        dMonth[count] = dd[1] - 1;
+                        dYear[count] = parseInt(dd[2]);
+//                        console.log(dDay[count]);
+//                        console.log(dMonth[count]);
+//                        console.log(dYear[count]);
+//                        console.log('-----------------------------');
+                        count++;
+                    });
+                    return dateLooper(dDay,dMonth,dYear,date)
+                    }
+                });
+                function dateLooper(dDay,dMonth,dYear, date){
+                    var length = dDay.length;
+                    if(length === 0) return true;
+                    while(length >= 0){
+                        if(dDay[length] == date.getDate() && dMonth[length] == date.getMonth() && dYear[length] == date.getFullYear()){
+                            return true;
+                        }
+                        length --;
+                    }
+                    return false;
+                }
             });
-        });
     </script>
     <script src="{{asset('js/lightbox.min.js')}}"></script>
 
