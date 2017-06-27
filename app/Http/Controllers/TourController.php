@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\ViewComposers\HotToursComposer;
 use App\Tour;
 use App\Hotel;
 use App\TourDate;
@@ -13,6 +12,7 @@ use App\TourCategory;
 use App\TourCustomDay;
 use App\HotelCalculator;
 use App\Http\Controllers\Traits\TourTrait;
+use App\Http\ViewComposers\HotToursComposer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
