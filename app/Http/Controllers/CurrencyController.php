@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Currency;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Session;
 
 class CurrencyController extends Controller
 {

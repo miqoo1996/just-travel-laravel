@@ -27,7 +27,6 @@ class HotelController extends Controller
      *
      * creating new hotel
      */
-
     public function adminPostNewHotel(Request $request)
     {
         $imageChecker = true;
@@ -122,4 +121,5 @@ class HotelController extends Controller
         $hotel['images'] = explode(',', $hotel['images']);
         return view('hotel_details', compact('hotel', 'hotTours'));
     }
+
 }

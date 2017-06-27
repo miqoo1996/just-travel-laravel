@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DownloadPDF;
-use App\Http\Controllers\Traits\DownloadPDFTrait;
 use App\SimpleImage;
+use App\Http\Controllers\Traits\DownloadPDFTrait;
 use Illuminate\Http\Request;
 
 class DownloadPDFController extends Controller

@@ -80,7 +80,6 @@ class OrderTourController extends Controller
                     $saveFields['order_tour.amount'] = $totalPrice;
                     $order->fill($saveFields);
                     $order->save();
-//                    dd($order);
                     return view('order_basic_tour', compact('order', 'totalPrice'));
                 }
             }

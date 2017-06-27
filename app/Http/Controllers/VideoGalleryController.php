@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Traits\VideoGalleryTrait;
 use App\SimpleImage;
 use App\VideoGallery;
+use App\Http\Controllers\Traits\VideoGalleryTrait;
 use Illuminate\Http\Request;
 
 class VideoGalleryController extends Controller
