@@ -12,9 +12,13 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h1>{{$tour['tour_name_'.app()->getLocale()]}}</h1>
                     <span class="tour-id">{{trans('messages.tour_code')}}: {{$tour['code']}}</span>
+                    <div class="clearfix"></div>
                     <span class="price {{$currency['currency']}}">
-            	        <span class="{{$currency['currency']}}">{{round($tour['basic_price_adult']/$currency[$currency['currency']] * 2, 2) }}</span>
-                        <span class="othercurrency">
+                        <span class="{{$currency['currency']}}">{{round($tour['basic_price_adult']/$currency[$currency['currency']] * 2, 2) }}</span>
+
+                    </span>
+                    <div class="clearfix"></div>
+                    <span class="othercurrency">
                             <?php $n=0; ?>
                             @foreach($currency as $key => $value)
                                 @if(($key !== 'currency') && ($key !== $currency['currency']))
@@ -23,8 +27,6 @@
                                 @endif
                             @endforeach
                         </span>
-
-                    </span>
                     <div class="clearfix"></div>
                     <div class="pricebyperson">
                         <span class="item"><span class="{{$currency['currency']}}">{{round($tour['basic_price_adult']/$currency[$currency['currency']], 2)}}</span>{{trans('messages.adults')}} (12-99)</span>
