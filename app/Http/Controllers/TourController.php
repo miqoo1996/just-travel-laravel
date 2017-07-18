@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\OrderTour;
 use App\Tour;
 use App\Hotel;
 use App\TourDate;
@@ -17,8 +18,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
-
 
 class TourController extends Controller
 {
