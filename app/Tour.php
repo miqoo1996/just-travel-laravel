@@ -70,6 +70,7 @@ class Tour extends Model
     {
         return $this->hasMany('App\TourDate', 'tour_id', 'id');
     }
+
     public function getRules()
     {
         $this->rules['tour_url'] = sprintf('required|unique:hotels,hotel_url|unique:pages,page_url|unique:tours,tour_url,%d,id|unique:galleries,gallery_url|unique:tour_categories,url|max:255', $this->id);
@@ -184,8 +185,7 @@ class Tour extends Model
             if ($this->isCustom() && $this->scenario == 'insert') {
                 $tour_name = $this->tour_name_en;
                 $traveler_email = $this->traveler_email;
-                Mail::send('emails.custom_tour', ['model' => $this], function($message) use ($traveler_email, $tour_name)
-                {
+                Mail::send('emails.custom_tour', ['model' => $this], function ($message) use ($traveler_email, $tour_name) {
                     $message->to($traveler_email, env('ADMIN_NAME') . ' ' . env('ADMIN_FIRSTNAME'))->from(env('ADMIN_EMAIL'))->subject($tour_name);
                 });
             }

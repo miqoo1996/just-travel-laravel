@@ -7,23 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderTour extends Model
 {
-	protected $fillable = [
-		'tour_id' , 'date_from', 'adults_count', 'children_count', 'infants_count', 'amount'
-	];
+    protected $fillable = [
+        'tour_id', 'date_from', 'adults_count', 'children_count', 'infants_count', 'amount'
+    ];
 
-	public function tour()
+    public function tour()
     {
-		return $this->hasOne('App\Tour', 'id', 'tour_id');
-	}
+        return $this->hasOne('App\Tour', 'id', 'tour_id');
+    }
 
-	public function tourHotel(){
-		return $this->hasMany('App\TourHotel', 'hotel_id', 'hotel_id');
-	}
+    public function tourHotel()
+    {
+        return $this->hasMany('App\TourHotel', 'hotel_id', 'hotel_id');
+    }
 
     public function customDays()
     {
         return $this->hasMany('App\TourCustomDay', 'tour_id', 'tour_id');
-	}
+    }
 
     public function hotel()
     {
@@ -52,14 +53,16 @@ class OrderTour extends Model
     {
         $carbonDate = Carbon::createFromFormat('d/m/Y', $date);
         $date = $carbonDate->format('Y-m-d');
+        /* @var $tour Tour */
         $tour = Tour::with('dates')
+            ->select('tours.*')
             ->join('tour_cat_rels', 'tour_cat_rels.tour_id', '=', 'tours.id')
             ->join('tour_categories', 'tour_categories.id', '=', 'tour_cat_rels.cat_id')
             ->find($tour_id);
-        if($tour->property == 'basic'){
+        if ($tour->property == 'basic') {
             $localDates = array_flip(config('const.bootstrap_week_days'));
             $dayOfWeek = $localDates[$carbonDate->dayOfWeek];
-            if(strpos($tour->basic_frequency, $dayOfWeek) !== false) {
+            if (strpos($tour->basic_frequency, $dayOfWeek) !== false) {
                 if (empty($tour['dates'])) {
                     foreach ($tour['dates'] as $value) {
                         if ($value['date'] == $date) {
@@ -71,13 +74,13 @@ class OrderTour extends Model
                 return false;
             }
         }
-        if($tour->custom_day_prp == 'any'){
+        if ($tour->custom_day_prp == 'any') {
             return true;
         }
         $tour = $tour->toArray();
-        if(!empty($tour['dates'])){
-            foreach ($tour['dates'] as $value){
-                if($value['date'] == $date){
+        if (!empty($tour['dates'])) {
+            foreach ($tour['dates'] as $value) {
+                if ($value['date'] == $date) {
                     return true;
                 }
             }

@@ -105,10 +105,10 @@ class TourController extends Controller
             if (!empty($tourCats)) TourCatRel::insert($tourCats);
 
             if ($isBasic && isset($request->specific_days) && $request->specific_days) {
-                $dates = strpos($request->specific_days,',') !== false ? explode(',', $request->specific_days) : [$request->specific_days];
+                $dates = strpos($request->specific_days, ',') !== false ? explode(',', $request->specific_days) : [$request->specific_days];
             }
             if (!$isBasic && isset($request->custom_dates) && $request->custom_dates) {
-                $dates = strpos($request->custom_dates,',') !== false ? explode(',', $request->custom_dates) : [$request->custom_dates];
+                $dates = strpos($request->custom_dates, ',') !== false ? explode(',', $request->custom_dates) : [$request->custom_dates];
             }
             if (isset($dates)) {
                 foreach ($dates as $date) {
@@ -256,10 +256,10 @@ class TourController extends Controller
             $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
                 ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->groupBy('hotels.id')->get()->toArray();
             $data['days'] = TourCustomDay::where('tour_id', $tour['tour_id'])->get()->toArray();
-            foreach ($tour->dates as $date){
+            foreach ($tour->dates as $date) {
                 $data['availableDays'][] = Carbon::createFromFormat('Y-m-d', $date['date'])->format('d/m/Y');
             }
-            $data['availableDays'] = (isset($data['availableDays']))? json_encode($data['availableDays']): json_encode([]);
+            $data['availableDays'] = (isset($data['availableDays'])) ? json_encode($data['availableDays']) : json_encode([]);
             return view('tour_details_custom', $data);
         }
         $data['datesDisabled'] = explode(',', $tour->specific_days);
@@ -301,7 +301,7 @@ class TourController extends Controller
     public function postSearchCustomTour(Request $request)
     {
         $isTourDate = OrderTour::isTourDate($request->tour_id, $request->date_from);
-        if(!$isTourDate && $request->ajax()){
+        if (!$isTourDate && $request->ajax()) {
             $ajaxResponse['status'] = 'error';
             $ajaxResponse['target'] = '.hotel-payment-button';
             $ajaxResponse['action'] = 'disable';
