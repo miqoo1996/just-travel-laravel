@@ -103,7 +103,7 @@
                                     {{$tour_date}}<br/>{{count($days)}} {{trans('nights to')}}: {{$tour_date_end}}
                                 </div>
                                 <div class="hotels-c">
-                                    1-{{trans('messages.person_short')}}. {{trans('messages.standard')}}<br/>1 {{trans('messages.adult_short')}}
+                                    1-{{trans('messages.person_short')}}. {{trans('messages.standard')}}, {{ucfirst(\App\HotelCalculator::$selectedRoom)}}<br/>1 {{trans('messages.adult_short')}}
                                 </div>
                                 <div class="hotels-r">
                                     <a href="#!" class="btn btn-warning hotelpay disable" role="button"

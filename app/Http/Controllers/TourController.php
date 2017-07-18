@@ -311,16 +311,19 @@ class TourController extends Controller
 
     public function postSearchCustomTour(Request $request)
     {
-        $isTourDate = OrderTour::isTourDate($request->tour_id, $request->date_from, $tour);
+        $tour_id = intval($request->get('tour_id', 0));
+        $adult = intval($request->get('adult', 0));
+        $child = intval($request->get('child', 0));
+        $infant = intval($request->get('infant', 0));
+        $date_from = $request->get('date_from', '');
+
+        $isTourDate = OrderTour::isTourDate($tour_id, $date_from, $tour);
         if (!$isTourDate && $request->ajax()) {
             $ajaxResponse['status'] = 'error';
             $ajaxResponse['target'] = '.hotel-payment-button';
             $ajaxResponse['action'] = 'disable';
             return response()->json($ajaxResponse);
         }
-        $adult = (intval($request->adult) < 1) ? 1 : intval($request->adult);
-        $child = (intval($request->child) < 0) ? 0 : intval($request->child);
-        $infant = (intval($request->infant) < 0) ? 0 : intval($request->infant);
         $hotelCalculator = HotelCalculator::calc($adult, $child, $infant);
         if (null == $hotelCalculator) {
             return View::make('ajax_views.many_adults_form');
@@ -336,6 +339,7 @@ class TourController extends Controller
         $data['child'] = $child;
         $data['infant'] = $infant;
         $data['rooms'] = $hotelCalculator;
+        $data['room_type'] = HotelCalculator::$selectedRoom;
         $data['days'] = $days;
         $hotels = TourHotel::where('tour_id', $request->tour_id)
             ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')

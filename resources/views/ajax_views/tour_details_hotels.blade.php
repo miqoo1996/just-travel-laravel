@@ -17,7 +17,7 @@
                     </div>
                     <div class="hotels-c">
                         {{$rooms}}-{{trans('messages.person_short')}}.
-                        {{trans('messages.standard')}}<br/>@if($adult > 0) {{$adult . ' ' . trans('messages.adult_short')}} @endif
+                        {{trans('messages.standard')}}, {{ucfirst($room_type)}}<br/>@if($adult > 0) {{$adult . ' ' . trans('messages.adult_short')}} @endif
                         @if($child > 0) {{$child . ' ' . trans('messages.child_short')}} @endif
                         @if($infant > 0) {{$infant . ' ' . trans('messages.infant_short')}} @endif
                     </div>
