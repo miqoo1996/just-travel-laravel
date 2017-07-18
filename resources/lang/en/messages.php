@@ -76,5 +76,6 @@ return [
     'OrderStatus.4' => 'A return operation was performed on the transaction',
     'OrderStatus.5' => 'Authorization through ACS of the issuing bank was initiated',
     'OrderStatus.6' => 'Authorization rejected',
-    'invalid_date' => 'invalid date'
+    'invalid_date' => 'invalid date',
+    'ночи до' => 'nights to'
 ];

@@ -13,7 +13,7 @@
                            class="hotelname">{{$hotel['hotel_name_'.app()->getLocale()]}}</a>
                     </div>
                     <div class="hotels-c">
-                        {{$tour_date}}<br/>{{count($days)}} ночи до: {{$tour_date_end}}
+                        {{$tour_date}}<br/>{{count($days)}} {{trans('nights to')}}: {{$tour_date_end}}
                     </div>
                     <div class="hotels-c">
                         {{$rooms}}-{{trans('messages.person_short')}}.
