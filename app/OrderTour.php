@@ -49,7 +49,7 @@ class OrderTour extends Model
         return $items;
     }
 
-    public static function isTourDate($tour_id, $date)
+    public static function isTourDate($tour_id, $date, &$tour = null)
     {
         $carbonDate = Carbon::createFromFormat('d/m/Y', $date);
         $date = $carbonDate->format('Y-m-d');

@@ -300,7 +300,7 @@ class TourController extends Controller
 
     public function postSearchCustomTour(Request $request)
     {
-        $isTourDate = OrderTour::isTourDate($request->tour_id, $request->date_from);
+        $isTourDate = OrderTour::isTourDate($request->tour_id, $request->date_from, $tour);
         if (!$isTourDate && $request->ajax()) {
             $ajaxResponse['status'] = 'error';
             $ajaxResponse['target'] = '.hotel-payment-button';
@@ -314,11 +314,18 @@ class TourController extends Controller
         if (null == $hotelCalculator) {
             return View::make('ajax_views.many_adults_form');
         }
+        $days = TourCustomDay::where('tour_id', $request->tour_id)->get()->toArray();
+        $carbonDate = Carbon::createFromFormat('d/m/Y', $request->date_from);
+        $tour_date = $carbonDate->format('Y-m-d');
+        $tour_date_end = $carbonDate->addDays(count($days))->format('Y-m-d');
+        $data['tour'] = $tour;
+        $data['tour_date'] = $tour_date;
+        $data['tour_date_end'] = $tour_date_end;
         $data['adult'] = $adult;
         $data['child'] = $child;
         $data['infant'] = $infant;
         $data['rooms'] = $hotelCalculator;
-        $data['days'] = TourCustomDay::where('tour_id', $request->tour_id)->get()->toArray();
+        $data['days'] = $days;
         $hotels = TourHotel::where('tour_id', $request->tour_id)
             ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')
             ->get()
