@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
                             <label for="example-text-input" class="col-form-label">&nbsp;</label>
-                            <input type="hidden" id="tour_id" value="{{$tour['tour_id']}}">
+                            <input type="hidden" id="tour_id" value="{{$tour['id']}}">
                             <input type="button" class="btn btn-warning" value="{{trans('messages.search')}}"
                                    id="detail_search">
                         </div>
@@ -100,7 +100,7 @@
                                        class="hotelname">{{$hotel['hotel_name_'.app()->getLocale()]}}</a>
                                 </div>
                                 <div class="hotels-c">
-                                    12.12.2017<br/>4 ночи до: 04.05, чт
+                                    {{$tour_date}}<br/>{{count($days)}} {{trans('nights to')}}: {{$tour_date_end}}
                                 </div>
                                 <div class="hotels-c">
                                     1-{{trans('messages.person_short')}}. {{trans('messages.standard')}}<br/>1 {{trans('messages.adult_short')}}

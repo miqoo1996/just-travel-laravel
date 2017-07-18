@@ -242,7 +242,10 @@ class TourController extends Controller
 
     public function getTourByUrl($tour_url)
     {
-        $tour = Tour::where('tour_url', $tour_url)
+        /* @var $tour Tour */
+        $tour = Tour::with('dates')
+            ->select('tours.*')
+            ->where('tour_url', $tour_url)
             ->join('tour_cat_rels', 'tours.id', '=', 'tour_cat_rels.tour_id')
             ->join('tour_categories', 'tour_cat_rels.cat_id', '=', 'tour_categories.id')
             ->first();
@@ -252,14 +255,22 @@ class TourController extends Controller
         HotToursComposer::$noShowedTourId = $tour->tour_id;
         $tour->tour_images = explode(',', $tour->tour_images);
         $data['tour'] = $tour->toArray();
+        $data['tour_date'] = $data['tour_date_end'] = '';
         if ($tour['property'] !== 'basic') {
-            $data['hotels'] = TourHotel::where('tour_id', $tour['tour_id'])
-                ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')->groupBy('hotels.id')->get()->toArray();
-            $data['days'] = TourCustomDay::where('tour_id', $tour['tour_id'])->get()->toArray();
-            foreach ($tour->dates as $date) {
-                $data['availableDays'][] = Carbon::createFromFormat('Y-m-d', $date['date'])->format('d/m/Y');
+            $data['hotels'] = TourHotel::where('tour_id', $tour['id'])
+                ->join('hotels', 'tour_hotels.hotel_id', '=', 'hotels.id')
+                ->groupBy('hotels.id')
+                ->get()
+                ->toArray();
+            $data['days'] = TourCustomDay::where('tour_id', $tour['id'])->get()->toArray();
+            if (isset($tour->dates) && !empty($tour->dates)) {
+                foreach ($tour->dates as $date) {
+                    $data['availableDays'][] = Carbon::createFromFormat('Y-m-d', $date['date'])->format('d/m/Y');
+                }
+                $data['availableDays'] = (isset($data['availableDays'])) ? json_encode($data['availableDays']) : json_encode([]);
+                $data['tour_date'] = $tour->dates[0]->date;
+                $data['tour_date_end'] = Carbon::createFromFormat('Y-m-d', $tour->dates[0]->date)->addDays(count($data['days']))->format('Y-m-d');
             }
-            $data['availableDays'] = (isset($data['availableDays'])) ? json_encode($data['availableDays']) : json_encode([]);
             return view('tour_details_custom', $data);
         }
         $data['datesDisabled'] = explode(',', $tour->specific_days);
