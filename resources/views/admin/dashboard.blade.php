@@ -22,12 +22,7 @@
                     <span class="count_top">Orders</span>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <div class="count">{{$total_amount}}</div>
-                    <span class="count_top">Turnover Tours</span>
-
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <div class="count green">{{$total_amount}}</div>
+                    <div class="count green price {{$currency['currency']}}">{{$total_amount}}</div>
                     <span class="count_top">Total</span>
                 </div>
             </div>

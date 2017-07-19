@@ -159,3 +159,9 @@ label.admin-image-label:after{
 .select select:disabled ~ .select_arrow {border-top-color: #ccc;}
 
 table tr.nots-show, .table-striped>tbody>tr.nots-show:nth-of-type(odd) {background: #eea42d !important;}
+
+.green.price {max-width: 75px;}
+.price.usd:before, .date.usd:before, .price.hotelprice span.usd:before{content:"$"; float:left;}
+.price.rur:before, .date.rur:before, .price.hotelprice span.rur:before{content:"₽"; float:right;}
+.price.eur:before, .date.eur:before, .price.hotelprice span.eur:before{content:"€"; float:left;}
+.price.amd:before, .date.amd:before, .price.hotelprice span.amd:before{content:"֏"; float:right;}
