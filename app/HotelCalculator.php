@@ -132,6 +132,7 @@ class HotelCalculator extends Model
      */
     public static function calcHotelPrice($hotel, $adult = 1, $child = 0, $infant = 0)
     {
+        return $hotel[self::$selectedRoom . '_adult'];
         $adultPriceLabel = self::$adultPriceLabels[$adult];
         $price = $hotel[$adultPriceLabel] + $child * $hotel['child'] + $infant * $hotel['infant'];
         return $price;

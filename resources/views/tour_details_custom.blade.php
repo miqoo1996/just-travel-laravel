@@ -116,7 +116,7 @@
                                               <?php $res[] = round($hotel['double_adult'] / $value, 2) . config('const.currency_' . $key)?>
                                               @endif
                                               @endforeach {{$res[0] . '/' . $res[1] . '/' . $res[2]}}">
-                                            <span class="{{$currency['currency']}}"><?php $result = round($hotel['double_adult'] / $currency[$currency['currency']], 2)?>{{$result}}</span>
+                                            <span class="{{$currency['currency']}}"><?php $result = round($hotel[\App\HotelCalculator::$selectedRoom . '_adult'] / $currency[$currency['currency']], 2)?>{{$result}}</span>
                                         </span>
                                     </div>
                                 </div>

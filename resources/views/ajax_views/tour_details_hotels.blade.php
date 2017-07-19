@@ -25,7 +25,6 @@
                         <button class="btn btn-warning hotelpay hotel-payment-button" type="button" htdata="{{$hotel['id']}}" htr="{{$rooms}}">{{trans('messages.pay')}}</button>
                         <div class="price hotelprice">
                                 <span class="maincurrency" data-toggle="tooltip" data-placement="top">
-
                                     <span class="{{$currency['currency']}}">{{round($hotel['price']/$currency[$currency['currency']], 2)}}</span>
                                 </span>
                         </div>

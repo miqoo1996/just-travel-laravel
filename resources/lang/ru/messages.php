@@ -77,5 +77,8 @@ return [
     'OrderStatus.5' => 'Инициирована авторизация через ACS банка-эмитента',
     'OrderStatus.6' => 'Авторизация отклонена',
     'invalid_date' => 'Выберите правилную дату',
-    'nights to' => 'ночи до'
+    'nights to' => 'ночи до',
+    'Single' => 'Single',
+    'Double' => 'Double',
+    'Triple' => 'Triple'
 ];
