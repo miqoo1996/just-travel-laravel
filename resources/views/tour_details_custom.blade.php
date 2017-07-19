@@ -176,7 +176,7 @@
 
 @section('script')
     <script>
-        var availableDates = {!! $availableDays !!};
+        var availableDates = {!! isset($availableDays) ? $availableDays : null !!};
         $(document).ready(function () {
             var datePicker =  $('#date_from');
             $(datePicker).on('input', function () {

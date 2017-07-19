@@ -263,7 +263,7 @@ class TourController extends Controller
                 ->get()
                 ->toArray();
             $data['days'] = TourCustomDay::where('tour_id', $tour['id'])->get()->toArray();
-            if (isset($tour->dates) && !empty($tour->dates)) {
+            if (isset($tour->dates[0]->date)) {
                 foreach ($tour->dates as $date) {
                     $data['availableDays'][] = Carbon::createFromFormat('Y-m-d', $date['date'])->format('d/m/Y');
                 }
