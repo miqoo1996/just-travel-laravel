@@ -123,6 +123,7 @@ class Tour extends Model
                     'hotel.infant.*' => ['required', 'integer', 'min:0', 'max:100000000000', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 ];
             }
+
             // Make a new validator object
             $v = Validator::make($model->getAttributes(), $model->getRules());
             // Optionally customize this version using new ->after()
