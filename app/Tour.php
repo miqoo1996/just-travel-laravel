@@ -359,7 +359,6 @@ class Tour extends Model
 
     public static function searchTours($request, $order = false)
     {
-
         $category = (!empty($request->category)) ? explode('/', $request->category) : false;
 
         $tours = Tour::leftJoin('tour_dates', function ($join) {
@@ -405,7 +404,6 @@ class Tour extends Model
 
     public static function basicPart($category, $tours, $weekDays, $tourDates)
     {
-
         $tours = $tours->where('tour_categories.property', 'basic')->where(function ($query) use ($weekDays) {
             foreach ($weekDays as $key => $weekDay) {
                 if ($key == 0) {

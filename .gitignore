@@ -1,6 +1,7 @@
 .idea/JustTravel.iml
 vendor/
 .idea/
+.env
 public/images/gallery/
 public/images/hotels/
 public/images/tours/8/main_image/591aaaf8dd97b.jpg
